@@ -34,5 +34,7 @@ public:
 
 	void DisplayMessage(const std::string& msg);
 
+	void HeartBeat();
+
 	void Render();
 };
