@@ -5,7 +5,7 @@
 #include <chrono>
 #include <cmath>
 
-#define PI 3.14159265
+#define TEST02
 
 Console::Console() :
 	width(120),
@@ -49,6 +49,7 @@ void Console::DrawPoint(float x, float y, char c)
 	screen[(INT32)x + (INT32)y * width] = c;
 }
 
+#ifdef TEST01
 void Console::DrawLine(float x1, float y1, float x2, float y2)
 {
 	static const int intervals[] = { -180, -135, -90, -45, 0, 45, 90, 135, 180 };
@@ -63,7 +64,7 @@ void Console::DrawLine(float x1, float y1, float x2, float y2)
 		{  0,   1 },
 		{ -1,   1 }
 	};
-
+	
 	enum Card
 	{
 		O,
@@ -77,24 +78,75 @@ void Console::DrawLine(float x1, float y1, float x2, float y2)
 	};
 
 	// Look for main direction
-	float alpha = 180 * atan2(y2 - y1, x2 - x1) / PI;
-	
-	UINT8 idxmin = 0, idxmax = 8;
-	
-	while ((idxmax - idxmin) > 1)
-	{
-		UINT8 mid = (idxmax + idxmin) / 2;
-	
-		if (alpha >= intervals[mid])
-			idxmin = mid;
-		else
-			idxmax = mid;
-	}
+	//float alpha = 180 * atan2(y2 - y1, x2 - x1) / PI;
+	//
+	//UINT8 idxmin = 0, idxmax = 8;
+	//
+	//while ((idxmax - idxmin) > 1)
+	//{
+	//	UINT8 mid = (idxmax + idxmin) / 2;
+	//
+	//	if (alpha >= intervals[mid])
+	//		idxmin = mid;
+	//	else
+	//		idxmax = mid;
+	//}
 
 	//--//
+	if (x1 > x2)
+	{
+		float temp = x1;
+		x1 = x2;
+		x2 = temp;
+
+		temp = y1;
+		y1 = y2;
+		y2 = temp;
+	}
+
 	float dx = x2 - x1;
 	float dy = y2 - y1;
+	float norm = sqrt(dx * dx + dy * dy);
+
+	float udx = dx / norm;
+	float udy = dy / norm;
+
+	float fX1 = floor(x1);
+	float fY1 = floor(y1);
+
+	float _X1 = fX1 + 0.5 + udx;
+	float _Y1 = fY1 + 0.5 + udy;
+
+	UINT8 idxmin;
+
+	if (_X1 < fX1)
+	{
+		if (_Y1 < fY1)
+			idxmin = Card::NO;
+		else if (_Y1 > fY1 + 1)
+			idxmin = Card::SO;
+		else
+			idxmin = Card::O;
+	}
+	else if (_X1 > fX1 + 1)
+	{
+		if (_Y1 < fY1)
+			idxmin = Card::NE;
+		else if (_Y1 > fY1 + 1)
+			idxmin = Card::SE;
+		else
+			idxmin = Card::E;
+	}
+	else
+	{
+
+		if (_Y1 < fY1)
+			idxmin = Card::N;
+		else if (_Y1 > fY1 + 1)
+			idxmin = Card::S;
+	}
 	
+	//---------------//
 	float a = dy;
 	float b = -dx;
 	float c = -((a * x1) + (b * y1));
@@ -102,18 +154,18 @@ void Console::DrawLine(float x1, float y1, float x2, float y2)
 	float X = x1;
 	float Y = y1;
 
-	while (floor(X) != floor(x2) && floor(Y) != floor(y2))
+	while ((abs(X - x1) + abs(Y - y1)) < (abs(x2 - x1) + abs(y2 - y1)))
 	{
 		float min = 100000;
 		INT8  idx = -1;
 
-		for (UINT8 i = 0; i < 3; i++)
+		for (UINT8 i = 0; i < 5; i++)
 		{
-			UINT8 I = (i + idxmin - 1) % 8;
+			UINT8 I = (i + idxmin - 2) % 8;
 
-			float eval = a * (floor(x1) + 0.5 + neighboors[I][0]) + b * (floor(y1) + 0.5 + neighboors[I][1]) + c;
+			float eval = abs(a * (floor(X) + 0.5 + neighboors[I][0]) + b * (floor(Y) + 0.5 + neighboors[I][1]) + c);
 
-			if (abs(eval) < abs(min))
+			if (eval <= min)
 			{
 				min = eval;
 				idx = I;
@@ -126,8 +178,45 @@ void Console::DrawLine(float x1, float y1, float x2, float y2)
 		DrawPoint(X, Y);
 	}
 
+	DrawPoint(x1, y1);
 	DrawPoint(x2, y2);
 }
+#endif
+
+#ifdef TEST02
+void Console::DrawLine(float x1, float y1, float x2, float y2)
+{
+	float dx = x2 - x1;
+	float dy = y2 - y1;
+
+	float stepx, stepy;
+
+	if (abs(dx) > abs(dy))
+	{
+		stepx = (dx > 0 ? 1.0f : -1.0f);
+		stepy = dy / abs(dx);
+	}
+	else
+	{
+		stepx = dx / abs(dy);
+		stepy = (dy > 0 ? 1.0f : -1.0f);
+	}
+
+	float X = x1;
+	float Y = y1;
+
+	while ((abs(X - x1) + abs(Y - y1)) < (abs(x2 - x1) + abs(y2 - y1)))
+	{
+		X += stepx;
+		Y += stepy;
+
+		DrawPoint(X, Y);
+	}
+
+	DrawPoint(x1, y1);
+	DrawPoint(x2, y2);
+}
+#endif
 
 void Console::DisplayMessage(const std::string & msg)
 {
