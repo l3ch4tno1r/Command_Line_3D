@@ -119,7 +119,7 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Source\Console.cpp" />
-    <ClCompile Include="Source\_Test01\Test01.cpp" />
+    <ClCompile Include="Source\_Test\Test01.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Console.h" />

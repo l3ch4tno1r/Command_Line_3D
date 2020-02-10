@@ -18,10 +18,10 @@
     <ClCompile Include="App.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\_Test01\Test01.cpp">
+    <ClCompile Include="Source\Console.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Console.cpp">
+    <ClCompile Include="Source\_Test\Test01.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
