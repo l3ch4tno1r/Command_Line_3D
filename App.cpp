@@ -17,8 +17,15 @@ int main()
 
 	float radius = 35;
 
+	const chrono::milliseconds interval = 16ms;
+
+	chrono::high_resolution_clock::time_point start, next;
+
 	while (true)
 	{
+		start = chrono::high_resolution_clock::now();
+		next  = start + interval;
+
 		if (GetAsyncKeyState((unsigned short)27) & 0x8000)
 			break;
 
@@ -46,7 +53,7 @@ int main()
 
 		console.Render();
 
-		this_thread::sleep_for(16ms);
+		this_thread::sleep_until(next);
 	}
 
 	return 0;
