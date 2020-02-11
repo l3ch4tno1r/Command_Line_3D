@@ -10,7 +10,7 @@
 class Console
 {
 private:
-	static Console console;
+	//static Console console;
 
 	UINT32 width;
 	UINT32 height;

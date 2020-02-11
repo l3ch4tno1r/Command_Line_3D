@@ -26,6 +26,7 @@ Console::~Console()
 
 Console& Console::Get()
 {
+	static Console console;
 	return console;
 }
 
@@ -251,4 +252,4 @@ void Console::Render()
 }
 
 // Instanciation
-Console Console::console;
+//Console Console::console;
