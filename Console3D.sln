@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Console3D", "Console3D\Cons
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Matrix", "Matrix\Matrix.vcxproj", "{EC9F03D1-56A9-40BE-8724-6B5CB5FAE328}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MatrixUT", "MatrixUT\MatrixUT.vcxproj", "{5B64DE2D-3D9C-442D-A330-970C4C7AC880}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "UnitTest\UnitTest.vcxproj", "{5B64DE2D-3D9C-442D-A330-970C4C7AC880}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
