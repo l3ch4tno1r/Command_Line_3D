@@ -56,6 +56,14 @@ namespace Matrix
 			return m_Matrix[i][j];
 		}
 
+		const T& operator()(unsigned int i, unsigned int j) const
+		{
+			if (i >= m_Lines || j >= m_Columns)
+				throw std::out_of_range("Index out of range.");
+
+			return m_Matrix[i][j];
+		}
+
 		/////////////////
 		//-- Methods --//
 		/////////////////
@@ -75,5 +83,24 @@ namespace Matrix
 				m_Matrix[j][k] = temp;
 			}
 		}
+
+		SMatrix& operator+=(const SMatrix &mat)
+		{
+			for (unsigned int i = 0; i < m_Lines; i++)
+				for (unsigned int j = 0; j < m_Columns; j++)
+					m_Matrix[i][j] += mat.m_Matrix[i][j];
+
+			return *this;
+		}
 	};
+
+	template<typename T, unsigned int L, unsigned int C>
+	SMatrix<T, L, C> operator+(const SMatrix<T, L, C>& mat1, const SMatrix<T, L, C>& mat2)
+	{
+		SMatrix<T, L, C> result = mat1;
+
+		result += mat2;
+
+		return result;
+	}
 }

@@ -33,24 +33,26 @@ namespace UnitTest
 			Assert::AreEqual(2u, mat1.Lines());
 			Assert::AreEqual(3u, mat1.Columns());
 
-			Assert::AreEqual(1.0f, mat1(0, 0));
-			Assert::AreEqual(2.0f, mat1(0, 1));
-			Assert::AreEqual(3.0f, mat1(0, 2));
-			Assert::AreEqual(4.0f, mat1(1, 0));
-			Assert::AreEqual(5.0f, mat1(1, 1));
-			Assert::AreEqual(6.0f, mat1(1, 2));
+			for (unsigned int i = 0; i < 6; i++)
+			{
+				unsigned int I = i / 3;
+				unsigned int J = i % 3;
+
+				Assert::AreEqual((float)(i + 1), mat1(I, J));
+			}
 
 			Matrix::SMatrix<float, 2, 3> mat2 = mat1;
 
 			Assert::AreEqual(2u, mat2.Lines());
 			Assert::AreEqual(3u, mat2.Columns());
 
-			Assert::AreEqual(1.0f, mat2(0, 0));
-			Assert::AreEqual(2.0f, mat2(0, 1));
-			Assert::AreEqual(3.0f, mat2(0, 2));
-			Assert::AreEqual(4.0f, mat2(1, 0));
-			Assert::AreEqual(5.0f, mat2(1, 1));
-			Assert::AreEqual(6.0f, mat2(1, 2));
+			for (unsigned int i = 0; i < 6; i++)
+			{
+				unsigned int I = i / 3;
+				unsigned int J = i % 3;
+
+				Assert::AreEqual((float)(i + 1), mat2(I, J));
+			}
 		}
 
 		TEST_METHOD(UT03_DataAccessOutOfRange)
@@ -68,7 +70,7 @@ namespace UnitTest
 			Assert::ExpectException<std::out_of_range>([&mat]() { return mat( 0, -1); });
 		}
 
-		TEST_METHOD(UT04_DataAccessWriting)
+		TEST_METHOD(UT04_DataAccessReadWrite)
 		{
 			const float tab[2][3] = {
 				{ 1.0f, 2.0f, 3.0f },
@@ -80,6 +82,13 @@ namespace UnitTest
 			mat(0, 0) = 4;
 
 			Assert::AreEqual(4.0f, mat(0, 0));
+
+			const Matrix::SMatrix<float, 2, 3>& ref = mat;
+
+			mat(0, 1) = -2;
+
+			Assert::AreEqual(-2.0f, mat(0, 1));
+			Assert::AreEqual(-2.0f, ref(0, 1));
 		}
 
 		TEST_METHOD(UT05_SwapLines)
@@ -101,6 +110,42 @@ namespace UnitTest
 
 			Assert::ExpectException<std::out_of_range>([&mat]() { mat.SwapLines(0, 2); });
 			Assert::ExpectException<std::out_of_range>([&mat]() { mat.SwapLines(2, 0); });
+		}
+
+		TEST_METHOD(UT06_AddMatrix)
+		{
+			const float tab1[2][3] = {
+				{ 1.0f, 2.0f, 3.0f },
+				{ 4.0f, 5.0f, 6.0f }
+			};
+
+			const float tab2[2][3] = {
+				{ 6.0f, 5.0f, 4.0f },
+				{ 3.0f, 2.0f, 1.0f }
+			};
+
+			Matrix::SMatrix<float, 2, 3> mat1 = tab1;
+			Matrix::SMatrix<float, 2, 3> mat2 = tab2;
+
+			mat1 += mat2;
+
+			for (unsigned int i = 0; i < 6; i++)
+			{
+				unsigned int I = i / 3;
+				unsigned int J = i % 3;
+
+				Assert::AreEqual(7.0f, mat1(I, J));
+			}
+
+			Matrix::SMatrix<float, 2, 3> mat3 = mat1 + mat2;
+
+			for (unsigned int i = 0; i < 6; i++)
+			{
+				unsigned int I = i / 3;
+				unsigned int J = i % 3;
+
+				Assert::AreEqual(mat1(I, J) + mat2(I, J), mat3(I, J));
+			}
 		}
 	};
 }
