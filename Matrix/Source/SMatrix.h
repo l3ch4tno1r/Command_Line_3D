@@ -50,10 +50,30 @@ namespace Matrix
 
 		T& operator()(unsigned int i, unsigned int j)
 		{
-			if (i >= L || j >= C)
+			if (i >= m_Lines || j >= m_Columns)
 				throw std::out_of_range("Index out of range.");
 
 			return m_Matrix[i][j];
+		}
+
+		/////////////////
+		//-- Methods --//
+		/////////////////
+
+		void SwapLines(unsigned int i, unsigned int j)
+		{
+			if (i >= m_Lines || j >= m_Lines)
+				throw std::out_of_range("Index out of range.");
+
+			T temp;
+
+			for (int k = 0; k < C; k++)
+			{
+				temp = m_Matrix[i][k];
+
+				m_Matrix[i][k] = m_Matrix[j][k];
+				m_Matrix[j][k] = temp;
+			}
 		}
 	};
 }

@@ -6,7 +6,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTest
 {		
-	TEST_CLASS(MatrixUT)
+	TEST_CLASS(SMatrixUT)
 	{
 	public:		
 		TEST_METHOD(UT01_DefaultConstructor)
@@ -72,7 +72,7 @@ namespace UnitTest
 		{
 			const float tab[2][3] = {
 				{ 1.0f, 2.0f, 3.0f },
-			{ 4.0f, 5.0f, 6.0f }
+				{ 4.0f, 5.0f, 6.0f }
 			};
 
 			Matrix::SMatrix<float, 2, 3> mat = tab;
@@ -80,6 +80,27 @@ namespace UnitTest
 			mat(0, 0) = 4;
 
 			Assert::AreEqual(4.0f, mat(0, 0));
+		}
+
+		TEST_METHOD(UT05_SwapLines)
+		{
+			const float tab[2][3] = {
+				{ 1.0f, 2.0f, 3.0f },
+				{ 4.0f, 5.0f, 6.0f }
+			};
+
+			Matrix::SMatrix<float, 2, 3> mat = tab;
+
+			mat.SwapLines(0, 1);
+
+			for (unsigned int i = 0; i < 3; i++)
+			{
+				Assert::AreEqual(tab[0][i], mat(1, i));
+				Assert::AreEqual(tab[1][i], mat(0, i));
+			}
+
+			Assert::ExpectException<std::out_of_range>([&mat]() { mat.SwapLines(0, 2); });
+			Assert::ExpectException<std::out_of_range>([&mat]() { mat.SwapLines(2, 0); });
 		}
 	};
 }
