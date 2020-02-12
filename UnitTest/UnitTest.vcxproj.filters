@@ -23,10 +23,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\MatrixUT.cpp">
+    <ClCompile Include="Source\stdafx.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\stdafx.cpp">
+    <ClCompile Include="Source\MatrixUT\SMatrixUT.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
