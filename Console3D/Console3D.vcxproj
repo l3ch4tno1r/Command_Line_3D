@@ -124,6 +124,7 @@
   <ItemGroup>
     <ClCompile Include="Source\App.cpp" />
     <ClCompile Include="Source\Console.cpp" />
+    <ClCompile Include="Source\Utilities\TimeMeasurement.cpp" />
     <ClCompile Include="Source\_Test\Test01.cpp" />
     <ClCompile Include="Source\_Test\Test02 - Matrix.cpp" />
   </ItemGroup>
