@@ -9,6 +9,9 @@ namespace UnitTest
 {		
 	TEST_CLASS(SMatrixUT)
 	{
+		template<unsigned int L, unsigned int C>
+		using Matrixf = Matrix::SMatrix<float, L, C>;
+
 	public:		
 		TEST_METHOD(UT01_DefaultConstructor)
 		{
@@ -208,8 +211,8 @@ namespace UnitTest
 				{  0.0f }
 			};
 
-			Matrix::SMatrix<float, 2, 3> mat1 = tab;
-			Matrix::SMatrix<float, 3, 1> mat2 = vec;
+			Matrixf<2, 3> mat1 = tab;
+			Matrixf<3, 1> mat2 = vec;
 
 			auto mat3 = mat1 * mat2;
 
