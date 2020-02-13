@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <array>
+#include <thread>
 
 using namespace std;
 
@@ -39,13 +40,28 @@ public:
 
 uint32_t Test::s_Count = 0;
 
-void StackAlloc()
+void TestStackAlloc()
+{
+	for (int i = 0; i < 1000000; i++)
+		int tab[10];
+}
+
+void TestHeapAlloc()
+{
+	for (int i = 0; i < 1000000; i++)
+	{
+		int* tab = new int[10];
+		delete[] tab;
+	}
+}
+
+void TestStdArray()
 {
 	for (int i = 0; i < 1000000; i++)
 		array<int, 10>();
 }
 
-void HeapAlloc()
+void TestStdVector()
 {
 	for (int i = 0; i < 1000000; i++)
 		vector<int>(10);
@@ -53,9 +69,19 @@ void HeapAlloc()
 
 int main()
 {
-	MEASURETIME(StackAlloc());
+	//MEASURETIME(TestStackAlloc());
+	//
+	//MEASURETIME(TestHeapAlloc());
+	//
+	//MEASURETIME(TestStdArray());
+	//
+	//MEASURETIME(TestStdVector());
 
-	MEASURETIME(HeapAlloc());
+	{
+		Timer timer;
+
+		this_thread::sleep_for(1s);
+	}
 
 	cin.get();
 }
