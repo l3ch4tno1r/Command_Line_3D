@@ -2,32 +2,34 @@
 
 namespace Matrix
 {
+	using uint = unsigned int;
+
 	////////////////////////////////
 	//-- Stack allocated Matrix --//
 	////////////////////////////////
-	template<typename T, unsigned int L, unsigned int C>
+	template<typename T, uint L, uint C>
 	class SMatrix
 	{
 	private:
-		unsigned int m_Lines;
-		unsigned int m_Columns;
-
 		T m_Matrix[L][C];
 
 	public:
 		/////////////////////////////////////
 		//-- Constructos and destructors --//
 		/////////////////////////////////////
-		SMatrix() :
-			m_Lines(L),
-			m_Columns(C)
+		SMatrix()
 		{}
 
-		SMatrix(const T mat[L][C]) :
-			m_Lines(L),
-			m_Columns(C)
+		SMatrix(T value)
 		{
-			for (unsigned int i = 0; i < L; i++)
+			for (uint i = 0; i < L; i++)
+				for (uint j = 0; j < C; j++)
+					m_Matrix[i][j] = value;
+		}
+
+		SMatrix(const T mat[L][C])
+		{
+			for (uint i = 0; i < L; i++)
 				memcpy(m_Matrix[i], mat[i], C * sizeof(T));
 		}
 
@@ -38,27 +40,27 @@ namespace Matrix
 		///////////////////
 		//-- Accessors --//
 		///////////////////
-		unsigned int Lines() const
+		uint Lines() const
 		{
-			return m_Lines;
+			return L;
 		}
 
-		unsigned int Columns() const
+		uint Columns() const
 		{
-			return m_Columns;
+			return C;
 		}
 
-		T& operator()(unsigned int i, unsigned int j)
+		T& operator()(uint i, uint j)
 		{
-			if (i >= m_Lines || j >= m_Columns)
+			if (i >= L || j >= C)
 				throw std::out_of_range("Index out of range.");
 
 			return m_Matrix[i][j];
 		}
 
-		const T& operator()(unsigned int i, unsigned int j) const
+		const T& operator()(uint i, uint j) const
 		{
-			if (i >= m_Lines || j >= m_Columns)
+			if (i >= L || j >= C)
 				throw std::out_of_range("Index out of range.");
 
 			return m_Matrix[i][j];
@@ -68,9 +70,9 @@ namespace Matrix
 		//-- Methods --//
 		/////////////////
 
-		void SwapLines(unsigned int i, unsigned int j)
+		void SwapLines(uint i, uint j)
 		{
-			if (i >= m_Lines || j >= m_Lines)
+			if (i >= L || j >= L)
 				throw std::out_of_range("Index out of range.");
 
 			T temp;
@@ -86,20 +88,52 @@ namespace Matrix
 
 		SMatrix& operator+=(const SMatrix &mat)
 		{
-			for (unsigned int i = 0; i < m_Lines; i++)
-				for (unsigned int j = 0; j < m_Columns; j++)
+			for (uint i = 0; i < L; i++)
+				for (uint j = 0; j < C; j++)
 					m_Matrix[i][j] += mat.m_Matrix[i][j];
+
+			return *this;
+		}
+
+		SMatrix& operator-=(const SMatrix &mat)
+		{
+			for (uint i = 0; i < L; i++)
+				for (uint j = 0; j < C; j++)
+					m_Matrix[i][j] -= mat.m_Matrix[i][j];
 
 			return *this;
 		}
 	};
 
-	template<typename T, unsigned int L, unsigned int C>
+	template<typename T, uint L, uint C>
 	SMatrix<T, L, C> operator+(const SMatrix<T, L, C>& mat1, const SMatrix<T, L, C>& mat2)
 	{
 		SMatrix<T, L, C> result = mat1;
 
 		result += mat2;
+
+		return result;
+	}
+
+	template<typename T, uint L, uint C>
+	SMatrix<T, L, C> operator-(const SMatrix<T, L, C>& mat1, const SMatrix<T, L, C>& mat2)
+	{
+		SMatrix<T, L, C> result = mat1;
+
+		result -= mat2;
+
+		return result;
+	}
+
+	template<typename T, uint L, uint LC, uint C>
+	SMatrix<T, L, C> operator*(const SMatrix<T, L, LC>& mat1, const SMatrix<T, LC, C>& mat2)
+	{
+		SMatrix<T, L, C> result(T(0));
+
+		for (uint i = 0; i < L; i++)
+			for (uint j = 0; j < C; j++)
+				for (uint k = 0; k < LC; k++)
+					result(i, j) += mat1(i, k) * mat2(k, j);
 
 		return result;
 	}

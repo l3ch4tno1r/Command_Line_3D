@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "SMatrix.h"
+#include "HMatrix.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -19,6 +20,16 @@ namespace UnitTest
 
 			Assert::AreEqual(8u, mat2.Lines());
 			Assert::AreEqual(6u, mat2.Columns());
+
+			Matrix::SMatrix<float, 2, 3> mat3(0.0f);
+
+			for (unsigned int i = 0; i < 6; i++)
+			{
+				unsigned int I = i / 3;
+				unsigned int J = i % 3;
+
+				Assert::AreEqual(0.0f, mat3(I, J));
+			}
 		}
 
 		TEST_METHOD(UT02_CopyConstructor)
@@ -146,6 +157,64 @@ namespace UnitTest
 
 				Assert::AreEqual(mat1(I, J) + mat2(I, J), mat3(I, J));
 			}
+		}
+
+		TEST_METHOD(UT07_SubstractMatrix)
+		{
+			const float tab1[2][3] = {
+				{ 1.0f, 2.0f, 3.0f },
+				{ 4.0f, 5.0f, 6.0f }
+			};
+
+			const float tab2[2][3] = {
+				{ 6.0f, 5.0f, 4.0f },
+				{ 3.0f, 2.0f, 1.0f }
+			};
+
+			Matrix::SMatrix<float, 2, 3> mat1 = tab1;
+			Matrix::SMatrix<float, 2, 3> mat2 = tab2;
+
+			mat1 -= mat2;
+
+			for (unsigned int i = 0; i < 6; i++)
+			{
+				unsigned int I = i / 3;
+				unsigned int J = i % 3;
+
+				Assert::AreEqual(tab1[I][J] - tab2[I][J] , mat1(I, J));
+			}
+
+			Matrix::SMatrix<float, 2, 3> mat3 = mat1 - mat2;
+
+			for (unsigned int i = 0; i < 6; i++)
+			{
+				unsigned int I = i / 3;
+				unsigned int J = i % 3;
+
+				Assert::AreEqual(mat1(I, J) - mat2(I, J), mat3(I, J));
+			}
+		}
+
+		TEST_METHOD(UT08_MultiplyMatrix)
+		{
+			const float tab[2][3] = {
+				{ 1.0f, 2.0f, 3.0f },
+				{ 4.0f, 5.0f, 6.0f }
+			};
+
+			const float vec[3][1] = {
+				{  1.0f }, 
+				{ -1.0f },
+				{  0.0f }
+			};
+
+			Matrix::SMatrix<float, 2, 3> mat1 = tab;
+			Matrix::SMatrix<float, 3, 1> mat2 = vec;
+
+			auto mat3 = mat1 * mat2;
+
+			Assert::AreEqual(-1.0f, mat3(0, 0));
+			Assert::AreEqual(-1.0f, mat3(1, 0));
 		}
 	};
 }

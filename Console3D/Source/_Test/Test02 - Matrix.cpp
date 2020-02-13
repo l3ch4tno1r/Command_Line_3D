@@ -69,19 +69,7 @@ void TestStdVector()
 
 int main()
 {
-	//MEASURETIME(TestStackAlloc());
-	//
-	//MEASURETIME(TestHeapAlloc());
-	//
-	//MEASURETIME(TestStdArray());
-	//
-	//MEASURETIME(TestStdVector());
-
-	{
-		Timer timer;
-
-		this_thread::sleep_for(1s);
-	}
+	//Matrix::HMatrix<float> test;
 
 	cin.get();
 }
