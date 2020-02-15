@@ -7,7 +7,7 @@
 
 using namespace std;
 
-#include "SMatrix.h"
+#include "Stack\SMatrix.h"
 
 #include "Utilities\TimeMeasurement.h"
 
