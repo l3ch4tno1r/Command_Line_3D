@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 namespace Matrix
 {
 	using uint = unsigned int;
@@ -130,6 +132,44 @@ namespace Matrix
 
 			for (uint j = 0; j < C; j++)
 				m_Matrix[idx1][j] = factor1 * m_Matrix[idx1][j] + factor2 * m_Matrix[idx2][j];
+		}
+
+		void GaussElimination()
+		{
+			uint linepivot = 0;
+
+			for (uint j = 0; j < std::min(L, C); j++)
+			{
+				// Recherche du pivot
+				T   max    = 0;
+				int maxpos = 0;
+
+				for (uint i = linepivot; i < L; i++)
+				{
+					if (abs(m_Matrix[i][j]) > max)
+					{
+						max    = abs(m_Matrix[i][j]);
+						maxpos = i;
+					}
+				}
+
+				// lMaxPos est le pivot
+
+				if (m_Matrix[maxpos][j] != 0)
+				{
+					ScaleLine(maxpos, T(1) / (m_Matrix[maxpos][j]));
+
+					SwapLines(maxpos, linepivot);
+
+					for (uint i = 0; i < L; i++)
+					{
+						if (i != linepivot)
+							CombineLines(i, T(1), linepivot, -m_Matrix[i][j]);
+					}
+
+					linepivot++;
+				}
+			}
 		}
 
 		////////////////////////////

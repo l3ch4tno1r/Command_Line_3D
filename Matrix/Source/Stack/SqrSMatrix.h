@@ -27,7 +27,7 @@ namespace Matrix
 		SqrSMatrix(const T mat[LC][LC]) : SMatrix(mat)
 		{}
 
-		SqrSMatrix(const SqrSMatrix& mat) : SMatrix(mat)
+		SqrSMatrix(const SMatrix& mat) : SMatrix(mat)
 		{}
 
 		/////////////////
@@ -42,6 +42,9 @@ namespace Matrix
 
 			return result;
 		}
+
+		T Det() const
+		{}
 
 		////////////////////////
 		//-- Static Methods --//
