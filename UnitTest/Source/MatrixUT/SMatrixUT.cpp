@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "SMatrix.h"
-#include "HMatrix.h"
+
+#include "Stack\SMatrix.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -9,7 +9,7 @@ namespace UnitTest
 {		
 	TEST_CLASS(SMatrixUT)
 	{
-		template<unsigned int L, unsigned int C>
+		template<Matrix::uint L, Matrix::uint C >
 		using Matrixf = Matrix::SMatrix<float, L, C>;
 
 	public:		

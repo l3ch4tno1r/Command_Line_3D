@@ -29,5 +29,8 @@
     <ClCompile Include="Source\MatrixUT\SMatrixUT.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Source\MatrixUT\SqrSMatrixUT.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
