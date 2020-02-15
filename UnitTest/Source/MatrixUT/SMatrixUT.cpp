@@ -33,6 +33,8 @@ namespace UnitTest
 
 				Assert::AreEqual(0.0f, mat3(I, J));
 			}
+
+			Assert::IsTrue(mat3 == Matrixf<2, 3>::Zero());
 		}
 
 		TEST_METHOD(UT02_CopyConstructor)
@@ -91,18 +93,24 @@ namespace UnitTest
 				{ 4.0f, 5.0f, 6.0f }
 			};
 
-			Matrix::SMatrix<float, 2, 3> mat = tab;
+			Matrix::SMatrix<float, 2, 3> mat1 = tab;
 
-			mat(0, 0) = 4;
+			mat1(0, 0) = 4;
 
-			Assert::AreEqual(4.0f, mat(0, 0));
+			Assert::AreEqual(4.0f, mat1(0, 0));
 
-			const Matrix::SMatrix<float, 2, 3>& ref = mat;
+			const Matrix::SMatrix<float, 2, 3>& ref = mat1;
 
-			mat(0, 1) = -2;
+			mat1(0, 1) = -2;
 
-			Assert::AreEqual(-2.0f, mat(0, 1));
+			Assert::AreEqual(-2.0f, mat1(0, 1));
 			Assert::AreEqual(-2.0f, ref(0, 1));
+
+			Matrixf<2, 3> mat2;
+
+			mat2 = mat1;
+
+			Assert::IsTrue(mat1 == mat2);
 		}
 
 		TEST_METHOD(UT05_SwapLines)
@@ -218,6 +226,47 @@ namespace UnitTest
 
 			Assert::AreEqual(-1.0f, mat3(0, 0));
 			Assert::AreEqual(-1.0f, mat3(1, 0));
+		}
+
+		TEST_METHOD(UT09_MatrixComparison)
+		{
+			const float tab[2][3] = {
+				{ 1.0f, 2.0f, 3.0f },
+				{ 4.0f, 5.0f, 6.0f }
+			};
+
+			Matrixf<2, 3> mat1 = tab;
+			Matrixf<2, 3> mat2 = tab;
+
+			Assert::IsTrue(mat1 == mat2);
+			Assert::IsFalse(mat1 != mat2);
+
+			mat1(0, 1) = 3.0f;
+
+			Assert::IsFalse(mat1 == mat2);
+			Assert::IsTrue(mat1 != mat2);
+		}
+
+		TEST_METHOD(UT10_OperationsOnLines)
+		{
+			const float tab[2][3] = {
+				{ 1.0f, 2.0f, 3.0f },
+				{ 4.0f, 5.0f, 6.0f }
+			};
+
+			Matrixf<2, 3> mat = tab;
+
+			mat.ScaleLine(0, 2.0f);
+
+			Assert::AreEqual(2.0f, mat(0, 0));
+			Assert::AreEqual(4.0f, mat(0, 1));
+			Assert::AreEqual(6.0f, mat(0, 2));
+
+			mat.CombineLines(1, 1.0f, 0, -2.0f);
+
+			Assert::AreEqual( 0.0f, mat(1, 0));
+			Assert::AreEqual(-3.0f, mat(1, 1));
+			Assert::AreEqual(-6.0f, mat(1, 2));
 		}
 	};
 }
