@@ -301,5 +301,17 @@ namespace MatrixUT
 			Assert::ExpectException<std::out_of_range>([&mat1, &mat2]() { mat1.SubMatrix(mat2, 1, 0); });
 			Assert::ExpectException<std::out_of_range>([&mat1, &mat2]() { mat1.SubMatrix(mat2, 1, 2); });
 		}
+
+		TEST_METHOD(UT12_GaussElimination)
+		{
+			const float tab[2][3] = {
+				{ 1.0f, 2.0f, 3.0f },
+				{ 4.0f, 5.0f, 6.0f }
+			};
+
+			Matrixf<2, 3> mat1 = tab;
+
+			mat1.GaussElimination();
+		}
 	};
 }
