@@ -10,13 +10,14 @@ namespace Matrix
 	template<typename T, uint L, uint C>
 	class SMatrix
 	{
-	private:
+	protected:
 		T m_Matrix[L][C];
 
 	public:
 		/////////////////////////////////////
 		//-- Constructos and destructors --//
 		/////////////////////////////////////
+
 		SMatrix()
 		{}
 
@@ -40,6 +41,7 @@ namespace Matrix
 		///////////////////
 		//-- Accessors --//
 		///////////////////
+
 		uint Lines() const
 		{
 			return L;
@@ -86,7 +88,37 @@ namespace Matrix
 			}
 		}
 
-		SMatrix& operator+=(const SMatrix &mat)
+		void ScaleLine(uint idx, T scalefactor)
+		{
+			if (idx >= L)
+				throw std::out_of_range("Index out of range.");
+
+			for (uint j = 0; j < C; j++)
+				m_Matrix[idx][j] *= scalefactor;
+		}
+
+		void CombineLines(uint idx1, T factor1, uint idx2, T factor2)
+		{
+			if(idx1 >= L || idx2 >= L)
+				throw std::out_of_range("Index out of range.");
+
+			for (uint j = 0; j < C; j++)
+				m_Matrix[idx1][j] = factor1 * m_Matrix[idx1][j] + factor2 * m_Matrix[idx2][j];
+		}
+
+		////////////////////////////
+		//-- Operators overload --//
+		////////////////////////////
+
+		SMatrix& operator=(const SMatrix& mat)
+		{
+			for (uint i = 0; i < L; i++)
+				memcpy(m_Matrix[i], mat.m_Matrix[i], C * sizeof(T));
+
+			return *this;
+		}
+
+		SMatrix& operator+=(const SMatrix& mat)
 		{
 			for (uint i = 0; i < L; i++)
 				for (uint j = 0; j < C; j++)
@@ -95,7 +127,7 @@ namespace Matrix
 			return *this;
 		}
 
-		SMatrix& operator-=(const SMatrix &mat)
+		SMatrix& operator-=(const SMatrix& mat)
 		{
 			for (uint i = 0; i < L; i++)
 				for (uint j = 0; j < C; j++)
@@ -103,7 +135,36 @@ namespace Matrix
 
 			return *this;
 		}
+
+		bool operator==(const SMatrix& mat) const
+		{
+			for (uint i = 0; i < L; i++)
+				for (uint j = 0; j < C; j++)
+					if (m_Matrix[i][j] != mat.m_Matrix[i][j])
+						return false;
+
+			return true;
+		}
+
+		bool operator!=(const SMatrix& mat) const
+		{
+			return !(*this == mat);
+		}
+
+		////////////////////////
+		//-- Static Methods --//
+		////////////////////////
+
+		static const SMatrix& Zero()
+		{
+			static SMatrix zero(T(0));
+			return zero;
+		}
 	};
+
+	////////////////////////////
+	//-- External functions --//
+	////////////////////////////
 
 	template<typename T, uint L, uint C>
 	SMatrix<T, L, C> operator+(const SMatrix<T, L, C>& mat1, const SMatrix<T, L, C>& mat2)
