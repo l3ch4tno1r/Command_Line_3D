@@ -5,7 +5,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTest
+namespace MatrixUT
 {
 	TEST_CLASS(SqrSMatrixUT)
 	{

@@ -5,7 +5,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTest
+namespace MatrixUT
 {		
 	TEST_CLASS(SMatrixUT)
 	{
@@ -267,6 +267,39 @@ namespace UnitTest
 			Assert::AreEqual( 0.0f, mat(1, 0));
 			Assert::AreEqual(-3.0f, mat(1, 1));
 			Assert::AreEqual(-6.0f, mat(1, 2));
+		}
+
+		TEST_METHOD(UT11_SubMatrix)
+		{
+			const float tab1[2][3] = {
+				{ 1.0f, 2.0f, 3.0f },
+				{ 4.0f, 5.0f, 6.0f }
+			};
+
+			Matrixf<2, 3> mat1 = tab1;
+			Matrixf<2, 2> mat2 = mat1.SubMatrix<2, 2>(0, 0);
+
+			Assert::AreEqual(1.0f, mat2(0, 0));
+			Assert::AreEqual(2.0f, mat2(0, 1));
+			Assert::AreEqual(4.0f, mat2(1, 0));
+			Assert::AreEqual(5.0f, mat2(1, 1));
+
+			Assert::ExpectException<std::out_of_range>([&mat1]() { mat1.SubMatrix<2, 2>(0, 2); });
+			Assert::ExpectException<std::out_of_range>([&mat1]() { mat1.SubMatrix<2, 2>(1, 0); });
+			Assert::ExpectException<std::out_of_range>([&mat1]() { mat1.SubMatrix<2, 2>(1, 2); });
+
+			mat1.SubMatrix(mat2, 0, 1);
+
+			Assert::AreEqual(1.0f, mat1(0, 0));
+			Assert::AreEqual(1.0f, mat1(0, 1));
+			Assert::AreEqual(2.0f, mat1(0, 2));
+			Assert::AreEqual(4.0f, mat1(1, 0));
+			Assert::AreEqual(4.0f, mat1(1, 1));
+			Assert::AreEqual(5.0f, mat1(1, 2));
+
+			Assert::ExpectException<std::out_of_range>([&mat1, &mat2]() { mat1.SubMatrix(mat2, 0, 2); });
+			Assert::ExpectException<std::out_of_range>([&mat1, &mat2]() { mat1.SubMatrix(mat2, 1, 0); });
+			Assert::ExpectException<std::out_of_range>([&mat1, &mat2]() { mat1.SubMatrix(mat2, 1, 2); });
 		}
 	};
 }
