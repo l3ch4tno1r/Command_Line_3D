@@ -154,7 +154,6 @@ namespace Matrix
 				}
 
 				// lMaxPos est le pivot
-
 				if (m_Matrix[maxpos][j] != 0)
 				{
 					ScaleLine(maxpos, T(1) / (m_Matrix[maxpos][j]));
@@ -162,10 +161,8 @@ namespace Matrix
 					SwapLines(maxpos, linepivot);
 
 					for (uint i = 0; i < L; i++)
-					{
 						if (i != linepivot)
 							CombineLines(i, T(1), linepivot, -m_Matrix[i][j]);
-					}
 
 					linepivot++;
 				}

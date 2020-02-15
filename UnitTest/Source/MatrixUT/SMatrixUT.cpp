@@ -2,6 +2,7 @@
 #include "CppUnitTest.h"
 
 #include "Stack\SMatrix.h"
+#include "Stack\SqrSMatrix.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -11,6 +12,9 @@ namespace MatrixUT
 	{
 		template<Matrix::uint L, Matrix::uint C >
 		using Matrixf = Matrix::SMatrix<float, L, C>;
+
+		template<Matrix::uint LC >
+		using SqrMatrixf = Matrix::SqrSMatrix<float, LC>;
 
 	public:		
 		TEST_METHOD(UT01_DefaultConstructor)
@@ -304,14 +308,25 @@ namespace MatrixUT
 
 		TEST_METHOD(UT12_GaussElimination)
 		{
-			const float tab[2][3] = {
-				{ 1.0f, 2.0f, 3.0f },
-				{ 4.0f, 5.0f, 6.0f }
+			const float tab[3][3] = {
+				{ 1.0f, 0.0f,  0.0f },
+				{ 0.0f, 0.0f, -1.0f },
+				{ 0.0f, 1.0f,  0.0f }
 			};
 
-			Matrixf<2, 3> mat1 = tab;
+			Matrixf<3, 3> mat = tab;
 
-			mat1.GaussElimination();
+			Matrixf<3, 6> temp;
+
+			temp.SubMatrix(mat, 0, 0);
+			temp.SubMatrix(SqrMatrixf<3>::Identity(), 0, 3);
+
+			temp.GaussElimination();
+
+			SqrMatrixf<3> inv = temp.SubMatrix<3, 3>(0, 3);
+			SqrMatrixf<3> res = mat * inv;
+
+			Assert::IsTrue(res == SqrMatrixf<3>::Identity());
 		}
 	};
 }

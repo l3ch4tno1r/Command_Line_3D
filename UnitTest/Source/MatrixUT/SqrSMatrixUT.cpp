@@ -69,27 +69,9 @@ namespace MatrixUT
 			Assert::AreEqual(18.0f, mat.Trace());
 		}
 
-		TEST_METHOD(UT03_GaussElimination)
+		TEST_METHOD(UT03_Determinant)
 		{
-			const float tab[3][3] = {
-				{ 1.0f, 0.0f,  0.0f },
-				{ 0.0f, 0.0f, -1.0f },
-				{ 0.0f, 1.0f,  0.0f }
-			};
-
-			SqrMatrixf<3> mat = tab;
-
-			Matrixf<3, 6> temp;
-
-			temp.SubMatrix(mat, 0, 0);
-			temp.SubMatrix(SqrMatrixf<3>::Identity(), 0, 3);
-
-			temp.GaussElimination();
-
-			SqrMatrixf<3> inv = temp.SubMatrix<3, 3>(0, 3);
-			SqrMatrixf<3> res = mat * inv;
-
-			Assert::IsTrue(res == SqrMatrixf<3>::Identity());
+			
 		}
 	};
 }
