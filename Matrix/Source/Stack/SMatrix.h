@@ -68,6 +68,32 @@ namespace Matrix
 			return m_Matrix[i][j];
 		}
 
+		template<uint L2, uint C2>
+		SMatrix<T, L2, C2> SubMatrix(uint posi, uint posj) const
+		{
+			if(posi + L2 > L || posj + C2 > C)
+				throw std::out_of_range("Index out of range.");
+
+			static SMatrix<T, L2, C2> result;
+
+			for (uint i = 0; i < L2; i++)
+				for (uint j = 0; j < C2; j++)
+					result(i, j) = m_Matrix[i + posi][j + posj];
+
+			return result;
+		}
+
+		template<uint L2, uint C2>
+		void SubMatrix(const SMatrix<T, L2, C2>& mat, uint posi, uint posj)
+		{
+			if (posi + L2 > L || posj + C2 > C)
+				throw std::out_of_range("Index out of range.");
+
+			for (uint i = 0; i < L2; i++)
+				for (uint j = 0; j < C2; j++)
+					m_Matrix[i + posi][j + posj] = mat(i, j);
+		}
+
 		/////////////////
 		//-- Methods --//
 		/////////////////
