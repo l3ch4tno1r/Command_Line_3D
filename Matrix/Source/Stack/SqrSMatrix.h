@@ -63,7 +63,7 @@ namespace Matrix
 			if (std::abs(pseudodet) < T(0.0001))
 				throw std::exception("This matrix cannot be inverted.");
 
-			return temp.SubMatrix<LC, LC>(0, LC;)
+			return temp.SubMatrix<LC, LC>(0, LC);
 		}
 
 		////////////////////////

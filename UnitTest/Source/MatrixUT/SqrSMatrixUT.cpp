@@ -89,7 +89,18 @@ namespace MatrixUT
 
 		TEST_METHOD(UT04_InvertMatrix)
 		{
+			const float tab1[3][3] = {
+				{ 1.0f, 0.0f,  0.0f },
+				{ 0.0f, 0.0f, -1.0f },
+				{ 0.0f, 1.0f,  0.0f }
+			};
 
+			SqrMatrixf<3> mat = tab1;
+
+			SqrMatrixf<3> inv = mat.Invert();
+			SqrMatrixf<3> res = mat * inv;
+
+			Assert::IsTrue(res == SqrMatrixf<3>::Identity());
 		}
 	};
 }
