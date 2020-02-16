@@ -44,7 +44,12 @@ namespace Matrix
 		}
 
 		T Det() const
-		{}
+		{
+			static SqrSMatrix temp;
+			temp = *this;
+
+			return temp.GaussElimination();
+		}
 
 		////////////////////////
 		//-- Static Methods --//
