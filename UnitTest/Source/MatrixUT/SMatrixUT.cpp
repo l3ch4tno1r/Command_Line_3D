@@ -308,25 +308,40 @@ namespace MatrixUT
 
 		TEST_METHOD(UT12_GaussElimination)
 		{
-			const float tab[3][3] = {
+			const float tab1[3][3] = {
 				{ 1.0f, 0.0f,  0.0f },
 				{ 0.0f, 0.0f, -1.0f },
 				{ 0.0f, 1.0f,  0.0f }
 			};
 
-			Matrixf<3, 3> mat = tab;
+			Matrixf<3, 3> mat1 = tab1;
 
 			Matrixf<3, 6> temp;
 
-			temp.SubMatrix(mat, 0, 0);
+			temp.SubMatrix(mat1, 0, 0);
 			temp.SubMatrix(SqrMatrixf<3>::Identity(), 0, 3);
 
 			temp.GaussElimination();
 
 			SqrMatrixf<3> inv = temp.SubMatrix<3, 3>(0, 3);
-			SqrMatrixf<3> res = mat * inv;
+			SqrMatrixf<3> res = mat1 * inv;
 
 			Assert::IsTrue(res == SqrMatrixf<3>::Identity());
+
+			const float tab2[3][3] = {
+				{  2.0f, -1.0f,  0.0f },
+				{  0.0f, -1.0f,  2.0f },
+				{ -1.0f,  2.0f, -1.0f}
+			};
+
+			Matrixf<3, 3> mat2 = tab2;
+
+			float pseudodet = mat2.GaussElimination();
+
+			Assert::IsTrue(std::abs(-4.0f - pseudodet) < 0.001);
+			Assert::IsTrue(std::abs(-4.0f - pseudodet) < 0.0001);
+			Assert::IsTrue(std::abs(-4.0f - pseudodet) < 0.00001);
+			Assert::IsTrue(std::abs(-4.0f - pseudodet) < 0.000001);
 		}
 	};
 }

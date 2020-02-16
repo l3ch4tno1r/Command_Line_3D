@@ -71,7 +71,25 @@ namespace MatrixUT
 
 		TEST_METHOD(UT03_Determinant)
 		{
-			
+			const float tab[3][3] = {
+				{  2.0f, -1.0f,  0.0f },
+				{  0.0f, -1.0f,  2.0f },
+				{ -1.0f,  2.0f, -1.0f }
+			};
+
+			SqrMatrixf<3> mat = tab;
+
+			float pseudodet = mat.Det();
+
+			Assert::IsTrue(std::abs(-4.0f - pseudodet) < 0.001);
+			Assert::IsTrue(std::abs(-4.0f - pseudodet) < 0.0001);
+			Assert::IsTrue(std::abs(-4.0f - pseudodet) < 0.00001);
+			Assert::IsTrue(std::abs(-4.0f - pseudodet) < 0.000001);
+		}
+
+		TEST_METHOD(UT04_InvertMatrix)
+		{
+
 		}
 	};
 }
