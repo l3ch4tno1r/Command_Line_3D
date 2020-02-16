@@ -3,9 +3,12 @@
 #include <iostream>
 #include <thread>
 
-#include <Console.h>
+#include "Console.h"
+#include "Matrix2D\Matrix33f.h"
 
 using namespace std;
+
+//using Vector2D = Matrix31f;
 
 int main()
 {
@@ -20,6 +23,14 @@ int main()
 	const chrono::milliseconds interval = 16ms;
 
 	chrono::high_resolution_clock::time_point start, next;
+
+	// Model
+	//Vector2D pt1( 20.0f,  20.0f);
+	//Vector2D pt2(-20.0f,  20.0f);
+	//Vector2D pt3(-20.0f, -20.0f);
+	//Vector2D pt4( 20.0f, -20.0f);
+	//
+	//Matrix33f mat(60.0f, 40.0f, 0.0f);
 
 	while (true)
 	{
@@ -45,9 +56,19 @@ int main()
 		//console.DrawLine(50, 50, 50, 40);
 		//console.DrawLine(50, 50, 60, 40);
 
-		console.DrawLine(60, 40, 60 + radius * cos(TORAD(a)), 40 + radius * sin(TORAD(a)));
+		//auto _pt1 = mat * pt1;
+		//auto _pt2 = mat * pt2;
+		//auto _pt3 = mat * pt3;
+		//auto _pt4 = mat * pt4;
+		//
+		//console.DrawLine(_pt1(0, 0), _pt1(1, 0), _pt2(0, 0), _pt2(1, 0));
+		//console.DrawLine(_pt2(0, 0), _pt2(1, 0), _pt3(0, 0), _pt3(1, 0));
+		//console.DrawLine(_pt3(0, 0), _pt3(1, 0), _pt4(0, 0), _pt4(1, 0));
+		//console.DrawLine(_pt4(0, 0), _pt4(1, 0), _pt1(0, 0), _pt1(1, 0));
 
 		a += aspeed * dt;
+
+		//mat.SetRotationAngle(a);
 
 		console.HeartBeat();
 
