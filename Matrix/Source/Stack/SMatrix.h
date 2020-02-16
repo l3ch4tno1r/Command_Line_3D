@@ -134,9 +134,11 @@ namespace Matrix
 				m_Matrix[idx1][j] = factor1 * m_Matrix[idx1][j] + factor2 * m_Matrix[idx2][j];
 		}
 
-		void GaussElimination()
+		T GaussElimination()
 		{
-			uint linepivot = 0;
+			uint linepivot    = 0;
+			uint permutations = 0;
+			T    pseudodet(1);
 
 			for (uint j = 0; j < std::min(L, C); j++)
 			{
@@ -146,27 +148,35 @@ namespace Matrix
 
 				for (uint i = linepivot; i < L; i++)
 				{
-					if (abs(m_Matrix[i][j]) > max)
+					if (std::abs(m_Matrix[i][j]) > max)
 					{
 						max    = abs(m_Matrix[i][j]);
 						maxpos = i;
 					}
 				}
 
-				// lMaxPos est le pivot
-				if (m_Matrix[maxpos][j] != 0)
+				// maxpos est le pivot
+				if (m_Matrix[maxpos][j] == 0)
+					return T(0);
+
+				pseudodet *= m_Matrix[maxpos][j];
+
+				ScaleLine(maxpos, T(1) / (m_Matrix[maxpos][j]));
+
+				if (maxpos != j)
 				{
-					ScaleLine(maxpos, T(1) / (m_Matrix[maxpos][j]));
-
 					SwapLines(maxpos, linepivot);
-
-					for (uint i = 0; i < L; i++)
-						if (i != linepivot)
-							CombineLines(i, T(1), linepivot, -m_Matrix[i][j]);
-
-					linepivot++;
+					permutations++;
 				}
+
+				for (uint i = 0; i < L; i++)
+					if (i != linepivot)
+						CombineLines(i, T(1), linepivot, -m_Matrix[i][j]);
+
+				linepivot++;
 			}
+
+			return (permutations % 2 == 0 ? T(1): T(-1)) * pseudodet;
 		}
 
 		////////////////////////////
