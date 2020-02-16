@@ -69,6 +69,8 @@ void TestStdVector()
 }
 #pragma endregion
 
+using Mat_2_1_f = Matrix::SMatrix<float, 2, 1>;
+
 union Vector2D
 {
 	struct
@@ -77,21 +79,45 @@ union Vector2D
 		float y;
 	};
 
-	Matrix::SMatrix<float, 2, 1> mat;
+	Mat_2_1_f mat;
+
+	Vector2D() :
+		mat(10.0f)
+	{}
 };
 
 ostream& operator<<(ostream& stream, const Vector2D& vec)
 {
-	stream << "(" << vec.mat(0, 0) << ", " << vec.mat(1, 0) << ")";
+	stream << "(" << vec.x << ", " << vec.y << ")";
 
 	return stream;
 }
 
+union uTest
+{
+	struct
+	{
+		char c;
+		double d;
+		int i;
+		char c2[3];
+	};
+
+	char tab[25];
+};
+
 int main()
 {
-	Vector2D vec = { 1.0, 2.0 };
+	cout << sizeof(uTest) << endl;
 
-	cout << vec << endl;
+	uTest test;
+
+	test.tab[24] = 0;
+
+	test.c = 'a';
+	test.i = 2;
+
+	cout << test.tab << endl;
 
 	cin.get();
 }
