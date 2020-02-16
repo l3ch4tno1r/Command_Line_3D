@@ -51,6 +51,21 @@ namespace Matrix
 			return temp.GaussElimination();
 		}
 
+		SqrSMatrix Invert() const
+		{
+			static SMatrix<T, LC, 2 * LC> temp;
+
+			temp.SubMatrix(*this, 0, 0);
+			temp.SubMatrix(SqrSMatrix::Identity(), 0, LC);
+
+			T pseudodet = temp.GaussElimination();
+
+			if (std::abs(pseudodet) < T(0.0001))
+				throw std::exception("This matrix cannot be inverted.");
+
+			return temp.SubMatrix<LC, LC>(0, LC;)
+		}
+
 		////////////////////////
 		//-- Static Methods --//
 		////////////////////////
