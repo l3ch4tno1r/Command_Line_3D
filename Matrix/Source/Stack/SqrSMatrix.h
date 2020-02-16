@@ -8,9 +8,11 @@ namespace Matrix
 	class SqrSMatrix : public SMatrix<T, LC, LC>
 	{
 	public:
-		/////////////////////////////////////
-		//-- Constructos and destructors --//
-		/////////////////////////////////////
+#pragma region Constructors_Destructors
+		//////////////////////////////////////
+		//-- Constructors and destructors --//
+		//////////////////////////////////////
+
 		SqrSMatrix() : SMatrix()
 		{}
 
@@ -30,9 +32,13 @@ namespace Matrix
 		SqrSMatrix(const SMatrix& mat) : SMatrix(mat)
 		{}
 
+#pragma endregion
+
+#pragma region Methods
 		/////////////////
 		//-- Methods --//
 		/////////////////
+
 		T Trace() const
 		{
 			T result(T(0));
@@ -66,13 +72,19 @@ namespace Matrix
 			return temp.SubMatrix<LC, LC>(0, LC);
 		}
 
+#pragma endregion
+
+#pragma region Static_Methods
 		////////////////////////
 		//-- Static Methods --//
 		////////////////////////
+
 		static const SqrSMatrix& Identity()
 		{
 			static SqrSMatrix id(true);
 			return id;
 		}
+
+#pragma endregion
 	};
 }

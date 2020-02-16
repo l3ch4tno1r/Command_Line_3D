@@ -16,9 +16,10 @@ namespace Matrix
 		T m_Matrix[L][C];
 
 	public:
-		/////////////////////////////////////
-		//-- Constructos and destructors --//
-		/////////////////////////////////////
+#pragma region Constructors_Destructors
+		//////////////////////////////////////
+		//-- Constructors and destructors --//
+		//////////////////////////////////////
 
 		SMatrix()
 		{}
@@ -40,6 +41,9 @@ namespace Matrix
 			SMatrix(mat.m_Matrix)
 		{}
 
+#pragma endregion
+
+#pragma region Accessors
 		///////////////////
 		//-- Accessors --//
 		///////////////////
@@ -96,6 +100,9 @@ namespace Matrix
 					m_Matrix[i + posi][j + posj] = mat(i, j);
 		}
 
+#pragma endregion
+
+#pragma region Methods
 		/////////////////
 		//-- Methods --//
 		/////////////////
@@ -179,6 +186,9 @@ namespace Matrix
 			return (permutations % 2 == 0 ? T(1): T(-1)) * pseudodet;
 		}
 
+#pragma endregion
+
+#pragma region Operators_Overload
 		////////////////////////////
 		//-- Operators overload --//
 		////////////////////////////
@@ -224,6 +234,9 @@ namespace Matrix
 			return !(*this == mat);
 		}
 
+#pragma endregion
+
+#pragma region Static_Methods
 		////////////////////////
 		//-- Static Methods --//
 		////////////////////////
@@ -233,8 +246,11 @@ namespace Matrix
 			static SMatrix zero(T(0));
 			return zero;
 		}
+
+#pragma endregion
 	};
 
+#pragma region External_Functions
 	////////////////////////////
 	//-- External functions --//
 	////////////////////////////
@@ -271,4 +287,6 @@ namespace Matrix
 
 		return result;
 	}
+
+#pragma endregion
 }
