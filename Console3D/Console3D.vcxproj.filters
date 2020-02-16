@@ -24,10 +24,10 @@
     <ClCompile Include="Source\App.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\_Test\Test02 - Matrix.cpp">
+    <ClCompile Include="Source\Utilities\TimeMeasurement.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utilities\TimeMeasurement.cpp">
+    <ClCompile Include="Source\_Test\Test02.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

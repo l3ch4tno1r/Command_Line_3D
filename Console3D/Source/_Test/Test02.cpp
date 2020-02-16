@@ -40,6 +40,7 @@ public:
 
 uint32_t Test::s_Count = 0;
 
+#pragma region Alloc_Time_Comparison
 void TestStackAlloc()
 {
 	for (int i = 0; i < 1000000; i++)
@@ -66,10 +67,31 @@ void TestStdVector()
 	for (int i = 0; i < 1000000; i++)
 		vector<int>(10);
 }
+#pragma endregion
+
+union Vector2D
+{
+	struct
+	{
+		float x;
+		float y;
+	};
+
+	Matrix::SMatrix<float, 2, 1> mat;
+};
+
+ostream& operator<<(ostream& stream, const Vector2D& vec)
+{
+	stream << "(" << vec.mat(0, 0) << ", " << vec.mat(1, 0) << ")";
+
+	return stream;
+}
 
 int main()
 {
-	//Matrix::HMatrix<float> test;
+	Vector2D vec = { 1.0, 2.0 };
+
+	cout << vec << endl;
 
 	cin.get();
 }
