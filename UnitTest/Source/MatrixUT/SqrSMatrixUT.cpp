@@ -102,5 +102,28 @@ namespace MatrixUT
 
 			Assert::IsTrue(res == SqrMatrixf<3>::Identity());
 		}
+
+		TEST_METHOD(UT05_2DTransform)
+		{
+			const float tab1[3][3] = {
+				{ 0.0f, -1.0f, 7.0f },
+				{ 1.0f,  0.0f, 7.0f },
+				{ 0.0f,  0.0f, 1.0f }
+			};
+
+			const float tab2[3][1] = {
+				{ 5.0f },
+				{ 4.0f },
+				{ 1.0f }
+			};
+
+			SqrMatrixf<3> mat = tab1;
+			Matrixf<3, 1> vec = tab2;
+
+			Matrixf<3, 1> res = mat * vec;
+
+			Assert::AreEqual( 3.0f, res(0, 0));
+			Assert::AreEqual(12.0f, res(1, 0));
+		}
 	};
 }
