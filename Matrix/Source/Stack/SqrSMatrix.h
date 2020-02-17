@@ -8,28 +8,31 @@ namespace Matrix
 	class SqrSMatrix : public SMatrix<T, LC, LC>
 	{
 	public:
+		using Matrix = SMatrix<T, LC, LC>;
+		using Matrix::m_Matrix;
+
 #pragma region Constructors_Destructors
 		//////////////////////////////////////
 		//-- Constructors and destructors --//
 		//////////////////////////////////////
 
-		SqrSMatrix() : SMatrix()
+		SqrSMatrix() : Matrix()
 		{}
 
-		SqrSMatrix(bool) : SMatrix()
+		SqrSMatrix(bool)
 		{
 			for (uint i = 0; i < LC; i++)
 				for (uint j = 0; j < LC; j++)
 					m_Matrix[i][j] = (i == j ? T(1) : T(0));
 		}
 
-		SqrSMatrix(T value) : SMatrix(value)
+		SqrSMatrix(T value) : Matrix(value)
 		{}
 
-		SqrSMatrix(const T mat[LC][LC]) : SMatrix(mat)
+		SqrSMatrix(const T mat[LC][LC]) : Matrix(mat)
 		{}
 
-		SqrSMatrix(const SMatrix& mat) : SMatrix(mat)
+		SqrSMatrix(const Matrix& mat) : Matrix(mat)
 		{}
 
 #pragma endregion
