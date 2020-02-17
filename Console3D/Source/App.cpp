@@ -8,7 +8,7 @@
 
 using namespace std;
 
-using Vector2D  = Matrix31f;
+using Vector2D  = Vector2D;
 using Transform = Transform2D;
 
 int main()

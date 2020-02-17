@@ -20,14 +20,14 @@ public:
 	void SetTranslation(float x, float y);
 };
 
-class Matrix31f : public SMatrix31f
+class Vector2D : public SMatrix31f
 {
 public:
-	Matrix31f();
+	Vector2D();
 
-	Matrix31f(float x, float y);
+	Vector2D(float x, float y);
 
-	Matrix31f(const SMatrix31f& mat);
+	Vector2D(const SMatrix31f& mat);
 
 	float& X();
 	float& Y();

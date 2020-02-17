@@ -27,37 +27,37 @@ void Transform2D::SetTranslation(float x, float y)
 	m_Matrix[1][2] = y;
 }
 
-Matrix31f::Matrix31f() :
+Vector2D::Vector2D() :
 	SMatrix31f(1.0f)
 {}
 
-Matrix31f::Matrix31f(float x, float y) :
+Vector2D::Vector2D(float x, float y) :
 	SMatrix31f(1.0f)
 {
 	m_Matrix[0][0] = x;
 	m_Matrix[1][0] = y;
 }
 
-Matrix31f::Matrix31f(const SMatrix31f & mat) :
+Vector2D::Vector2D(const SMatrix31f & mat) :
 	SMatrix31f(mat)
 {}
 
-float& Matrix31f::X()
+float& Vector2D::X()
 {
 	return m_Matrix[0][0];
 }
 
-const float & Matrix31f::X() const
+const float & Vector2D::X() const
 {
 	return m_Matrix[0][0];
 }
 
-float& Matrix31f::Y()
+float& Vector2D::Y()
 {
 	return m_Matrix[1][0];
 }
 
-const float & Matrix31f::Y() const
+const float & Vector2D::Y() const
 {
 	return m_Matrix[1][0];
 }
