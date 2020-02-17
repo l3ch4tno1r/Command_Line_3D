@@ -43,15 +43,15 @@ int main()
 
 		console.Clear();
 
-		Vector2D _pt1 = transform * pt1;
-		Vector2D _pt2 = transform * pt2;
-		Vector2D _pt3 = transform * pt3;
-		Vector2D _pt4 = transform * pt4;
+		Vector2D _pt1 = transform * pt1.mat;
+		Vector2D _pt2 = transform * pt2.mat;
+		Vector2D _pt3 = transform * pt3.mat;
+		Vector2D _pt4 = transform * pt4.mat;
 		
-		console.DrawLine(_pt1(0, 0), _pt1(1, 0), _pt2(0, 0), _pt2(1, 0));
-		console.DrawLine(_pt2(0, 0), _pt2(1, 0), _pt3(0, 0), _pt3(1, 0));
-		console.DrawLine(_pt3(0, 0), _pt3(1, 0), _pt4(0, 0), _pt4(1, 0));
-		console.DrawLine(_pt4(0, 0), _pt4(1, 0), _pt1(0, 0), _pt1(1, 0));
+		console.DrawLine(_pt1.x, _pt1.y, _pt2.x, _pt2.y);
+		console.DrawLine(_pt2.x, _pt2.y, _pt3.x, _pt3.y);
+		console.DrawLine(_pt3.x, _pt3.y, _pt4.x, _pt4.y);
+		console.DrawLine(_pt4.x, _pt4.y, _pt1.x, _pt1.y);
 
 		a += aspeed * dt;
 

@@ -20,18 +20,19 @@ public:
 	void SetTranslation(float x, float y);
 };
 
-class Vector2D : public SMatrix31f
+union Vector2D
 {
-public:
+	struct
+	{
+		float x;
+		float y;
+	};
+
+	SMatrix31f mat;
+
 	Vector2D();
 
-	Vector2D(float x, float y);
+	Vector2D(float _x, float _y);
 
-	Vector2D(const SMatrix31f& mat);
-
-	float& X();
-	float& Y();
-
-	const float& X() const;
-	const float& Y() const;
+	Vector2D(const SMatrix31f& _mat);
 };
