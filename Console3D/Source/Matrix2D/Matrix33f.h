@@ -8,12 +8,12 @@
 using SqrSMatrix33f = Matrix::SqrSMatrix<float, 3>;
 using    SMatrix31f = Matrix::SMatrix<float, 3, 1>;
 
-class Matrix33f : public SqrSMatrix33f
+class Transform2D : public SqrSMatrix33f
 {
 public:
-	Matrix33f();
+	Transform2D();
 
-	Matrix33f(float x, float y, float a);
+	Transform2D(float x, float y, float a);
 
 	void SetRotationAngle(float a);
 

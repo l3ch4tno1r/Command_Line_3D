@@ -5,12 +5,11 @@
 
 #include "Console.h"
 #include "Matrix2D\Matrix33f.h"
-#include "Stack\SqrSMatrix.h"
 
 using namespace std;
 
 using Vector2D  = Matrix31f;
-using Transform = Matrix33f;
+using Transform = Transform2D;
 
 int main()
 {
