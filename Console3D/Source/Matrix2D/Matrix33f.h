@@ -27,6 +27,8 @@ public:
 
 	Matrix31f(float x, float y);
 
+	Matrix31f(const SMatrix31f& mat);
+
 	float& X();
 	float& Y();
 

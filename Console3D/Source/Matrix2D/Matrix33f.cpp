@@ -6,7 +6,8 @@ Matrix33f::Matrix33f() :
 	SqrSMatrix33f(true)
 {}
 
-Matrix33f::Matrix33f(float x, float y, float a)
+Matrix33f::Matrix33f(float x, float y, float a) :
+	SqrSMatrix33f(true)
 {
 	SetTranslation(x, y);
 	SetRotationAngle(a);
@@ -30,11 +31,16 @@ Matrix31f::Matrix31f() :
 	SMatrix31f(1.0f)
 {}
 
-Matrix31f::Matrix31f(float x, float y)
+Matrix31f::Matrix31f(float x, float y) :
+	SMatrix31f(1.0f)
 {
 	m_Matrix[0][0] = x;
 	m_Matrix[1][0] = y;
 }
+
+Matrix31f::Matrix31f(const SMatrix31f & mat) :
+	SMatrix31f(mat)
+{}
 
 float& Matrix31f::X()
 {
