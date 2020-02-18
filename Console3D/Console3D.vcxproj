@@ -125,6 +125,7 @@
     <ClCompile Include="Source\App.cpp" />
     <ClCompile Include="Source\Console.cpp" />
     <ClCompile Include="Source\Matrix2D\Matrix33f.cpp" />
+    <ClCompile Include="Source\Utilities\ErrorHandling.cpp" />
     <ClCompile Include="Source\Utilities\TimeMeasurement.cpp" />
     <ClCompile Include="Source\_Test\Test01.cpp" />
     <ClCompile Include="Source\_Test\Test02.cpp" />
