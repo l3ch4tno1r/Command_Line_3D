@@ -5,8 +5,8 @@
 #define PI 3.14159265
 #define TORAD(A) (PI * A) / 180
 
-using SqrSMatrix33f = Matrix::SqrSMatrix<float, 3>;
-using    SMatrix31f = Matrix::SMatrix<float, 3, 1>;
+using SqrSMatrix33f = Matrix::StaticMatrix::SqrMatrix<float, 3>;
+using    SMatrix31f = Matrix::StaticMatrix::Matrix<float, 3, 1>;
 
 class Transform2D : public SqrSMatrix33f
 {

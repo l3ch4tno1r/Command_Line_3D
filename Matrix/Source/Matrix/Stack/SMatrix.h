@@ -3,43 +3,45 @@
 #include <algorithm>
 #include <stdexcept>
 
+using uint = unsigned int;
+
 namespace Matrix
 {
-	using uint = unsigned int;
-
-	////////////////////////////////
-	//-- Stack allocated Matrix --//
-	////////////////////////////////
-	template<typename T, uint L, uint C>
-	class SMatrix
+	namespace StaticMatrix
 	{
-	protected:
-		T m_Matrix[L][C];
+		////////////////////////////////
+		//-- Stack allocated Matrix --//
+		////////////////////////////////
+		template<typename T, uint L, uint C>
+		class Matrix
+		{
+		protected:
+			T m_Matrix[L][C];
 
-	public:
+		public:
 #pragma region Constructors_Destructors
 		//////////////////////////////////////
 		//-- Constructors and destructors --//
 		//////////////////////////////////////
 
-		SMatrix()
+		Matrix()
 		{}
 
-		SMatrix(T value)
+		Matrix(T value)
 		{
 			for (uint i = 0; i < L; i++)
 				for (uint j = 0; j < C; j++)
 					m_Matrix[i][j] = value;
 		}
 
-		SMatrix(const T mat[L][C])
+		Matrix(const T mat[L][C])
 		{
 			for (uint i = 0; i < L; i++)
 				memcpy(m_Matrix[i], mat[i], C * sizeof(T));
 		}
 
-		SMatrix(const SMatrix& mat) :
-			SMatrix(mat.m_Matrix)
+		Matrix(const Matrix& mat) :
+			Matrix(mat.m_Matrix)
 		{}
 
 #pragma endregion
@@ -76,12 +78,12 @@ namespace Matrix
 		}
 
 		template<uint L2, uint C2>
-		SMatrix<T, L2, C2> SubMatrix(uint posi, uint posj) const
+		Matrix<T, L2, C2> SubMatrix(uint posi, uint posj) const
 		{
 			if(posi + L2 > L || posj + C2 > C)
 				throw std::out_of_range("Index out of range.");
 
-			static SMatrix<T, L2, C2> result;
+			static Matrix<T, L2, C2> result;
 
 			for (uint i = 0; i < L2; i++)
 				for (uint j = 0; j < C2; j++)
@@ -91,7 +93,7 @@ namespace Matrix
 		}
 
 		template<uint L2, uint C2>
-		void SubMatrix(const SMatrix<T, L2, C2>& mat, uint posi, uint posj)
+		void SubMatrix(const Matrix<T, L2, C2>& mat, uint posi, uint posj)
 		{
 			if (posi + L2 > L || posj + C2 > C)
 				throw std::out_of_range("Index out of range.");
@@ -194,7 +196,7 @@ namespace Matrix
 		//-- Operators overload --//
 		////////////////////////////
 
-		SMatrix& operator=(const SMatrix& mat)
+		Matrix& operator=(const Matrix& mat)
 		{
 			for (uint i = 0; i < L; i++)
 				memcpy(m_Matrix[i], mat.m_Matrix[i], C * sizeof(T));
@@ -202,7 +204,7 @@ namespace Matrix
 			return *this;
 		}
 
-		SMatrix& operator+=(const SMatrix& mat)
+		Matrix& operator+=(const Matrix& mat)
 		{
 			for (uint i = 0; i < L; i++)
 				for (uint j = 0; j < C; j++)
@@ -211,7 +213,7 @@ namespace Matrix
 			return *this;
 		}
 
-		SMatrix& operator-=(const SMatrix& mat)
+		Matrix& operator-=(const Matrix& mat)
 		{
 			for (uint i = 0; i < L; i++)
 				for (uint j = 0; j < C; j++)
@@ -220,7 +222,7 @@ namespace Matrix
 			return *this;
 		}
 
-		bool operator==(const SMatrix& mat) const
+		bool operator==(const Matrix& mat) const
 		{
 			for (uint i = 0; i < L; i++)
 				for (uint j = 0; j < C; j++)
@@ -230,7 +232,7 @@ namespace Matrix
 			return true;
 		}
 
-		bool operator!=(const SMatrix& mat) const
+		bool operator!=(const Matrix& mat) const
 		{
 			return !(*this == mat);
 		}
@@ -242,9 +244,9 @@ namespace Matrix
 		//-- Static Methods --//
 		////////////////////////
 
-		static const SMatrix& Zero()
+		static const Matrix& Zero()
 		{
-			static SMatrix zero(T(0));
+			static Matrix zero(T(0));
 			return zero;
 		}
 
@@ -252,42 +254,42 @@ namespace Matrix
 	};
 
 #pragma region External_Functions
-	////////////////////////////
-	//-- External functions --//
-	////////////////////////////
+		////////////////////////////
+		//-- External functions --//
+		////////////////////////////
 
-	template<typename T, uint L, uint C>
-	SMatrix<T, L, C> operator+(const SMatrix<T, L, C>& mat1, const SMatrix<T, L, C>& mat2)
-	{
-		SMatrix<T, L, C> result = mat1;
+		template<typename T, uint L, uint C>
+		Matrix<T, L, C> operator+(const Matrix<T, L, C>& mat1, const Matrix<T, L, C>& mat2)
+		{
+			Matrix<T, L, C> result = mat1;
 
-		result += mat2;
+			result += mat2;
 
-		return result;
-	}
+			return result;
+		}
 
-	template<typename T, uint L, uint C>
-	SMatrix<T, L, C> operator-(const SMatrix<T, L, C>& mat1, const SMatrix<T, L, C>& mat2)
-	{
-		SMatrix<T, L, C> result = mat1;
+		template<typename T, uint L, uint C>
+		Matrix<T, L, C> operator-(const Matrix<T, L, C>& mat1, const Matrix<T, L, C>& mat2)
+		{
+			Matrix<T, L, C> result = mat1;
 
-		result -= mat2;
+			result -= mat2;
 
-		return result;
-	}
+			return result;
+		}
 
-	template<typename T, uint L, uint LC, uint C>
-	SMatrix<T, L, C> operator*(const SMatrix<T, L, LC>& mat1, const SMatrix<T, LC, C>& mat2)
-	{
-		SMatrix<T, L, C> result(T(0));
+		template<typename T, uint L, uint LC, uint C>
+		Matrix<T, L, C> operator*(const Matrix<T, L, LC>& mat1, const Matrix<T, LC, C>& mat2)
+		{
+			Matrix<T, L, C> result(T(0));
 
-		for (uint i = 0; i < L; i++)
-			for (uint j = 0; j < C; j++)
-				for (uint k = 0; k < LC; k++)
-					result(i, j) += mat1(i, k) * mat2(k, j);
+			for (uint i = 0; i < L; i++)
+				for (uint j = 0; j < C; j++)
+					for (uint k = 0; k < LC; k++)
+						result(i, j) += mat1(i, k) * mat2(k, j);
 
-		return result;
-	}
-
+			return result;
+		}
 #pragma endregion
+	}
 }

@@ -4,90 +4,93 @@
 
 namespace Matrix
 {
-	template<typename T, uint LC>
-	class SqrSMatrix : public SMatrix<T, LC, LC>
+	namespace StaticMatrix
 	{
-	public:
-		using Matrix = SMatrix<T, LC, LC>;
-		using Matrix::m_Matrix;
+		template<typename T, uint LC>
+		class SqrMatrix : public Matrix<T, LC, LC>
+		{
+		public:
+			using TMatrix = Matrix<T, LC, LC>;
+			using TMatrix::m_Matrix;
 
 #pragma region Constructors_Destructors
-		//////////////////////////////////////
-		//-- Constructors and destructors --//
-		//////////////////////////////////////
+			//////////////////////////////////////
+			//-- Constructors and destructors --//
+			//////////////////////////////////////
 
-		SqrSMatrix() : Matrix()
-		{}
+			SqrMatrix() : TMatrix()
+			{}
 
-		SqrSMatrix(bool)
-		{
-			for (uint i = 0; i < LC; i++)
-				for (uint j = 0; j < LC; j++)
-					m_Matrix[i][j] = (i == j ? T(1) : T(0));
-		}
+			SqrMatrix(bool)
+			{
+				for (uint i = 0; i < LC; i++)
+					for (uint j = 0; j < LC; j++)
+						m_Matrix[i][j] = (i == j ? T(1) : T(0));
+			}
 
-		SqrSMatrix(T value) : Matrix(value)
-		{}
+			SqrMatrix(T value) : TMatrix(value)
+			{}
 
-		SqrSMatrix(const T mat[LC][LC]) : Matrix(mat)
-		{}
+			SqrMatrix(const T mat[LC][LC]) : TMatrix(mat)
+			{}
 
-		SqrSMatrix(const Matrix& mat) : Matrix(mat)
-		{}
+			SqrMatrix(const TMatrix& mat) : TMatrix(mat)
+			{}
 
 #pragma endregion
 
 #pragma region Methods
-		/////////////////
-		//-- Methods --//
-		/////////////////
+			/////////////////
+			//-- Methods --//
+			/////////////////
 
-		T Trace() const
-		{
-			T result(T(0));
+			T Trace() const
+			{
+				T result(T(0));
 
-			for (uint i = 0; i < LC; i++)
-				result += m_Matrix[i][i];
+				for (uint i = 0; i < LC; i++)
+					result += m_Matrix[i][i];
 
-			return result;
-		}
+				return result;
+			}
 
-		T Det() const
-		{
-			static SqrSMatrix temp;
-			temp = *this;
+			T Det() const
+			{
+				static SqrMatrix temp;
+				temp = *this;
 
-			return temp.GaussElimination();
-		}
+				return temp.GaussElimination();
+			}
 
-		SqrSMatrix Invert() const
-		{
-			static SMatrix<T, LC, 2 * LC> temp;
+			SqrMatrix Invert() const
+			{
+				static Matrix<T, LC, 2 * LC> temp;
 
-			temp.SubMatrix(*this, 0, 0);
-			temp.SubMatrix(SqrSMatrix::Identity(), 0, LC);
+				temp.SubMatrix(*this, 0, 0);
+				temp.SubMatrix(SqrMatrix::Identity(), 0, LC);
 
-			T pseudodet = temp.GaussElimination();
+				T pseudodet = temp.GaussElimination();
 
-			if (std::abs(pseudodet) < T(0.0001))
-				throw std::exception("This matrix cannot be inverted.");
+				if (std::abs(pseudodet) < T(0.0001))
+					throw std::exception("This matrix cannot be inverted.");
 
-			return temp.SubMatrix<LC, LC>(0, LC);
-		}
+				return temp.SubMatrix<LC, LC>(0, LC);
+			}
 
 #pragma endregion
 
 #pragma region Static_Methods
-		////////////////////////
-		//-- Static Methods --//
-		////////////////////////
+			////////////////////////
+			//-- Static Methods --//
+			////////////////////////
 
-		static const SqrSMatrix& Identity()
-		{
-			static SqrSMatrix id(true);
-			return id;
-		}
+			static const SqrMatrix& Identity()
+			{
+				static SqrMatrix id(true);
+				return id;
+			}
 
 #pragma endregion
-	};
+		};
+	}
 }

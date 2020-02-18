@@ -9,11 +9,11 @@ namespace MatrixUT
 {
 	TEST_CLASS(SqrSMatrixUT)
 	{
-		template<Matrix::uint L, Matrix::uint C >
-		using Matrixf = Matrix::SMatrix<float, L, C>;
+		template<uint L, uint C >
+		using Matrixf = Matrix::StaticMatrix::Matrix<float, L, C>;
 
-		template<Matrix::uint LC >
-		using SqrMatrixf = Matrix::SqrSMatrix<float, LC>;
+		template<uint LC >
+		using SqrMatrixf = Matrix::StaticMatrix::SqrMatrix<float, LC>;
 
 	public:
 		TEST_METHOD(UT01_Construction)
