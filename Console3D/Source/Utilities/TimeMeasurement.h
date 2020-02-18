@@ -35,3 +35,5 @@ public:
 
 	~Timer2();
 };
+
+#define TIMER(msg) Timer2 timer(msg)
