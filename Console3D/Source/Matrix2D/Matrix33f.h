@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Stack\SqrSMatrix.h"
+#include "Matrix\Stack\SqrSMatrix.h"
 
 #define PI 3.14159265
 #define TORAD(A) (PI * A) / 180

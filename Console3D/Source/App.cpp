@@ -17,7 +17,7 @@ int main()
 
 	float aspeed = 30.0f;			// 1 tour / min
 	float dt     = 16.0f / 1000.0f;	// Delta de temps
-	float a      = 0.0f;				// Angle
+	float a      = 0.0f;			// Angle
 
 	float radius = 35;
 

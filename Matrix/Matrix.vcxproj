@@ -115,9 +115,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Heap\HMatrix.h" />
-    <ClInclude Include="Source\Stack\SMatrix.h" />
-    <ClInclude Include="Source\Stack\SqrSMatrix.h" />
+    <ClInclude Include="Source\Matrix\Heap\HMatrix.h" />
+    <ClInclude Include="Source\Matrix\Stack\SMatrix.h" />
+    <ClInclude Include="Source\Matrix\Stack\SqrSMatrix.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

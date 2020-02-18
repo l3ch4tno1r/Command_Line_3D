@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
-#include "Stack\SqrSMatrix.h"
+#include "Matrix\Stack\SqrSMatrix.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
