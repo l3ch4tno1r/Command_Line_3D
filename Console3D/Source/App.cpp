@@ -5,11 +5,9 @@
 
 #include "Console.h"
 #include "Matrix2D\Transform2D.h"
+#include "Matrix2D\Vector2D.h"
 
 using namespace std;
-
-using Vector2D  = Vector2D;
-using Transform = Transform2D;
 
 int main()
 {
@@ -31,7 +29,7 @@ int main()
 	Vector2D pt3(-20.0f, -20.0f);
 	Vector2D pt4( 20.0f, -20.0f);
 	
-	Transform transform(60.0f, 40.0f, a);
+	Transform2D transform(60.0f, 40.0f, a);
 
 	while (true)
 	{

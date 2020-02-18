@@ -6,7 +6,6 @@
 #define TORAD(A) (PI * A) / 180
 
 using SqrSMatrix33f = Matrix::StaticMatrix::SqrMatrix<float, 3>;
-using    SMatrix31f = Matrix::StaticMatrix::Matrix<float, 3, 1>;
 
 union Transform2D
 {
@@ -29,21 +28,4 @@ union Transform2D
 	void SetRotationAngle(float a);
 
 	void SetTranslation(float x, float y);
-};
-
-union Vector2D
-{
-	struct
-	{
-		float x;
-		float y;
-	};
-
-	SMatrix31f mat;
-
-	Vector2D();
-
-	Vector2D(float _x, float _y);
-
-	Vector2D(const SMatrix31f& _mat);
 };
