@@ -50,16 +50,13 @@ int main()
 		
 		console.DrawLine(_pt1.x, _pt1.y, _pt2.x, _pt2.y);
 		console.DrawLine(_pt2.x, _pt2.y, _pt3.x, _pt3.y);
+		console.DrawLine(_pt3.x, _pt3.y, _pt1.x, _pt1.y);
 		console.DrawLine(_pt3.x, _pt3.y, _pt4.x, _pt4.y);
 		console.DrawLine(_pt4.x, _pt4.y, _pt1.x, _pt1.y);
 
 		a += aspeed * dt;
 
 		transform.SetRotationAngle(a);
-		//transform(0, 0) =  std::cos(TORAD(a));
-		//transform(1, 0) =  std::sin(TORAD(a));
-		//transform(0, 1) = -std::sin(TORAD(a));
-		//transform(1, 1) =  std::cos(TORAD(a));
 
 		console.HeartBeat();
 
