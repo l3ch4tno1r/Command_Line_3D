@@ -124,7 +124,7 @@
   <ItemGroup>
     <ClCompile Include="Source\App.cpp" />
     <ClCompile Include="Source\Console.cpp" />
-    <ClCompile Include="Source\Matrix2D\Matrix33f.cpp" />
+    <ClCompile Include="Source\Matrix2D\Transform2D.cpp" />
     <ClCompile Include="Source\Utilities\ErrorHandling.cpp" />
     <ClCompile Include="Source\Utilities\TimeMeasurement.cpp" />
     <ClCompile Include="Source\_Test\Test01.cpp" />
@@ -133,7 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Console.h" />
-    <ClInclude Include="Source\Matrix2D\Matrix33f.h" />
+    <ClInclude Include="Source\Matrix2D\Transform2D.h" />
     <ClInclude Include="Source\Utilities\ErrorHandling.h" />
     <ClInclude Include="Source\Utilities\TimeMeasurement.h" />
   </ItemGroup>

@@ -4,7 +4,7 @@
 #include <thread>
 
 #include "Console.h"
-#include "Matrix2D\Matrix33f.h"
+#include "Matrix2D\Transform2D.h"
 
 using namespace std;
 
@@ -43,10 +43,10 @@ int main()
 
 		console.Clear();
 
-		Vector2D _pt1 = transform * pt1.mat;
-		Vector2D _pt2 = transform * pt2.mat;
-		Vector2D _pt3 = transform * pt3.mat;
-		Vector2D _pt4 = transform * pt4.mat;
+		Vector2D _pt1 = transform.mat * pt1.mat;
+		Vector2D _pt2 = transform.mat * pt2.mat;
+		Vector2D _pt3 = transform.mat * pt3.mat;
+		Vector2D _pt4 = transform.mat * pt4.mat;
 		
 		console.DrawLine(_pt1.x, _pt1.y, _pt2.x, _pt2.y);
 		console.DrawLine(_pt2.x, _pt2.y, _pt3.x, _pt3.y);

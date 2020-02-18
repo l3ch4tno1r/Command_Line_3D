@@ -33,10 +33,10 @@
     <ClCompile Include="Source\_Test\Test03.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Matrix2D\Matrix33f.cpp">
+    <ClCompile Include="Source\Utilities\ErrorHandling.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utilities\ErrorHandling.cpp">
+    <ClCompile Include="Source\Matrix2D\Transform2D.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,7 +50,7 @@
     <ClInclude Include="Source\Console.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Matrix2D\Matrix33f.h">
+    <ClInclude Include="Source\Matrix2D\Transform2D.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

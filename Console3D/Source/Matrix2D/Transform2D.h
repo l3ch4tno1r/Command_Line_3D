@@ -8,9 +8,20 @@
 using SqrSMatrix33f = Matrix::StaticMatrix::SqrMatrix<float, 3>;
 using    SMatrix31f = Matrix::StaticMatrix::Matrix<float, 3, 1>;
 
-class Transform2D : public SqrSMatrix33f
+union Transform2D
 {
-public:
+	struct
+	{
+		float Rux, Rvx, Tx, Ruy, Rvy, Ty;
+
+		// Representation of :
+		// [ Rux, Rvx, Tx ]
+		// [ Ruy, Rvy, Ty ]
+		// [  0,   0,   1 ]
+;	};
+
+	SqrSMatrix33f mat;
+
 	Transform2D();
 
 	Transform2D(float x, float y, float a);

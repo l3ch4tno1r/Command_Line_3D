@@ -1,13 +1,13 @@
-#include "Matrix33f.h"
+#include "Transform2D.h"
 
 #include <cmath>
 
 Transform2D::Transform2D() :
-	SqrSMatrix33f(true)
+	mat(true)
 {}
 
 Transform2D::Transform2D(float x, float y, float a) :
-	SqrSMatrix33f(true)
+	mat(true)
 {
 	SetTranslation(x, y);
 	SetRotationAngle(a);
@@ -15,16 +15,16 @@ Transform2D::Transform2D(float x, float y, float a) :
 
 void Transform2D::SetRotationAngle(float a)
 {
-	m_Matrix[0][0] =  std::cos(TORAD(a));
-	m_Matrix[1][0] =  std::sin(TORAD(a));
-	m_Matrix[0][1] = -std::sin(TORAD(a));
-	m_Matrix[1][1] =  std::cos(TORAD(a));
+	Rux =  std::cos(TORAD(a));
+	Ruy =  std::sin(TORAD(a));
+	Rvx = -std::sin(TORAD(a));
+	Rvy =  std::cos(TORAD(a));
 }
 
 void Transform2D::SetTranslation(float x, float y)
 {
-	m_Matrix[0][2] = x;
-	m_Matrix[1][2] = y;
+	Tx = x;
+	Ty = y;
 }
 
 Vector2D::Vector2D() :
