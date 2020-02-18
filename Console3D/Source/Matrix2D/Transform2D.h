@@ -2,9 +2,6 @@
 
 #include "Matrix\Stack\SqrSMatrix.h"
 
-#define PI 3.14159265
-#define TORAD(A) (PI * A) / 180
-
 using SqrSMatrix33f = Matrix::StaticMatrix::SqrMatrix<float, 3>;
 
 union Transform2D

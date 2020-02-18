@@ -1,3 +1,5 @@
 .vs
 Debug
 *.bak
+/Console3D/Release
+/Matrix/Release

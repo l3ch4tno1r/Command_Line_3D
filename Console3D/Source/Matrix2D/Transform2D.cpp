@@ -1,5 +1,7 @@
 #include "Transform2D.h"
 
+#include "Utilities\Angles.h"
+
 #include <cmath>
 
 Transform2D::Transform2D() :

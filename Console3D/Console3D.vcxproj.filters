@@ -59,5 +59,8 @@
     <ClInclude Include="Source\Matrix2D\Vector2D.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Utilities\Angles.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
