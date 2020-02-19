@@ -78,7 +78,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>MAIN;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TEST04;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Matrix\Source;$(ProjectDir)Source</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -126,16 +126,19 @@
     <ClCompile Include="Source\Console.cpp" />
     <ClCompile Include="Source\Matrix2D\Transform2D.cpp" />
     <ClCompile Include="Source\Matrix2D\Vector2D.cpp" />
+    <ClCompile Include="Source\Matrix3D\Vector3D.cpp" />
     <ClCompile Include="Source\Utilities\ErrorHandling.cpp" />
     <ClCompile Include="Source\Utilities\TimeMeasurement.cpp" />
     <ClCompile Include="Source\_Test\Test01.cpp" />
     <ClCompile Include="Source\_Test\Test02.cpp" />
     <ClCompile Include="Source\_Test\Test03.cpp" />
+    <ClCompile Include="Source\_Test\Test04.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Console.h" />
     <ClInclude Include="Source\Matrix2D\Transform2D.h" />
     <ClInclude Include="Source\Matrix2D\Vector2D.h" />
+    <ClInclude Include="Source\Matrix3D\Vector3D.h" />
     <ClInclude Include="Source\Utilities\Angles.h" />
     <ClInclude Include="Source\Utilities\ErrorHandling.h" />
     <ClInclude Include="Source\Utilities\TimeMeasurement.h" />
