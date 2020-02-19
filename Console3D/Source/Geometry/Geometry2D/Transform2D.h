@@ -8,7 +8,8 @@ union Transform2D
 {
 	struct
 	{
-		float Rux, Rvx, Tx, Ruy, Rvy, Ty;
+		float Rux, Rvx, Tx,
+			  Ruy, Rvy, Ty;
 
 		// Representation of :
 		// [ Rux, Rvx, Tx ]
@@ -19,6 +20,8 @@ union Transform2D
 	SqrSMatrix33f mat;
 
 	Transform2D();
+
+	Transform2D(const SqrSMatrix33f& _mat);
 
 	Transform2D(float x, float y, float a);
 
