@@ -2,6 +2,7 @@
 
 #include "Matrix\Stack\SqrSMatrix.h"
 
+using SMatrix33f    = Matrix::StaticMatrix::Matrix<float, 3, 3>;
 using SqrSMatrix33f = Matrix::StaticMatrix::SqrMatrix<float, 3>;
 
 union Transform2D
@@ -20,6 +21,8 @@ union Transform2D
 	SqrSMatrix33f mat;
 
 	Transform2D();
+
+	Transform2D(const SMatrix33f& _mat);
 
 	Transform2D(const SqrSMatrix33f& _mat);
 

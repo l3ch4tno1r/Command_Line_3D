@@ -8,6 +8,10 @@ Transform2D::Transform2D() :
 	mat(true)
 {}
 
+Transform2D::Transform2D(const SMatrix33f & _mat) :
+	mat(_mat)
+{}
+
 Transform2D::Transform2D(const SqrSMatrix33f& _mat) :
 	mat(_mat)
 {}

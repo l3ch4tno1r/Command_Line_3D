@@ -26,13 +26,14 @@ int main()
 
 	chrono::high_resolution_clock::time_point start, next;
 
-	//// Model
+	// Model
 	Vector2D pt1( 20.0f,  20.0f);
 	Vector2D pt2(-20.0f,  20.0f);
 	Vector2D pt3(-20.0f, -20.0f);
 	Vector2D pt4( 20.0f, -20.0f);
 	
-	Transform2D transform(60.0f, 40.0f, a);
+	Transform2D transform1(60.0f, 40.0f, a);
+	Transform2D transform2(20.0f, 20.0f, 0.0f);
 
 	while (true)
 	{
@@ -44,10 +45,12 @@ int main()
 
 		console.Clear();
 
-		Vector2D _pt1 = transform.mat * pt1.mat;
-		Vector2D _pt2 = transform.mat * pt2.mat;
-		Vector2D _pt3 = transform.mat * pt3.mat;
-		Vector2D _pt4 = transform.mat * pt4.mat;
+		Transform2D _transform = transform1.mat * transform2.mat;
+
+		Vector2D _pt1 = _transform.mat * pt1.mat;
+		Vector2D _pt2 = _transform.mat * pt2.mat;
+		Vector2D _pt3 = _transform.mat * pt3.mat;
+		Vector2D _pt4 = _transform.mat * pt4.mat;
 		
 		console.DrawLine(_pt1.x, _pt1.y, _pt2.x, _pt2.y);
 		console.DrawLine(_pt2.x, _pt2.y, _pt3.x, _pt3.y);
@@ -57,7 +60,7 @@ int main()
 
 		a += aspeed * dt;
 
-		transform.SetRotationAngle(a);
+		transform1.SetRotationAngle(a);
 
 		console.HeartBeat();
 
