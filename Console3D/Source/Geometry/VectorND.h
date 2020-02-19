@@ -31,7 +31,7 @@ public:
 };
 
 template<uint N>
-float operator*(const VectorND<N>& vec1, const VectorND<N>& vec2)
+float operator|(const VectorND<N>& vec1, const VectorND<N>& vec2)
 {
 	float dotproduct = 0.0f;
 
