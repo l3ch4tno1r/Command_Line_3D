@@ -5,7 +5,7 @@
 #include <chrono>
 #include <cmath>
 
-#define TEST02
+#define CONSOLETEST02
 
 Console::Console() :
 	width(120),
@@ -50,7 +50,7 @@ void Console::DrawPoint(float x, float y, char c)
 	screen[(INT32)x + (INT32)y * width] = c;
 }
 
-#ifdef TEST01
+#ifdef CONSOLETEST01
 void Console::DrawLine(float x1, float y1, float x2, float y2)
 {
 	static const int intervals[] = { -180, -135, -90, -45, 0, 45, 90, 135, 180 };
@@ -184,11 +184,17 @@ void Console::DrawLine(float x1, float y1, float x2, float y2)
 }
 #endif
 
-#ifdef TEST02
+#ifdef CONSOLETEST02
 void Console::DrawLine(float x1, float y1, float x2, float y2)
 {
 	float dx = x2 - x1;
 	float dy = y2 - y1;
+
+	if (dx == 0 && dy == 0)
+	{
+		DrawPoint(x1, y1);
+		return;
+	}
 
 	float stepx, stepy;
 

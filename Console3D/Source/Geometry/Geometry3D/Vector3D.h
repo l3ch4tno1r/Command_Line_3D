@@ -11,6 +11,7 @@ union Vector3D
 		float x;
 		float y;
 		float z;
+		float s;
 	};
 
 	Vector4Df mat;
@@ -24,6 +25,12 @@ union Vector3D
 	Vector3D(const Vector4Df& _mat);
 
 	Vector3D(const MatrixN1f<4>& _mat);
+
+	static const Vector3D& X();
+
+	static const Vector3D& Y();
+
+	static const Vector3D& Z();
 };
 
 Vector3D operator^(const Vector3D& vec1, const Vector3D& vec2);

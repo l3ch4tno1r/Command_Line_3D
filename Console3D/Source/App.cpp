@@ -7,6 +7,8 @@
 
 #include "Geometry\Geometry2D\Transform2D.h"
 #include "Geometry\Geometry2D\Vector2D.h"
+#include "Geometry\Geometry3D\Transform3D.h"
+#include "Geometry\Geometry3D\Vector3D.h"
 
 #include "Utilities\TimeMeasurement.h"
 
@@ -27,13 +29,50 @@ int main()
 	chrono::high_resolution_clock::time_point start, next;
 
 	// Model
-	Vector2D pt1( 20.0f,  20.0f);
-	Vector2D pt2(-20.0f,  20.0f);
-	Vector2D pt3(-20.0f, -20.0f);
-	Vector2D pt4( 20.0f, -20.0f);
-	
-	Transform2D transform1(60.0f, 40.0f, a);
-	Transform2D transform2(20.0f, 20.0f, 0.0f);
+	Vector3D pt1(0.0f, 0.0f, 0.0f);
+	Vector3D pt2(1.0f, 0.0f, 0.0f);
+	Vector3D pt3(1.0f, 1.0f, 0.0f);
+	Vector3D pt4(0.0f, 1.0f, 0.0f);
+	Vector3D pt5(0.0f, 0.0f, 1.0f);
+	Vector3D pt6(1.0f, 0.0f, 1.0f);
+	Vector3D pt7(1.0f, 1.0f, 1.0f);
+	Vector3D pt8(0.0f, 1.0f, 1.0f);
+
+	// Set up Camera transform
+	Vector3D tempz = { -2.0f, -3.0f, -1.5f };
+	Vector3D tempx = Vector3D::Z() ^ tempz;
+	Vector3D tempy = tempz ^ tempx;
+
+	float normx = tempx.mat.Norm();
+	float normy = tempy.mat.Norm();
+	float normz = tempz.mat.Norm();
+
+	Transform3D CamFromR0;
+
+	CamFromR0.Rux = tempx.x / normx;
+	CamFromR0.Ruy = tempx.y / normx;
+	CamFromR0.Ruz = tempx.z / normx;
+	CamFromR0.Rvx = tempy.x / normy;
+	CamFromR0.Rvy = tempy.y / normy;
+	CamFromR0.Rvz = tempy.z / normy;
+	CamFromR0.Rwx = tempz.x / normz;
+	CamFromR0.Rwy = tempz.y / normz;
+	CamFromR0.Rwz = tempz.z / normz;
+	CamFromR0.Tx  = 2.0f;
+	CamFromR0.Ty  = 3.0f;
+	CamFromR0.Tz  = 1.5f;
+
+	float focal = 120.0f;
+
+	const float tab[3][4] = {
+		focal, 0.0f,  0.0f,  0.0f,
+		0.0f,  focal, 0.0f,  0.0f,
+		0.0f,  0.0f,  1.0f,  0.0f,
+	};
+
+	Matrix::StaticMatrix::Matrix<float, 3, 4> Projection(tab);
+
+	Transform2D CamFromImg(60.0f, 40.0f, 180.0f);
 
 	while (true)
 	{
@@ -45,22 +84,29 @@ int main()
 
 		console.Clear();
 
-		Transform2D _transform = transform1.mat * transform2.mat;
+		Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = CamFromImg.mat * Projection * CamFromR0.mat.Invert();
 
-		Vector2D _pt1 = _transform.mat * pt1.mat;
-		Vector2D _pt2 = _transform.mat * pt2.mat;
-		Vector2D _pt3 = _transform.mat * pt3.mat;
-		Vector2D _pt4 = _transform.mat * pt4.mat;
-		
-		console.DrawLine(_pt1.x, _pt1.y, _pt2.x, _pt2.y);
-		console.DrawLine(_pt2.x, _pt2.y, _pt3.x, _pt3.y);
-		console.DrawLine(_pt3.x, _pt3.y, _pt1.x, _pt1.y);
-		console.DrawLine(_pt3.x, _pt3.y, _pt4.x, _pt4.y);
-		console.DrawLine(_pt4.x, _pt4.y, _pt1.x, _pt1.y);
+		Vector2D _pt1 = _Proj * pt1.mat;
+		Vector2D _pt2 = _Proj * pt2.mat;
+		Vector2D _pt3 = _Proj * pt3.mat;
+		Vector2D _pt4 = _Proj * pt4.mat;
+		Vector2D _pt5 = _Proj * pt5.mat;
+		Vector2D _pt6 = _Proj * pt6.mat;
+		Vector2D _pt7 = _Proj * pt7.mat;
+		Vector2D _pt8 = _Proj * pt8.mat;
 
-		a += aspeed * dt;
-
-		transform1.SetRotationAngle(a);
+		console.DrawLine(_pt6.PX(), _pt6.PY(), _pt2.PX(), _pt2.PY());
+		console.DrawLine(_pt2.PX(), _pt2.PY(), _pt7.PX(), _pt7.PY());
+		console.DrawLine(_pt7.PX(), _pt7.PY(), _pt6.PX(), _pt6.PY());
+		console.DrawLine(_pt2.PX(), _pt2.PY(), _pt3.PX(), _pt3.PY());
+		console.DrawLine(_pt3.PX(), _pt3.PY(), _pt7.PX(), _pt7.PY());
+		console.DrawLine(_pt3.PX(), _pt3.PY(), _pt8.PX(), _pt8.PY());
+		console.DrawLine(_pt8.PX(), _pt8.PY(), _pt7.PX(), _pt7.PY());
+		console.DrawLine(_pt3.PX(), _pt3.PY(), _pt4.PX(), _pt4.PY());
+		console.DrawLine(_pt4.PX(), _pt4.PY(), _pt8.PX(), _pt8.PY());
+		console.DrawLine(_pt6.PX(), _pt6.PY(), _pt8.PX(), _pt8.PY());
+		console.DrawLine(_pt8.PX(), _pt8.PY(), _pt5.PX(), _pt5.PY());
+		console.DrawLine(_pt5.PX(), _pt5.PY(), _pt6.PX(), _pt6.PY());
 
 		console.HeartBeat();
 
