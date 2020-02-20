@@ -60,9 +60,9 @@ int main()
 	CamFromR0.Rwz = tempz.z / normz;
 	CamFromR0.Tx  = 2.0f;
 	CamFromR0.Ty  = 3.0f;
-	CamFromR0.Tz  = 1.5f;
+	CamFromR0.Tz  = 1.8f;
 
-	float focal = 120.0f;
+	float focal = 180.0f;
 
 	const float tab[3][4] = {
 		focal, 0.0f,  0.0f,  0.0f,
@@ -72,7 +72,7 @@ int main()
 
 	Matrix::StaticMatrix::Matrix<float, 3, 4> Projection(tab);
 
-	Transform2D CamFromImg(60.0f, 40.0f, 180.0f);
+	Transform2D CamFromImg(90.0f, 60.0f, 180.0f);
 
 	while (true)
 	{

@@ -8,8 +8,8 @@
 #define CONSOLETEST02
 
 Console::Console() :
-	width(120),
-	height(80),
+	width(180),
+	height(120),
 	screen(nullptr),
 	hConsole(nullptr),
 	dwBytesWritten(0)
