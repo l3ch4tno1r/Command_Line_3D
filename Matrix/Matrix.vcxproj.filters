@@ -15,13 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Matrix\Heap\HMatrix.h">
+    <ClInclude Include="Source\Matrix\Stack\SqrSMatrix.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Source\Matrix\Stack\SMatrix.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Matrix\Stack\SqrSMatrix.h">
+    <ClInclude Include="Source\Matrix\Heap\HMatrix.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

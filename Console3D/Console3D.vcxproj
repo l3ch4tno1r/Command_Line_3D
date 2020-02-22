@@ -149,11 +149,6 @@
     <ClInclude Include="Source\Utilities\PaceMaker.h" />
     <ClInclude Include="Source\Utilities\TimeMeasurement.h" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Matrix\Matrix.vcxproj">
-      <Project>{ec9f03d1-56a9-40be-8724-6b5cb5fae328}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
