@@ -1,14 +1,19 @@
 #pragma once
 
 #include <thread>
+#include <chrono>
+#include <mutex>
+#include <condition_variable>
 
 class PaceMaker
 {
 private:
-	static PaceMaker s_Instance;
+	//static PaceMaker s_Instance;
 
-	bool m_Run;
-	std::thread m_RunThread;
+	bool                      m_Run;
+	std::thread               m_RunThread;
+	std::chrono::milliseconds m_Interval;
+	std::condition_variable   m_Condition;
 
 	PaceMaker();
 	~PaceMaker();
@@ -17,4 +22,11 @@ private:
 	PaceMaker& operator=(const PaceMaker&) = delete;
 
 	void Run();
+
+public:
+	static PaceMaker& Get();
+
+	//void Wait();
+
+	void Wait(std::unique_lock<std::mutex>& lock);
 };
