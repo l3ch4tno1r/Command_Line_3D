@@ -123,7 +123,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\App.cpp" />
-    <ClCompile Include="Source\Console.cpp" />
+    <ClCompile Include="Source\Devices\Console.cpp" />
     <ClCompile Include="Source\Geometry\Geometry2D\Transform2D.cpp" />
     <ClCompile Include="Source\Geometry\Geometry2D\Vector2D.cpp" />
     <ClCompile Include="Source\Geometry\Geometry3D\Transform3D.cpp" />
@@ -136,7 +136,7 @@
     <ClCompile Include="Source\_Test\Test04.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Console.h" />
+    <ClInclude Include="Source\Devices\Console.h" />
     <ClInclude Include="Source\Geometry\Geometry2D\Transform2D.h" />
     <ClInclude Include="Source\Geometry\Geometry2D\Vector2D.h" />
     <ClInclude Include="Source\Geometry\Geometry3D\Transform3D.h" />

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <thread>
 
-#include "Console.h"
+#include "Devices\Console.h"
 
 #include "Geometry\Geometry2D\Transform2D.h"
 #include "Geometry\Geometry2D\Vector2D.h"
