@@ -4,18 +4,21 @@
 #include <Windows.h>
 
 #include <string>
+#include <thread>
 
 class Console
 {
 private:
 	//static Console console;
 
-	UINT32 width;
+	UINT32 m_Width;
 	UINT32 height;
 
 	char*  screen;
 	HANDLE hConsole;
 	DWORD  dwBytesWritten;
+
+	std::thread m_MainThread;
 
 	Console();
 
