@@ -135,7 +135,7 @@
     <ClCompile Include="Source\_Test\Test02.cpp" />
     <ClCompile Include="Source\_Test\Test03.cpp" />
     <ClCompile Include="Source\_Test\Test04.cpp" />
-    <ClCompile Include="Source\_Test\Test05.cpp" />
+    <ClCompile Include="Source\_Test\Test05 - PaceMaker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Devices\Console.h" />
@@ -144,9 +144,11 @@
     <ClInclude Include="Source\Geometry\Geometry3D\Transform3D.h" />
     <ClInclude Include="Source\Geometry\Geometry3D\Vector3D.h" />
     <ClInclude Include="Source\Geometry\VectorND.h" />
+    <ClInclude Include="Source\Graphics\Model3D.h" />
     <ClInclude Include="Source\Utilities\Angles.h" />
     <ClInclude Include="Source\Utilities\ErrorHandling.h" />
     <ClInclude Include="Source\Devices\PaceMaker.h" />
+    <ClInclude Include="Source\Graphics\OBJReader.h" />
     <ClInclude Include="Source\Utilities\TimeMeasurement.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
