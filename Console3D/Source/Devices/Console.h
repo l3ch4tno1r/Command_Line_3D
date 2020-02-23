@@ -15,7 +15,7 @@ private:
 	UINT32 m_Height;
 
 	char*  m_Screen;
-	HANDLE hConsole;
+	HANDLE m_HConsole;
 	DWORD  dwBytesWritten;
 
 	std::thread m_MainThread;
