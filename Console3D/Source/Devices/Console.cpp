@@ -12,7 +12,7 @@ Console::Console() :
 	m_Height(120),
 	m_Screen(nullptr),
 	m_HConsole(nullptr),
-	dwBytesWritten(0)
+	m_DwBytesWritten(0)
 {
 	m_Screen = new char[m_Width * m_Height];
 	m_HConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
@@ -254,7 +254,7 @@ void Console::HeartBeat()
 void Console::Render()
 {
 	m_Screen[m_Width * m_Height - 1] = '\0';
-	WriteConsoleOutputCharacter(m_HConsole, m_Screen, m_Width * m_Height, { 0,0 }, &dwBytesWritten);
+	WriteConsoleOutputCharacter(m_HConsole, m_Screen, m_Width * m_Height, { 0,0 }, &m_DwBytesWritten);
 }
 
 // Instanciation

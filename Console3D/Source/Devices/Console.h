@@ -16,7 +16,7 @@ private:
 
 	char*  m_Screen;
 	HANDLE m_HConsole;
-	DWORD  dwBytesWritten;
+	DWORD  m_DwBytesWritten;
 
 	std::thread m_MainThread;
 
