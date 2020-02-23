@@ -78,7 +78,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>MAIN;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TEST06;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Matrix\Source;$(ProjectDir)Source</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -128,6 +128,8 @@
     <ClCompile Include="Source\Geometry\Geometry2D\Vector2D.cpp" />
     <ClCompile Include="Source\Geometry\Geometry3D\Transform3D.cpp" />
     <ClCompile Include="Source\Geometry\Geometry3D\Vector3D.cpp" />
+    <ClCompile Include="Source\Graphics\Model3D.cpp" />
+    <ClCompile Include="Source\Graphics\OBJReader.cpp" />
     <ClCompile Include="Source\Utilities\ErrorHandling.cpp" />
     <ClCompile Include="Source\Devices\PaceMaker.cpp" />
     <ClCompile Include="Source\Utilities\TimeMeasurement.cpp" />
@@ -136,6 +138,7 @@
     <ClCompile Include="Source\_Test\Test03.cpp" />
     <ClCompile Include="Source\_Test\Test04.cpp" />
     <ClCompile Include="Source\_Test\Test05 - PaceMaker.cpp" />
+    <ClCompile Include="Source\_Test\Test06 - OBJReader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Devices\Console.h" />

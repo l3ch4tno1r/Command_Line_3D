@@ -16,7 +16,7 @@ union Vector3D
 
 	Vector4Df mat;
 
-	Vector3D();
+	Vector3D(bool ispoint);
 		
 	Vector3D(float _x, float _y, float _z, bool ispoint = true);
 
