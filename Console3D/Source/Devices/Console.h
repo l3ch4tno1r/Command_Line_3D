@@ -18,6 +18,7 @@ private:
 	HANDLE m_HConsole;
 	DWORD  m_DwBytesWritten;
 
+	bool m_Run;
 	std::thread m_MainThread;
 
 	Console();
@@ -26,6 +27,8 @@ private:
 
 	Console(const Console&) = delete;
 	Console& operator=(const Console&) = delete;
+
+	void MainThread();
 
 public:
 	static Console& Get();

@@ -1,6 +1,8 @@
 #include "Console.h"
 
-#include <Utilities\ErrorHandling.h>
+#include "Utilities\ErrorHandling.h"
+
+#include "Devices\PaceMaker.h"
 
 #include <chrono>
 #include <cmath>
@@ -12,16 +14,34 @@ Console::Console() :
 	m_Height(120),
 	m_Screen(nullptr),
 	m_HConsole(nullptr),
-	m_DwBytesWritten(0)
+	m_DwBytesWritten(0),
+	m_Run(true)
 {
 	m_Screen = new char[m_Width * m_Height];
 	m_HConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
 	SetConsoleActiveScreenBuffer(m_HConsole);
+
+	m_MainThread = std::thread(&Console::MainThread, this);
 }
 
 Console::~Console()
 {
 	delete[] m_Screen;
+
+	m_MainThread.join();
+}
+
+void Console::MainThread()
+{
+	PaceMaker& pacemaker = PaceMaker::Get();
+
+	while (m_Run)
+	{
+		if (!pacemaker.Wait())
+			m_Run = false;
+
+		DisplayMessage("Hello world");
+	}
 }
 
 Console& Console::Get()
@@ -38,9 +58,6 @@ void Console::Clear()
 
 void Console::DrawPoint(float x, float y, char c)
 {
-	//ASSERT(x >= 0 && x < width);
-	//ASSERT(y >= 0 && y < height);
-
 	if (x < 0 || x >= m_Width)
 		return;
 

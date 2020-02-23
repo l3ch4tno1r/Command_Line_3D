@@ -3,6 +3,7 @@
 #include <iostream>
 #include <thread>
 
+#include "Devices\PaceMaker.h"
 #include "Devices\Console.h"
 
 #include "Geometry\Geometry2D\Transform2D.h"
@@ -17,7 +18,8 @@ using namespace std;
 
 int main()
 {
-	Console& console = Console::Get();
+	PaceMaker& pacemaker = PaceMaker::Get();
+	Console&   console   = Console::Get();
 
 	float aspeed = 30.0f;			// 1 tour / min
 	float dt     = 16.0f / 1000.0f;	// Delta de temps
@@ -82,11 +84,13 @@ int main()
 
 	while (true)
 	{
-		start = chrono::high_resolution_clock::now();
-		next  = start + interval;
+		pacemaker.Wait();
 
 		if (GetAsyncKeyState((unsigned short)27) & 0x8000)
+		{
+			pacemaker.Stop();
 			break;
+		}
 
 		console.Clear();
 
@@ -101,16 +105,32 @@ int main()
 		Vector2D _pt7 = _Proj * pt7.mat;
 		Vector2D _pt8 = _Proj * pt8.mat;
 
+		console.DrawLine(_pt1.PX(), _pt1.PY(), _pt2.PX(), _pt2.PY());
+		console.DrawLine(_pt2.PX(), _pt2.PY(), _pt3.PX(), _pt3.PY());
+		console.DrawLine(_pt3.PX(), _pt3.PY(), _pt1.PX(), _pt1.PY());
+		console.DrawLine(_pt1.PX(), _pt1.PY(), _pt4.PX(), _pt4.PY());
+		console.DrawLine(_pt4.PX(), _pt4.PY(), _pt3.PX(), _pt3.PY());
+
+		console.DrawLine(_pt1.PX(), _pt1.PY(), _pt5.PX(), _pt5.PY());
+		console.DrawLine(_pt5.PX(), _pt5.PY(), _pt6.PX(), _pt6.PY());
+		console.DrawLine(_pt6.PX(), _pt6.PY(), _pt1.PX(), _pt1.PY());
+		//console.DrawLine(_pt1.PX(), _pt1.PY(), _pt4.PX(), _pt4.PY());
+		//console.DrawLine(_pt4.PX(), _pt4.PY(), _pt3.PX(), _pt3.PY());
+
+		console.DrawLine(_pt4.PX(), _pt4.PY(), _pt5.PX(), _pt5.PY());
+
 		console.DrawLine(_pt6.PX(), _pt6.PY(), _pt2.PX(), _pt2.PY());
 		console.DrawLine(_pt2.PX(), _pt2.PY(), _pt7.PX(), _pt7.PY());
 		console.DrawLine(_pt7.PX(), _pt7.PY(), _pt6.PX(), _pt6.PY());
 		console.DrawLine(_pt2.PX(), _pt2.PY(), _pt3.PX(), _pt3.PY());
 		console.DrawLine(_pt3.PX(), _pt3.PY(), _pt7.PX(), _pt7.PY());
+
 		console.DrawLine(_pt3.PX(), _pt3.PY(), _pt8.PX(), _pt8.PY());
 		console.DrawLine(_pt8.PX(), _pt8.PY(), _pt7.PX(), _pt7.PY());
 		console.DrawLine(_pt3.PX(), _pt3.PY(), _pt4.PX(), _pt4.PY());
 		console.DrawLine(_pt4.PX(), _pt4.PY(), _pt8.PX(), _pt8.PY());
 		console.DrawLine(_pt6.PX(), _pt6.PY(), _pt8.PX(), _pt8.PY());
+
 		console.DrawLine(_pt8.PX(), _pt8.PY(), _pt5.PX(), _pt5.PY());
 		console.DrawLine(_pt5.PX(), _pt5.PY(), _pt6.PX(), _pt6.PY());
 
@@ -124,8 +144,6 @@ int main()
 		CubeFromR0.Ruy =  std::sin(TORAD(a));
 		CubeFromR0.Rvx = -std::sin(TORAD(a));
 		CubeFromR0.Rvy =  std::cos(TORAD(a));
-
-		this_thread::sleep_until(next);
 	}
 
 	return 0;
