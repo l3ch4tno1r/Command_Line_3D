@@ -12,7 +12,7 @@ private:
 	//static Console console;
 
 	UINT32 m_Width;
-	UINT32 height;
+	UINT32 m_Height;
 
 	char*  screen;
 	HANDLE hConsole;

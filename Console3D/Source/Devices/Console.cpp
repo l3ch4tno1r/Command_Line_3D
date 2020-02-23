@@ -9,12 +9,12 @@
 
 Console::Console() :
 	m_Width(180),
-	height(120),
+	m_Height(120),
 	screen(nullptr),
 	hConsole(nullptr),
 	dwBytesWritten(0)
 {
-	screen = new char[m_Width * height];
+	screen = new char[m_Width * m_Height];
 	hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
 	SetConsoleActiveScreenBuffer(hConsole);
 }
@@ -32,7 +32,7 @@ Console& Console::Get()
 
 void Console::Clear()
 {
-	for (unsigned int i = 0; i < m_Width * height; i++)
+	for (unsigned int i = 0; i < m_Width * m_Height; i++)
 		screen[i] = 0;
 }
 
@@ -44,7 +44,7 @@ void Console::DrawPoint(float x, float y, char c)
 	if (x < 0 || x >= m_Width)
 		return;
 
-	if (y < 0 || y >= height)
+	if (y < 0 || y >= m_Height)
 		return;
 
 	screen[(INT32)x + (INT32)y * m_Width] = c;
@@ -228,7 +228,7 @@ void Console::DrawLine(float x1, float y1, float x2, float y2)
 void Console::DisplayMessage(const std::string & msg)
 {
 	for (UINT32 i = 0; i < msg.length(); i++)
-		DrawPoint(i + 1, height - 2, msg[i]);
+		DrawPoint(i + 1, m_Height - 2, msg[i]);
 }
 
 void Console::HeartBeat()
@@ -246,15 +246,15 @@ void Console::HeartBeat()
 	}
 
 	if (ellapsed_time < 1000)
-		DrawPoint(m_Width - 2, height - 2, '0');
+		DrawPoint(m_Width - 2, m_Height - 2, '0');
 	else
-		DrawPoint(m_Width - 2, height - 2, ' ');
+		DrawPoint(m_Width - 2, m_Height - 2, ' ');
 }
 
 void Console::Render()
 {
-	screen[m_Width * height - 1] = '\0';
-	WriteConsoleOutputCharacter(hConsole, screen, m_Width * height, { 0,0 }, &dwBytesWritten);
+	screen[m_Width * m_Height - 1] = '\0';
+	WriteConsoleOutputCharacter(hConsole, screen, m_Width * m_Height, { 0,0 }, &dwBytesWritten);
 }
 
 // Instanciation
