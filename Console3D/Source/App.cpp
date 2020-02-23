@@ -11,6 +11,7 @@
 #include "Geometry\Geometry3D\Vector3D.h"
 
 #include "Utilities\TimeMeasurement.h"
+#include "Utilities\Angles.h"
 
 using namespace std;
 
@@ -29,14 +30,19 @@ int main()
 	chrono::high_resolution_clock::time_point start, next;
 
 	// Model
-	Vector3D pt1(0.0f, 0.0f, 0.0f);
-	Vector3D pt2(1.0f, 0.0f, 0.0f);
-	Vector3D pt3(1.0f, 1.0f, 0.0f);
-	Vector3D pt4(0.0f, 1.0f, 0.0f);
-	Vector3D pt5(0.0f, 0.0f, 1.0f);
-	Vector3D pt6(1.0f, 0.0f, 1.0f);
-	Vector3D pt7(1.0f, 1.0f, 1.0f);
-	Vector3D pt8(0.0f, 1.0f, 1.0f);
+	Vector3D pt1(-0.5f, -0.5f, 0.0f);
+	Vector3D pt2( 0.5f, -0.5f, 0.0f);
+	Vector3D pt3( 0.5f,  0.5f, 0.0f);
+	Vector3D pt4(-0.5f,  0.5f, 0.0f);
+	Vector3D pt5(-0.5f, -0.5f, 1.0f);
+	Vector3D pt6( 0.5f, -0.5f, 1.0f);
+	Vector3D pt7( 0.5f,  0.5f, 1.0f);
+	Vector3D pt8(-0.5f,  0.5f, 1.0f);
+
+	Transform3D CubeFromR0;
+
+	CubeFromR0.Tx = 0.5f;
+	CubeFromR0.Ty = 0.5f;
 
 	// Set up Camera transform
 	Vector3D tempz = { -2.0f, -3.0f, -1.5f };
@@ -84,7 +90,7 @@ int main()
 
 		console.Clear();
 
-		Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = CamFromImg.mat * Projection * CamFromR0.mat.Invert();
+		Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = CamFromImg.mat * Projection * CamFromR0.mat.Invert() * CubeFromR0.mat;
 
 		Vector2D _pt1 = _Proj * pt1.mat;
 		Vector2D _pt2 = _Proj * pt2.mat;
@@ -111,6 +117,13 @@ int main()
 		console.HeartBeat();
 
 		console.Render();
+
+		a += aspeed * dt;
+
+		CubeFromR0.Rux =  std::cos(TORAD(a));
+		CubeFromR0.Ruy =  std::sin(TORAD(a));
+		CubeFromR0.Rvx = -std::sin(TORAD(a));
+		CubeFromR0.Rvy =  std::cos(TORAD(a));
 
 		this_thread::sleep_until(next);
 	}
