@@ -8,12 +8,12 @@ Vector3D::Vector3D(const Vector3D & vec) :
 	mat(vec.mat)
 {}
 
-Vector3D::Vector3D(float _x, float _y, float _z) :
+Vector3D::Vector3D(float _x, float _y, float _z, bool ispoint) :
 	x(_x),
 	y(_y),
 	z(_z)
 {
-	mat(3, 0) = 1.0f;
+	mat(3, 0) = (ispoint ? 1.0f : 0.0f);
 }
 
 Vector3D::Vector3D(const Vector4Df& _mat) :

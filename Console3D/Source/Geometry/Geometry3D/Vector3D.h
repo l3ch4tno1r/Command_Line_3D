@@ -18,7 +18,7 @@ union Vector3D
 
 	Vector3D();
 		
-	Vector3D(float _x, float _y, float _z);
+	Vector3D(float _x, float _y, float _z, bool ispoint = true);
 
 	Vector3D(const Vector3D& vec);
 
