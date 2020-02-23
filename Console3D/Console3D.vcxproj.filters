@@ -51,10 +51,10 @@
     <ClCompile Include="Source\Devices\Console.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utilities\PaceMaker.cpp">
+    <ClCompile Include="Source\_Test\Test05.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\_Test\Test05.cpp">
+    <ClCompile Include="Source\Devices\PaceMaker.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,7 +86,7 @@
     <ClInclude Include="Source\Devices\Console.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Utilities\PaceMaker.h">
+    <ClInclude Include="Source\Devices\PaceMaker.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

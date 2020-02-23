@@ -78,7 +78,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>MAIN;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TEST05;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Matrix\Source;$(ProjectDir)Source</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -129,7 +129,7 @@
     <ClCompile Include="Source\Geometry\Geometry3D\Transform3D.cpp" />
     <ClCompile Include="Source\Geometry\Geometry3D\Vector3D.cpp" />
     <ClCompile Include="Source\Utilities\ErrorHandling.cpp" />
-    <ClCompile Include="Source\Utilities\PaceMaker.cpp" />
+    <ClCompile Include="Source\Devices\PaceMaker.cpp" />
     <ClCompile Include="Source\Utilities\TimeMeasurement.cpp" />
     <ClCompile Include="Source\_Test\Test01.cpp" />
     <ClCompile Include="Source\_Test\Test02.cpp" />
@@ -146,7 +146,7 @@
     <ClInclude Include="Source\Geometry\VectorND.h" />
     <ClInclude Include="Source\Utilities\Angles.h" />
     <ClInclude Include="Source\Utilities\ErrorHandling.h" />
-    <ClInclude Include="Source\Utilities\PaceMaker.h" />
+    <ClInclude Include="Source\Devices\PaceMaker.h" />
     <ClInclude Include="Source\Utilities\TimeMeasurement.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
