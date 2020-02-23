@@ -10,18 +10,18 @@
 Console::Console() :
 	m_Width(180),
 	m_Height(120),
-	screen(nullptr),
+	m_Screen(nullptr),
 	hConsole(nullptr),
 	dwBytesWritten(0)
 {
-	screen = new char[m_Width * m_Height];
+	m_Screen = new char[m_Width * m_Height];
 	hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
 	SetConsoleActiveScreenBuffer(hConsole);
 }
 
 Console::~Console()
 {
-	delete[] screen;
+	delete[] m_Screen;
 }
 
 Console& Console::Get()
@@ -33,7 +33,7 @@ Console& Console::Get()
 void Console::Clear()
 {
 	for (unsigned int i = 0; i < m_Width * m_Height; i++)
-		screen[i] = 0;
+		m_Screen[i] = 0;
 }
 
 void Console::DrawPoint(float x, float y, char c)
@@ -47,7 +47,7 @@ void Console::DrawPoint(float x, float y, char c)
 	if (y < 0 || y >= m_Height)
 		return;
 
-	screen[(INT32)x + (INT32)y * m_Width] = c;
+	m_Screen[(INT32)x + (INT32)y * m_Width] = c;
 }
 
 #ifdef CONSOLETEST01
@@ -253,8 +253,8 @@ void Console::HeartBeat()
 
 void Console::Render()
 {
-	screen[m_Width * m_Height - 1] = '\0';
-	WriteConsoleOutputCharacter(hConsole, screen, m_Width * m_Height, { 0,0 }, &dwBytesWritten);
+	m_Screen[m_Width * m_Height - 1] = '\0';
+	WriteConsoleOutputCharacter(hConsole, m_Screen, m_Width * m_Height, { 0,0 }, &dwBytesWritten);
 }
 
 // Instanciation

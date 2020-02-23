@@ -14,7 +14,7 @@ private:
 	UINT32 m_Width;
 	UINT32 m_Height;
 
-	char*  screen;
+	char*  m_Screen;
 	HANDLE hConsole;
 	DWORD  dwBytesWritten;
 
