@@ -4,18 +4,37 @@
 
 #include "Utilities\PaceMaker.h"
 
+bool run = true;
+
+void ThreadFunc()
+{
+	auto id = std::this_thread::get_id();
+
+	std::cout << id << " started !" << std::endl;
+
+	while (run)
+	{
+		PaceMaker::Get().Wait();
+
+		std::cout << id << " working..." << std::endl;
+	}
+
+	std::cout << id << " done !" << std::endl;
+}
+
 int main()
 {
-	std::mutex mut;
+	std::thread t1(ThreadFunc);
+	std::thread t2(ThreadFunc);
+	std::thread t3(ThreadFunc);
 
-	for (int i = 0; i < 10; i++)
-	{
-		std::unique_lock<std::mutex> lock(mut);
+	std::cin.get();
 
-		PaceMaker::Get().Wait(lock);
+	run = false;
 
-		std::cout << "i = " << i << std::endl;
-	}
+	t1.join();
+	t2.join();
+	t3.join();
 
 	std::cin.get();
 }

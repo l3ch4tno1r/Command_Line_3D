@@ -11,9 +11,9 @@ private:
 	//static PaceMaker s_Instance;
 
 	bool                      m_Run;
-	std::thread               m_RunThread;
 	std::chrono::milliseconds m_Interval;
 	std::condition_variable   m_Condition;
+	std::thread               m_RunThread;
 
 	PaceMaker();
 	~PaceMaker();
@@ -26,7 +26,7 @@ private:
 public:
 	static PaceMaker& Get();
 
-	//void Wait();
+	void Wait();
 
 	void Wait(std::unique_lock<std::mutex>& lock);
 };
