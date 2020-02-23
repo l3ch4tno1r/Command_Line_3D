@@ -4,7 +4,7 @@ using namespace std::literals::chrono_literals;
 
 PaceMaker::PaceMaker() :
 	m_Run(true),
-	m_Interval(1s),
+	m_Interval(16ms),
 	m_RunThread(&PaceMaker::Run, this)
 {}
 
@@ -27,18 +27,23 @@ void PaceMaker::Run()
 
 		std::this_thread::sleep_until(next);
 	}
+
+	m_Condition.notify_all();
 }
 
-void PaceMaker::Wait()
+bool PaceMaker::Wait()
 {
 	static std::mutex mut;
 	std::unique_lock<std::mutex> lock(mut);
+
 	m_Condition.wait(lock);
+
+	return m_Run;
 }
 
-void PaceMaker::Wait(std::unique_lock<std::mutex>& lock)
+void PaceMaker::Stop()
 {
-	m_Condition.wait(lock);
+	m_Run = false;
 }
 
 PaceMaker& PaceMaker::Get()

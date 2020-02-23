@@ -26,7 +26,7 @@ private:
 public:
 	static PaceMaker& Get();
 
-	void Wait();
+	bool Wait();
 
-	void Wait(std::unique_lock<std::mutex>& lock);
+	void Stop();
 };
