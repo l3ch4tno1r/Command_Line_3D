@@ -52,7 +52,7 @@ Model3D OBJReader::ReadFile(const std::string& filepath)
 
 			sstr >> vec.x >> vec.y >> vec.z;
 
-			result.Vertices().push_back(vec);
+			result.Normals().push_back(vec);
 		}
 
 		if (type == "f")
