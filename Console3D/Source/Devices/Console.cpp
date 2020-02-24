@@ -280,10 +280,7 @@ void Console::HeartBeat()
 	if (count > 120)
 		count = 0;
 
-	if(count <= 60)
-		DrawPoint(m_Width - 2, m_Height - 2, '0');
-	else
-		DrawPoint(m_Width - 2, m_Height - 2, ' ');
+	DrawPoint(m_Width - 2, m_Height - 2, (count <= 60 ? '0' : ' '));
 }
 #endif // CONSOLETEST02
 

@@ -36,9 +36,10 @@ int main()
 	Model3D model = OBJReader().ReadFile("Ressource/cube.obj");
 
 	Transform3D CubeFromR0;
+	Transform3D CubeBase;
 
-	//CubeFromR0.Tx = -0.5f;
-	//CubeFromR0.Ty = -0.5f;
+	CubeBase.Tx = 0.5f;
+	CubeBase.Ty = 0.5f;
 
 	// Set up Camera transform
 	Vector3D tempz = { -2.0f, -3.0f, -1.5f };
@@ -89,7 +90,7 @@ int main()
 		console.Clear();
 
 		Transform3D R0FromCAM   = CamFromR0.mat.Invert();
-		Transform3D CubeFromCam = R0FromCAM.mat * CubeFromR0.mat;
+		Transform3D CubeFromCam = R0FromCAM.mat * CubeFromR0.mat * CubeBase.mat.Invert();
 
 		Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = CamFromImg.mat * Projection * CubeFromCam.mat;
 
@@ -116,10 +117,10 @@ int main()
 
 		a += aspeed * dt;
 
-		CubeFromR0.Rux =  std::cos(TORAD(a));
-		CubeFromR0.Ruy =  std::sin(TORAD(a));
-		CubeFromR0.Rvx = -std::sin(TORAD(a));
-		CubeFromR0.Rvy =  std::cos(TORAD(a));
+		CubeBase.Rux =  std::cos(TORAD(a));
+		CubeBase.Ruy =  std::sin(TORAD(a));
+		CubeBase.Rvx = -std::sin(TORAD(a));
+		CubeBase.Rvy =  std::cos(TORAD(a));
 	}
 
 	return 0;
