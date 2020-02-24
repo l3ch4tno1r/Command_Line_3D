@@ -9,17 +9,32 @@ Model3D::Model3D(Model3D&& _model) :
 	m_Faces(std::move(_model.m_Faces))
 {}
 
-std::vector<Vector3D>& Model3D::Vertices()
+std::vector<Model3D::Vertex3D>& Model3D::Vertices()
 {
 	return m_Vertices;
 }
 
-std::vector<Vector3D>& Model3D::Normals()
+std::vector<Model3D::Vertex3D>& Model3D::Normals()
 {
 	return m_Normals;
 }
 
 std::vector<Model3D::Face>& Model3D::Faces()
+{
+	return m_Faces;
+}
+
+const std::vector<Model3D::Vertex3D>& Model3D::Vertices() const
+{
+	return m_Vertices;
+}
+
+const std::vector<Model3D::Vertex3D>& Model3D::Normals() const
+{
+	return m_Normals;
+}
+
+const std::vector<Model3D::Face>& Model3D::Faces() const
 {
 	return m_Faces;
 }
