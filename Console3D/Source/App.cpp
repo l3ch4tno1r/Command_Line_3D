@@ -11,6 +11,8 @@
 #include "Geometry\Geometry3D\Transform3D.h"
 #include "Geometry\Geometry3D\Vector3D.h"
 
+#include "Graphics\OBJReader.h"
+
 #include "Utilities\TimeMeasurement.h"
 #include "Utilities\Angles.h"
 
@@ -29,22 +31,14 @@ int main()
 
 	const chrono::milliseconds interval = 16ms;
 
-	chrono::high_resolution_clock::time_point start, next;
+	chrono::high_resolution_clock::time_point start, next;	
 
-	// Model
-	Vector3D pt1(-0.5f, -0.5f, 0.0f);
-	Vector3D pt2( 0.5f, -0.5f, 0.0f);
-	Vector3D pt3( 0.5f,  0.5f, 0.0f);
-	Vector3D pt4(-0.5f,  0.5f, 0.0f);
-	Vector3D pt5(-0.5f, -0.5f, 1.0f);
-	Vector3D pt6( 0.5f, -0.5f, 1.0f);
-	Vector3D pt7( 0.5f,  0.5f, 1.0f);
-	Vector3D pt8(-0.5f,  0.5f, 1.0f);
+	Model3D model = OBJReader().ReadFile("Ressource/cube.obj");
 
 	Transform3D CubeFromR0;
 
-	CubeFromR0.Tx = 0.5f;
-	CubeFromR0.Ty = 0.5f;
+	//CubeFromR0.Tx = -0.5f;
+	//CubeFromR0.Ty = -0.5f;
 
 	// Set up Camera transform
 	Vector3D tempz = { -2.0f, -3.0f, -1.5f };
@@ -94,46 +88,28 @@ int main()
 
 		console.Clear();
 
-		Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = CamFromImg.mat * Projection * CamFromR0.mat.Invert() * CubeFromR0.mat;
+		Transform3D R0FromCAM   = CamFromR0.mat.Invert();
+		Transform3D CubeFromCam = R0FromCAM.mat * CubeFromR0.mat;
 
-		Vector2D _pt1 = _Proj * pt1.mat;
-		Vector2D _pt2 = _Proj * pt2.mat;
-		Vector2D _pt3 = _Proj * pt3.mat;
-		Vector2D _pt4 = _Proj * pt4.mat;
-		Vector2D _pt5 = _Proj * pt5.mat;
-		Vector2D _pt6 = _Proj * pt6.mat;
-		Vector2D _pt7 = _Proj * pt7.mat;
-		Vector2D _pt8 = _Proj * pt8.mat;
+		Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = CamFromImg.mat * Projection * CubeFromCam.mat;
 
-		console.DrawLine(_pt1.PX(), _pt1.PY(), _pt2.PX(), _pt2.PY());
-		console.DrawLine(_pt2.PX(), _pt2.PY(), _pt3.PX(), _pt3.PY());
-		console.DrawLine(_pt3.PX(), _pt3.PY(), _pt1.PX(), _pt1.PY());
-		console.DrawLine(_pt1.PX(), _pt1.PY(), _pt4.PX(), _pt4.PY());
-		console.DrawLine(_pt4.PX(), _pt4.PY(), _pt3.PX(), _pt3.PY());
+		for (const Model3D::Face& face : model.Faces())
+		{
+			Vector3D _v1    = CubeFromCam.mat * model.Vertices()[face.v1].mat;
+			Vector3D _nface = CubeFromCam.mat * model.Normals()[face.vn1].mat;
 
-		console.DrawLine(_pt1.PX(), _pt1.PY(), _pt5.PX(), _pt5.PY());
-		console.DrawLine(_pt5.PX(), _pt5.PY(), _pt6.PX(), _pt6.PY());
-		console.DrawLine(_pt6.PX(), _pt6.PY(), _pt1.PX(), _pt1.PY());
-		//console.DrawLine(_pt1.PX(), _pt1.PY(), _pt4.PX(), _pt4.PY());
-		//console.DrawLine(_pt4.PX(), _pt4.PY(), _pt3.PX(), _pt3.PY());
+			if ((_v1 | _nface) > 0)
+				continue;
 
-		console.DrawLine(_pt4.PX(), _pt4.PY(), _pt5.PX(), _pt5.PY());
+			Vector2D _pt1 = _Proj * model.Vertices()[face.v1].mat;
+			Vector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
+			Vector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
 
-		console.DrawLine(_pt6.PX(), _pt6.PY(), _pt2.PX(), _pt2.PY());
-		console.DrawLine(_pt2.PX(), _pt2.PY(), _pt7.PX(), _pt7.PY());
-		console.DrawLine(_pt7.PX(), _pt7.PY(), _pt6.PX(), _pt6.PY());
-		console.DrawLine(_pt2.PX(), _pt2.PY(), _pt3.PX(), _pt3.PY());
-		console.DrawLine(_pt3.PX(), _pt3.PY(), _pt7.PX(), _pt7.PY());
-
-		console.DrawLine(_pt3.PX(), _pt3.PY(), _pt8.PX(), _pt8.PY());
-		console.DrawLine(_pt8.PX(), _pt8.PY(), _pt7.PX(), _pt7.PY());
-		console.DrawLine(_pt3.PX(), _pt3.PY(), _pt4.PX(), _pt4.PY());
-		console.DrawLine(_pt4.PX(), _pt4.PY(), _pt8.PX(), _pt8.PY());
-		console.DrawLine(_pt6.PX(), _pt6.PY(), _pt8.PX(), _pt8.PY());
-
-		console.DrawLine(_pt8.PX(), _pt8.PY(), _pt5.PX(), _pt5.PY());
-		console.DrawLine(_pt5.PX(), _pt5.PY(), _pt6.PX(), _pt6.PY());
-
+			console.DrawLine(_pt1.PX(), _pt1.PY(), _pt2.PX(), _pt2.PY());
+			console.DrawLine(_pt2.PX(), _pt2.PY(), _pt3.PX(), _pt3.PY());
+			console.DrawLine(_pt3.PX(), _pt3.PY(), _pt1.PX(), _pt1.PY());
+		}
+		
 		console.HeartBeat();
 
 		console.Render();

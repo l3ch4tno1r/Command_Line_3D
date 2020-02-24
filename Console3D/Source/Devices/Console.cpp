@@ -248,6 +248,7 @@ void Console::DisplayMessage(const std::string & msg)
 		DrawPoint(i + 1, m_Height - 2, msg[i]);
 }
 
+#ifdef CONSOLETEST01
 void Console::HeartBeat()
 {
 	static auto start = std::chrono::high_resolution_clock::now();
@@ -267,6 +268,25 @@ void Console::HeartBeat()
 	else
 		DrawPoint(m_Width - 2, m_Height - 2, ' ');
 }
+#endif // CONSOLETEST01
+
+#ifdef CONSOLETEST02
+void Console::HeartBeat()
+{
+	static UINT32 count = 0;
+
+	++count;
+
+	if (count > 120)
+		count = 0;
+
+	if(count <= 60)
+		DrawPoint(m_Width - 2, m_Height - 2, '0');
+	else
+		DrawPoint(m_Width - 2, m_Height - 2, ' ');
+}
+#endif // CONSOLETEST02
+
 
 void Console::Render()
 {
