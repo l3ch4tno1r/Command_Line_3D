@@ -29,10 +29,6 @@ int main()
 
 	float radius = 35;
 
-	const chrono::milliseconds interval = 16ms;
-
-	chrono::high_resolution_clock::time_point start, next;	
-
 	Model3D model = OBJReader().ReadFile("Ressource/cube.obj");
 
 	Transform3D CubeFromR0;
