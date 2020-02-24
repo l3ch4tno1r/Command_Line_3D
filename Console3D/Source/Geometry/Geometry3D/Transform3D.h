@@ -2,6 +2,7 @@
 
 #include "Matrix\Stack\SqrSMatrix.h"
 
+using SMatrix44f    = Matrix::StaticMatrix::Matrix<float, 4, 4>;
 using SqrSMatrix44f = Matrix::StaticMatrix::SqrMatrix<float, 4>;
 
 union Transform3D
@@ -22,6 +23,8 @@ union Transform3D
 	SqrSMatrix44f mat;
 
 	Transform3D();
+
+	Transform3D(const SMatrix44f& _mat);
 
 	Transform3D(const SqrSMatrix44f& _mat);
 };

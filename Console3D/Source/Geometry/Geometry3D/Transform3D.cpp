@@ -4,6 +4,10 @@ Transform3D::Transform3D() :
 	mat(true)
 {}
 
+Transform3D::Transform3D(const SMatrix44f & _mat) :
+	mat(_mat)
+{}
+
 Transform3D::Transform3D(const SqrSMatrix44f & _mat) :
 	mat(_mat)
 {}
