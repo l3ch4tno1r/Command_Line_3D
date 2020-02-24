@@ -14,8 +14,8 @@ void OBJReader::ExtractData(const std::string& rawdata, uint& overtexidx, uint& 
 	std::string str1 = rawdata.substr(0, separatoridx);
 	std::string str2 = rawdata.substr(separatoridx + 1, rawdata.length() - 1);
 
-	overtexidx = std::stoi(str1);
-	onormalidx = std::stoi(str2);
+	overtexidx = std::stoi(str1) - 1;
+	onormalidx = std::stoi(str2) - 1;
 }
 
 Model3D OBJReader::ReadFile(const std::string& filepath)
