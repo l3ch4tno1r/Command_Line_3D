@@ -24,6 +24,8 @@ union Transform3D
 
 	Transform3D();
 
+	Transform3D(const Transform3D& _tr);
+
 	Transform3D(const SMatrix44f& _mat);
 
 	Transform3D(const SqrSMatrix44f& _mat);
