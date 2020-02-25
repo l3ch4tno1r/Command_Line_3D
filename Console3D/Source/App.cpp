@@ -29,7 +29,7 @@ int main()
 
 	float radius = 35;
 
-	Model3D model = OBJReader().ReadFile("Ressource/cube.obj");
+	Model3D model = OBJReader().ReadFile("Ressource/octogon.obj");
 
 	Transform3D ObjFromR0;
 
