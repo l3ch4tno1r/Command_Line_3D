@@ -29,9 +29,15 @@ int main()
 
 	float radius = 35;
 
-	Model3D model = OBJReader().ReadFile("Ressource/octogon.obj");
+	Model3D models[] = {
+		OBJReader().ReadFile("Ressource/carpet.obj"),
+		OBJReader().ReadFile("Ressource/octogon.obj")
+	};
 
-	Transform3D ObjFromR0;
+	Transform3D ObjsFromR0[] = {
+		Transform3D(),
+		Transform3D()
+	};
 
 	// Set up Camera transform
 	Vector3D tempz = { -5.0f, -7.0f, -2.5f };
@@ -82,25 +88,31 @@ int main()
 		console.Clear();
 
 		Transform3D R0FromCAM   = CamFromR0.mat.Invert();
-		Transform3D CubeFromCam = R0FromCAM.mat * ObjFromR0.mat;
 
-		Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = CamFromImg.mat * Projection * CubeFromCam.mat;
-
-		for (const Model3D::Face& face : model.Faces())
+		for (uint i = 0; i < 2; i++)
 		{
-			Vector3D _v1    = CubeFromCam.mat * model.Vertices()[face.v1].mat;
-			Vector3D _nface = CubeFromCam.mat * model.Normals()[face.vn1].mat;
+			const Model3D& model = models[i];
 
-			if ((_v1 | _nface) > 0)
-				continue;
+			Transform3D ObjFromCam = R0FromCAM.mat * ObjsFromR0[i].mat;
 
-			Vector2D _pt1 = _Proj * model.Vertices()[face.v1].mat;
-			Vector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
-			Vector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
+			Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = CamFromImg.mat * Projection * ObjFromCam.mat;
 
-			console.DrawLine(_pt1.PX(), _pt1.PY(), _pt2.PX(), _pt2.PY());
-			console.DrawLine(_pt2.PX(), _pt2.PY(), _pt3.PX(), _pt3.PY());
-			console.DrawLine(_pt3.PX(), _pt3.PY(), _pt1.PX(), _pt1.PY());
+			for (const Model3D::Face& face : model.Faces())
+			{
+				Vector3D _v1    = ObjFromCam.mat * model.Vertices()[face.v1].mat;
+				Vector3D _nface = ObjFromCam.mat * model.Normals()[face.vn1].mat;
+
+				if ((_v1 | _nface) > 0)
+					continue;
+
+				Vector2D _pt1 = _Proj * model.Vertices()[face.v1].mat;
+				Vector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
+				Vector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
+
+				console.DrawLine(_pt1.PX(), _pt1.PY(), _pt2.PX(), _pt2.PY());
+				console.DrawLine(_pt2.PX(), _pt2.PY(), _pt3.PX(), _pt3.PY());
+				console.DrawLine(_pt3.PX(), _pt3.PY(), _pt1.PX(), _pt1.PY());
+			}
 		}
 		
 		console.HeartBeat();
@@ -109,10 +121,10 @@ int main()
 
 		a += aspeed * dt;
 
-		ObjFromR0.Rux =  std::cos(TORAD(a));
-		ObjFromR0.Ruy =  std::sin(TORAD(a));
-		ObjFromR0.Rvx = -std::sin(TORAD(a));
-		ObjFromR0.Rvy =  std::cos(TORAD(a));
+		ObjsFromR0[1].Rux =  std::cos(TORAD(a));
+		ObjsFromR0[1].Ruy =  std::sin(TORAD(a));
+		ObjsFromR0[1].Rvx = -std::sin(TORAD(a));
+		ObjsFromR0[1].Rvy =  std::cos(TORAD(a));
 	}
 
 	return 0;
