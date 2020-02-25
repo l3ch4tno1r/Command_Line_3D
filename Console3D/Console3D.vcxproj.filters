@@ -104,5 +104,8 @@
     <ClInclude Include="Source\Graphics\Model3D.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Graphics\GraphicRessourcesManager.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

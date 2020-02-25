@@ -147,6 +147,7 @@
     <ClInclude Include="Source\Geometry\Geometry3D\Transform3D.h" />
     <ClInclude Include="Source\Geometry\Geometry3D\Vector3D.h" />
     <ClInclude Include="Source\Geometry\VectorND.h" />
+    <ClInclude Include="Source\Graphics\GraphicRessourcesManager.h" />
     <ClInclude Include="Source\Graphics\Model3D.h" />
     <ClInclude Include="Source\Utilities\Angles.h" />
     <ClInclude Include="Source\Utilities\ErrorHandling.h" />
