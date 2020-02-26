@@ -2,6 +2,7 @@
 
 #include "Utilities\ErrorHandling.h"
 #include "Utilities\Angles.h"
+#include "Utilities\TimeMeasurement.h"
 
 #include "Devices\PaceMaker.h"
 
@@ -68,20 +69,20 @@ void Console::MainThread()
 	float normy = tempy.mat.Norm();
 	float normz = tempz.mat.Norm();
 
-	//Transform3D CamFromR0;
+	//Transform3D m_CamFromR0;
 
-	CamFromR0.Rux = tempx.x / normx;
-	CamFromR0.Ruy = tempx.y / normx;
-	CamFromR0.Ruz = tempx.z / normx;
-	CamFromR0.Rvx = tempy.x / normy;
-	CamFromR0.Rvy = tempy.y / normy;
-	CamFromR0.Rvz = tempy.z / normy;
-	CamFromR0.Rwx = tempz.x / normz;
-	CamFromR0.Rwy = tempz.y / normz;
-	CamFromR0.Rwz = tempz.z / normz;
-	CamFromR0.Tx = 5.0f;
-	CamFromR0.Ty = 7.0f;
-	CamFromR0.Tz = 1.8f;
+	m_CamFromR0.Rux = tempx.x / normx;
+	m_CamFromR0.Ruy = tempx.y / normx;
+	m_CamFromR0.Ruz = tempx.z / normx;
+	m_CamFromR0.Rvx = tempy.x / normy;
+	m_CamFromR0.Rvy = tempy.y / normy;
+	m_CamFromR0.Rvz = tempy.z / normy;
+	m_CamFromR0.Rwx = tempz.x / normz;
+	m_CamFromR0.Rwy = tempz.y / normz;
+	m_CamFromR0.Rwz = tempz.z / normz;
+	m_CamFromR0.Tx = 5.0f;
+	m_CamFromR0.Ty = 7.0f;
+	m_CamFromR0.Tz = 1.8f;
 
 	float focal = 180.0f;
 
@@ -102,7 +103,7 @@ void Console::MainThread()
 
 		Clear();
 
-		Transform3D R0FromCAM = CamFromR0.mat.Invert();
+		Transform3D R0FromCAM = m_CamFromR0.mat.Invert();
 
 		for (uint i = 0; i < 2; i++)
 		{
@@ -114,8 +115,15 @@ void Console::MainThread()
 
 			for (const Model3D::Face& face : model.Faces())
 			{
-				Vector3D _v1 = ObjFromCam.mat * model.Vertices()[face.v1].mat;
+				Vector3D _v1    = ObjFromCam.mat * model.Vertices()[face.v1].mat;
+				Vector3D _v2    = ObjFromCam.mat * model.Vertices()[face.v2].mat;
+				Vector3D _v3    = ObjFromCam.mat * model.Vertices()[face.v3].mat;
 				Vector3D _nface = ObjFromCam.mat * model.Normals()[face.vn1].mat;
+
+				if (_v1.z <= 0 ||
+					_v2.z <= 0 ||
+					_v3.z <= 0)
+					continue;
 
 				if ((_v1 | _nface) > 0)
 					continue;
@@ -136,10 +144,10 @@ void Console::MainThread()
 
 		a += aspeed * dt;
 
-		ObjsFromR0[1].Rux = std::cos(TORAD(a));
-		ObjsFromR0[1].Ruy = std::sin(TORAD(a));
+		ObjsFromR0[1].Rux =  std::cos(TORAD(a));
+		ObjsFromR0[1].Ruy =  std::sin(TORAD(a));
 		ObjsFromR0[1].Rvx = -std::sin(TORAD(a));
-		ObjsFromR0[1].Rvy = std::cos(TORAD(a));
+		ObjsFromR0[1].Rvy =  std::cos(TORAD(a));
 	}
 }
 
