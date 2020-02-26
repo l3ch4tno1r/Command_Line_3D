@@ -6,6 +6,8 @@
 #include <string>
 #include <thread>
 
+#include "Geometry\Geometry3D\Transform3D.h"
+
 class Console
 {
 private:
@@ -20,6 +22,8 @@ private:
 
 	bool m_Run;
 	std::thread m_MainThread;
+
+	Transform3D CamFromR0;
 
 	Console();
 
