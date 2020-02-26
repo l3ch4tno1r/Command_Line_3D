@@ -13,6 +13,14 @@
 	std::cout << "Execution time of '" << #X << "' : " << (float)_ellapsed_micros / 1000.0f << " ms" << std::endl;\
 }
 
+#define STARTCHRONO \
+auto start = std::chrono::high_resolution_clock::now()
+
+#define ENDCHRONO \
+auto end = std::chrono::high_resolution_clock::now();\
+long long ellapsed_millis = std::chrono::duration_cast<std::chrono::milliseconds> (end - start).count();\
+ASSERT(ellapsed_millis < 16);\
+
 class Timer
 {
 private:
