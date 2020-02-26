@@ -25,8 +25,9 @@ int main()
 
 	Transform3D& camfromr0 = console.CamFromR0();
 
-	float camspeed = 3.0f;
-	float dt       = 16.0f / 1000.0f;
+	float camspeed   = 3.0f;
+	float anglespeed = 32.0f;
+	float dt         = 16.0f / 1000.0f;
 
 	while (true)
 	{
@@ -60,6 +61,58 @@ int main()
 		{
 			camfromr0.Tx -= camspeed * camfromr0.Rux * dt;
 			camfromr0.Ty -= camspeed * camfromr0.Ruy * dt;
+		}
+
+		if (GetAsyncKeyState(VK_UP))
+		{
+			static Transform3D RotX;
+			float da = -anglespeed * dt;
+
+			RotX.Rvy =  std::cos(TORAD(da));
+			RotX.Rvz =  std::sin(TORAD(da));
+			RotX.Rwy = -std::sin(TORAD(da));
+			RotX.Rwz =  std::cos(TORAD(da));
+
+			camfromr0.mat = camfromr0.mat * RotX.mat;
+		}
+
+		if (GetAsyncKeyState(VK_DOWN))
+		{
+			static Transform3D RotX;
+			float da = anglespeed * dt;
+
+			RotX.Rvy =  std::cos(TORAD(da));
+			RotX.Rvz =  std::sin(TORAD(da));
+			RotX.Rwy = -std::sin(TORAD(da));
+			RotX.Rwz =  std::cos(TORAD(da));
+
+			camfromr0.mat = camfromr0.mat * RotX.mat;
+		}
+
+		if (GetAsyncKeyState(VK_LEFT))
+		{
+			static Transform3D RotY;
+			float da = -anglespeed * dt;
+
+			RotY.Rux =  std::cos(TORAD(da));
+			RotY.Ruz =  std::sin(TORAD(da));
+			RotY.Rwx = -std::sin(TORAD(da));
+			RotY.Rwz =  std::cos(TORAD(da));
+
+			camfromr0.mat = camfromr0.mat * RotY.mat;
+		}
+		
+		if (GetAsyncKeyState(VK_RIGHT))
+		{
+			static Transform3D RotY;
+			float da = anglespeed * dt;
+
+			RotY.Rux =  std::cos(TORAD(da));
+			RotY.Ruz =  std::sin(TORAD(da));
+			RotY.Rwx = -std::sin(TORAD(da));
+			RotY.Rwz =  std::cos(TORAD(da));
+
+			camfromr0.mat = camfromr0.mat * RotY.mat;
 		}
 	}
 
