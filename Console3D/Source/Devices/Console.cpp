@@ -61,26 +61,24 @@ void Console::MainThread()
 	};
 
 	// Set up Camera transform
-	Vector3D tempz = { -5.0f, -7.0f, 0.0f };
-	Vector3D tempx = Vector3D::Z() ^ tempz;
-	Vector3D tempy = tempz ^ tempx;
+	//Vector3D tempz = { -5.0f, -7.0f, 0.0f };
+	//Vector3D tempx = Vector3D::Z() ^ tempz;
+	//Vector3D tempy = tempz ^ tempx;
+	//
+	//float normx = tempx.mat.Norm();
+	//float normy = tempy.mat.Norm();
+	//float normz = tempz.mat.Norm();
 
-	float normx = tempx.mat.Norm();
-	float normy = tempy.mat.Norm();
-	float normz = tempz.mat.Norm();
-
-	//Transform3D m_CamFromR0;
-
-	m_CamFromR0.Rux = tempx.x / normx;
-	m_CamFromR0.Ruy = tempx.y / normx;
-	m_CamFromR0.Ruz = tempx.z / normx;
-	m_CamFromR0.Rvx = tempy.x / normy;
-	m_CamFromR0.Rvy = tempy.y / normy;
-	m_CamFromR0.Rvz = tempy.z / normy;
-	m_CamFromR0.Rwx = tempz.x / normz;
-	m_CamFromR0.Rwy = tempz.y / normz;
-	m_CamFromR0.Rwz = tempz.z / normz;
-	m_CamFromR0.Tx = 5.0f;
+	m_CamFromR0.Rux =  1.0f;// tempx.x / normx;
+	m_CamFromR0.Ruy =  0.0f;// tempx.y / normx;
+	m_CamFromR0.Ruz =  0.0f;// tempx.z / normx;
+	m_CamFromR0.Rvx =  0.0f;// tempy.x / normy;
+	m_CamFromR0.Rvy =  0.0f;// tempy.y / normy;
+	m_CamFromR0.Rvz =  1.0f;// tempy.z / normy;
+	m_CamFromR0.Rwx =  0.0f;// tempz.x / normz;
+	m_CamFromR0.Rwy = -1.0f;// tempz.y / normz;
+	m_CamFromR0.Rwz =  0.0f;// tempz.z / normz;
+	m_CamFromR0.Tx = 0.0f;
 	m_CamFromR0.Ty = 7.0f;
 	m_CamFromR0.Tz = 1.8f;
 

@@ -18,6 +18,8 @@
 
 using namespace std;
 
+#define OBSOLETE
+
 int main()
 {
 	PaceMaker& pacemaker = PaceMaker::Get();
@@ -33,6 +35,10 @@ int main()
 	{
 		pacemaker.Wait();
 
+		static Transform3D Tr = camfromr0;
+		static Transform3D RotX;
+		static Transform3D RotY;
+
 		if (GetAsyncKeyState((unsigned short)27) & 0x8000)
 		{
 			pacemaker.Stop();
@@ -41,44 +47,46 @@ int main()
 
 		if (GetAsyncKeyState((unsigned short)'Z') & 0x8000)
 		{
-			camfromr0.Tx += camspeed * camfromr0.Rwx * dt;
-			camfromr0.Ty += camspeed * camfromr0.Rwy * dt;
+			Tr.Tx += camspeed * camfromr0.Rwx * dt;
+			Tr.Ty += camspeed * camfromr0.Rwy * dt;
 		}
 
 		if (GetAsyncKeyState((unsigned short)'S') & 0x8000)
 		{
-			camfromr0.Tx -= camspeed * camfromr0.Rwx * dt;
-			camfromr0.Ty -= camspeed * camfromr0.Rwy * dt;
+			Tr.Tx -= camspeed * camfromr0.Rwx * dt;
+			Tr.Ty -= camspeed * camfromr0.Rwy * dt;
 		}
 
 		if (GetAsyncKeyState((unsigned short)'Q') & 0x8000)
 		{
-			camfromr0.Tx += camspeed * camfromr0.Rux * dt;
-			camfromr0.Ty += camspeed * camfromr0.Ruy * dt;
+			Tr.Tx += camspeed * camfromr0.Rux * dt;
+			Tr.Ty += camspeed * camfromr0.Ruy * dt;
 		}
 
 		if (GetAsyncKeyState((unsigned short)'D') & 0x8000)
 		{
-			camfromr0.Tx -= camspeed * camfromr0.Rux * dt;
-			camfromr0.Ty -= camspeed * camfromr0.Ruy * dt;
+			Tr.Tx -= camspeed * camfromr0.Rux * dt;
+			Tr.Ty -= camspeed * camfromr0.Ruy * dt;
 		}
 
+		static float ax = 0.0f;
+		static float ay = 0.0f;
+
+#ifndef OBSOLETE
 		if (GetAsyncKeyState(VK_UP))
 		{
-			static Transform3D RotX;
 			float da = -anglespeed * dt;
 
 			RotX.Rvy =  std::cos(TORAD(da));
 			RotX.Rvz =  std::sin(TORAD(da));
 			RotX.Rwy = -std::sin(TORAD(da));
 			RotX.Rwz =  std::cos(TORAD(da));
-
+			
 			camfromr0.mat = camfromr0.mat * RotX.mat;
 		}
 
 		if (GetAsyncKeyState(VK_DOWN))
 		{
-			static Transform3D RotX;
 			float da = anglespeed * dt;
 
 			RotX.Rvy =  std::cos(TORAD(da));
@@ -91,7 +99,6 @@ int main()
 
 		if (GetAsyncKeyState(VK_LEFT))
 		{
-			static Transform3D RotY;
 			float da = -anglespeed * dt;
 
 			RotY.Rux =  std::cos(TORAD(da));
@@ -104,7 +111,6 @@ int main()
 		
 		if (GetAsyncKeyState(VK_RIGHT))
 		{
-			static Transform3D RotY;
 			float da = anglespeed * dt;
 
 			RotY.Rux =  std::cos(TORAD(da));
@@ -114,6 +120,49 @@ int main()
 
 			camfromr0.mat = camfromr0.mat * RotY.mat;
 		}
+#endif // !OBSOLETE
+
+		if (GetAsyncKeyState(VK_UP))
+		{
+			ax -= anglespeed * dt;
+
+			RotX.Rvy =  std::cos(TORAD(ax));
+			RotX.Rvz =  std::sin(TORAD(ax));
+			RotX.Rwy = -std::sin(TORAD(ax));
+			RotX.Rwz =  std::cos(TORAD(ax));
+		}
+
+		if (GetAsyncKeyState(VK_DOWN))
+		{
+			ax += anglespeed * dt;
+
+			RotX.Rvy =  std::cos(TORAD(ax));
+			RotX.Rvz =  std::sin(TORAD(ax));
+			RotX.Rwy = -std::sin(TORAD(ax));
+			RotX.Rwz =  std::cos(TORAD(ax));
+		}
+		
+		if (GetAsyncKeyState(VK_LEFT))
+		{
+			ay -= anglespeed * dt;
+
+			RotY.Rux =  std::cos(TORAD(ay));
+			RotY.Ruz =  std::sin(TORAD(ay));
+			RotY.Rwx = -std::sin(TORAD(ay));
+			RotY.Rwz =  std::cos(TORAD(ay));
+		}
+
+		if (GetAsyncKeyState(VK_RIGHT))
+		{
+			ay += anglespeed * dt;
+
+			RotY.Rux =  std::cos(TORAD(ay));
+			RotY.Ruz =  std::sin(TORAD(ay));
+			RotY.Rwx = -std::sin(TORAD(ay));
+			RotY.Rwz =  std::cos(TORAD(ay));
+		}
+
+		camfromr0.mat = Tr.mat * RotY.mat * RotX.mat;
 	}
 
 	return 0;
