@@ -18,8 +18,6 @@
 
 using namespace std;
 
-#define OBSOLETE
-
 int main()
 {
 	PaceMaker& pacemaker = PaceMaker::Get();
@@ -39,6 +37,7 @@ int main()
 		static Transform3D RotX;
 		static Transform3D RotY;
 
+		// Translation management
 		if (GetAsyncKeyState((unsigned short)27) & 0x8000)
 		{
 			pacemaker.Stop();
@@ -69,58 +68,9 @@ int main()
 			Tr.Ty -= camspeed * camfromr0.Ruy * dt;
 		}
 
+		// Rotation management
 		static float ax = 0.0f;
 		static float ay = 0.0f;
-
-#ifndef OBSOLETE
-		if (GetAsyncKeyState(VK_UP))
-		{
-			float da = -anglespeed * dt;
-
-			RotX.Rvy =  std::cos(TORAD(da));
-			RotX.Rvz =  std::sin(TORAD(da));
-			RotX.Rwy = -std::sin(TORAD(da));
-			RotX.Rwz =  std::cos(TORAD(da));
-			
-			camfromr0.mat = camfromr0.mat * RotX.mat;
-		}
-
-		if (GetAsyncKeyState(VK_DOWN))
-		{
-			float da = anglespeed * dt;
-
-			RotX.Rvy =  std::cos(TORAD(da));
-			RotX.Rvz =  std::sin(TORAD(da));
-			RotX.Rwy = -std::sin(TORAD(da));
-			RotX.Rwz =  std::cos(TORAD(da));
-
-			camfromr0.mat = camfromr0.mat * RotX.mat;
-		}
-
-		if (GetAsyncKeyState(VK_LEFT))
-		{
-			float da = -anglespeed * dt;
-
-			RotY.Rux =  std::cos(TORAD(da));
-			RotY.Ruz =  std::sin(TORAD(da));
-			RotY.Rwx = -std::sin(TORAD(da));
-			RotY.Rwz =  std::cos(TORAD(da));
-
-			camfromr0.mat = camfromr0.mat * RotY.mat;
-		}
-		
-		if (GetAsyncKeyState(VK_RIGHT))
-		{
-			float da = anglespeed * dt;
-
-			RotY.Rux =  std::cos(TORAD(da));
-			RotY.Ruz =  std::sin(TORAD(da));
-			RotY.Rwx = -std::sin(TORAD(da));
-			RotY.Rwz =  std::cos(TORAD(da));
-
-			camfromr0.mat = camfromr0.mat * RotY.mat;
-		}
-#endif // !OBSOLETE
 
 		if (GetAsyncKeyState(VK_UP))
 		{
