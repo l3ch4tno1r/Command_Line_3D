@@ -3,3 +3,5 @@ Debug
 *.bak
 /Console3D/Release
 /Matrix/Release
+/Release
+/UnitTest/Release
