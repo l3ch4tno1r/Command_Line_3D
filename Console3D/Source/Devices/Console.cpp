@@ -54,15 +54,17 @@ void Console::MainThread()
 
 	Model3D models[] = {
 		OBJReader().ReadFile("Ressource/carpet.obj"),
-		OBJReader().ReadFile("Ressource/octogon.obj")
+		OBJReader().ReadFile("Ressource/lcn_logo.obj")
 	};
+
+	const float scalefactor = 0.5f;
 
 	// Scaling up octogon
 	for (Vector3D& v : models[1].Vertices())
 	{
-		v.x *= 2;
-		v.y *= 2;
-		v.z *= 2;
+		v.x *= scalefactor;
+		v.y *= scalefactor;
+		v.z *= scalefactor;
 	}
 
 	Transform3D ObjsFromR0[] = {
@@ -99,12 +101,12 @@ void Console::MainThread()
 	{
 		if (!pacemaker.Wait())
 			m_Run = false;
-
-		STARTCHRONO;
-
+		
 		Clear();
 
 		Transform3D R0FromCAM = m_CamFromR0.mat.Invert();
+
+		STARTCHRONO;
 
 		for (uint i = 0; i < 2; i++)
 		{
@@ -133,29 +135,29 @@ void Console::MainThread()
 				Vector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
 				Vector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
 
-				if ((_v1 | nw1) > 0.0f &&
-					(_v1 | nw2) > 0.0f &&
-					(_v2 | nw1) > 0.0f &&
-					(_v2 | nw2) > 0.0f)
+				//if ((_v1 | nw1) > 0.0f && (_v1 | nw2) > 0.0f &&
+				//	(_v1 | nh1) > 0.0f && (_v1 | nh2) > 0.0f &&
+				//	(_v2 | nw1) > 0.0f && (_v2 | nw2) > 0.0f &&
+				//	(_v2 | nh1) > 0.0f && (_v2 | nh2) > 0.0f)
 					DrawLine(_pt1.PX(), _pt1.PY(), _pt2.PX(), _pt2.PY());
 
-				if ((_v2 | nw1) > 0.0f &&
-					(_v2 | nw2) > 0.0f &&
-					(_v3 | nw1) > 0.0f &&
-					(_v3 | nw2) > 0.0f)
+				//if ((_v2 | nw1) > 0.0f && (_v2 | nw2) > 0.0f &&
+				//	(_v2 | nh1) > 0.0f && (_v2 | nh2) > 0.0f &&
+				//	(_v3 | nw1) > 0.0f && (_v3 | nw2) > 0.0f &&
+				//	(_v3 | nh1) > 0.0f && (_v3 | nh2) > 0.0f)
 					DrawLine(_pt2.PX(), _pt2.PY(), _pt3.PX(), _pt3.PY());
-				
-				if ((_v3 | nw1) > 0.0f &&
-					(_v3 | nw2) > 0.0f &&
-					(_v1 | nw1) > 0.0f &&
-					(_v1 | nw2) > 0.0f)
+
+				//if ((_v3 | nw1) > 0.0f && (_v3 | nw2) > 0.0f &&
+				//	(_v3 | nh1) > 0.0f && (_v3 | nh2) > 0.0f &&
+				//	(_v1 | nw1) > 0.0f && (_v1 | nw2) > 0.0f &&
+				//	(_v1 | nh1) > 0.0f && (_v1 | nh2) > 0.0f)
 					DrawLine(_pt3.PX(), _pt3.PY(), _pt1.PX(), _pt1.PY());
 			}
 		}
 
-		HeartBeat();
-
 		ENDCHRONO;
+
+		HeartBeat();
 
 		std::stringstream sstr;
 
