@@ -23,6 +23,7 @@ private:
 	bool m_Run;
 	std::thread m_MainThread;
 
+	float       m_Focal;
 	Transform3D m_CamFromR0;
 
 	Console();
@@ -42,6 +43,11 @@ public:
 	inline Transform3D& CamFromR0()
 	{
 		return m_CamFromR0;
+	}
+
+	inline float& Focal()
+	{
+		return m_Focal;
 	}
 
 	void DrawPoint(float x, float y, char c = '#');

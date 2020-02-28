@@ -15,6 +15,7 @@
 
 #include <chrono>
 #include <cmath>
+#include <sstream>
 
 #define CONSOLETEST02
 
@@ -24,7 +25,8 @@ Console::Console() :
 	m_Screen(nullptr),
 	m_HConsole(nullptr),
 	m_DwBytesWritten(0),
-	m_Run(true)
+	m_Run(true),
+	m_Focal(180.0f)
 {
 	m_Screen = new char[m_Width * m_Height];
 	m_HConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
@@ -44,7 +46,7 @@ void Console::MainThread()
 {
 	PaceMaker& pacemaker = PaceMaker::Get();
 	
-	float aspeed = 30.0f;			// 1 tour / min
+	float aspeed = 36.0f;			// 1 tour / 10s
 	float dt     = 16.0f / 1000.0f;	// Delta de temps
 	float a      = 0.0f;			// Angle
 
@@ -54,6 +56,14 @@ void Console::MainThread()
 		OBJReader().ReadFile("Ressource/carpet.obj"),
 		OBJReader().ReadFile("Ressource/octogon.obj")
 	};
+
+	// Scaling up octogon
+	for (Vector3D& v : models[1].Vertices())
+	{
+		v.x *= 2;
+		v.y *= 2;
+		v.z *= 2;
+	}
 
 	Transform3D ObjsFromR0[] = {
 		Transform3D(),
@@ -75,12 +85,10 @@ void Console::MainThread()
 	m_CamFromR0.Ty  =  7.0f;
 	m_CamFromR0.Tz  =  1.8f;
 
-	float focal = 180.0f;
-
 	const float tab[3][4] = {
-		focal, 0.0f,  0.0f,  0.0f,
-		0.0f,  focal, 0.0f,  0.0f,
-		0.0f,  0.0f,  1.0f,  0.0f,
+		m_Focal, 0.0f,    0.0f,  0.0f,
+		0.0f,    m_Focal, 0.0f,  0.0f,
+		0.0f,    0.0f,    1.0f,  0.0f,
 	};
 
 	Matrix::StaticMatrix::Matrix<float, 3, 4> Projection(tab);
@@ -91,6 +99,8 @@ void Console::MainThread()
 	{
 		if (!pacemaker.Wait())
 			m_Run = false;
+
+		STARTCHRONO;
 
 		Clear();
 
@@ -106,30 +116,52 @@ void Console::MainThread()
 
 			for (const Model3D::Face& face : model.Faces())
 			{
+				static Vector3D nw1(-m_Focal,  0.0f,    m_Width / 2);
+				static Vector3D nw2( m_Focal,  0.0f,    m_Width / 2);
+				static Vector3D nh1( 0.0f,     m_Focal, m_Height / 2);
+				static Vector3D nh2( 0.0f,    -m_Focal, m_Height / 2);
+
 				Vector3D _v1    = ObjFromCam.mat * model.Vertices()[face.v1].mat;
 				Vector3D _v2    = ObjFromCam.mat * model.Vertices()[face.v2].mat;
 				Vector3D _v3    = ObjFromCam.mat * model.Vertices()[face.v3].mat;
 				Vector3D _nface = ObjFromCam.mat * model.Normals()[face.vn1].mat;
 
-				if (_v1.z <= 0 ||
-					_v2.z <= 0 ||
-					_v3.z <= 0)
-					continue;
-
-				if ((_v1 | _nface) > 0)
+				if ((_v1 | _nface) > 0.0f)
 					continue;
 
 				Vector2D _pt1 = _Proj * model.Vertices()[face.v1].mat;
 				Vector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
 				Vector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
 
-				DrawLine(_pt1.PX(), _pt1.PY(), _pt2.PX(), _pt2.PY());
-				DrawLine(_pt2.PX(), _pt2.PY(), _pt3.PX(), _pt3.PY());
-				DrawLine(_pt3.PX(), _pt3.PY(), _pt1.PX(), _pt1.PY());
+				if ((_v1 | nw1) > 0.0f &&
+					(_v1 | nw2) > 0.0f &&
+					(_v2 | nw1) > 0.0f &&
+					(_v2 | nw2) > 0.0f)
+					DrawLine(_pt1.PX(), _pt1.PY(), _pt2.PX(), _pt2.PY());
+
+				if ((_v2 | nw1) > 0.0f &&
+					(_v2 | nw2) > 0.0f &&
+					(_v3 | nw1) > 0.0f &&
+					(_v3 | nw2) > 0.0f)
+					DrawLine(_pt2.PX(), _pt2.PY(), _pt3.PX(), _pt3.PY());
+				
+				if ((_v3 | nw1) > 0.0f &&
+					(_v3 | nw2) > 0.0f &&
+					(_v1 | nw1) > 0.0f &&
+					(_v1 | nw2) > 0.0f)
+					DrawLine(_pt3.PX(), _pt3.PY(), _pt1.PX(), _pt1.PY());
 			}
 		}
 
 		HeartBeat();
+
+		ENDCHRONO;
+
+		std::stringstream sstr;
+
+		sstr << "Ellapsed time : " << (float)ellapsed_micros / 1000.0f << " ms";
+
+		DisplayMessage(sstr.str());
 
 		Render();
 
