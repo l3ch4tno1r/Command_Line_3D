@@ -18,8 +18,7 @@ auto start = std::chrono::high_resolution_clock::now()
 
 #define ENDCHRONO \
 auto end = std::chrono::high_resolution_clock::now();\
-long long ellapsed_millis = std::chrono::duration_cast<std::chrono::milliseconds> (end - start).count();\
-ASSERT(ellapsed_millis < 16);\
+long long ellapsed_micros = std::chrono::duration_cast<std::chrono::microseconds> (end - start).count();\
 
 class Timer
 {
