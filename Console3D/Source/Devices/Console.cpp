@@ -54,10 +54,10 @@ void Console::MainThread()
 
 	Model3D models[] = {
 		OBJReader().ReadFile("Ressource/carpet.obj"),
-		OBJReader().ReadFile("Ressource/lcn_logo.obj")
+		OBJReader().ReadFile("Ressource/octogon.obj")
 	};
 
-	const float scalefactor = 0.5f;
+	const float scalefactor = 1.0f;
 
 	// Scaling up octogon
 	for (Vector3D& v : models[1].Vertices())
