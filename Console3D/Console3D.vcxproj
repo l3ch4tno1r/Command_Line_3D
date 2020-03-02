@@ -78,7 +78,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>MAIN;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TEST07;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Matrix\Source;$(ProjectDir)Source</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -140,6 +140,7 @@
     <ClCompile Include="Source\_Test\Test04.cpp" />
     <ClCompile Include="Source\_Test\Test05 - PaceMaker.cpp" />
     <ClCompile Include="Source\_Test\Test06 - OBJReader.cpp" />
+    <ClCompile Include="Source\_Test\Test07.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Devices\Console.h" />
