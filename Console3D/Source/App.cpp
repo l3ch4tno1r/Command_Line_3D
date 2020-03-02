@@ -14,8 +14,8 @@ int main()
 {
 	bool run = true;
 
-	HANDLE       hStdin   = GetStdHandle(STD_INPUT_HANDLE);
-	HWND         hWnd     = GetConsoleWindow();
+	HANDLE       hStdin = GetStdHandle(STD_INPUT_HANDLE);
+	HWND         hWnd   = GetConsoleWindow();
 	DWORD        cNumRead;
 	INPUT_RECORD irInBuf[128];
 
