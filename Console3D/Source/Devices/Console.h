@@ -7,6 +7,7 @@
 #include <thread>
 
 #include "Geometry\Geometry3D\Transform3D.h"
+#include "Geometry\Geometry3D\Vector3D.h"
 
 class Console
 {
@@ -49,6 +50,9 @@ public:
 	{
 		return m_Focal;
 	}
+
+private:
+	bool IsInFOV(const Vector3D& vec) const;
 
 	void DrawPoint(float x, float y, char c = '#');
 
