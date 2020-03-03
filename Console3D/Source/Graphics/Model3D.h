@@ -9,12 +9,24 @@ using uint = unsigned int;
 class Model3D
 {
 public:
-	using Vertex3D = Vector3D;
+	using Vertex3D = HVector3D;
 
 	struct Face
 	{
-		uint  v1,  v2,  v3;
-		uint vn1, vn2, vn3;
+		union
+		{
+			struct
+			{
+				uint  v1,  v2,  v3;
+				uint vn1, vn2, vn3;
+			};
+
+			struct
+			{
+				uint Vertices[3];
+				uint Normals[3];
+			};
+		};	
 	};
 
 private:

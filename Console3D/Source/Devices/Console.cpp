@@ -26,7 +26,7 @@ Console::Console() :
 	m_HConsole(nullptr),
 	m_DwBytesWritten(0),
 	m_Run(true),
-	m_Focal(180.0f)
+	m_Focal(90.0f)
 {
 	m_Screen = new char[m_Width * m_Height];
 	m_HConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
@@ -60,7 +60,7 @@ void Console::MainThread()
 	const float scalefactor = 1.0f;
 
 	// Scaling up octogon
-	for (Vector3D& v : models[1].Vertices())
+	for (HVector3D& v : models[1].Vertices())
 	{
 		v.x *= scalefactor;
 		v.y *= scalefactor;
@@ -118,39 +118,30 @@ void Console::MainThread()
 
 			for (const Model3D::Face& face : model.Faces())
 			{
-				static Vector3D nw1(-m_Focal,  0.0f,    m_Width / 2);
-				static Vector3D nw2( m_Focal,  0.0f,    m_Width / 2);
-				static Vector3D nh1( 0.0f,     m_Focal, m_Height / 2);
-				static Vector3D nh2( 0.0f,    -m_Focal, m_Height / 2);
+				static HVector3D nw1(-m_Focal,  0.0f,    m_Width / 2);
+				static HVector3D nw2( m_Focal,  0.0f,    m_Width / 2);
+				static HVector3D nh1( 0.0f,     m_Focal, m_Height / 2);
+				static HVector3D nh2( 0.0f,    -m_Focal, m_Height / 2);
 
-				Vector3D _v1    = ObjFromCam.mat * model.Vertices()[face.v1].mat;
-				Vector3D _v2    = ObjFromCam.mat * model.Vertices()[face.v2].mat;
-				Vector3D _v3    = ObjFromCam.mat * model.Vertices()[face.v3].mat;
-				Vector3D _nface = ObjFromCam.mat * model.Normals()[face.vn1].mat;
+				HVector3D _v1    = ObjFromCam.mat * model.Vertices()[face.v1].mat;
+				HVector3D _v2    = ObjFromCam.mat * model.Vertices()[face.v2].mat;
+				HVector3D _v3    = ObjFromCam.mat * model.Vertices()[face.v3].mat;
+				HVector3D _nface = ObjFromCam.mat * model.Normals()[face.vn1].mat;
 
 				if ((_v1 | _nface) > 0.0f)
 					continue;
 
-				Vector2D _pt1 = _Proj * model.Vertices()[face.v1].mat;
-				Vector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
-				Vector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
+				HVector2D _pt1 = _Proj * model.Vertices()[face.v1].mat;
+				HVector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
+				HVector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
 
-				//if ((_v1 | nw1) > 0.0f && (_v1 | nw2) > 0.0f &&
-				//	(_v1 | nh1) > 0.0f && (_v1 | nh2) > 0.0f &&
-				//	(_v2 | nw1) > 0.0f && (_v2 | nw2) > 0.0f &&
-				//	(_v2 | nh1) > 0.0f && (_v2 | nh2) > 0.0f)
+				if(IsInFOV(_v1) && IsInFOV(_v2))
 					DrawLine(_pt1.PX(), _pt1.PY(), _pt2.PX(), _pt2.PY());
 
-				//if ((_v2 | nw1) > 0.0f && (_v2 | nw2) > 0.0f &&
-				//	(_v2 | nh1) > 0.0f && (_v2 | nh2) > 0.0f &&
-				//	(_v3 | nw1) > 0.0f && (_v3 | nw2) > 0.0f &&
-				//	(_v3 | nh1) > 0.0f && (_v3 | nh2) > 0.0f)
+				if (IsInFOV(_v2) && IsInFOV(_v3))
 					DrawLine(_pt2.PX(), _pt2.PY(), _pt3.PX(), _pt3.PY());
 
-				//if ((_v3 | nw1) > 0.0f && (_v3 | nw2) > 0.0f &&
-				//	(_v3 | nh1) > 0.0f && (_v3 | nh2) > 0.0f &&
-				//	(_v1 | nw1) > 0.0f && (_v1 | nw2) > 0.0f &&
-				//	(_v1 | nh1) > 0.0f && (_v1 | nh2) > 0.0f)
+				if (IsInFOV(_v3) && IsInFOV(_v1))
 					DrawLine(_pt3.PX(), _pt3.PY(), _pt1.PX(), _pt1.PY());
 			}
 		}
@@ -186,6 +177,16 @@ void Console::Clear()
 {
 	for (unsigned int i = 0; i < m_Width * m_Height; i++)
 		m_Screen[i] = 0;
+}
+
+bool Console::IsInFOV(const HVector3D& vec) const
+{
+	// Assuming that the point coordinates are relative to the camera POV
+	static const float zmin = 0.1f;
+	
+	return ((vec.z > zmin) &&
+		    (vec.z > (2 * m_Focal * std::abs(vec.x)) / m_Width) &&
+		    (vec.z > (2 * m_Focal * std::abs(vec.y)) / m_Height));
 }
 
 void Console::DrawPoint(float x, float y, char c)
@@ -255,7 +256,6 @@ void Console::HeartBeat()
 
 	DrawPoint(m_Width - 2, m_Height - 2, (count <= 60 ? '0' : ' '));
 }
-
 
 void Console::Render()
 {

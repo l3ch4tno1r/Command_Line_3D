@@ -1,16 +1,16 @@
 #include "Vector3D.h"
 
-Vector3D::Vector3D(bool ispoint) :
+HVector3D::HVector3D(bool ispoint) :
 	mat(1.0f)
 {
 	mat(3, 0) = (ispoint ? 1.0f : 0.0f);
 }
 
-Vector3D::Vector3D(const Vector3D & vec) :
+HVector3D::HVector3D(const HVector3D & vec) :
 	mat(vec.mat)
 {}
 
-Vector3D::Vector3D(float _x, float _y, float _z, bool ispoint) :
+HVector3D::HVector3D(float _x, float _y, float _z, bool ispoint) :
 	x(_x),
 	y(_y),
 	z(_z)
@@ -18,35 +18,35 @@ Vector3D::Vector3D(float _x, float _y, float _z, bool ispoint) :
 	mat(3, 0) = (ispoint ? 1.0f : 0.0f);
 }
 
-Vector3D::Vector3D(const Vector4Df& _mat) :
+HVector3D::HVector3D(const Vector4Df& _mat) :
 	mat(_mat)
 {}
 
-Vector3D::Vector3D(const MatrixN1f<4>& _mat) :
+HVector3D::HVector3D(const MatrixN1f<4>& _mat) :
 	mat(_mat)
 {}
 
-const Vector3D& Vector3D::X()
+const HVector3D& HVector3D::X()
 {
-	static Vector3D x(1.0f, 0.0f, 0.0f);
+	static HVector3D x(1.0f, 0.0f, 0.0f);
 	return x;
 }
 
-const Vector3D& Vector3D::Y()
+const HVector3D& HVector3D::Y()
 {
-	static Vector3D y(0.0f, 1.0f, 0.0f);
+	static HVector3D y(0.0f, 1.0f, 0.0f);
 	return y;
 }
 
-const Vector3D& Vector3D::Z()
+const HVector3D& HVector3D::Z()
 {
-	static Vector3D z(0.0f, 0.0f, 1.0f);
+	static HVector3D z(0.0f, 0.0f, 1.0f);
 	return z;
 }
 
-Vector3D operator^(const Vector3D & vec1, const Vector3D & vec2)
+HVector3D operator^(const HVector3D & vec1, const HVector3D & vec2)
 {
-	static Vector3D result(true);
+	static HVector3D result(true);
 
 	result.x = vec1.y * vec2.z - vec1.z * vec2.y;
 	result.y = vec1.z * vec2.x - vec1.x * vec2.z;
@@ -55,7 +55,7 @@ Vector3D operator^(const Vector3D & vec1, const Vector3D & vec2)
 	return result;
 }
 
-float operator|(const Vector3D & vec1, const Vector3D & vec2)
+float operator|(const HVector3D & vec1, const HVector3D & vec2)
 {
 	return vec1.mat | vec2.mat;
 }

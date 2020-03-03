@@ -71,7 +71,7 @@ void TestStdVector()
 
 using Mat_2_1_f = Matrix::SMatrix<float, 2, 1>;
 
-union Vector2D
+union HVector2D
 {
 	struct
 	{
@@ -81,12 +81,12 @@ union Vector2D
 
 	Mat_2_1_f mat;
 
-	Vector2D() :
+	HVector2D() :
 		mat(10.0f)
 	{}
 };
 
-ostream& operator<<(ostream& stream, const Vector2D& vec)
+ostream& operator<<(ostream& stream, const HVector2D& vec)
 {
 	stream << "(" << vec.x << ", " << vec.y << ")";
 
