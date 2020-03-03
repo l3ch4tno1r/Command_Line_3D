@@ -14,7 +14,7 @@ std::ostream& operator<<(std::ostream& stream, const HVector3D& vec)
 	return stream;
 }
 
-std::ostream& operator<<(std::ostream& stream, const Vector2D& vec)
+std::ostream& operator<<(std::ostream& stream, const HVector2D& vec)
 {
 	stream << '(' << vec.x << ", " << vec.y  << ')' << std::endl;
 
@@ -25,10 +25,10 @@ int main()
 {
 	Transform2D transform(60.0f, 40.0f, 0.0f);
 
-	Vector2D X(1.0f, 1.0f);
-	Vector2D Y(1.0f, 2.0f);
+	HVector2D X(1.0f, 1.0f);
+	HVector2D Y(1.0f, 2.0f);
 
-	Vector2D v = transform.mat * X.mat;
+	HVector2D v = transform.mat * X.mat;
 
 	//std::cout << (X ^ Y) << std::endl;
 	std::cout << v << std::endl;

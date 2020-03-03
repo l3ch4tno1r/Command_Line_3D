@@ -4,7 +4,7 @@
 
 using Vector3Df = VectorND<3>;
 
-union Vector2D
+union HVector2D
 {
 	struct
 	{
@@ -15,13 +15,13 @@ union Vector2D
 
 	Vector3Df mat;
 
-	Vector2D();
+	HVector2D();
 
-	Vector2D(float _x, float _y);
+	HVector2D(float _x, float _y);
 
-	Vector2D(const Vector3Df& _mat);
+	HVector2D(const Vector3Df& _mat);
 
-	Vector2D(const MatrixN1f<3>& _mat);
+	HVector2D(const MatrixN1f<3>& _mat);
 
 	inline float PX() const
 	{

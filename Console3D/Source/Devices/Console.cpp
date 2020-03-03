@@ -131,9 +131,9 @@ void Console::MainThread()
 				if ((_v1 | _nface) > 0.0f)
 					continue;
 
-				Vector2D _pt1 = _Proj * model.Vertices()[face.v1].mat;
-				Vector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
-				Vector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
+				HVector2D _pt1 = _Proj * model.Vertices()[face.v1].mat;
+				HVector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
+				HVector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
 
 				if(IsInFOV(_v1) && IsInFOV(_v2))
 					DrawLine(_pt1.PX(), _pt1.PY(), _pt2.PX(), _pt2.PY());
