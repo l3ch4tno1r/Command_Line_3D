@@ -4,7 +4,7 @@
 
 using Vector4Df = VectorND<4>;
 
-union Vector3D
+union HVector3D
 {
 	struct
 	{
@@ -16,23 +16,23 @@ union Vector3D
 
 	Vector4Df mat;
 
-	Vector3D(bool ispoint);
+	HVector3D(bool ispoint);
 		
-	Vector3D(float _x, float _y, float _z, bool ispoint = true);
+	HVector3D(float _x, float _y, float _z, bool ispoint = true);
 
-	Vector3D(const Vector3D& vec);
+	HVector3D(const HVector3D& vec);
 
-	Vector3D(const Vector4Df& _mat);
+	HVector3D(const Vector4Df& _mat);
 
-	Vector3D(const MatrixN1f<4>& _mat);
+	HVector3D(const MatrixN1f<4>& _mat);
 
-	static const Vector3D& X();
+	static const HVector3D& X();
 
-	static const Vector3D& Y();
+	static const HVector3D& Y();
 
-	static const Vector3D& Z();
+	static const HVector3D& Z();
 };
 
-Vector3D operator^(const Vector3D& vec1, const Vector3D& vec2);
+HVector3D operator^(const HVector3D& vec1, const HVector3D& vec2);
 
-float operator|(const Vector3D& vec1, const Vector3D& vec2);
+float operator|(const HVector3D& vec1, const HVector3D& vec2);

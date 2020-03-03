@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-class Vector3D
+class HVector3D
 {
 public:
 	union
@@ -19,9 +19,9 @@ public:
 	};
 };
 
-Vector3D operator+(const Vector3D& a, const Vector3D& b)
+HVector3D operator+(const HVector3D& a, const HVector3D& b)
 {
-	static Vector3D result;
+	static HVector3D result;
 
 	for (uint8_t i = 0; i < 3; i++)
 		result.tab[i] = a.tab[i] + b.tab[i];
@@ -31,10 +31,10 @@ Vector3D operator+(const Vector3D& a, const Vector3D& b)
 
 int main()
 {
-	Vector3D vec1 = { 1, 2, 3 };
-	Vector3D vec2 = { 4, 5, 6 };
+	HVector3D vec1 = { 1, 2, 3 };
+	HVector3D vec2 = { 4, 5, 6 };
 
-	Vector3D vec3 = vec1 + vec2;
+	HVector3D vec3 = vec1 + vec2;
 
 	for (uint8_t i = 0; i < 3; i++)
 		std::cout << vec3.tab[i] << std::endl;

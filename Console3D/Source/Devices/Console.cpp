@@ -60,7 +60,7 @@ void Console::MainThread()
 	const float scalefactor = 1.0f;
 
 	// Scaling up octogon
-	for (Vector3D& v : models[1].Vertices())
+	for (HVector3D& v : models[1].Vertices())
 	{
 		v.x *= scalefactor;
 		v.y *= scalefactor;
@@ -118,15 +118,15 @@ void Console::MainThread()
 
 			for (const Model3D::Face& face : model.Faces())
 			{
-				static Vector3D nw1(-m_Focal,  0.0f,    m_Width / 2);
-				static Vector3D nw2( m_Focal,  0.0f,    m_Width / 2);
-				static Vector3D nh1( 0.0f,     m_Focal, m_Height / 2);
-				static Vector3D nh2( 0.0f,    -m_Focal, m_Height / 2);
+				static HVector3D nw1(-m_Focal,  0.0f,    m_Width / 2);
+				static HVector3D nw2( m_Focal,  0.0f,    m_Width / 2);
+				static HVector3D nh1( 0.0f,     m_Focal, m_Height / 2);
+				static HVector3D nh2( 0.0f,    -m_Focal, m_Height / 2);
 
-				Vector3D _v1    = ObjFromCam.mat * model.Vertices()[face.v1].mat;
-				Vector3D _v2    = ObjFromCam.mat * model.Vertices()[face.v2].mat;
-				Vector3D _v3    = ObjFromCam.mat * model.Vertices()[face.v3].mat;
-				Vector3D _nface = ObjFromCam.mat * model.Normals()[face.vn1].mat;
+				HVector3D _v1    = ObjFromCam.mat * model.Vertices()[face.v1].mat;
+				HVector3D _v2    = ObjFromCam.mat * model.Vertices()[face.v2].mat;
+				HVector3D _v3    = ObjFromCam.mat * model.Vertices()[face.v3].mat;
+				HVector3D _nface = ObjFromCam.mat * model.Normals()[face.vn1].mat;
 
 				if ((_v1 | _nface) > 0.0f)
 					continue;
@@ -179,7 +179,7 @@ void Console::Clear()
 		m_Screen[i] = 0;
 }
 
-bool Console::IsInFOV(const Vector3D& vec) const
+bool Console::IsInFOV(const HVector3D& vec) const
 {
 	// Assuming that the point coordinates are relative to the camera POV
 	static const float zmin = 0.1f;

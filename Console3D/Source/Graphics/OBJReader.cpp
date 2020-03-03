@@ -39,7 +39,7 @@ Model3D OBJReader::ReadFile(const std::string& filepath)
 
 		if (type == "v")
 		{
-			Vector3D vec(true);
+			HVector3D vec(true);
 
 			sstr >> vec.x >> vec.y >> vec.z;
 
@@ -48,7 +48,7 @@ Model3D OBJReader::ReadFile(const std::string& filepath)
 
 		if (type == "vn")
 		{
-			Vector3D vec(false);
+			HVector3D vec(false);
 
 			sstr >> vec.x >> vec.y >> vec.z;
 
