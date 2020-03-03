@@ -13,8 +13,20 @@ public:
 
 	struct Face
 	{
-		uint  v1,  v2,  v3;
-		uint vn1, vn2, vn3;
+		union
+		{
+			struct
+			{
+				uint  v1,  v2,  v3;
+				uint vn1, vn2, vn3;
+			};
+
+			struct
+			{
+				uint Vertices[3];
+				uint Normals[3];
+			};
+		};	
 	};
 
 private:
