@@ -21,7 +21,6 @@ private:
 	HANDLE m_HConsole;
 	DWORD  m_DwBytesWritten;
 
-	bool m_Run;
 	std::thread m_MainThread;
 
 	float       m_Focal;

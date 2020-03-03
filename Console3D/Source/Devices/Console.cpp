@@ -25,8 +25,7 @@ Console::Console() :
 	m_Screen(nullptr),
 	m_HConsole(nullptr),
 	m_DwBytesWritten(0),
-	m_Run(true),
-	m_Focal(90.0f)
+	m_Focal(180.0f)
 {
 	m_Screen = new char[m_Width * m_Height];
 	m_HConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
@@ -45,6 +44,8 @@ Console::~Console()
 void Console::MainThread()
 {
 	PaceMaker& pacemaker = PaceMaker::Get();
+
+	bool run = true;
 	
 	float aspeed = 36.0f;			// 1 tour / 10s
 	float dt     = 16.0f / 1000.0f;	// Delta de temps
@@ -97,10 +98,10 @@ void Console::MainThread()
 
 	Transform2D CamFromImg(90.0f, 60.0f, 180.0f);
 
-	while (m_Run)
+	while (run)
 	{
 		if (!pacemaker.Wait())
-			m_Run = false;
+			run = false;
 		
 		Clear();
 
