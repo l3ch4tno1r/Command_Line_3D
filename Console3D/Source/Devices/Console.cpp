@@ -9,7 +9,7 @@
 #include "Geometry\Geometry2D\Transform2D.h"
 #include "Geometry\Geometry2D\Vector2D.h"
 #include "Geometry\Geometry3D\Transform3D.h"
-#include "Geometry\Geometry3D\Vector3D.h"
+#include "Geometry\Geometry3D\HVector3D.h"
 
 #include "Graphics\OBJReader.h"
 
@@ -44,8 +44,6 @@ Console::~Console()
 void Console::MainThread()
 {
 	PaceMaker& pacemaker = PaceMaker::Get();
-
-	bool run = true;
 	
 	float aspeed = 36.0f;			// 1 tour / 10s
 	float dt     = 16.0f / 1000.0f;	// Delta de temps
@@ -98,11 +96,8 @@ void Console::MainThread()
 
 	Transform2D CamFromImg(90.0f, 60.0f, 180.0f);
 
-	while (run)
-	{
-		if (!pacemaker.Wait())
-			run = false;
-		
+	while (pacemaker.Wait())
+	{		
 		Clear();
 
 		Transform3D R0FromCAM = m_CamFromR0.mat.Invert();

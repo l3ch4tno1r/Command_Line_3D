@@ -4,7 +4,7 @@
 
 #include "Geometry\Geometry2D\Vector2D.h"
 #include "Geometry\Geometry2D\Transform2D.h"
-#include "Geometry\Geometry3D\Vector3D.h"
+#include "Geometry\Geometry3D\HVector3D.h"
 //#include "Geometry\Geometry3D\Transform3D.h"
 
 std::ostream& operator<<(std::ostream& stream, const HVector3D& vec)
