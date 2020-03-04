@@ -2,25 +2,30 @@
 
 #include "Matrix\Stack\SqrSMatrix.h"
 
+#include "HVector3D.h"
+
 using SMatrix44f    = Matrix::StaticMatrix::Matrix<float, 4, 4>;
 using SqrSMatrix44f = Matrix::StaticMatrix::SqrMatrix<float, 4>;
 
-union Transform3D
+struct Transform3D
 {
-	struct
+	union
 	{
-		float Rux, Rvx, Rwx, Tx,
-			  Ruy, Rvy, Rwy, Ty,
-			  Ruz, Rvz, Rwz, Tz;
+		struct
+		{
+			float Rux, Rvx, Rwx, Tx,
+				  Ruy, Rvy, Rwy, Ty,
+				  Ruz, Rvz, Rwz, Tz;
 
-		// Representation of :
-		// [ Rux, Rvx, Rwx, Tx ]
-		// [ Ruy, Rvy, Rwy, Ty ]
-		// [ Ruz, Rvz, Rwz, Tz ]
-		// [  0,   0,   0,   1 ]
+			// Representation of :
+			// [ Rux, Rvx, Rwx, Tx ]
+			// [ Ruy, Rvy, Rwy, Ty ]
+			// [ Ruz, Rvz, Rwz, Tz ]
+			// [  0,   0,   0,   1 ]
+		};
+
+		SqrSMatrix44f mat;
 	};
-
-	SqrSMatrix44f mat;
 
 	Transform3D();
 
@@ -30,3 +35,7 @@ union Transform3D
 
 	Transform3D(const SqrSMatrix44f& _mat);
 };
+
+Transform3D operator*(const Transform3D& a, const Transform3D& b);
+
+HVector3D operator*(const Transform3D& t, const HVector3D& v);

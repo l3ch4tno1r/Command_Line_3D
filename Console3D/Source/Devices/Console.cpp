@@ -108,7 +108,7 @@ void Console::MainThread()
 		{
 			const Model3D& model = models[i];
 
-			Transform3D ObjFromCam = R0FromCAM.mat * ObjsFromR0[i].mat;
+			Transform3D ObjFromCam = R0FromCAM * ObjsFromR0[i];
 
 			Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = CamFromImg.mat * Projection * ObjFromCam.mat;
 
@@ -119,25 +119,28 @@ void Console::MainThread()
 				static HVector3D nh1( 0.0f,     m_Focal, m_Height / 2);
 				static HVector3D nh2( 0.0f,    -m_Focal, m_Height / 2);
 
-				HVector3D _v1    = ObjFromCam.mat * model.Vertices()[face.v1].mat;
-				HVector3D _v2    = ObjFromCam.mat * model.Vertices()[face.v2].mat;
-				HVector3D _v3    = ObjFromCam.mat * model.Vertices()[face.v3].mat;
-				HVector3D _nface = ObjFromCam.mat * model.Normals()[face.vn1].mat;
+				HVector3D _v1    = ObjFromCam * model.Vertices()[face.v1];
+				HVector3D _v2    = ObjFromCam * model.Vertices()[face.v2];
+				HVector3D _v3    = ObjFromCam * model.Vertices()[face.v3];
+				HVector3D _nface = ObjFromCam * model.Normals()[face.vn1];
 
 				if ((_v1 | _nface) > 0.0f)
+					continue;
+
+				if (!IsInFOV(_v1) && !IsInFOV(_v2) && !IsInFOV(_v3))
 					continue;
 
 				HVector2D _pt1 = _Proj * model.Vertices()[face.v1].mat;
 				HVector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
 				HVector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
 
-				if(IsInFOV(_v1) && IsInFOV(_v2))
+				//if(IsInFOV(_v1) && IsInFOV(_v2))
 					DrawLine(_pt1.PX(), _pt1.PY(), _pt2.PX(), _pt2.PY());
 
-				if (IsInFOV(_v2) && IsInFOV(_v3))
+				//if (IsInFOV(_v2) && IsInFOV(_v3))
 					DrawLine(_pt2.PX(), _pt2.PY(), _pt3.PX(), _pt3.PY());
 
-				if (IsInFOV(_v3) && IsInFOV(_v1))
+				//if (IsInFOV(_v3) && IsInFOV(_v1))
 					DrawLine(_pt3.PX(), _pt3.PY(), _pt1.PX(), _pt1.PY());
 			}
 		}

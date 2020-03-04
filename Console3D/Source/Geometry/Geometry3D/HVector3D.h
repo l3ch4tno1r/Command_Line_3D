@@ -42,20 +42,6 @@ HVector3D operator^(const HVector3D& vec1, const HVector3D& vec2);
 
 float operator|(const HVector3D& vec1, const HVector3D& vec2);
 
-inline HVector3D operator+(const HVector3D& a, const HVector3D&b)
-{
-	HVector3D result = a.mat + b.mat;
+HVector3D operator+(const HVector3D& a, const HVector3D& b);
 
-	result.s = 1.0f;
-
-	return result;
-}
-
-inline HVector3D operator-(const HVector3D& a, const HVector3D&b)
-{
-	HVector3D result = a.mat - b.mat;
-
-	result.s = 0.0f;
-
-	return result;
-}
+HVector3D operator-(const HVector3D& a, const HVector3D& b);
