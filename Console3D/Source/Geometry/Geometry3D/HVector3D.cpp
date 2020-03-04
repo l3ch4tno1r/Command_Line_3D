@@ -1,4 +1,4 @@
-#include "Vector3D.h"
+#include "HVector3D.h"
 
 HVector3D::HVector3D(bool ispoint) :
 	mat(1.0f)
@@ -42,6 +42,13 @@ const HVector3D& HVector3D::Z()
 {
 	static HVector3D z(0.0f, 0.0f, 1.0f);
 	return z;
+}
+
+HVector3D & HVector3D::operator=(const HVector3D & vec)
+{
+	mat = vec.mat;
+
+	return *this;
 }
 
 HVector3D operator^(const HVector3D & vec1, const HVector3D & vec2)
