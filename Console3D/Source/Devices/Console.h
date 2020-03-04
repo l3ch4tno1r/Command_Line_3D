@@ -7,7 +7,7 @@
 #include <thread>
 
 #include "Geometry\Geometry3D\Transform3D.h"
-#include "Geometry\Geometry3D\Vector3D.h"
+#include "Geometry\Geometry3D\HVector3D.h"
 
 class Console
 {
@@ -21,7 +21,6 @@ private:
 	HANDLE m_HConsole;
 	DWORD  m_DwBytesWritten;
 
-	bool m_Run;
 	std::thread m_MainThread;
 
 	float       m_Focal;

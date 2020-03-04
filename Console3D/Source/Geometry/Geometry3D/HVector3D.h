@@ -4,17 +4,20 @@
 
 using Vector4Df = VectorND<4>;
 
-union HVector3D
+struct HVector3D
 {
-	struct
+	union
 	{
-		float x;
-		float y;
-		float z;
-		float s;
-	};
+		struct
+		{
+			float x;
+			float y;
+			float z;
+			float s;
+		};
 
-	Vector4Df mat;
+		Vector4Df mat;
+	};
 
 	HVector3D(bool ispoint);
 		
@@ -31,8 +34,14 @@ union HVector3D
 	static const HVector3D& Y();
 
 	static const HVector3D& Z();
+
+	HVector3D& operator=(const HVector3D& vec);
 };
 
 HVector3D operator^(const HVector3D& vec1, const HVector3D& vec2);
 
 float operator|(const HVector3D& vec1, const HVector3D& vec2);
+
+HVector3D operator+(const HVector3D& a, const HVector3D& b);
+
+HVector3D operator-(const HVector3D& a, const HVector3D& b);
