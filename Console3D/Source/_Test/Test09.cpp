@@ -2,14 +2,31 @@
 
 #include <iostream>
 
-#include "Utilities\Utils.h"
-
 int main()
 {
-	std::cout << sign(2) << std::endl;
-	std::cout << sign(-3) << std::endl;
-	std::cout << sign(2.4f) << std::endl;
-	std::cout << sign(0) << std::endl;
+	enum Test
+	{
+		Behind = -1,
+		Center =  1,
+		Top    =  2,
+		Bottom =  4,
+		Left   =  8,
+		Right  =  16
+	};
+
+	short a = 0;
+
+	a |= Test::Center;
+
+	std::cout << a << std::endl;
+
+	a |= Test::Left;
+
+	std::cout << a << std::endl;
+
+	a = Test::Top | Test::Right;
+
+	std::cout << a << std::endl;
 
 	std::cin.get();
 }
