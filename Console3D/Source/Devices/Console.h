@@ -51,7 +51,17 @@ public:
 	}
 
 private:
-	bool PointInFOV(const HVector3D& vec) const;
+	enum FOVPostion
+	{
+		Behind = -1,
+		Center =  1,
+		Top    =  2,
+		Bottom =  4,
+		Left   =  8,
+		Right  =  16
+	};
+
+	short PointInFOV(const HVector3D& vec) const;
 
 	void DrawPoint(float x, float y, char c = '#');
 

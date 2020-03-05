@@ -3,6 +3,7 @@
 #include "Utilities\ErrorHandling.h"
 #include "Utilities\Angles.h"
 #include "Utilities\TimeMeasurement.h"
+#include "Utilities\Utils.h"
 
 #include "Devices\PaceMaker.h"
 
@@ -25,7 +26,7 @@ Console::Console() :
 	m_Screen(nullptr),
 	m_HConsole(nullptr),
 	m_DwBytesWritten(0),
-	m_Focal(180.0f)
+	m_Focal(90.0f)
 {
 	m_Screen = new char[m_Width * m_Height];
 	m_HConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
@@ -127,8 +128,12 @@ void Console::MainThread()
 				if ((_v1 | _nface) > 0.0f)
 					continue;
 
-				if (!PointInFOV(_v1) && !PointInFOV(_v2) && !PointInFOV(_v3))
-					continue;
+				//if (!PointInFOV(_v1) && !PointInFOV(_v2) && !PointInFOV(_v3))
+				//	continue;
+
+				PointInFOV(_v1);
+				PointInFOV(_v2);
+				PointInFOV(_v3);
 
 				HVector2D _pt1 = _Proj * model.Vertices()[face.v1].mat;
 				HVector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
@@ -178,14 +183,60 @@ void Console::Clear()
 		m_Screen[i] = 0;
 }
 
-bool Console::PointInFOV(const HVector3D& vec) const
+short Console::PointInFOV(const HVector3D& vec) const
 {
 	// Assuming that the point coordinates are relative to the camera POV
 	static const float zmin = 0.1f;
-	
-	return ((vec.z > zmin) &&
-		    (vec.z > (2 * m_Focal * std::abs(vec.x)) / m_Width) &&
-		    (vec.z > (2 * m_Focal * std::abs(vec.y)) / m_Height));
+
+	if (vec.z < zmin)
+		return FOVPostion::Behind;
+
+	short result = 0;
+
+	float X = 2 * m_Focal * vec.x / m_Width;
+	float Y = 2 * m_Focal * vec.y / m_Height;
+
+	short a = sign(vec.z + X);
+	short b = sign(vec.z - X);
+
+	switch (a - b)
+	{
+	case -2:
+	case -1:
+		result |= FOVPostion::Right;
+		break;
+	case 0:
+		result |= FOVPostion::Center;
+		break;
+	case 1:
+	case 2:
+		result |= FOVPostion::Left;
+		break;
+	default:
+		break;
+	}
+
+	short c = sign(vec.z + Y);
+	short d = sign(vec.z - Y);
+
+	switch (c - d)
+	{
+	case -2:
+	case -1:
+		result |= FOVPostion::Bottom;
+		break;
+	case 0:
+		result |= FOVPostion::Center;
+		break;
+	case 1:
+	case 2:
+		result |= FOVPostion::Top;
+		break;
+	default:
+		break;
+	}
+
+	return result;
 }
 
 void Console::DrawPoint(float x, float y, char c)
