@@ -78,7 +78,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>MAIN;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TEST09;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Matrix\Source;$(ProjectDir)Source</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -142,6 +142,7 @@
     <ClCompile Include="Source\_Test\Test06 - OBJReader.cpp" />
     <ClCompile Include="Source\_Test\Test07.cpp" />
     <ClCompile Include="Source\_Test\Test08 - Operators.cpp" />
+    <ClCompile Include="Source\_Test\Test09.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Devices\Console.h" />
@@ -157,6 +158,7 @@
     <ClInclude Include="Source\Devices\PaceMaker.h" />
     <ClInclude Include="Source\Graphics\OBJReader.h" />
     <ClInclude Include="Source\Utilities\TimeMeasurement.h" />
+    <ClInclude Include="Source\Utilities\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
