@@ -51,7 +51,7 @@ public:
 	}
 
 private:
-	bool IsInFOV(const HVector3D& vec) const;
+	bool PointInFOV(const HVector3D& vec) const;
 
 	void DrawPoint(float x, float y, char c = '#');
 

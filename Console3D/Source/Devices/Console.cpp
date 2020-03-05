@@ -127,20 +127,20 @@ void Console::MainThread()
 				if ((_v1 | _nface) > 0.0f)
 					continue;
 
-				if (!IsInFOV(_v1) && !IsInFOV(_v2) && !IsInFOV(_v3))
+				if (!PointInFOV(_v1) && !PointInFOV(_v2) && !PointInFOV(_v3))
 					continue;
 
 				HVector2D _pt1 = _Proj * model.Vertices()[face.v1].mat;
 				HVector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
 				HVector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
 
-				//if(IsInFOV(_v1) && IsInFOV(_v2))
+				//if(PointInFOV(_v1) && PointInFOV(_v2))
 					DrawLine(_pt1.PX(), _pt1.PY(), _pt2.PX(), _pt2.PY());
 
-				//if (IsInFOV(_v2) && IsInFOV(_v3))
+				//if (PointInFOV(_v2) && PointInFOV(_v3))
 					DrawLine(_pt2.PX(), _pt2.PY(), _pt3.PX(), _pt3.PY());
 
-				//if (IsInFOV(_v3) && IsInFOV(_v1))
+				//if (PointInFOV(_v3) && PointInFOV(_v1))
 					DrawLine(_pt3.PX(), _pt3.PY(), _pt1.PX(), _pt1.PY());
 			}
 		}
@@ -178,7 +178,7 @@ void Console::Clear()
 		m_Screen[i] = 0;
 }
 
-bool Console::IsInFOV(const HVector3D& vec) const
+bool Console::PointInFOV(const HVector3D& vec) const
 {
 	// Assuming that the point coordinates are relative to the camera POV
 	static const float zmin = 0.1f;
