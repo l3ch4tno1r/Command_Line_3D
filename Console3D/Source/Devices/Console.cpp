@@ -26,7 +26,7 @@ Console::Console() :
 	m_Screen(nullptr),
 	m_HConsole(nullptr),
 	m_DwBytesWritten(0),
-	m_Focal(180.0f)
+	m_Focal(150.0f)
 {
 	m_Screen = new char[m_Width * m_Height];
 	m_HConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
@@ -131,9 +131,9 @@ void Console::MainThread()
 				HVector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
 				HVector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
 
-				DrawLine(_pt1.PX(), _pt1.PY(), _pt2.PX(), _pt2.PY());
-				DrawLine(_pt2.PX(), _pt2.PY(), _pt3.PX(), _pt3.PY());
-				DrawLine(_pt3.PX(), _pt3.PY(), _pt1.PX(), _pt1.PY());
+				DrawLine(_pt1, _pt2);
+				DrawLine(_pt2, _pt3);
+				DrawLine(_pt3, _pt1);
 			}
 		}
 
@@ -254,8 +254,13 @@ void Console::DrawPoint(float x, float y, char c)
 	m_Screen[(INT32)x + (INT32)y * m_Width] = c;
 }
 
-void Console::DrawLine(float x1, float y1, float x2, float y2)
+void Console::DrawLine(const HVector2D& v1, const HVector2D& v2)
 {
+	float x1 = v1.PX();
+	float y1 = v1.PY();
+	float x2 = v2.PX();
+	float y2 = v2.PY();
+
 	float dx = x2 - x1;
 	float dy = y2 - y1;
 

@@ -8,6 +8,7 @@
 
 #include "Geometry\Geometry3D\Transform3D.h"
 #include "Geometry\Geometry3D\HVector3D.h"
+#include "Geometry\Geometry2D\Vector2D.h"
 
 class Console
 {
@@ -70,7 +71,7 @@ private:
 
 	void DrawPoint(float x, float y, char c = '#');
 
-	void DrawLine(float x1, float y1, float x2, float y2);
+	void DrawLine(const HVector2D& v1, const HVector2D& v2);
 
 	void DisplayMessage(const std::string& msg);
 
