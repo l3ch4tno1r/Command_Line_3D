@@ -4,20 +4,25 @@
 
 using Vector3Df = VectorND<3>;
 
-union HVector2D
+struct HVector2D
 {
-	struct
+	union
 	{
-		float x;
-		float y;
-		float s;
-	};
+		struct
+		{
+			float x;
+			float y;
+			float s;
+		};
 
-	Vector3Df mat;
+		Vector3Df mat;
+	};
 
 	HVector2D();
 
 	HVector2D(float _x, float _y);
+
+	HVector2D(const HVector2D& vec);
 
 	HVector2D(const Vector3Df& _mat);
 
@@ -33,3 +38,11 @@ union HVector2D
 		return y / s;
 	}
 };
+
+float operator|(const HVector2D& a, const HVector2D& b);
+
+HVector2D operator+(const HVector2D& a, const HVector2D& b);
+
+HVector2D operator-(const HVector2D& a, const HVector2D& b);
+
+HVector2D operator*(float t, const HVector2D& vec);
