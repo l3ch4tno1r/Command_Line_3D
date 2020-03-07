@@ -12,6 +12,9 @@
 class Console
 {
 private:
+	const float cm_ScreenDist = 0.1f;
+
+private:
 	//static Console console;
 
 	UINT32 m_Width;
@@ -62,6 +65,8 @@ private:
 	};
 
 	short PointInFOV(const HVector3D& vec) const;
+
+	void ScreenProjection(HVector3D& a, HVector3D& b) const;
 
 	void DrawPoint(float x, float y, char c = '#');
 

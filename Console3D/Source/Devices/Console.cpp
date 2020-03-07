@@ -26,7 +26,7 @@ Console::Console() :
 	m_Screen(nullptr),
 	m_HConsole(nullptr),
 	m_DwBytesWritten(0),
-	m_Focal(90.0f)
+	m_Focal(180.0f)
 {
 	m_Screen = new char[m_Width * m_Height];
 	m_HConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
@@ -115,38 +115,25 @@ void Console::MainThread()
 
 			for (const Model3D::Face& face : model.Faces())
 			{
-				static HVector3D nw1(-m_Focal,  0.0f,    m_Width / 2);
-				static HVector3D nw2( m_Focal,  0.0f,    m_Width / 2);
-				static HVector3D nh1( 0.0f,     m_Focal, m_Height / 2);
-				static HVector3D nh2( 0.0f,    -m_Focal, m_Height / 2);
-
 				HVector3D _v1    = ObjFromCam * model.Vertices()[face.v1];
 				HVector3D _v2    = ObjFromCam * model.Vertices()[face.v2];
 				HVector3D _v3    = ObjFromCam * model.Vertices()[face.v3];
 				HVector3D _nface = ObjFromCam * model.Normals()[face.vn1];
 
+				ScreenProjection(_v1, _v2);
+				ScreenProjection(_v2, _v3);
+				ScreenProjection(_v3, _v1);
+
 				if ((_v1 | _nface) > 0.0f)
 					continue;
-
-				//if (!PointInFOV(_v1) && !PointInFOV(_v2) && !PointInFOV(_v3))
-				//	continue;
-
-				PointInFOV(_v1);
-				PointInFOV(_v2);
-				PointInFOV(_v3);
 
 				HVector2D _pt1 = _Proj * model.Vertices()[face.v1].mat;
 				HVector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
 				HVector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
 
-				//if(PointInFOV(_v1) && PointInFOV(_v2))
-					DrawLine(_pt1.PX(), _pt1.PY(), _pt2.PX(), _pt2.PY());
-
-				//if (PointInFOV(_v2) && PointInFOV(_v3))
-					DrawLine(_pt2.PX(), _pt2.PY(), _pt3.PX(), _pt3.PY());
-
-				//if (PointInFOV(_v3) && PointInFOV(_v1))
-					DrawLine(_pt3.PX(), _pt3.PY(), _pt1.PX(), _pt1.PY());
+				DrawLine(_pt1.PX(), _pt1.PY(), _pt2.PX(), _pt2.PY());
+				DrawLine(_pt2.PX(), _pt2.PY(), _pt3.PX(), _pt3.PY());
+				DrawLine(_pt3.PX(), _pt3.PY(), _pt1.PX(), _pt1.PY());
 			}
 		}
 
@@ -186,9 +173,8 @@ void Console::Clear()
 short Console::PointInFOV(const HVector3D& vec) const
 {
 	// Assuming that the point coordinates are relative to the camera POV
-	static const float zmin = 0.1f;
 
-	if (vec.z < zmin)
+	if (vec.z < cm_ScreenDist)
 		return FOVPostion::Behind;
 
 	short result = 0;
@@ -237,6 +223,24 @@ short Console::PointInFOV(const HVector3D& vec) const
 	}
 
 	return result;
+}
+
+void Console::ScreenProjection(HVector3D& a, HVector3D& b) const
+{
+	if (sign(a.z - cm_ScreenDist) == sign(b.z - cm_ScreenDist))
+		return;
+
+	HVector3D& p1 = (a.z > 0.0f ? a : b);
+	HVector3D& p2 = (a.z > 0.0f ? b : a);
+
+	float dz = p2.z - p1.z;
+
+	if (std::abs(dz) < 0.001f)
+		return;
+
+	float k = (cm_ScreenDist - p2.z) / dz;
+
+	p2 = p2 + k * (p2 - p1);
 }
 
 void Console::DrawPoint(float x, float y, char c)
