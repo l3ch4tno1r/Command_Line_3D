@@ -97,6 +97,7 @@ void Console::MainThread()
 
 	Transform2D CamFromImg(90.0f, 60.0f, 180.0f);
 
+	// Console device loop
 	while (pacemaker.Wait())
 	{		
 		Clear();
@@ -120,9 +121,9 @@ void Console::MainThread()
 				HVector3D _v3    = ObjFromCam * model.Vertices()[face.v3];
 				HVector3D _nface = ObjFromCam * model.Normals()[face.vn1];
 
-				ScreenProjection(_v1, _v2);
-				ScreenProjection(_v2, _v3);
-				ScreenProjection(_v3, _v1);
+				ScreenPlaneProjection(_v1, _v2);
+				ScreenPlaneProjection(_v2, _v3);
+				ScreenPlaneProjection(_v3, _v1);
 
 				if ((_v1 | _nface) > 0.0f)
 					continue;
@@ -131,9 +132,14 @@ void Console::MainThread()
 				HVector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
 				HVector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
 
-				DrawLine(_pt1, _pt2);
-				DrawLine(_pt2, _pt3);
-				DrawLine(_pt3, _pt1);
+				if(LineInSight(_pt1, _pt2))
+					DrawLine(_pt1, _pt2);
+
+				if (LineInSight(_pt2, _pt3))
+					DrawLine(_pt2, _pt3);
+				
+				if (LineInSight(_pt3, _pt1))
+					DrawLine(_pt3, _pt1);
 			}
 		}
 
@@ -225,7 +231,7 @@ short Console::PointInFOV(const HVector3D& vec) const
 	return result;
 }
 
-void Console::ScreenProjection(HVector3D& a, HVector3D& b) const
+void Console::ScreenPlaneProjection(HVector3D& a, HVector3D& b) const
 {
 	if (sign(a.z - cm_ScreenDist) == sign(b.z - cm_ScreenDist))
 		return;
@@ -252,6 +258,18 @@ void Console::DrawPoint(float x, float y, char c)
 		return;
 
 	m_Screen[(INT32)x + (INT32)y * m_Width] = c;
+}
+
+bool Console::LineInSight(HVector2D& a, HVector2D& b)
+{
+	static const HVector2D TL = { 0.0f,           0.0f };
+	static const HVector2D TR = { (float)m_Width, 0.0f };
+	static const HVector2D BL = { 0.0f,           (float)m_Height };
+	static const HVector2D BR = { (float)m_Width, (float)m_Height };
+
+	HVector2D v = b - a;
+
+	return false;
 }
 
 void Console::DrawLine(const HVector2D& v1, const HVector2D& v2)
