@@ -37,6 +37,8 @@ struct HVector2D
 	{
 		return y / s;
 	}
+
+	void Homogenize();
 };
 
 float operator|(const HVector2D& a, const HVector2D& b);

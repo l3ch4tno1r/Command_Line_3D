@@ -23,6 +23,13 @@ HVector2D::HVector2D(const MatrixN1f<3>& _mat) :
 	mat(_mat)
 {}
 
+void HVector2D::Homogenize()
+{
+	x /= s;
+	y /= s;
+	s = 1.0f;
+}
+
 float operator|(const HVector2D& a, const HVector2D& b)
 {
 	return a.mat | b.mat;
