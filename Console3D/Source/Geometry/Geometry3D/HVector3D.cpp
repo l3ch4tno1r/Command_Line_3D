@@ -6,7 +6,7 @@ HVector3D::HVector3D(bool ispoint) :
 	mat(3, 0) = (ispoint ? 1.0f : 0.0f);
 }
 
-HVector3D::HVector3D(const HVector3D & vec) :
+HVector3D::HVector3D(const HVector3D& vec) :
 	mat(vec.mat)
 {}
 
@@ -44,14 +44,14 @@ const HVector3D& HVector3D::Z()
 	return z;
 }
 
-HVector3D & HVector3D::operator=(const HVector3D & vec)
+HVector3D& HVector3D::operator=(const HVector3D& vec)
 {
 	mat = vec.mat;
 
 	return *this;
 }
 
-HVector3D operator^(const HVector3D & vec1, const HVector3D & vec2)
+HVector3D operator^(const HVector3D& vec1, const HVector3D& vec2)
 {
 	static HVector3D result(true);
 
@@ -62,7 +62,7 @@ HVector3D operator^(const HVector3D & vec1, const HVector3D & vec2)
 	return result;
 }
 
-float operator|(const HVector3D & vec1, const HVector3D & vec2)
+float operator|(const HVector3D& vec1, const HVector3D& vec2)
 {
 	return vec1.mat | vec2.mat;
 }
