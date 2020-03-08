@@ -30,6 +30,13 @@ void HVector2D::Homogenize()
 	s = 1.0f;
 }
 
+HVector2D& HVector2D::operator=(const HVector2D& vec)
+{
+	mat = vec.mat;
+
+	return *this;
+}
+
 float operator|(const HVector2D& a, const HVector2D& b)
 {
 	return a.mat | b.mat;
