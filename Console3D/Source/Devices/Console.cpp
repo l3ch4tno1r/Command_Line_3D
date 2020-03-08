@@ -26,7 +26,8 @@ Console::Console() :
 	m_Screen(nullptr),
 	m_HConsole(nullptr),
 	m_DwBytesWritten(0),
-	m_Focal(150.0f)
+	//m_Focal(150.0f)
+	m_Focal(90.0f)
 {
 	m_Screen = new char[m_Width * m_Height];
 	m_HConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
@@ -131,6 +132,10 @@ void Console::MainThread()
 				HVector2D _pt1 = _Proj * model.Vertices()[face.v1].mat;
 				HVector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
 				HVector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
+
+				_pt1.Homogenize();
+				_pt2.Homogenize();
+				_pt3.Homogenize();
 
 				if(LineInSight(_pt1, _pt2))
 					DrawLine(_pt1, _pt2);
@@ -268,8 +273,19 @@ bool Console::LineInSight(HVector2D& a, HVector2D& b)
 	static const HVector2D BR = { (float)m_Width, (float)m_Height };
 
 	HVector2D v = b - a;
+	HVector2D n = { -v.y, v.x };
 
-	return false;
+	float _1 = n | (a - TL);
+	float _2 = n | (a - TR);
+	float _3 = n | (a - BL);
+	float _4 = n | (a - BR);
+
+	if (sign(_1) == sign(_2) &&
+		sign(_1) == sign(_3) &&
+		sign(_1) == sign(_4))
+		return false;
+
+	return true;
 }
 
 void Console::DrawLine(const HVector2D& v1, const HVector2D& v2)
