@@ -117,34 +117,55 @@ void Console::MainThread()
 
 			for (const Model3D::Face& face : model.Faces())
 			{
-				HVector3D _v1    = ObjFromCam * model.Vertices()[face.v1];
-				HVector3D _v2    = ObjFromCam * model.Vertices()[face.v2];
-				HVector3D _v3    = ObjFromCam * model.Vertices()[face.v3];
-				HVector3D _nface = ObjFromCam * model.Normals()[face.vn1];
+				HVector3D vertices[3] = {
+					ObjFromCam * model.Vertices()[face.v1],
+					ObjFromCam * model.Vertices()[face.v2],
+					ObjFromCam * model.Vertices()[face.v3]
+				};
 
-				ScreenPlaneProjection(_v1, _v2);
-				ScreenPlaneProjection(_v2, _v3);
-				ScreenPlaneProjection(_v3, _v1);
+				HVector3D nface = ObjFromCam * model.Normals()[face.vn1];
 
-				if ((_v1 | _nface) > 0.0f)
+				if ((vertices[0] | nface) > 0.0f)
 					continue;
 
-				HVector2D _pt1 = _Proj * model.Vertices()[face.v1].mat;
-				HVector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
-				HVector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
+				for (uint i = 0; i < 3; i++)
+				{
+					uint ip1 = (i + 1) % 3;
 
-				_pt1.Homogenize();
-				_pt2.Homogenize();
-				_pt3.Homogenize();
+					HVector3D p1(true), p2(true);
 
-				if(LineInSight(_pt1, _pt2))
+					if (!ScreenPlaneProjection(vertices[i], vertices[ip1], p1, p2))
+						continue;
+
+					HVector2D _pt1 = _Proj * model.Vertices()[face.Vertices[i]].mat;
+					HVector2D _pt2 = _Proj * model.Vertices()[face.Vertices[ip1]].mat;
+
+					_pt1.Homogenize();
+					_pt2.Homogenize();
+
 					DrawLine(_pt1, _pt2);
+				}
 
-				if (LineInSight(_pt2, _pt3))
-					DrawLine(_pt2, _pt3);
-				
-				if (LineInSight(_pt3, _pt1))
-					DrawLine(_pt3, _pt1);
+				//ScreenPlaneProjection(_v1, _v2);
+				//ScreenPlaneProjection(_v2, _v3);
+				//ScreenPlaneProjection(_v3, _v1);
+				//
+				//HVector2D _pt1 = _Proj * model.Vertices()[face.v1].mat;
+				//HVector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
+				//HVector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
+				//
+				//_pt1.Homogenize();
+				//_pt2.Homogenize();
+				//_pt3.Homogenize();
+				//
+				//if (_v1.z >= cm_ScreenDist || _v2.z >=cm_ScreenDist)
+				//	DrawLine(_pt1, _pt2);
+				//
+				//if (_v2.z >= cm_ScreenDist || _v3.z >= cm_ScreenDist)
+				//	DrawLine(_pt2, _pt3);
+				//
+				//if (_v3.z >= cm_ScreenDist || _v1.z >= cm_ScreenDist)
+				//	DrawLine(_pt3, _pt1);
 			}
 		}
 
@@ -236,22 +257,24 @@ short Console::PointInFOV(const HVector3D& vec) const
 	return result;
 }
 
-void Console::ScreenPlaneProjection(HVector3D& a, HVector3D& b) const
+bool Console::ScreenPlaneProjection(const HVector3D& a, const HVector3D& b, HVector3D& pa, HVector3D& pb) const
 {
-	if (sign(a.z - cm_ScreenDist) == sign(b.z - cm_ScreenDist))
-		return;
+	if (sign(a.z - cm_ScreenDist) < 0.0f && sign(b.z - cm_ScreenDist) < 0.0f)
+		return false;
 
-	HVector3D& p1 = (a.z > 0.0f ? a : b);
-	HVector3D& p2 = (a.z > 0.0f ? b : a);
+	pa = (a.z > 0.0f ? a : b);
+	pb = (a.z > 0.0f ? b : a);
 
-	float dz = p2.z - p1.z;
+	float dz = pb.z - pa.z;
 
 	if (std::abs(dz) < 0.001f)
-		return;
+		return true;
 
-	float k = (cm_ScreenDist - p2.z) / dz;
+	float k = (cm_ScreenDist - pb.z) / dz;
 
-	p2 = p2 + k * (p2 - p1);
+	pb = pb + k * (pb - pa);
+
+	return true;
 }
 
 void Console::DrawPoint(float x, float y, char c)
@@ -273,20 +296,58 @@ bool Console::LineInSight(HVector2D& OA, HVector2D& OB)
 	static const HVector2D BR = { (float)m_Width, (float)m_Height };
 
 	HVector2D AB = OB - OA;
+	HVector2D n = { -AB.y, AB.x };
 
-	float t0y, tWy;
-	float tx0, txH;
+	float _1 = n | (OA - TL);
+	float _2 = n | (OA - TR);
+	float _3 = n | (OA - BL);
+	float _4 = n | (OA - BR);
+
+	if (sign(_1) == sign(_2) &&
+		sign(_1) == sign(_3) &&
+		sign(_1) == sign(_4))
+		return false;
+
+	HVector2D _OA = OA;
+	HVector2D _OB = OB;
+
+	float W = (float)m_Width;
+	float H = (float)m_Height;
+
+	float t0y = -1000000;
+	float tWy =  1000000;
+	float tx0 = -1000000;
+	float txH =  1000000;
 
 	if (std::abs(AB.x) > 0.01f)
 	{
-		t0y = OA.x / (AB.x);
+		t0y = -_OA.x / (AB.x);
+		tWy = (W - _OA.x) / (AB.x);
 	}
+
+	if (std::abs(AB.y) > 0.01f)
+	{
+		tx0 = -_OA.y / (AB.y);
+		txH = (H - _OA.y) / (AB.y);
+	}
+
+	std::vector<float> tab = { 0.0f, 1.0f, t0y, tWy, tx0, txH };
+	std::sort(tab.begin(), tab.end());
+
+	if (tab[2] >= 1.0f || tab[3] <= 0.0f)
+		return false;
+
+	OA = _OA + tab[2] * AB;
+	OB = _OA + tab[3] * AB;
 
 	return true;
 }
 
-void Console::DrawLine(const HVector2D& v1, const HVector2D& v2)
+void Console::DrawLine(HVector2D v1, HVector2D v2)
 {
+	if (!LineInSight(v1, v2))
+		return;
+
 	float x1 = v1.PX();
 	float y1 = v1.PY();
 	float x2 = v2.PX();

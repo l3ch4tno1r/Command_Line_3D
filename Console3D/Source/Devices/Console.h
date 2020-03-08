@@ -67,13 +67,13 @@ private:
 
 	short PointInFOV(const HVector3D& vec) const;
 
-	void ScreenPlaneProjection(HVector3D& a, HVector3D& b) const;
+	bool ScreenPlaneProjection(const HVector3D& a, const HVector3D& b, HVector3D& pa, HVector3D& pb) const;
 
 	void DrawPoint(float x, float y, char c = '#');
 
 	bool LineInSight(HVector2D& OA, HVector2D& OB);
 
-	void DrawLine(const HVector2D& v1, const HVector2D& v2);
+	void DrawLine(HVector2D v1, HVector2D v2);
 
 	void DisplayMessage(const std::string& msg);
 
