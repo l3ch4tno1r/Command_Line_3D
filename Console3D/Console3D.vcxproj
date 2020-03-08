@@ -78,7 +78,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>TEST10;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>MAIN;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Matrix\Source;$(ProjectDir)Source</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -145,6 +145,7 @@
     <ClCompile Include="Source\_Test\Test08 - Operators.cpp" />
     <ClCompile Include="Source\_Test\Test09.cpp" />
     <ClCompile Include="Source\_Test\Test10.cpp" />
+    <ClCompile Include="Source\_Test\Test11.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Devices\Console.h" />
