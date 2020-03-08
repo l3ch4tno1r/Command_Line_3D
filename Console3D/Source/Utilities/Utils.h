@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Geometry\Geometry3D\HVector3D.h"
+#include "Geometry\Geometry2D\Vector2D.h"
 
 template<typename T>
 short sign(T a)

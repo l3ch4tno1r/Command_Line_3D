@@ -71,7 +71,7 @@ private:
 
 	void DrawPoint(float x, float y, char c = '#');
 
-	bool LineInSight(HVector2D& a, HVector2D& b);
+	bool LineInSight(HVector2D& OA, HVector2D& OB);
 
 	void DrawLine(const HVector2D& v1, const HVector2D& v2);
 

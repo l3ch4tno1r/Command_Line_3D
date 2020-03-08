@@ -265,25 +265,22 @@ void Console::DrawPoint(float x, float y, char c)
 	m_Screen[(INT32)x + (INT32)y * m_Width] = c;
 }
 
-bool Console::LineInSight(HVector2D& a, HVector2D& b)
+bool Console::LineInSight(HVector2D& OA, HVector2D& OB)
 {
 	static const HVector2D TL = { 0.0f,           0.0f };
 	static const HVector2D TR = { (float)m_Width, 0.0f };
 	static const HVector2D BL = { 0.0f,           (float)m_Height };
 	static const HVector2D BR = { (float)m_Width, (float)m_Height };
 
-	HVector2D v = b - a;
-	HVector2D n = { -v.y, v.x };
+	HVector2D AB = OB - OA;
 
-	float _1 = n | (a - TL);
-	float _2 = n | (a - TR);
-	float _3 = n | (a - BL);
-	float _4 = n | (a - BR);
+	float t0y, tWy;
+	float tx0, txH;
 
-	if (sign(_1) == sign(_2) &&
-		sign(_1) == sign(_3) &&
-		sign(_1) == sign(_4))
-		return false;
+	if (std::abs(AB.x) > 0.01f)
+	{
+		t0y = OA.x / (AB.x);
+	}
 
 	return true;
 }
