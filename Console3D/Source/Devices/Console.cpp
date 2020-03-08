@@ -8,7 +8,7 @@
 #include "Devices\PaceMaker.h"
 
 #include "Geometry\Geometry2D\Transform2D.h"
-#include "Geometry\Geometry2D\Vector2D.h"
+#include "Geometry\Geometry2D\HVector2D.h"
 #include "Geometry\Geometry3D\Transform3D.h"
 #include "Geometry\Geometry3D\HVector3D.h"
 
