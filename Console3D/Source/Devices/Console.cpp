@@ -68,25 +68,25 @@ void Console::MainThread()
 		v.z *= scalefactor;
 	}
 
-	Transform3D ObjsFromR0[] = {
+	Transform3D R0ToObjs[] = {
 		Transform3D(),
 		Transform3D()
 	};
 
 	// Set up Camera transform
 
-	m_CamFromR0.Rux =  1.0f;
-	m_CamFromR0.Ruy =  0.0f;
-	m_CamFromR0.Ruz =  0.0f;
-	m_CamFromR0.Rvx =  0.0f;
-	m_CamFromR0.Rvy =  0.0f;
-	m_CamFromR0.Rvz =  1.0f;
-	m_CamFromR0.Rwx =  0.0f;
-	m_CamFromR0.Rwy = -1.0f;
-	m_CamFromR0.Rwz =  0.0f;
-	m_CamFromR0.Tx  =  0.0f;
-	m_CamFromR0.Ty  =  7.0f;
-	m_CamFromR0.Tz  =  1.8f;
+	m_R0ToCam.Rux =  1.0f;
+	m_R0ToCam.Ruy =  0.0f;
+	m_R0ToCam.Ruz =  0.0f;
+	m_R0ToCam.Rvx =  0.0f;
+	m_R0ToCam.Rvy =  0.0f;
+	m_R0ToCam.Rvz =  1.0f;
+	m_R0ToCam.Rwx =  0.0f;
+	m_R0ToCam.Rwy = -1.0f;
+	m_R0ToCam.Rwz =  0.0f;
+	m_R0ToCam.Tx  =  0.0f;
+	m_R0ToCam.Ty  =  7.0f;
+	m_R0ToCam.Tz  =  1.8f;
 
 	const float tab[3][4] = {
 		m_Focal, 0.0f,    0.0f,  0.0f,
@@ -96,14 +96,14 @@ void Console::MainThread()
 
 	Matrix::StaticMatrix::Matrix<float, 3, 4> Projection(tab);
 
-	Transform2D CamFromImg(90.0f, 60.0f, 180.0f);
+	Transform2D ImgToCam(90.0f, 60.0f, 180.0f);
 
 	// Console device loop
 	while (pacemaker.Wait())
 	{		
 		Clear();
 
-		Transform3D R0FromCAM = m_CamFromR0.mat.Invert();
+		Transform3D CamToR0 = m_R0ToCam.mat.Invert();
 
 		STARTCHRONO;
 
@@ -111,19 +111,19 @@ void Console::MainThread()
 		{
 			const Model3D& model = models[i];
 
-			Transform3D ObjFromCam = R0FromCAM * ObjsFromR0[i];
+			Transform3D CamToObj = CamToR0 * R0ToObjs[i];
 
-			Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = CamFromImg.mat * Projection * ObjFromCam.mat;
+			Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = ImgToCam.mat * Projection * CamToObj.mat;
 
 			for (const Model3D::Face& face : model.Faces())
 			{
 				HVector3D vertices[3] = {
-					ObjFromCam * model.Vertices()[face.v1],
-					ObjFromCam * model.Vertices()[face.v2],
-					ObjFromCam * model.Vertices()[face.v3]
+					CamToObj * model.Vertices()[face.v1],
+					CamToObj * model.Vertices()[face.v2],
+					CamToObj * model.Vertices()[face.v3]
 				};
 
-				HVector3D nface = ObjFromCam * model.Normals()[face.vn1];
+				HVector3D nface = CamToObj * model.Normals()[face.vn1];
 
 				if ((vertices[0] | nface) > 0.0f)
 					continue;
@@ -183,10 +183,10 @@ void Console::MainThread()
 
 		a += aspeed * dt;
 
-		ObjsFromR0[1].Rux =  std::cos(TORAD(a));
-		ObjsFromR0[1].Ruy =  std::sin(TORAD(a));
-		ObjsFromR0[1].Rvx = -std::sin(TORAD(a));
-		ObjsFromR0[1].Rvy =  std::cos(TORAD(a));
+		R0ToObjs[1].Rux =  std::cos(TORAD(a));
+		R0ToObjs[1].Ruy =  std::sin(TORAD(a));
+		R0ToObjs[1].Rvx = -std::sin(TORAD(a));
+		R0ToObjs[1].Rvy =  std::cos(TORAD(a));
 	}
 }
 

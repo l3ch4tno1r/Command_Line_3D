@@ -28,7 +28,7 @@ private:
 	std::thread m_MainThread;
 
 	float       m_Focal;
-	Transform3D m_CamFromR0;
+	Transform3D m_R0ToCam;
 
 	Console();
 
@@ -44,9 +44,9 @@ public:
 
 	void Clear();
 
-	inline Transform3D& CamFromR0()
+	inline Transform3D& R0ToCam()
 	{
-		return m_CamFromR0;
+		return m_R0ToCam;
 	}
 
 	inline float& Focal()

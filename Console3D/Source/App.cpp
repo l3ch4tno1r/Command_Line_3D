@@ -36,7 +36,7 @@ int main()
 	PaceMaker& pacemaker = PaceMaker::Get();
 	Console&   console   = Console::Get();	
 
-	Transform3D& camfromr0 = console.CamFromR0();
+	Transform3D& r0tocam = console.R0ToCam();
 
 	float camspeed   = 3.0f;
 	float anglespeed = 5.0f;
@@ -51,7 +51,7 @@ int main()
 	{
 		pacemaker.Wait();
 
-		static Transform3D Tr = camfromr0;
+		static Transform3D Tr = r0tocam;
 		static Transform3D RotX;
 		static Transform3D RotY;
 
@@ -63,26 +63,26 @@ int main()
 
 		if (GetAsyncKeyState((unsigned short)'Z') & 0x8000)
 		{
-			Tr.Tx += camspeed * camfromr0.Rwx * dt;
-			Tr.Ty += camspeed * camfromr0.Rwy * dt;
+			Tr.Tx += camspeed * r0tocam.Rwx * dt;
+			Tr.Ty += camspeed * r0tocam.Rwy * dt;
 		}
 
 		if (GetAsyncKeyState((unsigned short)'S') & 0x8000)
 		{
-			Tr.Tx -= camspeed * camfromr0.Rwx * dt;
-			Tr.Ty -= camspeed * camfromr0.Rwy * dt;
+			Tr.Tx -= camspeed * r0tocam.Rwx * dt;
+			Tr.Ty -= camspeed * r0tocam.Rwy * dt;
 		}
 
 		if (GetAsyncKeyState((unsigned short)'Q') & 0x8000)
 		{
-			Tr.Tx += camspeed * camfromr0.Rux * dt;
-			Tr.Ty += camspeed * camfromr0.Ruy * dt;
+			Tr.Tx += camspeed * r0tocam.Rux * dt;
+			Tr.Ty += camspeed * r0tocam.Ruy * dt;
 		}
 
 		if (GetAsyncKeyState((unsigned short)'D') & 0x8000)
 		{
-			Tr.Tx -= camspeed * camfromr0.Rux * dt;
-			Tr.Ty -= camspeed * camfromr0.Ruy * dt;
+			Tr.Tx -= camspeed * r0tocam.Rux * dt;
+			Tr.Ty -= camspeed * r0tocam.Ruy * dt;
 		}
 
 		cNumRead = 0;
@@ -137,7 +137,7 @@ int main()
 		RotY.Rwx = -std::sin(TORAD(ay));
 		RotY.Rwz =  std::cos(TORAD(ay));
 
-		camfromr0.mat = Tr.mat * RotY.mat * RotX.mat;
+		r0tocam.mat = Tr.mat * RotY.mat * RotX.mat;
 	}
 
 	return 0;
