@@ -145,27 +145,6 @@ void Console::MainThread()
 
 					DrawLine(_pt1, _pt2);
 				}
-
-				//ScreenPlaneProjection(_v1, _v2);
-				//ScreenPlaneProjection(_v2, _v3);
-				//ScreenPlaneProjection(_v3, _v1);
-				//
-				//HVector2D _pt1 = _Proj * model.Vertices()[face.v1].mat;
-				//HVector2D _pt2 = _Proj * model.Vertices()[face.v2].mat;
-				//HVector2D _pt3 = _Proj * model.Vertices()[face.v3].mat;
-				//
-				//_pt1.Homogenize();
-				//_pt2.Homogenize();
-				//_pt3.Homogenize();
-				//
-				//if (_v1.z >= cm_ScreenDist || _v2.z >=cm_ScreenDist)
-				//	DrawLine(_pt1, _pt2);
-				//
-				//if (_v2.z >= cm_ScreenDist || _v3.z >= cm_ScreenDist)
-				//	DrawLine(_pt2, _pt3);
-				//
-				//if (_v3.z >= cm_ScreenDist || _v1.z >= cm_ScreenDist)
-				//	DrawLine(_pt3, _pt1);
 			}
 		}
 
