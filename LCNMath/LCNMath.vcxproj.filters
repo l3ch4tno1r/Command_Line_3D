@@ -27,5 +27,8 @@
     <ClInclude Include="Source\Geometry\VectorND.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Geometry\HVectorND.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <iostream>
 
 #include "Matrix\Stack\SMatrix.h"
 
@@ -32,6 +33,16 @@ namespace LCNMath
 
 				return std::sqrt(norm);
 			}
+
+			inline float& operator[](uint i)
+			{
+				return (*this)(i, 0);
+			}
+
+			inline const float& operator[](uint i) const
+			{
+				return (*this)(i, 0);
+			}
 		};
 
 		template<uint N>
@@ -43,6 +54,19 @@ namespace LCNMath
 				dotproduct += vec1(i, 0) * vec2(i, 0);
 		
 			return dotproduct;
+		}
+
+		template<uint N>
+		std::ostream& operator<<(std::ostream& stream, const VectorND<N>& vec)
+		{
+			stream << '(';
+
+			for (uint i = 0; i < N; i++)
+				stream << vec[i] << (i < N - 1 ? ", " : "");
+
+			stream << ')';
+
+			return stream;
 		}
 	}
 }
