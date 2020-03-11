@@ -78,7 +78,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>MAIN;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TEST12;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)LCNMath\Source;$(ProjectDir)Source</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -147,6 +147,7 @@
     <ClCompile Include="Source\_Test\Test09.cpp" />
     <ClCompile Include="Source\_Test\Test10.cpp" />
     <ClCompile Include="Source\_Test\Test11.cpp" />
+    <ClCompile Include="Source\_Test\Test12.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Devices\Console.h" />
