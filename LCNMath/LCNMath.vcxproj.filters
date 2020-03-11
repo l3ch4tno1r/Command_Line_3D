@@ -24,5 +24,8 @@
     <ClInclude Include="Source\Matrix\Heap\HMatrix.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Geometry\VectorND.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

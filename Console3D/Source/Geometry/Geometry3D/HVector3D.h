@@ -2,7 +2,9 @@
 
 #include "Geometry\VectorND.h"
 
-using Vector4Df = VectorND<4>;
+using Vector4Df = LCNMath::Geometry::VectorND<4>;
+
+using LCNMath::Geometry::MatrixN1f;
 
 struct HVector3D
 {

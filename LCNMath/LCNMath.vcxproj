@@ -116,6 +116,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Geometry\VectorND.h" />
     <ClInclude Include="Source\Matrix\Heap\HMatrix.h" />
     <ClInclude Include="Source\Matrix\Stack\SMatrix.h" />
     <ClInclude Include="Source\Matrix\Stack\SqrSMatrix.h" />

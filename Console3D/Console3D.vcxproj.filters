@@ -101,9 +101,6 @@
     <ClInclude Include="Source\Geometry\Geometry2D\Transform2D.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Geometry\VectorND.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Geometry\Geometry3D\Transform3D.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
