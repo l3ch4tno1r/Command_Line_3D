@@ -148,6 +148,7 @@
     <ClCompile Include="Source\_Test\Test10.cpp" />
     <ClCompile Include="Source\_Test\Test11.cpp" />
     <ClCompile Include="Source\_Test\Test12.cpp" />
+    <ClCompile Include="Source\_Test\Test13.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Devices\Console.h" />
