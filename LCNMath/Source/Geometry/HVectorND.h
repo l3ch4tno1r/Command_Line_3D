@@ -2,10 +2,8 @@
 
 #include "VectorND.h"
 
-namespace LCNMath
-{
-	namespace Geometry
-	{
+namespace LCNMath{
+	namespace Geometry{
 		template<uint N>
 		struct HVectorND
 		{
