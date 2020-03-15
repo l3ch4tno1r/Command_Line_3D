@@ -36,12 +36,6 @@
     <ClCompile Include="Source\_Test\Test04.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Geometry\Geometry2D\Transform2D.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Geometry\Geometry3D\Transform3D.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Devices\Console.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -63,9 +57,6 @@
     <ClCompile Include="Source\_Test\Test07.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Geometry\Geometry3D\HVector3D.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Source\_Test\Test08 - Operators.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -76,9 +67,6 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Source\_Test\Test10.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Geometry\Geometry2D\HVector2D.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Source\_Test\Test11.cpp">
@@ -101,15 +89,6 @@
     <ClInclude Include="Source\Utilities\TimeMeasurement.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Utilities\Angles.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Geometry\Geometry2D\Transform2D.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Geometry\Geometry3D\Transform3D.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Devices\Console.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -125,13 +104,7 @@
     <ClInclude Include="Source\Graphics\GraphicRessourcesManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Geometry\Geometry3D\HVector3D.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Utilities\Utils.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Geometry\Geometry2D\HVector2D.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Source\Graphics\Camera.h">

@@ -125,10 +125,6 @@
   <ItemGroup>
     <ClCompile Include="Source\App.cpp" />
     <ClCompile Include="Source\Devices\Console.cpp" />
-    <ClCompile Include="Source\Geometry\Geometry2D\Transform2D.cpp" />
-    <ClCompile Include="Source\Geometry\Geometry2D\HVector2D.cpp" />
-    <ClCompile Include="Source\Geometry\Geometry3D\Transform3D.cpp" />
-    <ClCompile Include="Source\Geometry\Geometry3D\HVector3D.cpp" />
     <ClCompile Include="Source\Graphics\Camera.cpp" />
     <ClCompile Include="Source\Graphics\Model3D.cpp" />
     <ClCompile Include="Source\Graphics\OBJReader.cpp" />
@@ -152,19 +148,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Devices\Console.h" />
-    <ClInclude Include="Source\Geometry\Geometry2D\Transform2D.h" />
-    <ClInclude Include="Source\Geometry\Geometry2D\HVector2D.h" />
-    <ClInclude Include="Source\Geometry\Geometry3D\Transform3D.h" />
-    <ClInclude Include="Source\Geometry\Geometry3D\HVector3D.h" />
     <ClInclude Include="Source\Graphics\Camera.h" />
     <ClInclude Include="Source\Graphics\GraphicRessourcesManager.h" />
     <ClInclude Include="Source\Graphics\Model3D.h" />
-    <ClInclude Include="Source\Utilities\Angles.h" />
     <ClInclude Include="Source\Utilities\ErrorHandling.h" />
     <ClInclude Include="Source\Devices\PaceMaker.h" />
     <ClInclude Include="Source\Graphics\OBJReader.h" />
     <ClInclude Include="Source\Utilities\TimeMeasurement.h" />
     <ClInclude Include="Source\Utilities\Utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LCNMath\LCNMath.vcxproj">
+      <Project>{840ea722-4361-4ae5-895f-3c305b1df81a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
