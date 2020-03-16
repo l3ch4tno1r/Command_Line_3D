@@ -132,19 +132,6 @@
     <ClCompile Include="Source\Devices\PaceMaker.cpp" />
     <ClCompile Include="Source\Utilities\TimeMeasurement.cpp" />
     <ClCompile Include="Source\Utilities\Utils.cpp" />
-    <ClCompile Include="Source\_Test\Test01.cpp" />
-    <ClCompile Include="Source\_Test\Test02.cpp" />
-    <ClCompile Include="Source\_Test\Test03.cpp" />
-    <ClCompile Include="Source\_Test\Test04.cpp" />
-    <ClCompile Include="Source\_Test\Test05 - PaceMaker.cpp" />
-    <ClCompile Include="Source\_Test\Test06 - OBJReader.cpp" />
-    <ClCompile Include="Source\_Test\Test07.cpp" />
-    <ClCompile Include="Source\_Test\Test08 - Operators.cpp" />
-    <ClCompile Include="Source\_Test\Test09.cpp" />
-    <ClCompile Include="Source\_Test\Test10.cpp" />
-    <ClCompile Include="Source\_Test\Test11.cpp" />
-    <ClCompile Include="Source\_Test\Test12.cpp" />
-    <ClCompile Include="Source\_Test\Test13.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Devices\Console.h" />
