@@ -94,7 +94,7 @@ void Console::MainThread()
 		0.0f,    0.0f,    1.0f,  0.0f,
 	};
 
-	Matrix::StaticMatrix::Matrix<float, 3, 4> Projection(tab);
+	LCNMath::StaticMatrix::Matrix<float, 3, 4> Projection(tab);
 
 	Transform2D ImgToCam(90.0f, 60.0f, 180.0f);
 
@@ -113,7 +113,7 @@ void Console::MainThread()
 
 			Transform3D CamToObj = CamToR0 * R0ToObjs[i];
 
-			Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = ImgToCam.mat * Projection * CamToObj.mat;
+			LCNMath::StaticMatrix::Matrix<float, 3, 4> _Proj = ImgToCam.mat * Projection * CamToObj.mat;
 
 			for (const Model3D::Face& face : model.Faces())
 			{

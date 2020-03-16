@@ -24,8 +24,8 @@ int main()
 		7.0f, 8.0f, 9.0f
 	};
 
-	Matrix::StaticMatrix::SqrMatrix<float, 3> mat = tab;
-	Matrix::StaticMatrix::SqrMatrix<float, 3> res;
+	LCNMath::StaticMatrix::SqrMatrix<float, 3> mat = tab;
+	LCNMath::StaticMatrix::SqrMatrix<float, 3> res;
 
 	for (uint i = 0; i < 3; i++)
 	{

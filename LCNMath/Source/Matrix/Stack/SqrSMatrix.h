@@ -2,7 +2,7 @@
 
 #include "SMatrix.h"
 
-namespace Matrix
+namespace LCNMath
 {
 	namespace StaticMatrix
 	{

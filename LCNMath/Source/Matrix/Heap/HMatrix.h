@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Matrix
+namespace LCNMath
 {
 	///////////////////////////////
 	//-- Heap allocated Matrix --//

@@ -69,7 +69,7 @@ void TestStdVector()
 }
 #pragma endregion
 
-using Mat_2_1_f = Matrix::SMatrix<float, 2, 1>;
+using Mat_2_1_f = LCNMath::SMatrix<float, 2, 1>;
 
 union HVector2D
 {

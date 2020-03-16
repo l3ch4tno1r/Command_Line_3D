@@ -5,7 +5,7 @@
 #include "Stack\SqrSMatrix.h"
 
 template<unsigned int LC>
-using Matrif33f = Matrix::SqrMatrix<float, LC>;
+using Matrif33f = LCNMath::SqrMatrix<float, LC>;
 
 int main()
 {

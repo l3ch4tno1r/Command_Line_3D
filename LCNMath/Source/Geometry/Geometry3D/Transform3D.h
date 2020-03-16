@@ -6,8 +6,8 @@
 
 using namespace LCNMath::Geometry::Dim3;
 
-using SMatrix44f    = Matrix::StaticMatrix::Matrix<float, 4, 4>;
-using SqrSMatrix44f = Matrix::StaticMatrix::SqrMatrix<float, 4>;
+using SMatrix44f    = LCNMath::StaticMatrix::Matrix<float, 4, 4>;
+using SqrSMatrix44f = LCNMath::StaticMatrix::SqrMatrix<float, 4>;
 
 struct Transform3D
 {

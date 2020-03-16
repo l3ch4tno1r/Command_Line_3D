@@ -6,8 +6,8 @@ namespace LCNMath {
 	namespace Geometry {
 		namespace Dim2 {
 
-			using SMatrix33f    = Matrix::StaticMatrix::Matrix<float, 3, 3>;
-			using SqrSMatrix33f = Matrix::StaticMatrix::SqrMatrix<float, 3>;
+			using SMatrix33f    = LCNMath::StaticMatrix::Matrix<float, 3, 3>;
+			using SqrSMatrix33f = LCNMath::StaticMatrix::SqrMatrix<float, 3>;
 
 			union Transform2D
 			{

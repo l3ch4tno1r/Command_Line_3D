@@ -5,10 +5,9 @@
 
 using uint = unsigned int;
 
-namespace Matrix
-{
-	namespace StaticMatrix
-	{
+namespace LCNMath {
+	namespace StaticMatrix{
+
 		////////////////////////////////
 		//-- Stack allocated Matrix --//
 		////////////////////////////////
