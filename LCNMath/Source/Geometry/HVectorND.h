@@ -4,6 +4,7 @@
 
 namespace LCNMath{
 	namespace Geometry{
+
 		template<uint N>
 		struct HVectorND
 		{

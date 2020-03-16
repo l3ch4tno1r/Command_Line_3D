@@ -5,6 +5,8 @@
 #include "Geometry\Geometry3D\HVector3D.h"
 #include "Geometry\Geometry2D\HVector2D.h"
 
+using namespace LCNMath::Geometry::Dim2;
+
 template<typename T>
 short sign(T a)
 {

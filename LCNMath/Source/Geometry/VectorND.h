@@ -5,10 +5,9 @@
 
 #include "Matrix\Stack\SMatrix.h"
 
-namespace LCNMath
-{
-	namespace Geometry
-	{
+namespace LCNMath{
+	namespace Geometry	{
+
 		template<uint N>
 		using MatrixN1f = Matrix::StaticMatrix::Matrix<float, N, 1>;
 
