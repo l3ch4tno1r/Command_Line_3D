@@ -9,7 +9,7 @@ namespace LCNMath{
 	namespace Geometry	{
 
 		template<uint N>
-		using MatrixN1f = LCNMath::StaticMatrix::Matrix<float, N, 1>;
+		using MatrixN1f = LCNMath::Matrix::StaticMatrix::Matrix<float, N, 1>;
 
 		template<uint N>
 		class VectorND : public MatrixN1f<N>
