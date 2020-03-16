@@ -2,33 +2,41 @@
 
 #include "Matrix\Stack\SqrSMatrix.h"
 
-using SMatrix33f    = Matrix::StaticMatrix::Matrix<float, 3, 3>;
-using SqrSMatrix33f = Matrix::StaticMatrix::SqrMatrix<float, 3>;
+namespace LCNMath {
+	namespace Geometry {
+		namespace Dim2 {
 
-union Transform2D
-{
-	struct
-	{
-		float Rux, Rvx, Tx,
-			  Ruy, Rvy, Ty;
+			using SMatrix33f    = Matrix::StaticMatrix::Matrix<float, 3, 3>;
+			using SqrSMatrix33f = Matrix::StaticMatrix::SqrMatrix<float, 3>;
 
-		// Representation of :
-		// [ Rux, Rvx, Tx ]
-		// [ Ruy, Rvy, Ty ]
-		// [  0,   0,   1 ]
-;	};
+			union Transform2D
+			{
+				struct
+				{
+					float Rux, Rvx, Tx,
+						  Ruy, Rvy, Ty;
 
-	SqrSMatrix33f mat;
+					// Representation of :
+					// [ Rux, Rvx, Tx ]
+					// [ Ruy, Rvy, Ty ]
+					// [  0,   0,   1 ]
+			;	};
 
-	Transform2D();
+				SqrSMatrix33f mat;
 
-	Transform2D(const SMatrix33f& _mat);
+				Transform2D();
 
-	Transform2D(const SqrSMatrix33f& _mat);
+				Transform2D(const SMatrix33f& _mat);
 
-	Transform2D(float x, float y, float a);
+				Transform2D(const SqrSMatrix33f& _mat);
 
-	void SetRotationAngle(float a);
+				Transform2D(float x, float y, float a);
 
-	void SetTranslation(float x, float y);
-};
+				void SetRotationAngle(float a);
+
+				void SetTranslation(float x, float y);
+			};
+		}
+	}
+}
+
