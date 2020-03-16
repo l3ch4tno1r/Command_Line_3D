@@ -4,6 +4,8 @@
 
 #include "HVector3D.h"
 
+using namespace LCNMath::Geometry::Dim3;
+
 using SMatrix44f    = Matrix::StaticMatrix::Matrix<float, 4, 4>;
 using SqrSMatrix44f = Matrix::StaticMatrix::SqrMatrix<float, 4>;
 
