@@ -4,7 +4,7 @@
 
 class Camera
 {
-	using Matrixf34 = Matrix::StaticMatrix::Matrix<float, 3, 4>;
+	using Matrixf34 = LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4>;
 
 private:
 	Transform3D m_R0ToCam;

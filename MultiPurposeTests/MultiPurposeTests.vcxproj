@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{DDB69403-11E2-4BD3-B989-0B645E00C4EB}</ProjectGuid>
-    <RootNamespace>Console3D</RootNamespace>
+    <ProjectGuid>{781FB710-45BF-4C95-8971-FFBB2CAA925C}</ProjectGuid>
+    <RootNamespace>MultiPurposeTests</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -69,17 +69,15 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>MAIN;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)LCNMath\Source;$(ProjectDir)Source</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TEST13;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)LCNMath\Source</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -88,7 +86,6 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Matrix\Source;$(ProjectDir)Source</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -99,8 +96,6 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Matrix\Source;$(ProjectDir)Source</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>MAIN;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -115,7 +110,6 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Matrix\Source;$(ProjectDir)Source</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -123,28 +117,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="External\stb_image\stb_image.cpp" />
-    <ClCompile Include="Source\App.cpp" />
-    <ClCompile Include="Source\Devices\Console.cpp" />
-    <ClCompile Include="Source\Graphics\Camera.cpp" />
-    <ClCompile Include="Source\Graphics\Model3D.cpp" />
-    <ClCompile Include="Source\Graphics\OBJReader.cpp" />
-    <ClCompile Include="Source\Utilities\ErrorHandling.cpp" />
-    <ClCompile Include="Source\Devices\PaceMaker.cpp" />
-    <ClCompile Include="Source\Utilities\TimeMeasurement.cpp" />
-    <ClCompile Include="Source\Utilities\Utils.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="External\stb_image\stb_image.h" />
-    <ClInclude Include="Source\Devices\Console.h" />
-    <ClInclude Include="Source\Graphics\Camera.h" />
-    <ClInclude Include="Source\Graphics\GraphicRessourcesManager.h" />
-    <ClInclude Include="Source\Graphics\Model3D.h" />
-    <ClInclude Include="Source\Utilities\ErrorHandling.h" />
-    <ClInclude Include="Source\Devices\PaceMaker.h" />
-    <ClInclude Include="Source\Graphics\OBJReader.h" />
-    <ClInclude Include="Source\Utilities\TimeMeasurement.h" />
-    <ClInclude Include="Source\Utilities\Utils.h" />
+    <ClCompile Include="Source\_Test\Test01.cpp" />
+    <ClCompile Include="Source\_Test\Test02.cpp" />
+    <ClCompile Include="Source\_Test\Test03.cpp" />
+    <ClCompile Include="Source\_Test\Test04.cpp" />
+    <ClCompile Include="Source\_Test\Test05 - PaceMaker.cpp" />
+    <ClCompile Include="Source\_Test\Test06 - OBJReader.cpp" />
+    <ClCompile Include="Source\_Test\Test07.cpp" />
+    <ClCompile Include="Source\_Test\Test08 - Operators.cpp" />
+    <ClCompile Include="Source\_Test\Test09.cpp" />
+    <ClCompile Include="Source\_Test\Test10.cpp" />
+    <ClCompile Include="Source\_Test\Test11.cpp" />
+    <ClCompile Include="Source\_Test\Test12.cpp" />
+    <ClCompile Include="Source\_Test\Test13.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LCNMath\LCNMath.vcxproj">

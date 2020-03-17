@@ -4,8 +4,10 @@
 
 #include "HVector3D.h"
 
-using SMatrix44f    = Matrix::StaticMatrix::Matrix<float, 4, 4>;
-using SqrSMatrix44f = Matrix::StaticMatrix::SqrMatrix<float, 4>;
+using namespace LCNMath::Geometry::Dim3;
+
+using SMatrix44f    = LCNMath::Matrix::StaticMatrix::Matrix<float, 4, 4>;
+using SqrSMatrix44f = LCNMath::Matrix::StaticMatrix::SqrMatrix<float, 4>;
 
 struct Transform3D
 {

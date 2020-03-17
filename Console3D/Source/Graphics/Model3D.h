@@ -4,6 +4,8 @@
 
 #include "Geometry\Geometry3D\HVector3D.h"
 
+using namespace LCNMath::Geometry::Dim3;
+
 using uint = unsigned int;
 
 class Model3D

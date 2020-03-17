@@ -10,6 +10,9 @@
 #include "Geometry\Geometry3D\HVector3D.h"
 #include "Geometry\Geometry2D\HVector2D.h"
 
+using namespace LCNMath::Geometry::Dim2;
+using namespace LCNMath::Geometry::Dim3;
+
 class Console
 {
 private:

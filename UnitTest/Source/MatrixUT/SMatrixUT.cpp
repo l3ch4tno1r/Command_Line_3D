@@ -11,10 +11,10 @@ namespace MatrixUT
 	TEST_CLASS(SMatrixUT)
 	{
 		template<uint L, uint C >
-		using Matrixf = Matrix::StaticMatrix::Matrix<float, L, C>;
+		using Matrixf = LCNMath::StaticMatrix::Matrix<float, L, C>;
 
 		template<uint LC >
-		using SqrMatrixf = Matrix::StaticMatrix::SqrMatrix<float, LC>;
+		using SqrMatrixf = LCNMath::StaticMatrix::SqrMatrix<float, LC>;
 
 	public:		
 		TEST_METHOD(UT01_DefaultConstructor)
