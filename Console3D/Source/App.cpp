@@ -61,6 +61,44 @@ int main()
 			break;
 		}
 
+		if (GetAsyncKeyState((unsigned short)'P') & 0x8000)
+		{
+			bool loop  = true;
+			bool pause = false;
+
+			pacemaker.Pause(true);
+
+			while (loop)
+			{
+				cNumRead = 0;
+				ReadConsoleInput(hStdin, irInBuf, 128, &cNumRead);
+
+				for (DWORD i = 0; i < cNumRead; i++)
+				{
+					const INPUT_RECORD& record = irInBuf[i];
+
+					switch (record.EventType)
+					{
+					case KEY_EVENT:
+						if(record.Event.KeyEvent.wVirtualKeyCode == 'P')
+							if (!record.Event.KeyEvent.bKeyDown)
+							{
+								pause = !pause;
+								pacemaker.Pause(pause);
+
+								if(!pause)
+									loop = false;
+							}
+
+						break;
+					default:
+						break;
+					}
+				}
+			}
+
+		}
+
 		if (GetAsyncKeyState((unsigned short)'Z') & 0x8000)
 		{
 			Tr.Tx += camspeed * r0tocam.Rwx * dt;
