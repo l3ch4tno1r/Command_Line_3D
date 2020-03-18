@@ -76,8 +76,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>TEST13;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)LCNMath\Source</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TEST14;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)LCNMath\Source;$(ProjectDir)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -117,6 +117,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="External\stb_image\stb_image.cpp" />
     <ClCompile Include="Source\_Test\Test01.cpp" />
     <ClCompile Include="Source\_Test\Test02.cpp" />
     <ClCompile Include="Source\_Test\Test03.cpp" />
@@ -130,12 +131,15 @@
     <ClCompile Include="Source\_Test\Test11.cpp" />
     <ClCompile Include="Source\_Test\Test12.cpp" />
     <ClCompile Include="Source\_Test\Test13.cpp" />
-    <ClCompile Include="Source\_Test\Test14.cpp" />
+    <ClCompile Include="Source\_Test\Test14 - stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LCNMath\LCNMath.vcxproj">
       <Project>{840ea722-4361-4ae5-895f-3c305b1df81a}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="External\stb_image\stb_image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
