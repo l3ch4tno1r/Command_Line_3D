@@ -21,10 +21,10 @@ int main()
 
 	std::cout << width << ", " << height << ", " << BPP << std::endl;
 
-	for (unsigned int i = 0; i < width; i++)
+	for (unsigned int j = 0; j < height; j++)
 	{
-		for (unsigned int j = 0; j < height; j++)
-			std::cout << localbuffer[i + j * height];
+		for (unsigned int i = 0; i < width; i++)
+			std::cout << localbuffer[i + j * width];
 
 		std::cout << std::endl;
 	}
