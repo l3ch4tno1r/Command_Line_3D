@@ -7,10 +7,14 @@
 
 int main()
 {
-	//const char* grayscale = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
-	const char* grayscale = " .:-=+*#%@";
+	/*
+	unsigned int size      = 71;
+	const char*  grayscale = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
+	*/
+	unsigned int size      = 10;
+	const char*  grayscale = " .:-=+*#%@";
 
-	std::string filepath("Ressources/gradient.png");
+	std::string filepath("Ressources/Le_Chat_Noir_Photo_Medium.png");
 
 	unsigned char* localbuffer;
 	int width;
@@ -32,7 +36,7 @@ int main()
 		{
 			for (unsigned int i = 0; i < width; i++)
 			{
-				unsigned char pxl = (9 * localbuffer[i + j * width]) / 255;
+				unsigned char pxl = ((size - 1) * localbuffer[i + j * width]) / 255;
 
 				std::cout << grayscale[pxl];
 			}
