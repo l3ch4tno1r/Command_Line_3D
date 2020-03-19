@@ -10,7 +10,7 @@ int main()
 	//const char* grayscale = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
 	const char* grayscale = " .:-=+*#%@";
 
-	std::string filepath("Ressources/Wooden.jpg");
+	std::string filepath("Ressources/gradient.png");
 
 	unsigned char* localbuffer;
 	int width;
@@ -21,6 +21,9 @@ int main()
 
 	if (stbi_failure_reason())
 		std::cout << stbi_failure_reason() << std::endl;
+
+	if (!localbuffer)
+		std::cout << "Image not found." << std::endl;
 	else
 	{
 		std::cout << width << ", " << height << ", " << BPP << std::endl;
