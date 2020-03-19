@@ -54,8 +54,8 @@ void Console::MainThread()
 	float radius = 35;
 
 	Model3D models[] = {
-		OBJReader().ReadFile("Ressource/carpet.obj"),
-		OBJReader().ReadFile("Ressource/octogon.obj")
+		OBJReader().ReadFile<Model3D>("Ressource/carpet.obj"),
+		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj")
 	};
 
 	const float scalefactor = 1.0f;
