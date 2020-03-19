@@ -7,7 +7,10 @@
 
 int main()
 {
-	std::string filepath("Ressources/Test.png");
+	//const char* grayscale = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
+	const char* grayscale = " .:-=+*#%@";
+
+	std::string filepath("Ressources/Wooden.jpg");
 
 	unsigned char* localbuffer;
 	int width;
@@ -18,20 +21,26 @@ int main()
 
 	if (stbi_failure_reason())
 		std::cout << stbi_failure_reason() << std::endl;
-
-	std::cout << width << ", " << height << ", " << BPP << std::endl;
-
-	for (unsigned int j = 0; j < height; j++)
+	else
 	{
-		for (unsigned int i = 0; i < width; i++)
-			std::cout << localbuffer[i + j * width];
+		std::cout << width << ", " << height << ", " << BPP << std::endl;
 
-		std::cout << std::endl;
+		for (unsigned int j = 0; j < height; j++)
+		{
+			for (unsigned int i = 0; i < width; i++)
+			{
+				unsigned char pxl = (9 * localbuffer[i + j * width]) / 255;
+
+				std::cout << grayscale[pxl];
+			}
+	
+			std::cout << std::endl;
+		}
+
+		stbi_image_free(localbuffer);
 	}
 
 	std::cin.get();
-
-	stbi_image_free(localbuffer);
 }
 
 #endif // TEST14
