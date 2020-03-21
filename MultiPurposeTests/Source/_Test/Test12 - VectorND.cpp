@@ -10,13 +10,9 @@ using LCNMath::Matrix::StaticMatrix::Matrix;
 
 int main()
 {
-	/*
-	VectorND<3> vec = { 1, 2, 3 };
-	*/
-	Matrix<float, 2, 3> mat = {
-		1, 2, 3,
-		4, 5, 6
-	};
+	const VectorND<3>& UnitX = VectorND<3>::UnitVector<0>();
+	const VectorND<3>& UnitY = VectorND<3>::UnitVector<1>();
+	const VectorND<3>& UnitZ = VectorND<3>::UnitVector<2>();
 
 	std::cin.get();
 }
