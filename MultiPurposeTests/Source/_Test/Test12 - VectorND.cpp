@@ -6,11 +6,17 @@
 
 using LCNMath::Geometry::VectorND;
 using LCNMath::Geometry::HVectorND;
+using LCNMath::Matrix::StaticMatrix::Matrix;
 
 int main()
 {
-	HVectorND<2> vec1 = { VectorND<2>(2.0f), 1.0f };
-	HVectorND<2> vec2 = { VectorND<2>(3.0f), 1.0f };
+	/*
+	VectorND<3> vec = { 1, 2, 3 };
+	*/
+	Matrix<float, 2, 3> mat = {
+		1, 2, 3,
+		4, 5, 6
+	};
 
 	std::cin.get();
 }

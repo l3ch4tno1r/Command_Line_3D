@@ -48,9 +48,6 @@
     <ClCompile Include="Source\_Test\Test11.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\_Test\Test12.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Source\_Test\Test13.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -58,6 +55,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="External\stb_image\stb_image.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\_Test\Test12 - VectorND.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

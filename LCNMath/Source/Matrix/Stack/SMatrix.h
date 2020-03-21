@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <stdexcept>
+#include <initializer_list>
 
 using uint = unsigned int;
 
@@ -32,6 +33,21 @@ namespace LCNMath {
 					for (uint i = 0; i < L; i++)
 						for (uint j = 0; j < C; j++)
 							m_Matrix[i][j] = value;
+				}
+
+				Matrix(std::initializer_list<T> _params)
+				{
+					uint idx = 0;
+
+					for (auto param = _params.begin(); param != _params.end() && idx < L * C; param++)
+					{
+						uint i = idx / C;
+						uint j = idx % C;
+
+						m_Matrix[i][j] = *param;
+
+						++idx;
+					}
 				}
 
 				Matrix(const T mat[L][C])
