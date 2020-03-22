@@ -14,7 +14,7 @@ int main()
 	unsigned int size      = 10;
 	const char*  grayscale = " .:-=+*#%@";
 
-	std::string filepath("Ressources/Le_Chat_Noir_Photo_Medium.png");
+	std::string filepath("Ressources/Wooden_Medium.jpg");
 
 	unsigned char* localbuffer;
 	int width;
