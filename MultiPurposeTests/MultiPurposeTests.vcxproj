@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>TEST14;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TEST15;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)LCNMath\Source;$(ProjectDir)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -132,6 +132,7 @@
     <ClCompile Include="Source\_Test\Test12 - VectorND.cpp" />
     <ClCompile Include="Source\_Test\Test13.cpp" />
     <ClCompile Include="Source\_Test\Test14 - stb_image.cpp" />
+    <ClCompile Include="Source\_Test\Test15 - new and delete overload.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LCNMath\LCNMath.vcxproj">

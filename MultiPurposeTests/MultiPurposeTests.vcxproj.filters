@@ -60,6 +60,9 @@
     <ClCompile Include="Source\_Test\Test12 - VectorND.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Source\_Test\Test15 - new and delete overload.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\stb_image\stb_image.h">
