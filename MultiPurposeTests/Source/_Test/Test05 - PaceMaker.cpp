@@ -14,7 +14,7 @@ void ThreadFunc()
 
 	while (run)
 	{
-		PaceMaker::Get().Wait();
+		PaceMaker::Get().Run();
 
 		std::cout << id << " working..." << std::endl;
 	}
