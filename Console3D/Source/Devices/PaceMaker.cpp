@@ -43,7 +43,7 @@ void PaceMaker::Continue()
 		m_PauseCondition.wait(lock);
 }
 
-bool PaceMaker::Wait()
+bool PaceMaker::Run()
 {
 	static std::mutex mut;
 	std::unique_lock<std::mutex> lock(mut);

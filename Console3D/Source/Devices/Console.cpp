@@ -99,7 +99,7 @@ void Console::MainThread()
 	Transform2D ImgToCam(90.0f, 60.0f, 180.0f);
 
 	// Console device loop
-	while (pacemaker.Wait())
+	while (pacemaker.Run())
 	{		
 		Clear();
 
