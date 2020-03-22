@@ -2,6 +2,7 @@
 Debug
 *.bak
 /Console3D/Release
-/Matrix/Release
+/LCNMath/Release
 /Release
 /UnitTest/Release
+*.csv
