@@ -1,9 +1,5 @@
 #include "OBJReader.h"
 
-#include <fstream>
-#include <exception>
-#include <sstream>
-
 void OBJReader::ExtractData(const std::string& rawdata, uint& overtexidx, uint& onormalidx)
 {
 	size_t separatoridx = rawdata.find('/');
@@ -18,6 +14,7 @@ void OBJReader::ExtractData(const std::string& rawdata, uint& overtexidx, uint& 
 	onormalidx = std::stoi(str2) - 1;
 }
 
+/*
 Model3D OBJReader::ReadFile(const std::string& filepath)
 {
 	std::ifstream objfile(filepath, std::ios::in);
@@ -75,3 +72,4 @@ Model3D OBJReader::ReadFile(const std::string& filepath)
 
 	return result;
 }
+*/
