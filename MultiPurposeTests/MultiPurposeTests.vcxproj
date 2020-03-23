@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>TEST15;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)LCNMath\Source;$(ProjectDir)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -118,21 +118,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="External\stb_image\stb_image.cpp" />
-    <ClCompile Include="Source\_Test\Test01.cpp" />
-    <ClCompile Include="Source\_Test\Test02.cpp" />
-    <ClCompile Include="Source\_Test\Test03.cpp" />
-    <ClCompile Include="Source\_Test\Test04.cpp" />
-    <ClCompile Include="Source\_Test\Test05 - PaceMaker.cpp" />
-    <ClCompile Include="Source\_Test\Test06 - OBJReader.cpp" />
-    <ClCompile Include="Source\_Test\Test07.cpp" />
-    <ClCompile Include="Source\_Test\Test08 - Operators.cpp" />
-    <ClCompile Include="Source\_Test\Test09.cpp" />
-    <ClCompile Include="Source\_Test\Test10.cpp" />
-    <ClCompile Include="Source\_Test\Test11.cpp" />
-    <ClCompile Include="Source\_Test\Test12 - VectorND.cpp" />
-    <ClCompile Include="Source\_Test\Test13.cpp" />
-    <ClCompile Include="Source\_Test\Test14 - stb_image.cpp" />
-    <ClCompile Include="Source\_Test\Test15 - new and delete overload.cpp" />
+    <ClCompile Include="Source\_Test\Test16.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LCNMath\LCNMath.vcxproj">

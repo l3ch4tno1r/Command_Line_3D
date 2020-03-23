@@ -1,5 +1,3 @@
-#ifdef TEST15
-
 #include <iostream>
 #include <fstream>
 #include <queue>
@@ -68,5 +66,3 @@ int main()
 
 	std::cin.get();
 }
-
-#endif // TEST15
