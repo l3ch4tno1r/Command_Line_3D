@@ -12,46 +12,86 @@ struct Vector3D
 		float mat[3];
 	};
 
+	Vector3D(float x, float y, float z) :
+		x(x),
+		y(y),
+		z(z)
+	{
+		std::cout << "Construct" << std::endl;
+	}
+
 	inline float& operator[](unsigned int i)
 	{
 		return mat[i];
 	}
 
-	inline const float& operator[](unsigned int i) const
+	inline float operator[](unsigned int i) const
 	{
 		return mat[i];
 	}
 };
 
 template<typename LOp, typename ROp>
-class AddExpression
+class AddVector3D
 {
-protected:
+private:
 	const LOp& lop;
 	const ROp& rop;
 
 public:
-	AddExpression(const LOp& _lop, const ROp& _rop) :
+	AddVector3D(const LOp& _lop, const ROp& _rop) :
 		lop(_lop),
 		rop(_rop)
 	{}
-};
 
-class AddVector3D : public AddExpression<Vector3D, Vector3D>
-{
-public:
+	inline float operator[](unsigned int i) const
+	{
+		return lop[i] + rop[i];
+	}
+
 	operator Vector3D() const
 	{
-		Vector3D result = {
-			lop.x + rop.x,
-			lop.y + rop.y,
-			lop.z + rop.z,
+		return {
+			(*this)[0],
+			(*this)[1],
+			(*this)[2],
 		};
 	}
 };
 
+template<typename LOp, typename ROp>
+AddVector3D<AddVector3D<LOp, ROp>, Vector3D> operator+(const AddVector3D<LOp, ROp>& lop, const Vector3D& vec)
+{
+	return AddVector3D<AddVector3D<LOp, ROp>, Vector3D>(lop, vec);
+}
+
+template<typename LOp, typename ROp>
+AddVector3D<Vector3D, AddVector3D<LOp, ROp>> operator+(const Vector3D& lop, const AddVector3D<LOp, ROp>& vec)
+{
+	return AddVector3D<Vector3D, AddVector3D<LOp, ROp>>(lop, vec);
+}
+
+template<typename LLOp, typename LROp, typename RLOp, typename RROp>
+AddVector3D<AddVector3D<LLOp, LROp>, AddVector3D<RLOp, RROp>> operator+(const AddVector3D<LLOp, LROp>& lop, const AddVector3D<RLOp, RROp>& vec)
+{
+	return AddVector3D<AddVector3D<LLOp, LROp>, AddVector3D<RLOp, RROp>>(lop, vec);
+}
+
+AddVector3D<Vector3D, Vector3D> operator+(const Vector3D& a, const Vector3D& b)
+{
+	return AddVector3D<Vector3D, Vector3D>(a, b);
+}
+
 int main()
 {
+	Vector3D a = {  1,  2,  3 };
+	Vector3D b = {  4,  5,  6 };
+	Vector3D c = {  7,  8,  9 };
+	Vector3D d = { 10, 11, 12 };
+
+	std::cout << "------------------" << std::endl;
+
+	Vector3D e = (a + b) + (c + d);
 
 	std::cin.get();
 }
