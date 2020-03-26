@@ -54,11 +54,15 @@ void Console::MainThread()
 	float radius = 35;
 
 	Model3D models[] = {
-		OBJReader().ReadFile<Model3D>("Ressource/carpet.obj"),
-		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj")
+		OBJReader().ReadFile<Model3D>("Ressource/carpet.obj", false),
+		/*
+		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
+		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
+		*/
+		OBJReader().ReadFile<Model3D>("Ressource/axis.obj", true)
 	};
 
-	const float scalefactor = 1.0f;
+	const float scalefactor = 0.2f;
 
 	// Scaling up octogon
 	for (HVector3D& v : models[1].Vertices())
@@ -85,7 +89,7 @@ void Console::MainThread()
 	m_R0ToCam.Rwy = -1.0f;
 	m_R0ToCam.Rwz =  0.0f;
 	m_R0ToCam.Tx  =  0.0f;
-	m_R0ToCam.Ty  =  7.0f;
+	m_R0ToCam.Ty  =  20.0f;
 	m_R0ToCam.Tz  =  1.8f;
 
 	const float tab[3][4] = {
