@@ -118,7 +118,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="External\stb_image\stb_image.cpp" />
-    <ClCompile Include="Source\_Test\Test18.cpp" />
+    <ClCompile Include="Source\_Test\Expression Template\Test19.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LCNMath\LCNMath.vcxproj">
