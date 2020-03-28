@@ -66,6 +66,7 @@ struct Vector3D : public VecExpression<Vector3D>
 ///////////////
 //-- Somme --//
 ///////////////
+#pragma region Sum
 template<typename EL, typename ER>
 class VecSum : public VecExpression<VecSum<EL, ER>>
 {
@@ -90,10 +91,12 @@ VecSum<EL, ER> operator+(const VecExpression<EL>& el, const VecExpression<ER>& e
 {
 	return VecSum<EL, ER>(static_cast<const EL&>(el),static_cast<const ER&>(er));
 }
+#pragma endregion
 
 ////////////////////
 //-- Différence --//
 ////////////////////
+#pragma region Difference
 template<typename EL, typename ER>
 class VecDif : public VecExpression<VecDif<EL, ER>>
 {
@@ -118,10 +121,45 @@ VecDif<EL, ER> operator-(const VecExpression<EL>& el, const VecExpression<ER>& e
 {
 	return VecDif<EL, ER>(static_cast<const EL&>(el), static_cast<const ER&>(er));
 }
+#pragma endregion
+
+///////////////////////////
+//-- Produit vectoriel --//
+///////////////////////////
+#pragma region Dot_Product
+template<typename EL, typename ER>
+class VecCrossProduct : public VecExpression<VecCrossProduct<EL, ER>>
+{
+private:
+	const EL& expl;
+	const ER& expr;
+
+public:
+	VecCrossProduct(const EL& el, const ER& er) :
+		expl(el),
+		expr(er)
+	{}
+
+	float operator[](unsigned int i) const
+	{
+		unsigned int ip1 = (i + 1) % 3;
+		unsigned int ip2 = (i + 2) % 3;		
+
+		return (i % 2 == 0 ? 1 : -1) * (expl[ip1] * expr[ip2] - expl[ip2] * expr[ip1]);
+	}
+};
+
+template<typename EL, typename ER>
+VecCrossProduct<EL, ER> operator^(const VecExpression<EL>& el, const VecExpression<ER>& er)
+{
+	return VecCrossProduct<EL, ER>(static_cast<const EL&>(el), static_cast<const ER&>(er));
+}
+#pragma endregion
 
 ////////////////////////////////////////
 //-- Multiplication par un scalaire --//
 ////////////////////////////////////////
+#pragma region Scalar_Multiplication
 template<typename E>
 class VecScaleMul : public VecExpression<VecScaleMul<E>>
 {
@@ -146,6 +184,37 @@ VecScaleMul<E> operator*(float scalar, const VecExpression<E>& e)
 {
 	return VecScaleMul<E>(scalar, static_cast<const E&>(e));
 }
+#pragma endregion
+
+//////////////////////////////////
+//-- Division par un scalaire --//
+//////////////////////////////////
+#pragma region Scalar_Division
+template<typename E>
+class VecScaleDiv : public VecExpression<VecScaleDiv<E>>
+{
+private:
+	float scalar;
+	const E& e;
+
+public:
+	VecScaleDiv(float scalar, const E& e) :
+		scalar(scalar),
+		e(e)
+	{}
+
+	float operator[](unsigned int i) const
+	{
+		return e[i] / scalar;
+	}
+};
+
+template<typename E>
+VecScaleDiv<E> operator/(const VecExpression<E>& e, float scalar)
+{
+	return VecScaleDiv<E>(scalar, static_cast<const E&>(e));
+}
+#pragma endregion
 
 int main()
 {
@@ -153,7 +222,15 @@ int main()
 	Vector3D b = { 4, 5, 6 };
 	Vector3D c = { 7, 8, 9 };
 
-	auto d = a + 2 * (b - c);
+	auto d = (a + b - 2 * c) / 3;
+
+	std::cout << '(' << d[0] << ", " << d[1] << ", " << d[2] << ')' << std::endl;
+
+	Vector3D x = { 1, 0, 0 };
+	Vector3D y = { 0, 1, 0 };
+	Vector3D z = x ^ y;
+
+	std::cout << '(' << z.x << ", " << z.y << ", " << z.z << ')' << std::endl;
 
 	std::cin.get();
 }
