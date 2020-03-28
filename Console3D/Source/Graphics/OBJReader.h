@@ -38,6 +38,7 @@ public:
 
 			sstr >> type;
 
+			// Fill vertices array
 			if (type == "v")
 			{
 				HVector3D vec(true);
@@ -47,6 +48,7 @@ public:
 				result.Vertices().push_back(vec);
 			}
 
+			// Fill faces
 			if(!generatenormals)
 			{
 				if (type == "vn")
@@ -73,6 +75,10 @@ public:
 					ExtractData(temp, face.v3, face.vn3);
 
 					result.Faces().push_back(face);
+
+					result.Edges().insert({ face.v1, face.v2 });
+					result.Edges().insert({ face.v2, face.v3 });
+					result.Edges().insert({ face.v3, face.v1 });
 				}
 			}
 			else
@@ -105,6 +111,10 @@ public:
 					face.vn1 = face.vn2 = face.vn3 = result.Normals().size() - 1;
 
 					result.Faces().push_back(face);
+
+					result.Edges().insert({ face.v1, face.v2 });
+					result.Edges().insert({ face.v2, face.v3 });
+					result.Edges().insert({ face.v3, face.v1 });
 				}
 			}
 		}

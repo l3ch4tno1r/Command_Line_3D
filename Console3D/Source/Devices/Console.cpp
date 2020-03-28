@@ -58,11 +58,12 @@ void Console::MainThread()
 		/*
 		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
-		*/
 		OBJReader().ReadFile<Model3D>("Ressource/axis.obj", true)
+		*/
+		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
 	};
 
-	const float scalefactor = 0.2f;
+	const float scalefactor = 1.0f;
 
 	// Scaling up octogon
 	for (HVector3D& v : models[1].Vertices())
@@ -89,7 +90,7 @@ void Console::MainThread()
 	m_R0ToCam.Rwy = -1.0f;
 	m_R0ToCam.Rwz =  0.0f;
 	m_R0ToCam.Tx  =  0.0f;
-	m_R0ToCam.Ty  =  20.0f;
+	m_R0ToCam.Ty  =  10.0f;
 	m_R0ToCam.Tz  =  1.8f;
 
 	const float tab[3][4] = {
