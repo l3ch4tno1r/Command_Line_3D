@@ -28,6 +28,11 @@ public:
 
 		Model3D result;
 
+		auto& Vertices = result.Vertices();
+		auto& Faces    = result.Faces();
+		auto& Normals  = result.Normals();
+		auto& Edges    = result.Edges();
+
 		std::string line;
 
 		while (std::getline(objfile, line))
@@ -45,7 +50,7 @@ public:
 
 				sstr >> vec.x >> vec.y >> vec.z;
 
-				result.Vertices().push_back(vec);
+				Vertices.push_back(vec);
 			}
 
 			// Fill faces
@@ -57,7 +62,7 @@ public:
 
 					sstr >> vec.x >> vec.y >> vec.z;
 
-					result.Normals().push_back(vec);
+					Normals.push_back(vec);
 				}
 
 				if (type == "f")
@@ -74,11 +79,23 @@ public:
 					sstr >> temp;
 					ExtractData(temp, face.v3, face.vn3);
 
-					result.Faces().push_back(face);
+					Faces.push_back(face);
 
-					result.Edges().insert({ face.v1, face.v2 });
-					result.Edges().insert({ face.v2, face.v3 });
-					result.Edges().insert({ face.v3, face.v1 });
+					/*
+					Edges.insert({ face.v1, face.v2 });
+					Edges.insert({ face.v2, face.v3 });
+					Edges.insert({ face.v3, face.v1 });
+					*/
+
+					for (uint i = 0; i < 3; ++i)
+					{
+						auto edge = Edges.find({ face.Vertices[i], face.Vertices[(i + 1) % 3] });
+
+						if (edge == Edges.end())
+							Edges.insert({ face.Vertices[i], face.Vertices[(i + 1) % 3], face.vn1 });
+						else
+							edge->n2 = face.vn1;
+					}
 				}
 			}
 			else
@@ -95,8 +112,8 @@ public:
 
 					// /!\ Assumes that the vertices vector has been filled /!\
 
-					HVector3D v1 = result.Vertices()[face.v2] - result.Vertices()[face.v1];
-					HVector3D v2 = result.Vertices()[face.v3] - result.Vertices()[face.v2];
+					HVector3D v1 = Vertices[face.v2] - Vertices[face.v1];
+					HVector3D v2 = Vertices[face.v3] - Vertices[face.v2];
 
 					HVector3D n  = v1 ^ v2;
 
@@ -106,15 +123,15 @@ public:
 					n.y /= norm;
 					n.z /= norm;
 
-					result.Normals().push_back(n);
+					Normals.push_back(n);
 
-					face.vn1 = face.vn2 = face.vn3 = result.Normals().size() - 1;
+					face.vn1 = face.vn2 = face.vn3 = Normals.size() - 1;
 
-					result.Faces().push_back(face);
+					Faces.push_back(face);
 
-					result.Edges().insert({ face.v1, face.v2 });
-					result.Edges().insert({ face.v2, face.v3 });
-					result.Edges().insert({ face.v3, face.v1 });
+					Edges.insert({ face.v1, face.v2 });
+					Edges.insert({ face.v2, face.v3 });
+					Edges.insert({ face.v3, face.v1 });
 				}
 			}
 		}

@@ -35,10 +35,13 @@ public:
 	struct Edge
 	{
 		uint v1, v2;
+		mutable uint n1, n2;
 
-		Edge(uint v1, uint v2) :
+		Edge(uint v1, uint v2, uint n1 = 0, uint n2 = 0) :
 			v1(v1 < v2 ? v1 : v2),
-			v2(v1 < v2 ? v2 : v1)
+			v2(v1 < v2 ? v2 : v1),
+			n1(n1),
+			n2(n2)
 		{}
 
 		bool operator==(const Edge& other) const

@@ -18,7 +18,10 @@
 #include <cmath>
 #include <sstream>
 
-#define CONSOLETEST02
+/*
+#define DRAW_FACES
+*/
+#define DRAW_EDGES
 
 Console::Console() :
 	m_Width(180),
@@ -56,14 +59,14 @@ void Console::MainThread()
 	Model3D models[] = {
 		OBJReader().ReadFile<Model3D>("Ressource/carpet.obj", false),
 		/*
-		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/axis.obj", true)
-		*/
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
+		*/
+		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
 	};
 
-	const float scalefactor = 1.0f;
+ 	const float scalefactor = 1.0f;
 
 	// Scaling up octogon
 	for (HVector3D& v : models[1].Vertices())
@@ -120,6 +123,7 @@ void Console::MainThread()
 
 			LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = ImgToCam.mat * Projection * CamToObj.mat;
 
+#ifdef DRAW_FACES
 			for (const Model3D::Face& face : model.Faces())
 			{
 				HVector3D vertices[3] = {
@@ -151,6 +155,28 @@ void Console::MainThread()
 					DrawLine(_pt1, _pt2);
 				}
 			}
+#endif // DRAW_FACES
+
+#ifdef DRAW_EDGES
+			for(const Model3D::Edge& edge : model.Edges())
+			{
+				HVector3D vertex1 = CamToObj * model.Vertices()[edge.v1];
+
+				HVector3D nface1  = CamToObj * model.Normals()[edge.n1];
+				HVector3D nface2  = CamToObj * model.Normals()[edge.n2];
+
+				if ((vertex1 | nface1) > 0.0f && (vertex1 | nface2) > 0.0f)
+					continue;
+
+				HVector2D _pt1 = _Proj * model.Vertices()[edge.v1].mat;
+				HVector2D _pt2 = _Proj * model.Vertices()[edge.v2].mat;
+
+				_pt1.Homogenize();
+				_pt2.Homogenize();
+
+				DrawLine(_pt1, _pt2);
+			}
+#endif // DRAW_EDGES
 		}
 
 		ENDCHRONO;
