@@ -17,6 +17,8 @@
 #include <chrono>
 #include <cmath>
 #include <sstream>
+#include <array>
+#include <algorithm>
 
 /*
 #define DRAW_FACES
@@ -212,61 +214,6 @@ void Console::Clear()
 		m_Screen[i] = 0;
 }
 
-short Console::PointInFOV(const HVector3D& vec) const
-{
-	// Assuming that the point coordinates are relative to the camera POV
-
-	if (vec.z < cm_ScreenDist)
-		return FOVPostion::Behind;
-
-	short result = 0;
-
-	float X = 2 * m_Focal * vec.x / m_Width;
-	float Y = 2 * m_Focal * vec.y / m_Height;
-
-	short a = sign(vec.z + X);
-	short b = sign(vec.z - X);
-
-	switch (a - b)
-	{
-	case -2:
-	case -1:
-		result |= FOVPostion::Right;
-		break;
-	case 0:
-		result |= FOVPostion::Center;
-		break;
-	case 1:
-	case 2:
-		result |= FOVPostion::Left;
-		break;
-	default:
-		break;
-	}
-
-	short c = sign(vec.z + Y);
-	short d = sign(vec.z - Y);
-
-	switch (c - d)
-	{
-	case -2:
-	case -1:
-		result |= FOVPostion::Bottom;
-		break;
-	case 0:
-		result |= FOVPostion::Center;
-		break;
-	case 1:
-	case 2:
-		result |= FOVPostion::Top;
-		break;
-	default:
-		break;
-	}
-
-	return result;
-}
-
 bool Console::ScreenPlaneProjection(const HVector3D& a, const HVector3D& b, HVector3D& pa, HVector3D& pb) const
 {
 	if (sign(a.z - cm_ScreenDist) < 0.0f && sign(b.z - cm_ScreenDist) < 0.0f)
@@ -353,11 +300,20 @@ bool Console::LineInSight(HVector2D& OA, HVector2D& OB)
 	return true;
 }
 
-void Console::DrawLine(HVector2D v1, HVector2D v2)
+uint Console::ClipEdge(const HVector3D& v1, const HVector3D& v2, const HVector3D& n, HVector3D& o1, HVector3D& o2)
 {
-	if (!LineInSight(v1, v2))
-		return;
+	std::array<const HVector3D*, 2> vertices = { &v1, &v2 };
 
+	auto it = std::partition(vertices.begin(), vertices.end(), [&](const HVector3D& v)
+	{
+		return (v | n) > 0.0f;
+	});
+
+	return it - vertices.begin();
+}
+
+void Console::DrawLine(const HVector2D& v1, const HVector2D& v2)
+{
 	float x1 = v1.PX();
 	float y1 = v1.PY();
 	float x2 = v2.PX();
