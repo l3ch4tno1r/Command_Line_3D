@@ -5,3 +5,4 @@ Debug
 /Matrix/Release
 /Release
 /UnitTest/Release
+*.csv
