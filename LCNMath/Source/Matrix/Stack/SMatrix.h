@@ -10,16 +10,45 @@ namespace LCNMath {
 	namespace Matrix {
 		namespace StaticMatrix{
 
+			template<typename E, typename T>
+			class MatrixExpression
+			{
+			protected:
+				const E& Underlying() const
+				{
+					return static_cast<const E&>(*this);
+				}
+
+			public:
+
+				T operator()(uint i, uint j) const
+				{
+					return Underlying()(i, j);
+				}
+
+				uint Lines() const
+				{
+					return Underlying().Lines();
+				}
+
+				uint Columns() const
+				{
+					return Underlying().Columns();
+				}
+			};
+
 			////////////////////////////////
 			//-- Stack allocated Matrix --//
 			////////////////////////////////
 			template<typename T, uint L, uint C>
-			class Matrix
+			class Matrix : public MatrixExpression<Matrix<T, L, C>, T>
 			{
 			protected:
 				T m_Matrix[L][C];
 
 			public:
+				using ValueType = T;
+
 #pragma region Constructors_Destructors
 				//////////////////////////////////////
 				//-- Constructors and destructors --//
@@ -85,7 +114,7 @@ namespace LCNMath {
 					return m_Matrix[i][j];
 				}
 
-				const T& operator()(uint i, uint j) const
+				T operator()(uint i, uint j) const
 				{
 					if (i >= L || j >= C)
 						throw std::out_of_range("Index out of range.");
@@ -274,6 +303,44 @@ namespace LCNMath {
 			//-- External functions --//
 			////////////////////////////
 
+			template<typename EL, typename ER, typename T>
+			class MatrixAdd : MatrixExpression<MatrixAdd<EL, ER, T>, T>
+			{
+			private:
+				const EL& el;
+				const ER& er;
+
+			public:
+				MatrixAdd(const EL& el, const ER& er) :
+					el(el),
+					er(er)
+				{}
+
+				T operator()(uint i, uint j) const
+				{
+					static_assert(el.Lines() == er.Lines());
+
+					return el(i, j) + er(i, j);
+				}
+
+				uint Lines() const
+				{
+					return el.Lines();
+				}
+
+				uint Columns() const
+				{
+					return el.Columns();
+				}
+			};
+
+			template<typename EL, typename ER, typename T>
+			MatrixAdd<EL, ER, T> operator+(const MatrixExpression<EL, T>& el, const MatrixExpression<ER, T>& er)
+			{
+				return MatrixAdd<EL, ER, T>(static_cast<const EL&>(el), static_cast<const ER&>(er));
+			}
+
+			/*
 			template<typename T, uint L, uint C>
 			Matrix<T, L, C> operator+(const Matrix<T, L, C>& mat1, const Matrix<T, L, C>& mat2)
 			{
@@ -283,6 +350,7 @@ namespace LCNMath {
 
 				return result;
 			}
+			*/
 
 			template<typename T, uint L, uint C>
 			Matrix<T, L, C> operator-(const Matrix<T, L, C>& mat1, const Matrix<T, L, C>& mat2)
