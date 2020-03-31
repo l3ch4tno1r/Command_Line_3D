@@ -167,6 +167,9 @@
     <ClCompile Include="Source\MatrixUT\SMatrixUT.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LCNMath\LCNMath.vcxproj">
+      <Project>{840ea722-4361-4ae5-895f-3c305b1df81a}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Matrix\Matrix.vcxproj">
       <Project>{ec9f03d1-56a9-40be-8724-6b5cb5fae328}</Project>
     </ProjectReference>
