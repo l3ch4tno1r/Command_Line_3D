@@ -17,8 +17,13 @@
 #include <chrono>
 #include <cmath>
 #include <sstream>
+#include <array>
+#include <algorithm>
 
-#define CONSOLETEST02
+/*
+#define DRAW_FACES
+*/
+#define DRAW_EDGES
 
 Console::Console() :
 	m_Width(180),
@@ -54,11 +59,16 @@ void Console::MainThread()
 	float radius = 35;
 
 	Model3D models[] = {
-		OBJReader().ReadFile<Model3D>("Ressource/carpet.obj"),
-		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj")
+		OBJReader().ReadFile<Model3D>("Ressource/carpet.obj", false),
+		/*
+		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
+		OBJReader().ReadFile<Model3D>("Ressource/axis.obj", true)
+		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
+		*/
+		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
 	};
 
-	const float scalefactor = 1.0f;
+ 	const float scalefactor = 1.0f;
 
 	// Scaling up octogon
 	for (HVector3D& v : models[1].Vertices())
@@ -85,7 +95,7 @@ void Console::MainThread()
 	m_R0ToCam.Rwy = -1.0f;
 	m_R0ToCam.Rwz =  0.0f;
 	m_R0ToCam.Tx  =  0.0f;
-	m_R0ToCam.Ty  =  7.0f;
+	m_R0ToCam.Ty  =  10.0f;
 	m_R0ToCam.Tz  =  1.8f;
 
 	const float tab[3][4] = {
@@ -99,7 +109,7 @@ void Console::MainThread()
 	Transform2D ImgToCam(90.0f, 60.0f, 180.0f);
 
 	// Console device loop
-	while (pacemaker.Wait())
+	while (pacemaker.Heartbeat())
 	{		
 		Clear();
 
@@ -115,6 +125,7 @@ void Console::MainThread()
 
 			LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = ImgToCam.mat * Projection * CamToObj.mat;
 
+#ifdef DRAW_FACES
 			for (const Model3D::Face& face : model.Faces())
 			{
 				HVector3D vertices[3] = {
@@ -146,6 +157,28 @@ void Console::MainThread()
 					DrawLine(_pt1, _pt2);
 				}
 			}
+#endif // DRAW_FACES
+
+#ifdef DRAW_EDGES
+			for(const Model3D::Edge& edge : model.Edges())
+			{
+				HVector3D vertex1 = CamToObj * model.Vertices()[edge.v1];
+
+				HVector3D nface1  = CamToObj * model.Normals()[edge.n1];
+				HVector3D nface2  = CamToObj * model.Normals()[edge.n2];
+
+				if ((vertex1 | nface1) > 0.0f && (vertex1 | nface2) > 0.0f)
+					continue;
+
+				HVector2D _pt1 = _Proj * model.Vertices()[edge.v1].mat;
+				HVector2D _pt2 = _Proj * model.Vertices()[edge.v2].mat;
+
+				_pt1.Homogenize();
+				_pt2.Homogenize();
+
+				DrawLine(_pt1, _pt2);
+			}
+#endif // DRAW_EDGES
 		}
 
 		ENDCHRONO;
@@ -179,61 +212,6 @@ void Console::Clear()
 {
 	for (unsigned int i = 0; i < m_Width * m_Height; i++)
 		m_Screen[i] = 0;
-}
-
-short Console::PointInFOV(const HVector3D& vec) const
-{
-	// Assuming that the point coordinates are relative to the camera POV
-
-	if (vec.z < cm_ScreenDist)
-		return FOVPostion::Behind;
-
-	short result = 0;
-
-	float X = 2 * m_Focal * vec.x / m_Width;
-	float Y = 2 * m_Focal * vec.y / m_Height;
-
-	short a = sign(vec.z + X);
-	short b = sign(vec.z - X);
-
-	switch (a - b)
-	{
-	case -2:
-	case -1:
-		result |= FOVPostion::Right;
-		break;
-	case 0:
-		result |= FOVPostion::Center;
-		break;
-	case 1:
-	case 2:
-		result |= FOVPostion::Left;
-		break;
-	default:
-		break;
-	}
-
-	short c = sign(vec.z + Y);
-	short d = sign(vec.z - Y);
-
-	switch (c - d)
-	{
-	case -2:
-	case -1:
-		result |= FOVPostion::Bottom;
-		break;
-	case 0:
-		result |= FOVPostion::Center;
-		break;
-	case 1:
-	case 2:
-		result |= FOVPostion::Top;
-		break;
-	default:
-		break;
-	}
-
-	return result;
 }
 
 bool Console::ScreenPlaneProjection(const HVector3D& a, const HVector3D& b, HVector3D& pa, HVector3D& pb) const
@@ -322,11 +300,20 @@ bool Console::LineInSight(HVector2D& OA, HVector2D& OB)
 	return true;
 }
 
-void Console::DrawLine(HVector2D v1, HVector2D v2)
+uint Console::ClipEdge(const HVector3D& v1, const HVector3D& v2, const HVector3D& n, HVector3D& o1, HVector3D& o2)
 {
-	if (!LineInSight(v1, v2))
-		return;
+	std::array<const HVector3D*, 2> vertices = { &v1, &v2 };
 
+	auto it = std::partition(vertices.begin(), vertices.end(), [&](const HVector3D& v)
+	{
+		return (v | n) > 0.0f;
+	});
+
+	return it - vertices.begin();
+}
+
+void Console::DrawLine(const HVector2D& v1, const HVector2D& v2)
+{
 	float x1 = v1.PX();
 	float y1 = v1.PY();
 	float x2 = v2.PX();
