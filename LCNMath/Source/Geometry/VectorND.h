@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <initializer_list>
 
 #include "Matrix\Stack\SMatrix.h"
 
@@ -17,6 +18,16 @@ namespace LCNMath{
 		public:
 			VectorND() :
 				MatrixN1f<N>(1.0f)
+			{}
+			
+			VectorND(uint i) :
+				MatrixN1f<N>(0.0f)
+			{
+				(*this)[i] = 1.0f;
+			}
+
+			VectorND(std::initializer_list<float> _paramlist) :
+				MatrixN1f<N>(_paramlist)
 			{}
 
 			VectorND(const MatrixN1f<N>& mat) :
@@ -42,8 +53,18 @@ namespace LCNMath{
 			{
 				return (*this)(i, 0);
 			}
+
+			template<uint I>
+			static const VectorND<N>& UnitVector()
+			{
+				static VectorND<N> result(I);
+				return result;
+			}
 		};
 
+		////////////////////////////
+		//-- External Operators --//
+		////////////////////////////
 		template<uint N>
 		float operator|(const VectorND<N>& vec1, const VectorND<N>& vec2)
 		{

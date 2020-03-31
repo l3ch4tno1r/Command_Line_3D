@@ -31,7 +31,7 @@ private:
 public:
 	static PaceMaker& Get();
 
-	bool Wait();
+	bool Heartbeat();
 
 	void Pause(bool _pause);
 

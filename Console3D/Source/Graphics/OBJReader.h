@@ -13,13 +13,13 @@ private:
 	void ExtractData(const std::string& rawdata, uint& overtexidx, uint& onormalidx);
 public:
 	template <class C>
-	C ReadFile(const std::string& filepath)
+	C ReadFile(const std::string& filepath, bool generatenormals)
 	{
 		static_assert(false);
 	}
 
 	template <>
-	Model3D ReadFile(const std::string& filepath)
+	Model3D ReadFile(const std::string& filepath, bool generatenormals)
 	{
 		std::ifstream objfile(filepath, std::ios::in);
 
@@ -27,6 +27,11 @@ public:
 			throw std::exception("Impossible to open the OBJ file.");
 
 		Model3D result;
+
+		auto& Vertices = result.Vertices();
+		auto& Faces    = result.Faces();
+		auto& Normals  = result.Normals();
+		auto& Edges    = result.Edges();
 
 		std::string line;
 
@@ -38,39 +43,96 @@ public:
 
 			sstr >> type;
 
+			// Fill vertices array
 			if (type == "v")
 			{
 				HVector3D vec(true);
 
 				sstr >> vec.x >> vec.y >> vec.z;
 
-				result.Vertices().push_back(vec);
+				Vertices.push_back(vec);
 			}
 
-			if (type == "vn")
+			// Fill faces
+			if(!generatenormals)
 			{
-				HVector3D vec(false);
+				if (type == "vn")
+				{
+					HVector3D vec(false);
 
-				sstr >> vec.x >> vec.y >> vec.z;
+					sstr >> vec.x >> vec.y >> vec.z;
 
-				result.Normals().push_back(vec);
+					Normals.push_back(vec);
+				}
+
+				if (type == "f")
+				{
+					Model3D::Face face;
+					std::string temp;
+
+					sstr >> temp;
+					ExtractData(temp, face.v1, face.vn1);
+
+					sstr >> temp;
+					ExtractData(temp, face.v2, face.vn2);
+
+					sstr >> temp;
+					ExtractData(temp, face.v3, face.vn3);
+
+					Faces.push_back(face);
+
+					/*
+					Edges.insert({ face.v1, face.v2 });
+					Edges.insert({ face.v2, face.v3 });
+					Edges.insert({ face.v3, face.v1 });
+					*/
+
+					for (uint i = 0; i < 3; ++i)
+					{
+						auto edge = Edges.find({ face.Vertices[i], face.Vertices[(i + 1) % 3] });
+
+						if (edge == Edges.end())
+							Edges.insert({ face.Vertices[i], face.Vertices[(i + 1) % 3], face.vn1 });
+						else
+							edge->n2 = face.vn1;
+					}
+				}
 			}
-
-			if (type == "f")
+			else
 			{
-				Model3D::Face face;
-				std::string temp;
+				if (type == "f")
+				{
+					Model3D::Face face;
 
-				sstr >> temp;
-				ExtractData(temp, face.v1, face.vn1);
+					sstr >> face.v1 >> face.v2 >> face.v3;
 
-				sstr >> temp;
-				ExtractData(temp, face.v2, face.vn2);
+					face.v1--;
+					face.v2--;
+					face.v3--;
 
-				sstr >> temp;
-				ExtractData(temp, face.v3, face.vn3);
+					// /!\ Assumes that the vertices vector has been filled /!\
 
-				result.Faces().push_back(face);
+					HVector3D v1 = Vertices[face.v2] - Vertices[face.v1];
+					HVector3D v2 = Vertices[face.v3] - Vertices[face.v2];
+
+					HVector3D n  = v1 ^ v2;
+
+					float norm = n.x * n.x + n.y * n.y + n.z * n.z;
+
+					n.x /= norm;
+					n.y /= norm;
+					n.z /= norm;
+
+					Normals.push_back(n);
+
+					face.vn1 = face.vn2 = face.vn3 = Normals.size() - 1;
+
+					Faces.push_back(face);
+
+					Edges.insert({ face.v1, face.v2 });
+					Edges.insert({ face.v2, face.v3 });
+					Edges.insert({ face.v3, face.v1 });
+				}
 			}
 		}
 
