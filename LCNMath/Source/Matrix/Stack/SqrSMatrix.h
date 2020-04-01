@@ -37,6 +37,15 @@ namespace LCNMath {
 				SqrMatrix(const TMatrix& mat) : TMatrix(mat)
 				{}
 
+				SqrMatrix(const std::initializer_list<T>& params) :
+					TMatrix(params)
+				{}
+
+				template<typename E>
+				SqrMatrix(const MatrixExpression<E, T, LC, LC>& expr) :
+					TMatrix(expr)
+				{}
+
 #pragma endregion
 
 #pragma region Methods
@@ -77,6 +86,19 @@ namespace LCNMath {
 					return temp.SubMatrix<LC, LC>(0, LC);
 				}
 
+#pragma endregion
+
+#pragma region Methods
+				///////////////////////////
+				//-- Operator overload --//
+				///////////////////////////
+				template<typename E>
+				SqrMatrix& operator=(const MatrixExpression<E, T, LC, LC>& other)
+				{
+					TMatrix::operator=(other);
+
+					return *this;
+				}
 #pragma endregion
 
 #pragma region Static_Methods

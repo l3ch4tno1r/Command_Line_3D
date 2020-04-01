@@ -3,6 +3,7 @@
 #include "Matrix\Stack\SqrSMatrix.h"
 
 using LCNMath::Matrix::StaticMatrix::Matrix;
+using LCNMath::Matrix::StaticMatrix::SqrMatrix;
 using LCNMath::Matrix::StaticMatrix::MatrixExpression;
 
 using uint = unsigned int;
@@ -15,21 +16,13 @@ void f(const MatrixExpression<E, T, L, C>& ME)
 
 int main()
 {
-	Matrix<float, 2, 3> mat1 = {
-		1, 2, 3,
-		4, 5, 6
+	SqrMatrix<float, 2> smat =
+	{
+		0, -1,
+		1,  0
 	};
 
-	Matrix<float, 2, 3> mat2 = {
-		6, 5, 4,
-		3, 2, 1
-	};
-
-	f(mat1);
-
-	Matrix<float, 2, 3> a = mat1 + mat2;
-
-	std::cout << (mat1 + mat2)(0, 0) << std::endl;
+	SqrMatrix<float, 2> result = smat * smat;
 
 	std::cin.get();
 }

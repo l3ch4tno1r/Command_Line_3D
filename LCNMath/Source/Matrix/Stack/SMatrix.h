@@ -90,11 +90,11 @@ namespace LCNMath {
 				{}
 
 				template<typename E>
-				Matrix(const MatrixExpression<E, T, L, C>& other)
+				Matrix(const MatrixExpression<E, T, L, C>& expr)
 				{
 					for (uint i = 0; i < L; ++i)
 						for (uint j = 0; j < C; ++j)
-							m_Matrix[i][j] = other(i, j);
+							m_Matrix[i][j] = expr(i, j);
 				}
 
 #pragma endregion
@@ -257,6 +257,16 @@ namespace LCNMath {
 					return *this;
 				}
 
+				template<typename E>
+				Matrix& operator=(const MatrixExpression<E, T, L, C>& other)
+				{
+					for (uint i = 0; i < L; ++i)
+						for (uint j = 0; j < C; ++j)
+							m_Matrix[i][j] = other(i, j);
+
+					return *this;
+				}
+
 				Matrix& operator+=(const Matrix& mat)
 				{
 					for (uint i = 0; i < L; i++)
@@ -311,6 +321,10 @@ namespace LCNMath {
 			//-- External functions --//
 			////////////////////////////
 
+#pragma region Addition
+			/////////////////////////////
+			//-- Addition Expression --//
+			/////////////////////////////
 			template<typename EL, typename ER, typename T, uint L, uint C>
 			class MatrixAdd : public MatrixExpression<MatrixAdd<EL, ER, T, L, C>, T, L, C>
 			{
@@ -331,12 +345,12 @@ namespace LCNMath {
 
 				uint Lines() const
 				{
-					return el.Lines();
+					return L;
 				}
 
 				uint Columns() const
 				{
-					return el.Columns();
+					return C;
 				}
 			};
 
@@ -346,40 +360,95 @@ namespace LCNMath {
 				return MatrixAdd<EL, ER, T, L, C>(static_cast<const EL&>(el), static_cast<const ER&>(er));
 			}
 
-			/*
-			template<typename T, uint L, uint C>
-			Matrix<T, L, C> operator+(const Matrix<T, L, C>& mat1, const Matrix<T, L, C>& mat2)
+#pragma endregion
+
+#pragma region Substraction
+			/////////////////////////////////
+			//-- Substraction Expression --//
+			/////////////////////////////////
+			template<typename EL, typename ER, typename T, uint L, uint C>
+			class MatrixSub : public MatrixExpression<MatrixSub<EL, ER, T, L, C>, T, L, C>
 			{
-				Matrix<T, L, C> result = mat1;
+			private:
+				const EL& el;
+				const ER& er;
 
-				result += mat2;
+			public:
+				MatrixSub(const EL& el, const ER& er) :
+					el(el),
+					er(er)
+				{}
 
-				return result;
-			}
-			*/
+				T operator()(uint i, uint j) const
+				{
+					return el(i, j) - er(i, j);
+				}
 
-			template<typename T, uint L, uint C>
-			Matrix<T, L, C> operator-(const Matrix<T, L, C>& mat1, const Matrix<T, L, C>& mat2)
+				uint Lines() const
+				{
+					return L;
+				}
+
+				uint Columns() const
+				{
+					return C;
+				}
+			};
+
+			template<typename EL, typename ER, typename T, uint L, uint C>
+			MatrixSub<EL, ER, T, L, C> operator-(const MatrixExpression<EL, T, L, C>& el, const MatrixExpression<ER, T, L, C>& er)
 			{
-				Matrix<T, L, C> result = mat1;
-
-				result -= mat2;
-
-				return result;
+				return MatrixSub<EL, ER, T, L, C>(static_cast<const EL&>(el), static_cast<const ER&>(er));
 			}
 
-			template<typename T, uint L, uint LC, uint C>
-			Matrix<T, L, C> operator*(const Matrix<T, L, LC>& mat1, const Matrix<T, LC, C>& mat2)
+#pragma endregion
+
+#pragma region Multiplication
+			///////////////////////////////////
+			//-- Multiplication Expression --//
+			///////////////////////////////////
+			template<typename EL, typename ER, typename T, uint L, uint LC, uint C>
+			class MatrixMul : public MatrixExpression<MatrixMul<EL, ER, T, L, LC, C>, T, L, C>
 			{
-				Matrix<T, L, C> result(T(0));
+			private:
+				const EL& el;
+				const ER& er;
 
-				for (uint i = 0; i < L; i++)
-					for (uint j = 0; j < C; j++)
-						for (uint k = 0; k < LC; k++)
-							result(i, j) += mat1(i, k) * mat2(k, j);
+			public:
+				MatrixMul(const EL& el, const ER& er) :
+					el(el),
+					er(er)
+				{}
 
-				return result;
+				T operator()(uint i, uint j) const
+				{
+					T result(0);
+
+					for (uint k = 0; k < LC; ++k)
+						result += el(i, k) * er(k, j);
+
+					return result;
+				}
+
+				uint Lines() const
+				{
+					return L;
+				}
+
+				uint Columns() const
+				{
+					return C;
+				}
+			};
+
+			template<typename EL, typename ER, typename T, uint L, uint LC, uint C>
+			MatrixMul<EL, ER, T, L, LC, C> operator*(const MatrixExpression<EL, T, L, LC>& el, const MatrixExpression<ER, T, LC, C>& er)
+			{
+				return MatrixMul<EL, ER, T, L, LC, C>(static_cast<const EL&>(el), static_cast<const ER&>(er));
 			}
+
+#pragma endregion
+
 #pragma endregion
 		}
 	}
