@@ -117,22 +117,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Geometry\Geometry2D\HVector2D.h" />
-    <ClInclude Include="Source\Geometry\Geometry2D\Transform2D.h" />
-    <ClInclude Include="Source\Geometry\Geometry3D\HVector3D.h" />
-    <ClInclude Include="Source\Geometry\Geometry3D\Transform3D.h" />
-    <ClInclude Include="Source\Geometry\HVectorND.h" />
-    <ClInclude Include="Source\Geometry\VectorND.h" />
     <ClInclude Include="Source\Matrix\Heap\HMatrix.h" />
     <ClInclude Include="Source\Matrix\Stack\SMatrix.h" />
     <ClInclude Include="Source\Matrix\Stack\SqrSMatrix.h" />
     <ClInclude Include="Source\Utilities\Angles.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Source\Geometry\Geometry2D\HVector2D.cpp" />
-    <ClCompile Include="Source\Geometry\Geometry2D\Transform2D.cpp" />
-    <ClCompile Include="Source\Geometry\Geometry3D\HVector3D.cpp" />
-    <ClCompile Include="Source\Geometry\Geometry3D\Transform3D.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -10,7 +10,7 @@ namespace LCNMath {
 	namespace Matrix {
 		namespace StaticMatrix{
 
-			template<typename E, typename T>
+			template<typename E, typename T, uint L, uint C>
 			class MatrixExpression
 			{
 			protected:
@@ -41,7 +41,7 @@ namespace LCNMath {
 			//-- Stack allocated Matrix --//
 			////////////////////////////////
 			template<typename T, uint L, uint C>
-			class Matrix : public MatrixExpression<Matrix<T, L, C>, T>
+			class Matrix : public MatrixExpression<Matrix<T, L, C>, T, L, C>
 			{
 			protected:
 				T m_Matrix[L][C];
@@ -88,6 +88,14 @@ namespace LCNMath {
 				Matrix(const Matrix& mat) :
 					Matrix(mat.m_Matrix)
 				{}
+
+				template<typename E>
+				Matrix(const MatrixExpression<E, T, L, C>& other)
+				{
+					for (uint i = 0; i < L; ++i)
+						for (uint j = 0; j < C; ++j)
+							m_Matrix[i][j] = other(i, j);
+				}
 
 #pragma endregion
 
@@ -303,8 +311,8 @@ namespace LCNMath {
 			//-- External functions --//
 			////////////////////////////
 
-			template<typename EL, typename ER, typename T>
-			class MatrixAdd : MatrixExpression<MatrixAdd<EL, ER, T>, T>
+			template<typename EL, typename ER, typename T, uint L, uint C>
+			class MatrixAdd : public MatrixExpression<MatrixAdd<EL, ER, T, L, C>, T, L, C>
 			{
 			private:
 				const EL& el;
@@ -318,8 +326,6 @@ namespace LCNMath {
 
 				T operator()(uint i, uint j) const
 				{
-					static_assert(el.Lines() == er.Lines());
-
 					return el(i, j) + er(i, j);
 				}
 
@@ -334,10 +340,10 @@ namespace LCNMath {
 				}
 			};
 
-			template<typename EL, typename ER, typename T>
-			MatrixAdd<EL, ER, T> operator+(const MatrixExpression<EL, T>& el, const MatrixExpression<ER, T>& er)
+			template<typename EL, typename ER, typename T, uint L, uint C>
+			MatrixAdd<EL, ER, T, L, C> operator+(const MatrixExpression<EL, T, L, C>& el, const MatrixExpression<ER, T, L, C>& er)
 			{
-				return MatrixAdd<EL, ER, T>(static_cast<const EL&>(el), static_cast<const ER&>(er));
+				return MatrixAdd<EL, ER, T, L, C>(static_cast<const EL&>(el), static_cast<const ER&>(er));
 			}
 
 			/*

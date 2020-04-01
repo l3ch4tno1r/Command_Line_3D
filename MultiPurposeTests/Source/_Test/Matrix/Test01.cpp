@@ -5,8 +5,10 @@
 using LCNMath::Matrix::StaticMatrix::Matrix;
 using LCNMath::Matrix::StaticMatrix::MatrixExpression;
 
-template<typename E, typename T>
-void f(const MatrixExpression<E, T>& ME)
+using uint = unsigned int;
+
+template<typename E, typename T, uint L, uint C>
+void f(const MatrixExpression<E, T, L, C>& ME)
 {
 	std::cout << ME.Lines() << ", " << ME.Columns() << std::endl;
 }
@@ -24,6 +26,8 @@ int main()
 	};
 
 	f(mat1);
+
+	Matrix<float, 2, 3> a = mat1 + mat2;
 
 	std::cout << (mat1 + mat2)(0, 0) << std::endl;
 
