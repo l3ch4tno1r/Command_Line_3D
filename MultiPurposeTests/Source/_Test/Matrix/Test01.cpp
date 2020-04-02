@@ -22,7 +22,8 @@ int main()
 		1,  0
 	};
 
-	SqrMatrix<float, 2> result = smat * smat;
+	auto expr = 2.0f * smat;
+	SqrMatrix<float, 2> result = 2.0f * smat;
 
 	std::cin.get();
 }

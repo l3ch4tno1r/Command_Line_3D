@@ -10,6 +10,9 @@ namespace LCNMath {
 	namespace Matrix {
 		namespace StaticMatrix{
 
+			////////////////////////////////
+			//-- Matrix Expression Base --//
+			////////////////////////////////
 			template<typename E, typename T, uint L, uint C>
 			class MatrixExpression
 			{
@@ -407,6 +410,10 @@ namespace LCNMath {
 			///////////////////////////////////
 			//-- Multiplication Expression --//
 			///////////////////////////////////
+
+			/////////////////////////
+			//-- Matrix * Matrix --//
+			/////////////////////////
 			template<typename EL, typename ER, typename T, uint L, uint LC, uint C>
 			class MatrixMul : public MatrixExpression<MatrixMul<EL, ER, T, L, LC, C>, T, L, C>
 			{
@@ -447,6 +454,81 @@ namespace LCNMath {
 				return MatrixMul<EL, ER, T, L, LC, C>(static_cast<const EL&>(el), static_cast<const ER&>(er));
 			}
 
+			/////////////////////////
+			//-- Scalar * Matrix --//
+			/////////////////////////
+			template<typename E, typename T, uint L, uint C>
+			class MatrixScalarMul : public MatrixExpression<MatrixScalarMul<E, T, L, C>, T, L, C>
+			{
+			private:
+				const E& e;
+				T scalar;
+
+			public:
+				MatrixScalarMul(const E& e, T scalar) :
+					e(e),
+					scalar(scalar)
+				{}
+
+				T operator()(uint i, uint j) const
+				{
+					return scalar * e(i, j);
+				}
+
+				uint Lines() const
+				{
+					return L;
+				}
+
+				uint Columns() const
+				{
+					return C;
+				}
+			};
+
+			template<typename E, typename T, uint L, uint C>
+			MatrixScalarMul<E, T, L, C> operator*(T scalar, const MatrixExpression<E, T, L, C>& e)
+			{
+				return MatrixScalarMul<E, T, L, C>(static_cast<const E&>(e), scalar);
+			}
+
+			/////////////////////////
+			//-- Matrix / Scalar --//
+			/////////////////////////
+			template<typename E, typename T, uint L, uint C>
+			class MatrixScalarDiv : public MatrixExpression<MatrixScalarDiv<E, T, L, C>, T, L, C>
+			{
+			private:
+				const E& e;
+				T scalar;
+
+			public:
+				MatrixScalarDiv(const E& e, T scalar) :
+					e(e),
+					scalar(scalar)
+				{}
+
+				T operator()(uint i, uint j) const
+				{
+					return e(i, j) / scalar;
+				}
+
+				uint Lines() const
+				{
+					return L;
+				}
+
+				uint Columns() const
+				{
+					return C;
+				}
+			};
+
+			template<typename E, typename T, uint L, uint C>
+			MatrixScalarDiv<E, T, L, C> operator/(T scalar, const MatrixExpression<E, T, L, C>& e)
+			{
+				return MatrixScalarDiv<E, T, L, C>(static_cast<const E&>(e), scalar);
+			}
 #pragma endregion
 
 #pragma endregion
