@@ -118,7 +118,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="External\stb_image\stb_image.cpp" />
-    <ClCompile Include="Source\_Test\Matrix\Test01.cpp" />
+    <ClCompile Include="Source\Utils\ErrorHandling.cpp" />
+    <ClCompile Include="Source\Utils\TimeMeasurement.cpp" />
+    <ClCompile Include="Source\_Test\Matrix\Test02 - Benchmark.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LCNMath\LCNMath.vcxproj">
@@ -127,6 +129,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\stb_image\stb_image.h" />
+    <ClInclude Include="Source\Utils\ErrorHandling.h" />
+    <ClInclude Include="Source\Utils\TimeMeasurement.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
