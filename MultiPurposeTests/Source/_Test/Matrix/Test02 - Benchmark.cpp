@@ -26,10 +26,24 @@ void TestLoopNaiveAddition()
 		float result = NaiveAddition(a, NaiveAddition(b, NaiveAddition(c, NaiveAddition(d, a))))(0, 0);
 }
 
-void TestLoopExprAddition()
+void TestLoopExprAddition1()
 {
 	for (uint i = 0; i < 100000; ++i)
 		float result = (a + b + c + d + a)(0, 0);
+}
+
+void TestLoopExprAddition2()
+{
+	auto expr = a + b + c + d + a;
+
+	for (uint i = 0; i < 100000; ++i)
+		float result = expr(0, 0);
+}
+
+void TestLoopRawAddition()
+{
+	for (uint i = 0; i < 100000; ++i)
+		float result = a(0, 0) + b(0, 0) + c(0, 0) + d(0, 0) + a(0, 0);
 }
 
 int main()
@@ -44,8 +58,9 @@ int main()
 	ASSERT(r1(2, 0) == r2(2, 0));
 
 	MEASURETIME(TestLoopNaiveAddition());
-
-	MEASURETIME(TestLoopExprAddition());
+	MEASURETIME(TestLoopExprAddition1());
+	MEASURETIME(TestLoopExprAddition2());
+	MEASURETIME(TestLoopRawAddition());
 
 	std::cin.get();
 }

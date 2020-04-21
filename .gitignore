@@ -6,3 +6,4 @@ Debug
 /Release
 /UnitTest/Release
 *.csv
+MultiPurposeTests/Release

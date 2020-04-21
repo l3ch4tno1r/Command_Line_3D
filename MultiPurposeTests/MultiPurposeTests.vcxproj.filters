@@ -18,13 +18,13 @@
     <ClCompile Include="External\stb_image\stb_image.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\_Test\Matrix\Test02 - Benchmark.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Utils\TimeMeasurement.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Source\Utils\ErrorHandling.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\_Test\Matrix\Test02 - Benchmark.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
