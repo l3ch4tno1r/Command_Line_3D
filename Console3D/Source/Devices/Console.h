@@ -57,6 +57,9 @@ public:
 		return m_Focal;
 	}
 
+	static uint ClipEdge(const HVector3D& v1, const HVector3D& v2, // Edge
+		                 const HVector3D& n,  const HVector3D& p,  // Plane parameters
+		                       HVector3D& o1,       HVector3D& o2);
 private:
 	bool ScreenPlaneProjection(const HVector3D& a, const HVector3D& b, HVector3D& pa, HVector3D& pb) const;
 
@@ -64,7 +67,6 @@ private:
 
 	bool LineInSight(HVector2D& OA, HVector2D& OB);
 
-	uint ClipEdge(const HVector3D& v1, const HVector3D& v2, const HVector3D& n, HVector3D& o1, HVector3D& o2);
 
 	void DrawLine(const HVector2D& v1, const HVector2D& v2);
 

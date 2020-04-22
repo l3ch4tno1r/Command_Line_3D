@@ -300,7 +300,9 @@ bool Console::LineInSight(HVector2D& OA, HVector2D& OB)
 	return true;
 }
 
-uint Console::ClipEdge(const HVector3D& v1, const HVector3D& v2, const HVector3D& n, HVector3D& o1, HVector3D& o2)
+uint Console::ClipEdge(const HVector3D& v1, const HVector3D& v2, // Edge
+	                   const HVector3D& n,  const HVector3D& p,  // Plane parameters
+	                         HVector3D& o1,       HVector3D& o2)
 {
 	std::array<const HVector3D*, 2> vertices = { &v1, &v2 };
 
