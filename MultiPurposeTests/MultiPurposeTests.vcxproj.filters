@@ -24,7 +24,7 @@
     <ClCompile Include="Source\Utils\ErrorHandling.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\_Test\Matrix\Test02 - Benchmark.cpp">
+    <ClCompile Include="Source\_Test\Misc\Test16.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
