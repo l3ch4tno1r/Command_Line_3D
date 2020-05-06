@@ -1,5 +1,6 @@
 #include <iostream>
 #include <list>
+#include <string>
 
 #define SEPARATOR(X) std::cout << "------- " << X << " -------" << std::endl
 
@@ -22,26 +23,25 @@ class Test
 private:
 	static uint32_t count;
 	uint32_t id;
+	std::string name;
 
 public:
-	Test() : id(++count)
-	{
-		std::cout << "Hello world ! " << id << std::endl;
-	}
+	Test(const std::string& name) :
+		id(++count),
+		name(name)
+	{}
 
-	Test(const Test&) : id(++count)
-	{
-		std::cout << "Hello world copy ! " << id << std::endl;
-	}
+	Test(const Test& other) :
+		id(++count),
+		name(other.name)
+	{}
 
 	~Test()
-	{
-		std::cout << "Goodbye world ! " << id << std::endl;
-	}
+	{}
 
 	void Display() const
 	{
-		std::cout << "Display ! " << id << std::endl;
+		std::cout << "My name is " << name << "-" << id << std::endl;
 	}
 };
 
@@ -54,13 +54,16 @@ int main()
 
 		SEPARATOR(1);
 
-		list.emplace_back();
+		list.emplace_back("Joe");
 		SEPARATOR(2);
-		list.emplace_back();
+		list.emplace_back("Jack");
 		SEPARATOR(3);
-		list.emplace_back();
+		list.emplace_back("William");
 		SEPARATOR(4);
-		list.emplace_back();
+		list.emplace_back("Averell");
+
+		for (auto it = list.begin(); it != list.end(); ++it)
+			it->Display();
 	}
 
 	std::cin.get();
