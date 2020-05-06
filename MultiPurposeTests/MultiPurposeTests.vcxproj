@@ -123,7 +123,7 @@
     <ClCompile Include="External\stb_image\stb_image.cpp" />
     <ClCompile Include="Source\Utils\ErrorHandling.cpp" />
     <ClCompile Include="Source\Utils\TimeMeasurement.cpp" />
-    <ClCompile Include="Source\_Test\Memory\Test22 - 2.cpp" />
+    <ClCompile Include="Source\_Test\Memory\Test22 - 1 - container.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LCNMath\LCNMath.vcxproj">

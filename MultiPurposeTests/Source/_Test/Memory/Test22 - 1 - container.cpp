@@ -1,4 +1,65 @@
 #include <iostream>
+#include <utility>
+#include <thread>
+#include <mutex>
+
+class MemTracker
+{
+private:
+	std::mutex allocated_mut;
+	uint64_t allocated;
+
+	std::mutex deallocated_mut;
+	uint64_t deallocated;
+
+public:
+	MemTracker() :
+		allocated(0),
+		deallocated(0)
+	{}
+
+	~MemTracker()
+	{
+		std::cout << "Total Memory allocated   : " << allocated   << " bytes." << std::endl;
+		std::cout << "Total Memory deallocated : " << deallocated << " bytes." << std::endl;
+
+		std::cout << "\nDelta = " << allocated - deallocated << std::endl;
+
+		std::cin.get();
+	}
+
+	void Allocate(size_t size)
+	{
+		std::unique_lock<std::mutex> lock(allocated_mut);
+
+		allocated += size;
+	}
+
+	void Deallocate(size_t size)
+	{
+		std::unique_lock<std::mutex> lock(deallocated_mut);
+
+		deallocated += size;
+	}
+};
+
+MemTracker tracker;
+
+void* operator new(size_t size)
+{
+	tracker.Allocate(size);
+
+	return malloc(size);
+}
+
+void operator delete(void* ptr, size_t size)
+{
+	tracker.Deallocate(size);
+
+	free(ptr);
+}
+
+//--------------------//
 
 template<typename T, uint32_t N>
 class StaticArray
@@ -111,10 +172,13 @@ private:
 	LinkedListItem* first;
 	LinkedListItem* last;
 
+	size_t size;
+
 public:
 	LinkedList() :
 		first(nullptr),
-		last(nullptr)
+		last(nullptr),
+		size(0)
 	{}
 
 	~LinkedList()
@@ -143,6 +207,8 @@ public:
 
 			last = item;
 		}
+
+		++size;
 	}
 
 	class Iterator
@@ -221,19 +287,40 @@ public:
 
 uint32_t Test::count = 0;
 
+//----------------------//
+
+using pairii = std::pair<uint32_t, uint32_t>;
+
+std::mutex list_mut;
+LinkedList<pairii> list;
+
+void ThreadTest(uint32_t id)
+{
+	for (uint32_t i = 0; i < 10000; i++)
+	{
+		//std::unique_lock<std::mutex> lock(list_mut);
+
+		list.PushBack(pairii(id, i));
+	}
+}
+
 int main()
 {
+	std::thread t1(ThreadTest, 1);
+	std::thread t2(ThreadTest, 2);
+
+	t1.join();
+	t2.join();
+
+	/*
+	uint32_t count = 0;
+
+	for (auto it = list.Begin(); it != list.End(); ++it)
 	{
-		LinkedList<Test> list;
-
-		list.PushBack(Test());
-		list.PushBack(Test());
-		list.PushBack(Test());
-		list.PushBack(Test());
-
-		for (auto it = list.Begin(); it != list.End(); ++it)
-			it->Display();
+		std::cout << it->first << ", " << it->second << std::endl;
+		count++;
 	}
 
 	std::cin.get();
+	*/
 }
