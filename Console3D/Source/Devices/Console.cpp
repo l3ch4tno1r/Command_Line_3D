@@ -306,9 +306,9 @@ uint Console::ClipEdge(const HVector3D& v1, const HVector3D& v2, // Edge
 {
 	std::array<const HVector3D*, 2> vertices = { &v1, &v2 };
 
-	auto it = std::partition(vertices.begin(), vertices.end(), [&](const HVector3D& v)
+	auto it = std::partition(vertices.begin(), vertices.end(), [&](const HVector3D* v)
 	{
-		return (v | n) > 0.0f;
+		return ((*v - p) | n) > 0.0f;
 	});
 
 	return it - vertices.begin();
