@@ -19,6 +19,7 @@
 #include <sstream>
 #include <array>
 #include <algorithm>
+#include <utility>
 
 /*
 #define DRAW_FACES
@@ -61,9 +62,9 @@ void Console::MainThread()
 	Model3D models[] = {
 		OBJReader().ReadFile<Model3D>("Ressource/carpet.obj", false),
 		/*
-		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/axis.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
+		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
 		*/
 		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
 	};
@@ -109,12 +110,22 @@ void Console::MainThread()
 	Transform2D ImgToCam(90.0f, 60.0f, 180.0f);
 
 	// For clipping
-	const HVector3D& nz = HVector3D::Z();
 
+	// TODO : clean up
+	/*
 	HVector3D nh1(0,        m_Focal, m_Height / 2, false);
 	HVector3D nh2(0,       -m_Focal, m_Height / 2, false);
 	HVector3D nw1(-m_Focal, 0,       m_Width / 2,  false);
 	HVector3D nw2( m_Focal, 0,       m_Width / 2,  false);
+	*/
+
+	std::pair<HVector3D, HVector3D> planes[] = {
+		{ HVector3D(HVector3D::Z()),                         HVector3D(0.0f, 0.0f, 0.5f) },
+		{ HVector3D( 0,       m_Focal, m_Height / 2, false), HVector3D(0.0f, 0.0f, 0.0f) },
+		{ HVector3D( 0,      -m_Focal, m_Height / 2, false), HVector3D(0.0f, 0.0f, 0.0f) },
+		{ HVector3D(-m_Focal, 0,       m_Width  / 2, false), HVector3D(0.0f, 0.0f, 0.0f) },
+		{ HVector3D( m_Focal, 0,       m_Width  / 2, false), HVector3D(0.0f, 0.0f, 0.0f) }
+	};
 
 	// Console device loop
 	while (pacemaker.Heartbeat())
@@ -176,30 +187,25 @@ void Console::MainThread()
 				HVector3D o1(0.0f, 0.0f, 0.0f);
 				HVector3D o2(0.0f, 0.0f, 0.0f);
 
-				if (ClipEdge(v1, v2, nz, HVector3D(0.0f, 0.0f, 0.5f), o1, o2) <= 0)
+				bool outoffield = false;
+				char symbol = '#';
+
+				for (auto& p : planes)
+				{
+					uint num = ClipEdge(v1, v2, p.first, p.second, o1, o2);
+
+					if (outoffield = (num <= 0))
+						break;
+
+					if (num == 1)
+						symbol = '.';
+
+					v1 = o1;
+					v2 = o2;
+				}
+
+				if (outoffield)
 					continue;
-
-				v1 = o1, v2 = o2;
-
-				if (ClipEdge(v1, v2, nh1, HVector3D::Zero(), o1, o2) <= 0)
-					continue;
-
-				v1 = o1, v2 = o2;
-
-				if (ClipEdge(v1, v2, nh2, HVector3D::Zero(), o1, o2) <= 0)
-					continue;
-
-				v1 = o1, v2 = o2;
-
-				if (ClipEdge(v1, v2, nw1, HVector3D::Zero(), o1, o2) <= 0)
-					continue;
-
-				v1 = o1, v2 = o2;
-
-				if (ClipEdge(v1, v2, nw2, HVector3D::Zero(), o1, o2) <= 0)
-					continue;
-
-				v1 = o1, v2 = o2;
 
 				HVector3D nface1  = CamToObj * model.Normals()[edge.n1];
 				HVector3D nface2  = CamToObj * model.Normals()[edge.n2];
@@ -213,7 +219,7 @@ void Console::MainThread()
 				_pt1.Homogenize();
 				_pt2.Homogenize();
 
-				DrawLine(_pt1, _pt2);
+				DrawLine(_pt1, _pt2, symbol);
 			}
 #endif // DRAW_EDGES
 		}
