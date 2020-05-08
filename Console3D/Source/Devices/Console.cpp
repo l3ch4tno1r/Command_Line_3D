@@ -111,14 +111,6 @@ void Console::MainThread()
 
 	// For clipping
 
-	// TODO : clean up
-	/*
-	HVector3D nh1(0,        m_Focal, m_Height / 2, false);
-	HVector3D nh2(0,       -m_Focal, m_Height / 2, false);
-	HVector3D nw1(-m_Focal, 0,       m_Width / 2,  false);
-	HVector3D nw2( m_Focal, 0,       m_Width / 2,  false);
-	*/
-
 	std::pair<HVector3D, HVector3D> planes[] = {
 		{ HVector3D(HVector3D::Z()),                         HVector3D(0.0f, 0.0f, 0.5f) },
 		{ HVector3D( 0,       m_Focal, m_Height / 2, false), HVector3D(0.0f, 0.0f, 0.0f) },
@@ -255,26 +247,6 @@ void Console::Clear()
 {
 	for (unsigned int i = 0; i < m_Width * m_Height; i++)
 		m_Screen[i] = 0;
-}
-
-bool Console::ScreenPlaneProjection(const HVector3D& a, const HVector3D& b, HVector3D& pa, HVector3D& pb) const
-{
-	if (sign(a.z - cm_ScreenDist) < 0.0f && sign(b.z - cm_ScreenDist) < 0.0f)
-		return false;
-
-	pa = (a.z > 0.0f ? a : b);
-	pb = (a.z > 0.0f ? b : a);
-
-	float dz = pb.z - pa.z;
-
-	if (std::abs(dz) < 0.001f)
-		return true;
-
-	float k = (cm_ScreenDist - pb.z) / dz;
-
-	pb = pb + k * (pb - pa);
-
-	return true;
 }
 
 void Console::DrawPoint(float x, float y, char c)
