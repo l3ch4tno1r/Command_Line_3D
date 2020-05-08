@@ -40,6 +40,8 @@ namespace LCNMath {
 
 				static const HVector3D& Z();
 
+				static const HVector3D& Zero();
+
 				HVector3D& operator=(const HVector3D& vec);
 			};
 

@@ -108,6 +108,14 @@ void Console::MainThread()
 
 	Transform2D ImgToCam(90.0f, 60.0f, 180.0f);
 
+	// For clipping
+	const HVector3D& nz = HVector3D::Z();
+
+	HVector3D nh1(0,        m_Focal, m_Height / 2, false);
+	HVector3D nh2(0,       -m_Focal, m_Height / 2, false);
+	HVector3D nw1(-m_Focal, 0,       m_Width / 2,  false);
+	HVector3D nw2( m_Focal, 0,       m_Width / 2,  false);
+
 	// Console device loop
 	while (pacemaker.Heartbeat())
 	{		
@@ -123,7 +131,8 @@ void Console::MainThread()
 
 			Transform3D CamToObj = CamToR0 * R0ToObjs[i];
 
-			LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = ImgToCam.mat * Projection * CamToObj.mat;
+			//LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = ImgToCam.mat * Projection * CamToObj.mat;
+			LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = ImgToCam.mat * Projection;
 
 #ifdef DRAW_FACES
 			for (const Model3D::Face& face : model.Faces())
@@ -162,16 +171,44 @@ void Console::MainThread()
 #ifdef DRAW_EDGES
 			for(const Model3D::Edge& edge : model.Edges())
 			{
-				HVector3D vertex1 = CamToObj * model.Vertices()[edge.v1];
+				HVector3D v1 = CamToObj * model.Vertices()[edge.v1];
+				HVector3D v2 = CamToObj * model.Vertices()[edge.v2];
+				HVector3D o1(0.0f, 0.0f, 0.0f);
+				HVector3D o2(0.0f, 0.0f, 0.0f);
+
+				if (ClipEdge(v1, v2, nz, HVector3D(0.0f, 0.0f, 0.5f), o1, o2) <= 0)
+					continue;
+
+				v1 = o1, v2 = o2;
+
+				if (ClipEdge(v1, v2, nh1, HVector3D::Zero(), o1, o2) <= 0)
+					continue;
+
+				v1 = o1, v2 = o2;
+
+				if (ClipEdge(v1, v2, nh2, HVector3D::Zero(), o1, o2) <= 0)
+					continue;
+
+				v1 = o1, v2 = o2;
+
+				if (ClipEdge(v1, v2, nw1, HVector3D::Zero(), o1, o2) <= 0)
+					continue;
+
+				v1 = o1, v2 = o2;
+
+				if (ClipEdge(v1, v2, nw2, HVector3D::Zero(), o1, o2) <= 0)
+					continue;
+
+				v1 = o1, v2 = o2;
 
 				HVector3D nface1  = CamToObj * model.Normals()[edge.n1];
 				HVector3D nface2  = CamToObj * model.Normals()[edge.n2];
 
-				if ((vertex1 | nface1) > 0.0f && (vertex1 | nface2) > 0.0f)
+				if ((o1 | nface1) > 0.0f && (o1 | nface2) > 0.0f)
 					continue;
 
-				HVector2D _pt1 = _Proj * model.Vertices()[edge.v1].mat;
-				HVector2D _pt2 = _Proj * model.Vertices()[edge.v2].mat;
+				HVector2D _pt1 = _Proj * o1.mat;
+				HVector2D _pt2 = _Proj * o2.mat;
 
 				_pt1.Homogenize();
 				_pt2.Homogenize();
@@ -306,15 +343,31 @@ uint Console::ClipEdge(const HVector3D& v1, const HVector3D& v2, // Edge
 {
 	std::array<const HVector3D*, 2> vertices = { &v1, &v2 };
 
-	auto it = std::partition(vertices.begin(), vertices.end(), [&](const HVector3D* v)
+	auto it = std::partition(vertices.begin(), vertices.end(), [&n, &p](const HVector3D* v)
 	{
 		return ((*v - p) | n) > 0.0f;
 	});
 
-	return it - vertices.begin();
+	uint num = it - vertices.begin();
+
+	if (num == 1)
+	{
+		o1 = *vertices[0];
+
+		HVector3D pv1 = o1 - p;
+		HVector3D v1v2 = *vertices[1] - o1;
+
+		float k = -(pv1 | n) / (v1v2 | n);
+
+		o2 = k * v1v2 + o1;
+	}
+	else
+		o1 = *vertices[0], o2 = *vertices[1];
+
+	return num;
 }
 
-void Console::DrawLine(const HVector2D& v1, const HVector2D& v2)
+void Console::DrawLine(const HVector2D& v1, const HVector2D& v2, char c)
 {
 	float x1 = v1.PX();
 	float y1 = v1.PY();
@@ -326,7 +379,7 @@ void Console::DrawLine(const HVector2D& v1, const HVector2D& v2)
 
 	if (dx == 0 && dy == 0)
 	{
-		DrawPoint(x1, y1);
+		DrawPoint(x1, y1, c);
 		return;
 	}
 
@@ -351,11 +404,11 @@ void Console::DrawLine(const HVector2D& v1, const HVector2D& v2)
 		X += stepx;
 		Y += stepy;
 
-		DrawPoint(X, Y);
+		DrawPoint(X, Y, c);
 	}
 
-	DrawPoint(x1, y1);
-	DrawPoint(x2, y2);
+	DrawPoint(x1, y1, c);
+	DrawPoint(x2, y2, c);
 }
 
 void Console::DisplayMessage(const std::string & msg)

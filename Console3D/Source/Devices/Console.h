@@ -68,7 +68,7 @@ private:
 	bool LineInSight(HVector2D& OA, HVector2D& OB);
 
 
-	void DrawLine(const HVector2D& v1, const HVector2D& v2);
+	void DrawLine(const HVector2D& v1, const HVector2D& v2, char c = '#');
 
 	void DisplayMessage(const std::string& msg);
 

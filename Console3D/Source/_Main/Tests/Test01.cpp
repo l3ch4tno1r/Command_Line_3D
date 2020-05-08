@@ -2,7 +2,7 @@
 
 #include "Devices\Console.h"
 
-int main()
+void Test01()
 {
 	HVector3D v1(0, 0, 1);
 	HVector3D v2(0, 0, 2);
@@ -24,6 +24,11 @@ int main()
 
 		std::cout << num << std::endl;
 	}
+}
+
+int main()
+{
+	Test01();
 
 	std::cin.get();
 }

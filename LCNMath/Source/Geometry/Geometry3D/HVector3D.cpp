@@ -32,20 +32,26 @@ namespace LCNMath {
 
 			const HVector3D& HVector3D::X()
 			{
-				static HVector3D x(1.0f, 0.0f, 0.0f);
+				static HVector3D x(1.0f, 0.0f, 0.0f, false);
 				return x;
 			}
 
 			const HVector3D& HVector3D::Y()
 			{
-				static HVector3D y(0.0f, 1.0f, 0.0f);
+				static HVector3D y(0.0f, 1.0f, 0.0f, false);
 				return y;
 			}
 
 			const HVector3D& HVector3D::Z()
 			{
-				static HVector3D z(0.0f, 0.0f, 1.0f);
+				static HVector3D z(0.0f, 0.0f, 1.0f, false);
 				return z;
+			}
+
+			const HVector3D & HVector3D::Zero()
+			{
+				static HVector3D zero(0.0f, 0.0f, 0.0f);
+				return zero;
 			}
 
 			HVector3D& HVector3D::operator=(const HVector3D& vec)
