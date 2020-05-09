@@ -249,7 +249,7 @@ void Console::Clear()
 		m_Screen[i] = 0;
 }
 
-void Console::DrawPoint(float x, float y, char c)
+void Console::DrawPoint(int x, int y, char c)
 {
 	if (x < 0 || x >= m_Width)
 		return;
@@ -257,7 +257,7 @@ void Console::DrawPoint(float x, float y, char c)
 	if (y < 0 || y >= m_Height)
 		return;
 
-	m_Screen[(INT32)x + (INT32)y * m_Width] = c;
+	m_Screen[x + y * m_Width] = c;
 }
 
 bool Console::LineInSight(HVector2D& OA, HVector2D& OB)
@@ -345,6 +345,84 @@ uint Console::ClipEdge(const HVector3D& v1, const HVector3D& v2, // Edge
 	return num;
 }
 
+void Console::DrawLine(int x1, int y1, int x2, int y2, char c)
+{
+	// Adapted from OneLoneCoder at https://github.com/OneLoneCoder/videos/blob/master/olcConsoleGameEngine.h
+
+	int x, y, dx, dy, dx1, dy1, px, py, xe, ye, i;
+
+	dx  = x2 - x1;
+	dy  = y2 - y1;
+	dx1 = abs(dx);
+	dy1 = abs(dy);
+	px  = 2 * dy1 - dx1;
+	py  = 2 * dx1 - dy1;
+
+	if (dy1 <= dx1)
+	{
+		if (dx >= 0)
+		{
+			x = x1; y = y1; xe = x2;
+		}
+		else
+		{
+			x = x2; y = y2; xe = x1;
+		}
+
+		DrawPoint(x, y, c);
+
+		for (i = 0; x < xe; i++)
+		{
+			x = x + 1;
+
+			if (px<0)
+				px = px + 2 * dy1;
+			else
+			{
+				if ((dx<0 && dy<0) || (dx>0 && dy>0))
+					y = y + 1;
+				else
+					y = y - 1;
+
+				px = px + 2 * (dy1 - dx1);
+			}
+
+			DrawPoint(x, y, c);
+		}
+	}
+	else
+	{
+		if (dy >= 0)
+		{
+			x = x1; y = y1; ye = y2;
+		}
+		else
+		{
+			x = x2; y = y2; ye = y1;
+		}
+
+		DrawPoint(x, y, c);
+
+		for (i = 0; y<ye; i++)
+		{
+			y = y + 1;
+			if (py <= 0)
+				py = py + 2 * dx1;
+			else
+			{
+				if ((dx<0 && dy<0) || (dx>0 && dy>0))
+					x = x + 1;
+				else
+					x = x - 1;
+
+				py = py + 2 * (dx1 - dy1);
+			}
+
+			DrawPoint(x, y, c);
+		}
+	}
+}
+
 void Console::DrawLine(const HVector2D& v1, const HVector2D& v2, char c)
 {
 	float x1 = v1.PX();
@@ -352,6 +430,7 @@ void Console::DrawLine(const HVector2D& v1, const HVector2D& v2, char c)
 	float x2 = v2.PX();
 	float y2 = v2.PY();
 
+	/*
 	float dx = x2 - x1;
 	float dy = y2 - y1;
 
@@ -387,6 +466,9 @@ void Console::DrawLine(const HVector2D& v1, const HVector2D& v2, char c)
 
 	DrawPoint(x1, y1, c);
 	DrawPoint(x2, y2, c);
+	*/
+
+	DrawLine(x1, y1, x2, y2, c);
 }
 
 void Console::DisplayMessage(const std::string & msg)
