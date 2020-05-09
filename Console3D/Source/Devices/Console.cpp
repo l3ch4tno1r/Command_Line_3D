@@ -119,6 +119,8 @@ void Console::MainThread()
 		{ HVector3D( m_Focal, 0,       m_Width  / 2, false), HVector3D(0.0f, 0.0f, 0.0f) }
 	};
 
+	LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = ImgToCam.mat * Projection;
+
 	// Console device loop
 	while (pacemaker.Heartbeat())
 	{		
@@ -133,9 +135,6 @@ void Console::MainThread()
 			const Model3D& model = models[i];
 
 			Transform3D CamToObj = CamToR0 * R0ToObjs[i];
-
-			//LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = ImgToCam.mat * Projection * CamToObj.mat;
-			LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = ImgToCam.mat * Projection;
 
 #ifdef DRAW_FACES
 			for (const Model3D::Face& face : model.Faces())
@@ -176,8 +175,8 @@ void Console::MainThread()
 			{
 				HVector3D v1 = CamToObj * model.Vertices()[edge.v1];
 				HVector3D v2 = CamToObj * model.Vertices()[edge.v2];
-				HVector3D o1(0.0f, 0.0f, 0.0f);
-				HVector3D o2(0.0f, 0.0f, 0.0f);
+				static HVector3D o1(0.0f, 0.0f, 0.0f);
+				static HVector3D o2(0.0f, 0.0f, 0.0f);
 
 				bool outoffield = false;
 				char symbol = '#';
