@@ -64,9 +64,9 @@ void Console::MainThread()
 		/*
 		OBJReader().ReadFile<Model3D>("Ressource/axis.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
-		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
-		*/
 		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
+		*/
+		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
 	};
 
  	const float scalefactor = 1.0f;
