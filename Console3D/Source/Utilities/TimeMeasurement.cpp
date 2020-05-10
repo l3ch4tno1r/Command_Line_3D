@@ -7,6 +7,8 @@ Timer::Timer()
 {
 	steps.reserve(20);
 	start = std::chrono::high_resolution_clock::now();
+
+	steps.emplace_back(0);
 }
 
 Timer::~Timer()
@@ -23,7 +25,7 @@ void Timer::RegisterStep()
 	auto step = std::chrono::high_resolution_clock::now();
 	long long ellapsed_micros = std::chrono::duration_cast<std::chrono::microseconds> (step - start).count();
 
-	steps.emplace_back(ellapsed_micros);
+	steps.emplace_back(ellapsed_micros - steps[steps.size() - 1]);
 }
 
 Timer2::Timer2(std::string & _target) :

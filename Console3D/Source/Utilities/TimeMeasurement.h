@@ -47,4 +47,12 @@ public:
 	~Timer2();
 };
 
-#define TIMER(msg) Timer2 timer(msg)
+//#define TIMER_ENABLED
+
+#ifdef TIMER_ENABLED
+#define TIMER(X) Timer X
+#define REGISTERTIME(X) X.RegisterStep()
+#else
+#define TIMER(X)
+#define REGISTERTIME(X)
+#endif

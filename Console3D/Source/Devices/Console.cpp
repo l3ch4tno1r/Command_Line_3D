@@ -27,8 +27,8 @@
 #define DRAW_EDGES
 
 Console::Console() :
-	m_Width(180),
-	m_Height(120),
+	m_Width(120),
+	m_Height(80),
 	m_Screen(nullptr),
 	m_HConsole(nullptr),
 	m_DwBytesWritten(0),
@@ -107,7 +107,8 @@ void Console::MainThread()
 
 	LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> Projection(tab);
 
-	Transform2D ImgToCam(90.0f, 60.0f, 180.0f);
+	//Transform2D ImgToCam(90.0f, 60.0f, 180.0f);
+	Transform2D ImgToCam(m_Width / 2, m_Height / 2, 180.0f);
 
 	// For clipping
 
@@ -132,8 +133,6 @@ void Console::MainThread()
 	// Console device loop
 	while (pacemaker.Heartbeat())
 	{
-		Timer timer;
-
 		Clear();
 
 		Transform3D CamToR0 = m_R0ToCam.mat.Invert();
@@ -142,8 +141,6 @@ void Console::MainThread()
 
 		for (uint i = 0; i < 2; i++)
 		{
-			timer.RegisterStep();
-
 			const Model3D& model = models[i];
 
 			Transform3D CamToObj = CamToR0 * R0ToObjs[i];
@@ -190,15 +187,17 @@ void Console::MainThread()
 #endif // DRAW_FACES
 
 #ifdef DRAW_EDGES
-
-			timer.RegisterStep();
-
+			// Loop through edges
 			for(const Model3D::Edge& edge : model.Edges())
 			{
+				TIMER(t1);
+
 				HVector3D v1 = model.Vertices()[edge.v1];
 				HVector3D v2 = model.Vertices()[edge.v2];
 				static HVector3D o1(0.0f, 0.0f, 0.0f);
 				static HVector3D o2(0.0f, 0.0f, 0.0f);
+
+				REGISTERTIME(t1);
 
 				bool outoffield = false;
 				char symbol = '#';
@@ -217,6 +216,8 @@ void Console::MainThread()
 					v2 = o2;
 				}
 
+				REGISTERTIME(t1);
+
 				if (outoffield)
 					continue;
 
@@ -233,10 +234,12 @@ void Console::MainThread()
 				_pt1.Homogenize();
 				_pt2.Homogenize();
 
-				DrawLine(_pt1, _pt2, symbol);
-			}
+				REGISTERTIME(t1);
 
-			timer.RegisterStep();
+				DrawLine(_pt1, _pt2, symbol);
+
+				REGISTERTIME(t1);
+			}
 #endif // DRAW_EDGES
 		}
 
@@ -394,11 +397,6 @@ void Console::DrawLine(int x1, int y1, int x2, int y2, char c)
 
 void Console::DrawLine(const HVector2D& v1, const HVector2D& v2, char c)
 {
-	float x1 = v1.PX();
-	float y1 = v1.PY();
-	float x2 = v2.PX();
-	float y2 = v2.PY();
-
 	/*
 	float dx = x2 - x1;
 	float dy = y2 - y1;
@@ -437,7 +435,7 @@ void Console::DrawLine(const HVector2D& v1, const HVector2D& v2, char c)
 	DrawPoint(x2, y2, c);
 	*/
 
-	DrawLine(x1, y1, x2, y2, c);
+	DrawLine(v1.x, v1.y, v2.x, v2.y, c);
 }
 
 void Console::DisplayMessage(const std::string & msg)
