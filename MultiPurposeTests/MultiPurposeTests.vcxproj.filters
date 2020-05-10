@@ -24,7 +24,7 @@
     <ClCompile Include="Source\Utils\ErrorHandling.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\_Test\Misc\Test19.cpp">
+    <ClCompile Include="Source\_Test\Memory\Test24 - unordered_map.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
