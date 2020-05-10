@@ -119,11 +119,21 @@ void Console::MainThread()
 		{ HVector3D( m_Focal, 0,       m_Width  / 2, false), HVector3D(0.0f, 0.0f, 0.0f) }
 	};
 
+	std::pair<HVector3D, HVector3D> planesfromObj[] = {
+		{ HVector3D(0.0f, 0.0f, 0.0f, false), HVector3D(0.0f, 0.0f, 0.0f)},
+		{ HVector3D(0.0f, 0.0f, 0.0f, false), HVector3D(0.0f, 0.0f, 0.0f)},
+		{ HVector3D(0.0f, 0.0f, 0.0f, false), HVector3D(0.0f, 0.0f, 0.0f)},
+		{ HVector3D(0.0f, 0.0f, 0.0f, false), HVector3D(0.0f, 0.0f, 0.0f)},
+		{ HVector3D(0.0f, 0.0f, 0.0f, false), HVector3D(0.0f, 0.0f, 0.0f)}
+	};
+
 	LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = ImgToCam.mat * Projection;
 
 	// Console device loop
 	while (pacemaker.Heartbeat())
-	{		
+	{
+		Timer timer;
+
 		Clear();
 
 		Transform3D CamToR0 = m_R0ToCam.mat.Invert();
@@ -132,9 +142,18 @@ void Console::MainThread()
 
 		for (uint i = 0; i < 2; i++)
 		{
+			timer.RegisterStep();
+
 			const Model3D& model = models[i];
 
 			Transform3D CamToObj = CamToR0 * R0ToObjs[i];
+			Transform3D ObjToCam = CamToObj.mat.Invert();
+
+			for (uint i = 0; i < 5; i++)
+			{
+				planesfromObj[i].first  = ObjToCam * planes[i].first;
+				planesfromObj[i].second = ObjToCam * planes[i].second;
+			}
 
 #ifdef DRAW_FACES
 			for (const Model3D::Face& face : model.Faces())
@@ -171,17 +190,20 @@ void Console::MainThread()
 #endif // DRAW_FACES
 
 #ifdef DRAW_EDGES
+
+			timer.RegisterStep();
+
 			for(const Model3D::Edge& edge : model.Edges())
 			{
-				HVector3D v1 = CamToObj * model.Vertices()[edge.v1];
-				HVector3D v2 = CamToObj * model.Vertices()[edge.v2];
+				HVector3D v1 = model.Vertices()[edge.v1];
+				HVector3D v2 = model.Vertices()[edge.v2];
 				static HVector3D o1(0.0f, 0.0f, 0.0f);
 				static HVector3D o2(0.0f, 0.0f, 0.0f);
 
 				bool outoffield = false;
 				char symbol = '#';
 
-				for (auto& p : planes)
+				for (auto& p : planesfromObj)
 				{
 					uint num = ClipEdge(v1, v2, p.first, p.second, o1, o2);
 
@@ -198,20 +220,23 @@ void Console::MainThread()
 				if (outoffield)
 					continue;
 
-				HVector3D nface1  = CamToObj * model.Normals()[edge.n1];
-				HVector3D nface2  = CamToObj * model.Normals()[edge.n2];
+				HVector3D nface1  = model.Normals()[edge.n1];
+				HVector3D nface2  = model.Normals()[edge.n2];
+				HVector3D _o1     = o1 - planesfromObj[0].second; // CamPos to point
 
-				if ((o1 | nface1) > 0.0f && (o1 | nface2) > 0.0f)
+				if ((_o1 | nface1) > 0.0f && (_o1 | nface2) > 0.0f)
 					continue;
 
-				HVector2D _pt1 = _Proj * o1.mat;
-				HVector2D _pt2 = _Proj * o2.mat;
+				HVector2D _pt1 = _Proj * (CamToObj * o1).mat;
+				HVector2D _pt2 = _Proj * (CamToObj * o2).mat;
 
 				_pt1.Homogenize();
 				_pt2.Homogenize();
 
 				DrawLine(_pt1, _pt2, symbol);
 			}
+
+			timer.RegisterStep();
 #endif // DRAW_EDGES
 		}
 
