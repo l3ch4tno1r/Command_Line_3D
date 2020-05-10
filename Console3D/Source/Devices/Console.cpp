@@ -27,13 +27,13 @@
 #define DRAW_EDGES
 
 Console::Console() :
-	m_Width(120),
-	m_Height(80),
+	m_Width(150),
+	m_Height(100),
 	m_Screen(nullptr),
 	m_HConsole(nullptr),
 	m_DwBytesWritten(0),
-	//m_Focal(150.0f)
-	m_Focal(90.0f)
+	m_Focal(120.0f)
+	//m_Focal(90.0f)
 {
 	m_Screen = new char[m_Width * m_Height];
 	m_HConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
@@ -64,9 +64,9 @@ void Console::MainThread()
 		/*
 		OBJReader().ReadFile<Model3D>("Ressource/axis.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
-		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
-		*/
 		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
+		*/
+		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
 	};
 
  	const float scalefactor = 1.0f;
