@@ -123,6 +123,7 @@
     <ClCompile Include="External\stb_image\stb_image.cpp" />
     <ClCompile Include="Source\Utils\ErrorHandling.cpp" />
     <ClCompile Include="Source\Utils\TimeMeasurement.cpp" />
+    <ClCompile Include="Source\Utils\TraceLog.cpp" />
     <ClCompile Include="Source\_Test\Multi Thread\Test01.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -134,6 +135,7 @@
     <ClInclude Include="External\stb_image\stb_image.h" />
     <ClInclude Include="Source\Utils\ErrorHandling.h" />
     <ClInclude Include="Source\Utils\TimeMeasurement.h" />
+    <ClInclude Include="Source\Utils\TraceLog.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
