@@ -27,8 +27,8 @@
 #define DRAW_EDGES
 
 Console::Console() :
-	m_Width(150),
-	m_Height(100),
+	m_Width(180),
+	m_Height(120),
 	m_Screen(nullptr),
 	m_HConsole(nullptr),
 	m_DwBytesWritten(0),
