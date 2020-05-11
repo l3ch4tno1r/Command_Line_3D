@@ -223,7 +223,7 @@ void Console::MainThread()
 
 				HVector3D nface1  = model.Normals()[edge.n1];
 				HVector3D nface2  = model.Normals()[edge.n2];
-				HVector3D _o1     = o1 - planesfromObj[0].second; // CamPos to point
+				HVector3D _o1     = o1 - planesfromObj[1].second; // CamPos to point
 
 				if ((_o1 | nface1) > 0.0f && (_o1 | nface2) > 0.0f)
 					continue;
