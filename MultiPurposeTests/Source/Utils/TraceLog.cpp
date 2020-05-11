@@ -81,7 +81,10 @@ namespace LCNUtilities
 		FileMsgPair filemsg;
 		unique_lock<mutex> lock(logmutex);
 
-		logcondition.wait(lock, [&] { return (!logqueue.empty() || done); });
+		logcondition.wait(lock, [&]
+		{
+			return (!logqueue.empty() || done); 
+		});
 
 		if (!logqueue.empty())
 		{
