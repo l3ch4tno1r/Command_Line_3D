@@ -24,7 +24,7 @@
     <ClCompile Include="Source\Utils\ErrorHandling.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\_Test\Multi Thread\Test01.cpp">
+    <ClCompile Include="Source\_Test\Memory\Test25 - Allocator.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
