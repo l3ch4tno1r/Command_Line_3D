@@ -1,13 +1,14 @@
 #include <iostream>
 #include <thread>
+#include <atomic>
 #include <mutex>
 #include <condition_variable>
 #include <chrono>
 
 using namespace std::literals::chrono_literals;
 
-bool run    = true;
-bool notify = false;
+std::atomic<bool> run    = true;
+std::atomic<bool> notify = false;
 
 std::mutex              mut;
 std::condition_variable cond;
@@ -50,11 +51,13 @@ void WorkingThread()
 
 int main()
 {
-	std::thread t1(PaceMakerThread);
-	std::thread t2(WorkingThread);
+	std::thread threads[] = {
+		std::thread(PaceMakerThread),
+		std::thread(WorkingThread)
+	};
 
-	t1.join();
-	t2.join();
+	for (auto& t : threads)
+		t.join();
 
 	std::cout << "Done\n";
 
