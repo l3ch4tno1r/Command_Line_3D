@@ -55,12 +55,14 @@ int main()
 		static Transform3D RotX;
 		static Transform3D RotY;
 
+		// Closing the app
 		if (GetAsyncKeyState((unsigned short)27) & 0x8000)
 		{
 			pacemaker.Stop();
 			break;
 		}
 
+		// Pausing the app
 		if (GetAsyncKeyState((unsigned short)'P') & 0x8000)
 		{
 			bool loop  = true;
@@ -99,6 +101,7 @@ int main()
 
 		}
 
+		// Directionnal movements
 		if (GetAsyncKeyState((unsigned short)'Z') & 0x8000)
 		{
 			Tr.Tx += camspeed * r0tocam.Rwx * dt;
@@ -123,6 +126,7 @@ int main()
 			Tr.Ty -= camspeed * r0tocam.Ruy * dt;
 		}
 
+		// Mouse movements
 		cNumRead = 0;
 
 		GetNumberOfConsoleInputEvents(hStdin, &cNumRead);
@@ -165,6 +169,7 @@ int main()
 			}
 		}
 
+		// Compute transformation
 		RotX.Rvy =  std::cos(TORAD(ax));
 		RotX.Rvz =  std::sin(TORAD(ax));
 		RotX.Rwy = -std::sin(TORAD(ax));
