@@ -39,6 +39,21 @@ Console::Console() :
 	m_HConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
 	SetConsoleActiveScreenBuffer(m_HConsole);
 
+	// Set up Camera transform
+	m_R0ToCam.Rux = 1.0f;
+	m_R0ToCam.Ruy = 0.0f;
+	m_R0ToCam.Ruz = 0.0f;
+	m_R0ToCam.Rvx = 0.0f;
+	m_R0ToCam.Rvy = 0.0f;
+	m_R0ToCam.Rvz = 1.0f;
+	m_R0ToCam.Rwx = 0.0f;
+	m_R0ToCam.Rwy = -1.0f;
+	m_R0ToCam.Rwz = 0.0f;
+	m_R0ToCam.Tx = 0.0f;
+	m_R0ToCam.Ty = 10.0f;
+	m_R0ToCam.Tz = 1.8f;
+
+	// Lauch thread
 	m_MainThread = std::thread(&Console::MainThread, this);
 }
 
@@ -64,9 +79,9 @@ void Console::MainThread()
 		/*
 		OBJReader().ReadFile<Model3D>("Ressource/axis.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
-		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
-		*/
 		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
+		*/
+		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
 	};
 
  	const float scalefactor = 1.0f;
@@ -83,21 +98,6 @@ void Console::MainThread()
 		Transform3D(),
 		Transform3D()
 	};
-
-	// Set up Camera transform
-
-	m_R0ToCam.Rux =  1.0f;
-	m_R0ToCam.Ruy =  0.0f;
-	m_R0ToCam.Ruz =  0.0f;
-	m_R0ToCam.Rvx =  0.0f;
-	m_R0ToCam.Rvy =  0.0f;
-	m_R0ToCam.Rvz =  1.0f;
-	m_R0ToCam.Rwx =  0.0f;
-	m_R0ToCam.Rwy = -1.0f;
-	m_R0ToCam.Rwz =  0.0f;
-	m_R0ToCam.Tx  =  0.0f;
-	m_R0ToCam.Ty  =  10.0f;
-	m_R0ToCam.Tz  =  1.8f;
 
 	const float tab[3][4] = {
 		m_Focal, 0.0f,    0.0f,  0.0f,
