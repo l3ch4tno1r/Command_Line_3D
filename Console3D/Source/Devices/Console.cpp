@@ -77,11 +77,11 @@ void Console::MainThread()
 	Model3D models[] = {
 		OBJReader().ReadFile<Model3D>("Ressource/carpet.obj", false),
 		/*
-		OBJReader().ReadFile<Model3D>("Ressource/axis.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
-		*/
 		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
+		*/
+		OBJReader().ReadFile<Model3D>("Ressource/axis.obj", true)
 	};
 
  	const float scalefactor = 1.0f;
@@ -130,14 +130,20 @@ void Console::MainThread()
 
 	LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = ImgToCam.mat * Projection;
 
+	// FPS measurement
+	auto tp1 = std::chrono::system_clock::now();
+	auto tp2 = std::chrono::system_clock::now();
+
 	// Console device loop
 	while (pacemaker.Heartbeat(1))
 	{
+		tp2 = std::chrono::system_clock::now();
+		std::chrono::duration<float> ellapsedtime = tp2 - tp1;
+		tp1 = tp2;
+
 		Clear();
 
 		Transform3D CamToR0 = m_R0ToCam.mat.Invert();
-
-		STARTCHRONO;
 
 		for (uint i = 0; i < 2; i++)
 		{
@@ -243,13 +249,12 @@ void Console::MainThread()
 #endif // DRAW_EDGES
 		}
 
-		ENDCHRONO;
-
 		HeartBeat();
 
 		std::stringstream sstr;
 
-		sstr << "Ellapsed time : " << (float)ellapsed_micros / 1000.0f << " ms";
+		//sstr << "Ellapsed time : " << (float)ellapsed_micros / 1000.0f << " ms";
+		sstr << "FPS : " << 1.0f / ellapsedtime.count();
 
 		DisplayMessage(sstr.str());
 
