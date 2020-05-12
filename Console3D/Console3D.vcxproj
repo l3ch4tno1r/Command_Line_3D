@@ -124,15 +124,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="External\stb_image\stb_image.cpp" />
-    <ClCompile Include="Source\App.cpp" />
     <ClCompile Include="Source\Devices\Console.cpp" />
     <ClCompile Include="Source\Graphics\Camera.cpp" />
     <ClCompile Include="Source\Graphics\Model3D.cpp" />
     <ClCompile Include="Source\Graphics\OBJReader.cpp" />
+    <ClCompile Include="Source\Utilities\ConfigManager.cpp" />
     <ClCompile Include="Source\Utilities\ErrorHandling.cpp" />
     <ClCompile Include="Source\Devices\PaceMaker.cpp" />
     <ClCompile Include="Source\Utilities\TimeMeasurement.cpp" />
     <ClCompile Include="Source\Utilities\Utils.cpp" />
+    <ClCompile Include="Source\_Main\App.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\stb_image\stb_image.h" />
@@ -140,6 +141,7 @@
     <ClInclude Include="Source\Graphics\Camera.h" />
     <ClInclude Include="Source\Graphics\GraphicRessourcesManager.h" />
     <ClInclude Include="Source\Graphics\Model3D.h" />
+    <ClInclude Include="Source\Utilities\ConfigManager.h" />
     <ClInclude Include="Source\Utilities\ErrorHandling.h" />
     <ClInclude Include="Source\Devices\PaceMaker.h" />
     <ClInclude Include="Source\Graphics\OBJReader.h" />

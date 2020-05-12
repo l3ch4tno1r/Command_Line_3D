@@ -58,15 +58,15 @@ public:
 	}
 
 private:
-	bool ScreenPlaneProjection(const HVector3D& a, const HVector3D& b, HVector3D& pa, HVector3D& pb) const;
+	static uint ClipEdge(const HVector3D& v1, const HVector3D& v2, // Edge
+		                 const HVector3D& n,  const HVector3D& p,  // Plane parameters
+		                       HVector3D& o1,       HVector3D& o2);
 
-	void DrawPoint(float x, float y, char c = '#');
+	void DrawPoint(int x, int y, char c = '#');
 
-	bool LineInSight(HVector2D& OA, HVector2D& OB);
+	void DrawLine(int x1, int y1, int x2, int y2, char c = '#');
 
-	uint ClipEdge(const HVector3D& v1, const HVector3D& v2, const HVector3D& n, HVector3D& o1, HVector3D& o2);
-
-	void DrawLine(const HVector2D& v1, const HVector2D& v2);
+	void DrawLine(const HVector2D& v1, const HVector2D& v2, char c = '#');
 
 	void DisplayMessage(const std::string& msg);
 

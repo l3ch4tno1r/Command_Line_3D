@@ -126,7 +126,7 @@ VecDif<EL, ER> operator-(const VecExpression<EL>& el, const VecExpression<ER>& e
 ///////////////////////////
 //-- Produit vectoriel --//
 ///////////////////////////
-#pragma region Dot_Product
+#pragma region Cross_Product
 template<typename EL, typename ER>
 class VecCrossProduct : public VecExpression<VecCrossProduct<EL, ER>>
 {
