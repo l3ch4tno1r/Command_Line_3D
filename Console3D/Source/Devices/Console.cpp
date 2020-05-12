@@ -131,7 +131,7 @@ void Console::MainThread()
 	LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = ImgToCam.mat * Projection;
 
 	// Console device loop
-	while (pacemaker.Heartbeat())
+	while (pacemaker.Heartbeat(1))
 	{
 		Clear();
 

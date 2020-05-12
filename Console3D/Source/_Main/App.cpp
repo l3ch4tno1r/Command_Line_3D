@@ -49,7 +49,7 @@ int main()
 
 	while (run)
 	{
-		pacemaker.Heartbeat();
+		pacemaker.Heartbeat(0);
 
 		static Transform3D Tr = r0tocam;
 		static Transform3D RotX;
