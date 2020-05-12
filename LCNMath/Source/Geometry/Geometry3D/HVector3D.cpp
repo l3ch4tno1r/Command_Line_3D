@@ -74,7 +74,9 @@ namespace LCNMath {
 
 			float operator|(const HVector3D& vec1, const HVector3D& vec2)
 			{
-				return vec1.mat | vec2.mat;
+				// TODO : Quick fix
+				//return vec1.mat | vec2.mat;
+				return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
 			}
 
 			HVector3D operator+(const HVector3D& a, const HVector3D& b)

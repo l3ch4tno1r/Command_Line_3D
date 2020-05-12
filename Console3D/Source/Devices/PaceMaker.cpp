@@ -43,6 +43,7 @@ void PaceMaker::Continue()
 		m_PauseCondition.wait(lock);
 }
 
+// TODO : Try not to do it this way #1
 void PaceMaker::NotifyAll()
 {
 	std::unique_lock<std::mutex> lock(m_NotifiedMutex);
@@ -53,6 +54,7 @@ void PaceMaker::NotifyAll()
 	m_Condition.notify_all();
 }
 
+// TODO : Try not to do it this way #2
 bool PaceMaker::Heartbeat(uint32_t id)
 {
 	std::unique_lock<std::mutex> lock(m_NotifiedMutex);

@@ -68,7 +68,8 @@ void Console::MainThread()
 {
 	PaceMaker& pacemaker = PaceMaker::Get();
 	
-	float aspeed = 36.0f;			// 1 tour / 10s
+	//float aspeed = 36.0f;			// 1 tour / 10s
+	float aspeed = 0.0f;			// 1 tour / 10s
 	float dt     = 16.0f / 1000.0f;	// Delta de temps
 	float a      = 0.0f;			// Angle
 
@@ -78,13 +79,14 @@ void Console::MainThread()
 		OBJReader().ReadFile<Model3D>("Ressource/carpet.obj", false),
 		/*
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
-		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
+		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
 		*/
 		OBJReader().ReadFile<Model3D>("Ressource/axis.obj", true)
 	};
 
- 	const float scalefactor = 1.0f;
+	//const float scalefactor = 1.0f;
+	const float scalefactor = 0.5f;
 
 	// Scaling up octogon
 	for (HVector3D& v : models[1].Vertices())
