@@ -29,8 +29,6 @@ namespace LCNUtilities
 		};
 
 	private:
-		static ConfigManager appsettings;
-
 		unordered_map<string, Parameter> configmap;
 
 		ConfigManager();

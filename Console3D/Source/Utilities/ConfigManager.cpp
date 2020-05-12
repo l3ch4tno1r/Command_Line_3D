@@ -39,6 +39,7 @@ namespace LCNUtilities
 
 	ConfigManager& ConfigManager::AppSettings() noexcept
 	{
+		static ConfigManager appsettings;
 		return appsettings;
 	}
 
@@ -49,11 +50,11 @@ namespace LCNUtilities
 
 	// Instanciation
 
-	ConfigManager ConfigManager::appsettings;
-
-	ConfigManager::Parameter::Parameter() : value()
+	ConfigManager::Parameter::Parameter() :
+		value()
 	{}
 
-	ConfigManager::Parameter::Parameter(const string &astr) : value(astr)
+	ConfigManager::Parameter::Parameter(const string &astr) :
+		value(astr)
 	{}
 }
