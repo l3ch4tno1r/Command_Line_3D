@@ -24,10 +24,10 @@
     <ClCompile Include="Source\Utils\ErrorHandling.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\_Test\Multi Thread\Test01.cpp">
+    <ClCompile Include="Source\Utils\TraceLog.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Utils\TraceLog.cpp">
+    <ClCompile Include="Source\_Test\Memory\Test26 - class specific operator new.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
