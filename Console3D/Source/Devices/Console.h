@@ -58,10 +58,22 @@ public:
 	}
 
 private:
+	// TODO : Improve that !!!
 	static uint ClipEdge(const HVector3D& v1, const HVector3D& v2, // Edge
 		                 const HVector3D& n,  const HVector3D& p,  // Plane parameters
 		                       HVector3D& o1,       HVector3D& o2);
 
+public:
+	struct Triangle
+	{
+		HVector3D vertices[3];
+	};
+
+	static uint ClipTriangle(const Triangle&  in_t,                         // Triangle
+		                     const HVector3D& n,    const HVector3D& p,     // Plane parameters
+		                           Triangle&  o_t1,       Triangle&  o_t2); // Output triangles
+		                     
+private:
 	void DrawPoint(int x, int y, char c = '#');
 
 	void DrawLine(int x1, int y1, int x2, int y2, char c = '#');

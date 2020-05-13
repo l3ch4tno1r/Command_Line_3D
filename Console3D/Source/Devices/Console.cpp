@@ -83,10 +83,10 @@ void Console::MainThread()
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/debug.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/octogon_no_normals.obj", true)
-		OBJReader().ReadFile<Model3D>("Ressource/axisl.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
-		*/
 		OBJReader().ReadFile<Model3D>("Ressource/table_basique.obj", false)
+		*/
+		OBJReader().ReadFile<Model3D>("Ressource/axisr.obj", true)
 	};
 
 	// Quick fix for teapot
@@ -338,6 +338,7 @@ uint Console::ClipEdge(const HVector3D& v1, const HVector3D& v2, // Edge
 		HVector3D pv1 = o1 - p;
 		HVector3D v1v2 = *vertices[1] - o1;
 
+		// TODO : Manage the case where v1v2 belongs to the plane ?
 		float k = -(pv1 | n) / (v1v2 | n);
 
 		o2 = k * v1v2 + o1;
@@ -348,9 +349,23 @@ uint Console::ClipEdge(const HVector3D& v1, const HVector3D& v2, // Edge
 	return num;
 }
 
+uint Console::ClipTriangle(const Triangle& in_t, const HVector3D& n, const HVector3D& p, Triangle& o_t1, Triangle& o_t2)
+{
+	std::array<const HVector3D*, 3> vertices = { &in_t.vertices[0], &in_t.vertices[1], &in_t.vertices[2] };
+
+	auto it = std::partition(vertices.begin(), vertices.end(), [&n, &p](const HVector3D* v) {
+		return ((*v - p) | n) > 0.0f;
+	});
+
+	uint num = it - vertices.begin();
+
+	return num;
+}
+
 void Console::DrawLine(int x1, int y1, int x2, int y2, char c)
 {
-	// Adapted from OneLoneCoder at https://github.com/OneLoneCoder/videos/blob/master/olcConsoleGameEngine.h
+	// Adapted from OneLoneCoder
+	// Original code can be found at https://github.com/OneLoneCoder/videos/blob/master/olcConsoleGameEngine.h
 
 	int x, y, dx, dy, dx1, dy1, px, py, xe, ye, i;
 
