@@ -59,41 +59,64 @@ Console::Console() :
 
 Console::~Console()
 {
-	delete[] m_Screen;
-
 	m_MainThread.join();
+
+	delete[] m_Screen;
 }
 
 void Console::MainThread()
 {
 	PaceMaker& pacemaker = PaceMaker::Get();
 	
-	//float aspeed = 36.0f;			// 1 tour / 10s
-	float aspeed = 0.0f;			// 1 tour / 10s
+	/*
+	float aspeed = 36.0f;			// 1 tour / 10s
 	float dt     = 16.0f / 1000.0f;	// Delta de temps
 	float a      = 0.0f;			// Angle
+	*/
 
 	float radius = 35;
 
 	Model3D models[] = {
-		OBJReader().ReadFile<Model3D>("Ressource/carpet.obj", false),
+		OBJReader().ReadFile<Model3D>("Ressource/null.obj", false),
 		/*
+		OBJReader().ReadFile<Model3D>("Ressource/carpet.obj", false),
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
+		OBJReader().ReadFile<Model3D>("Ressource/debug.obj", true)
+		OBJReader().ReadFile<Model3D>("Ressource/octogon_no_normals.obj", true)
+		OBJReader().ReadFile<Model3D>("Ressource/axisl.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
-		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
 		*/
-		OBJReader().ReadFile<Model3D>("Ressource/axis.obj", true)
+		OBJReader().ReadFile<Model3D>("Ressource/table_basique.obj", false)
 	};
 
-	//const float scalefactor = 1.0f;
-	const float scalefactor = 0.5f;
+	// Quick fix for teapot
+	/*
+	Transform3D teapot({
+		1.0f, 0.0f,  0.0f, 0.0f,
+		0.0f, 0.0f, -1.0f, 0.0f,
+		0.0f, 1.0f,  0.0f, 0.0f,
+		0.0f, 0.0f,  0.0f, 1.0f
+	});
 
-	// Scaling up octogon
-	for (HVector3D& v : models[1].Vertices())
+	for (HVector3D& vertex : models[1].Vertices())
+		vertex = teapot * vertex;
+
+	for (HVector3D& vertex : models[1].Normals())
+		vertex = teapot * vertex;
+	*/
+
+	//const float scalefactor = 1.0f;
+	const float scalefactor[] = { 1.0f, 1.0f };
+
+	// Scaling models
+	for (uint32_t i = 0; i < 2; ++i)
 	{
-		v.x *= scalefactor;
-		v.y *= scalefactor;
-		v.z *= scalefactor;
+		for (HVector3D& v : models[i].Vertices())
+		{
+			v.x *= scalefactor[i];
+			v.y *= scalefactor[i];
+			v.z *= scalefactor[i];
+		}
 	}
 
 	Transform3D R0ToObjs[] = {
@@ -256,18 +279,20 @@ void Console::MainThread()
 		std::stringstream sstr;
 
 		//sstr << "Ellapsed time : " << (float)ellapsed_micros / 1000.0f << " ms";
-		sstr << "FPS : " << 1.0f / ellapsedtime.count();
+		sstr << "Position : (" << m_R0ToCam.Tx << ", " << m_R0ToCam.Ty << ", " << m_R0ToCam.Tz << ") - FPS : " << 1.0f / ellapsedtime.count();
 
 		DisplayMessage(sstr.str());
 
 		Render();
 
+		/*
 		a += aspeed * dt;
 
 		R0ToObjs[1].Rux =  std::cos(TORAD(a));
 		R0ToObjs[1].Ruy =  std::sin(TORAD(a));
 		R0ToObjs[1].Rvx = -std::sin(TORAD(a));
 		R0ToObjs[1].Rvy =  std::cos(TORAD(a));
+		*/
 	}
 }
 
@@ -279,8 +304,7 @@ Console& Console::Get()
 
 void Console::Clear()
 {
-	for (unsigned int i = 0; i < m_Width * m_Height; i++)
-		m_Screen[i] = 0;
+	memset(m_Screen, 0, sizeof(char) * m_Width * m_Height);
 }
 
 void Console::DrawPoint(int x, int y, char c)

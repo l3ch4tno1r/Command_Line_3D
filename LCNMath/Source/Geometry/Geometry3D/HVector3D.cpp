@@ -63,7 +63,7 @@ namespace LCNMath {
 
 			HVector3D operator^(const HVector3D& vec1, const HVector3D& vec2)
 			{
-				static HVector3D result(true);
+				static HVector3D result(false);
 
 				result.x = vec1.y * vec2.z - vec1.z * vec2.y;
 				result.y = vec1.z * vec2.x - vec1.x * vec2.z;
