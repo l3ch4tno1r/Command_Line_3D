@@ -45,7 +45,7 @@
     <ClCompile Include="Source\Utilities\ConfigManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\_Main\App.cpp">
+    <ClCompile Include="Source\_Main\Tests\Test03 - Point in triangle.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
