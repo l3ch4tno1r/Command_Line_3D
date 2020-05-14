@@ -58,6 +58,10 @@ public:
 	}
 
 private:
+	// TODO : Include this in a collision detection API ?
+	static HVector3D SegmentPlaneIntersection(const HVector3D& v1, const HVector3D& v2, // Segment info
+		                                      const HVector3D& n,  const HVector3D& p); // Plane info
+
 	// TODO : Improve that !!!
 	static uint ClipEdge(const HVector3D& v1, const HVector3D& v2, // Edge
 		                 const HVector3D& n,  const HVector3D& p,  // Plane parameters
@@ -80,7 +84,18 @@ private:
 
 	void DrawLine(const HVector2D& v1, const HVector2D& v2, char c = '#');
 
-	void DisplayMessage(const std::string& msg);
+	void FillTriangle(const HVector2D& v1, const HVector2D& v2, const HVector2D& v3, char c = '#');
+
+	enum Slots
+	{
+		_1 = 5,
+		_2 = 4,
+		_3 = 3,
+		_4 = 2,
+		_5 = 1,
+	};
+
+	void DisplayMessage(const std::string& msg, Slots slot);
 
 	void HeartBeat();
 
