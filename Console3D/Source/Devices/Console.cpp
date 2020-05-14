@@ -83,14 +83,15 @@ void Console::MainThread()
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/debug.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/octogon_no_normals.obj", true)
-		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/table_basique.obj", false)
-		*/
 		OBJReader().ReadFile<Model3D>("Ressource/axisr.obj", true)
+		*/
+		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
 	};
 
 	// Quick fix for teapot
 	/*
+	*/
 	Transform3D teapot({
 		1.0f, 0.0f,  0.0f, 0.0f,
 		0.0f, 0.0f, -1.0f, 0.0f,
@@ -103,7 +104,6 @@ void Console::MainThread()
 
 	for (HVector3D& vertex : models[1].Normals())
 		vertex = teapot * vertex;
-	*/
 
 	//const float scalefactor = 1.0f;
 	const float scalefactor[] = { 1.0f, 1.0f };
