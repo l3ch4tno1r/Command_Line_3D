@@ -27,7 +27,7 @@
     <ClCompile Include="Source\Utils\TraceLog.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\_Test\Memory\Test26 - class specific operator new.cpp">
+    <ClCompile Include="Source\_Test\Memory\Test27.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

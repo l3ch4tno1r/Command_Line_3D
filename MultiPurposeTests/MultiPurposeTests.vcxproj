@@ -124,7 +124,7 @@
     <ClCompile Include="Source\Utils\ErrorHandling.cpp" />
     <ClCompile Include="Source\Utils\TimeMeasurement.cpp" />
     <ClCompile Include="Source\Utils\TraceLog.cpp" />
-    <ClCompile Include="Source\_Test\Memory\Test26 - class specific operator new.cpp" />
+    <ClCompile Include="Source\_Test\Memory\Test27.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LCNMath\LCNMath.vcxproj">
