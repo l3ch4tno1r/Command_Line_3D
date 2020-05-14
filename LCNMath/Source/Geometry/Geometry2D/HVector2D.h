@@ -55,6 +55,8 @@ namespace LCNMath {
 			HVector2D operator-(const HVector2D& a, const HVector2D& b);
 
 			HVector2D operator*(float t, const HVector2D& vec);
+
+			HVector2D operator/(const HVector2D& vec, float t);
 		}
 	}
 }

@@ -43,7 +43,9 @@ namespace LCNMath {
 
 			float operator|(const HVector2D& a, const HVector2D& b)
 			{
-				return a.mat | b.mat;
+				// TODO : Quick fix
+				//return a.mat | b.mat;
+				return a.x * b.x + a.y * b.y;
 			}
 
 			HVector2D operator+(const HVector2D& a, const HVector2D& b)
@@ -70,6 +72,15 @@ namespace LCNMath {
 
 				for (uint i = 0; i < 2; i++)
 					result.mat(i, 0) *= t;
+
+				return result;
+			}
+			HVector2D operator/(const HVector2D & vec, float t)
+			{
+				HVector2D result(vec);
+
+				for (uint i = 0; i < 2; i++)
+					result.mat(i, 0) /= t;
 
 				return result;
 			}
