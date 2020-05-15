@@ -43,6 +43,10 @@ namespace LCNMath {
 				static const HVector3D& Zero();
 
 				HVector3D& operator=(const HVector3D& vec);
+
+				float Norm() const;
+
+				void Normalize();
 			};
 
 			HVector3D operator^(const HVector3D& vec1, const HVector3D& vec2);

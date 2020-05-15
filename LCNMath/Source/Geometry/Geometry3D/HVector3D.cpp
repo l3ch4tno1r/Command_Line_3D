@@ -61,6 +61,20 @@ namespace LCNMath {
 				return *this;
 			}
 
+			float HVector3D::Norm() const
+			{
+				return x * x + y * y + z * z;
+			}
+
+			void HVector3D::Normalize()
+			{
+				float norm = Norm();
+
+				x /= norm;
+				y /= norm;
+				z /= norm;
+			}
+
 			HVector3D operator^(const HVector3D& vec1, const HVector3D& vec2)
 			{
 				static HVector3D result(false);
