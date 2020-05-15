@@ -68,7 +68,7 @@ namespace LCNMath {
 
 			void HVector3D::Normalize()
 			{
-				float norm = Norm();
+				float norm = std::sqrt(Norm());
 
 				x /= norm;
 				y /= norm;
