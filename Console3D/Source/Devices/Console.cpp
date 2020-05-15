@@ -581,6 +581,78 @@ void Console::FillTriangle(const HVector2D& v1, const HVector2D& v2, const HVect
 
 		return s1 == s2 && s2 == s3;
 	};
+
+	auto insidescreen = [&](const HVector2D& p)
+	{
+		bool a = (uint32_t)p.x >= 0 && (uint32_t)p.x < this->Width();
+		bool b = (uint32_t)p.y >= 0 && (uint32_t)p.y < this->Height();
+
+		return a && b;
+	};
+
+	DrawPoint((uint32_t)v1.x, (uint32_t)v1.y, c);
+	DrawPoint((uint32_t)v2.x, (uint32_t)v2.y, c);
+	DrawPoint((uint32_t)v3.x, (uint32_t)v3.y, c);
+
+	std::queue<HVector2D> queue;
+
+	queue.push((v1 + v2 + v3) / 3);
+
+	DrawPoint((uint32_t)queue.front().x, (uint32_t)queue.front().y, c);
+
+	while (!queue.empty())
+	{
+		uint32_t x = queue.front().x;
+		uint32_t y = queue.front().y;
+
+		queue.pop();
+
+		HVector2D voisins[] = {
+			HVector2D(x + 1, y),
+			HVector2D(x,     y + 1),
+			HVector2D(x - 1, y),
+			HVector2D(x,     y - 1)
+		};
+
+		for (const HVector2D& pt : voisins)
+		{
+			if (!insidescreen(pt))
+				continue;
+
+			if (GetPixelValue((uint32_t)pt.x, (uint32_t)pt.y) == 0)
+			{
+				if (insidetriangle(pt))
+				{
+					DrawPoint((uint32_t)pt.x, (uint32_t)pt.y, c);
+					queue.push(pt);
+				}
+				/*
+				else
+				{
+					HVector2D temp[] = {
+						HVector2D(pt.x + 1, pt.y),
+						HVector2D(pt.x,     pt.y + 1),
+						HVector2D(pt.x - 1, pt.y),
+						HVector2D(pt.x,     pt.y - 1)
+					};
+
+					for (const HVector2D& p : temp)
+					{
+						if (!insidescreen(pt))
+							continue;
+
+						if (insidetriangle(p))
+						{
+							DrawPoint((uint32_t)pt.x, (uint32_t)pt.y, c);
+							queue.push(pt);
+							break;
+						}
+					}
+				}
+				*/
+			}
+		}
+	}
 }
 
 void Console::DisplayMessage(const std::string & msg, Slots slot)
