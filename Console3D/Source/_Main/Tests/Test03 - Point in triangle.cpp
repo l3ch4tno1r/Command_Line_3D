@@ -16,8 +16,8 @@ struct Pixel
 
 	Pixel(int _x, int _y) :
 		x(_x),
-		y(_y)
-	{}
+y(_y)
+{}
 };
 
 Pixel operator+(const Pixel& p1, const Pixel& p2)
@@ -28,6 +28,11 @@ Pixel operator+(const Pixel& p1, const Pixel& p2)
 Pixel operator-(const Pixel& p1, const Pixel& p2)
 {
 	return Pixel(p1.x - p2.x, p1.y - p2.y);
+}
+
+Pixel operator*(int a, const Pixel& p1)
+{
+	return Pixel(a * p1.x, a * p1.y);
 }
 
 Pixel operator/(const Pixel& p1, int a)
@@ -42,15 +47,15 @@ int operator|(const Pixel& p1, const Pixel& p2)
 
 int main()
 {
-	Pixel v1( 4, 18);
-	Pixel v2(15, 18);
-	Pixel v3( 9,  6);
+	HVector2D v1(4, 15);
+	HVector2D v2(15, 18);
+	HVector2D v3(9, 6);
 
-	auto insidetriangle = [&](const Pixel& p)
+	auto insidetriangle = [&](const HVector2D& p)
 	{
-		Pixel v1v2 = v2 - v1; Pixel n1 = { -v1v2.y, v1v2.x };
-		Pixel v2v3 = v3 - v2; Pixel n2 = { -v2v3.y, v2v3.x };
-		Pixel v3v1 = v1 - v3; Pixel n3 = { -v3v1.y, v3v1.x };
+		HVector2D v1v2 = v2 - v1; HVector2D n1 = { -v1v2.y, v1v2.x };
+		HVector2D v2v3 = v3 - v2; HVector2D n2 = { -v2v3.y, v2v3.x };
+		HVector2D v3v1 = v1 - v3; HVector2D n3 = { -v3v1.y, v3v1.x };
 
 		short s1 = sign((p - v1) | n1);
 		short s2 = sign((p - v2) | n2);
@@ -63,9 +68,9 @@ int main()
 
 	memset(img, 0, 20 * 20);
 
-	img[v1.x][v1.y] = '#';
-	img[v2.x][v2.y] = '#';
-	img[v3.x][v3.y] = '#';
+	img[(uint32_t)v1.x][(uint32_t)v1.y] = '#';
+	img[(uint32_t)v2.x][(uint32_t)v2.y] = '#';
+	img[(uint32_t)v3.x][(uint32_t)v3.y] = '#';
 
 	auto display = [&]()
 	{
@@ -73,20 +78,18 @@ int main()
 		{
 			for (uint32_t j = 0; j < 20; j++)
 				std::cout << img[i][j];
-		
+
 			std::cout << std::endl;
 		}
 	};
 
 	display();
 
-	std::queue<Pixel> queue;
+	std::queue<HVector2D> queue;
 
 	queue.push((v1 + v2 + v3) / 3);
 
-	img[queue.front().x][queue.front().y] = '#';
-
-	int iterations = 0;
+	img[(uint32_t)queue.front().x][(uint32_t)queue.front().y] = '#';
 
 	while (!queue.empty())
 	{
@@ -101,23 +104,43 @@ int main()
 
 		queue.pop();
 
-		Pixel voisins[] = {
-			Pixel(x + 1, y),
-			Pixel(x,     y + 1),
-			Pixel(x - 1, y),
-			Pixel(x,     y - 1)
+		HVector2D voisins[] = {
+			HVector2D(x + 1, y),
+			HVector2D(x,     y + 1),
+			HVector2D(x - 1, y),
+			HVector2D(x,     y - 1)
 		};
 
-		for (const Pixel& pt : voisins)
+		for (const HVector2D& pt : voisins)
 		{
-			if (insidetriangle(pt) && (img[pt.x][pt.y] == 0))
+			if (img[(uint32_t)pt.x][(uint32_t)pt.y] == 0)
 			{
-				img[pt.x][pt.y] = '#';
-				queue.push(pt);
+				if (insidetriangle(pt))
+				{
+					img[(uint32_t)pt.x][(uint32_t)pt.y] = '#';
+					queue.push(pt);
+				}
+				else
+				{
+					HVector2D temp[] = {
+						HVector2D(pt.x + 1, pt.y),
+						HVector2D(pt.x,     pt.y + 1),
+						HVector2D(pt.x - 1, pt.y),
+						HVector2D(pt.x,     pt.y - 1)
+					};
+
+					for (const HVector2D& p : temp)
+					{
+						if (insidetriangle(p))
+						{
+							img[(uint32_t)pt.x][(uint32_t)pt.y] = '#';
+							queue.push(pt);
+							break;
+						}
+					}
+				}
 			}
 		}
-
-		++iterations;
 	}
 
 	display();
