@@ -71,25 +71,26 @@ void Console::MainThread()
 	PaceMaker& pacemaker = PaceMaker::Get();
 	
 	/*
+	*/
 	float aspeed = 36.0f;			// 1 tour / 10s
 	float dt     = 16.0f / 1000.0f;	// Delta de temps
 	float a      = 0.0f;			// Angle
-	*/
 
 	float radius = 35;
 
 	Model3D models[] = {
-		OBJReader().ReadFile<Model3D>("Ressource/null.obj", false),
-		/*
 		OBJReader().ReadFile<Model3D>("Ressource/carpet.obj", false),
+		/*
+		OBJReader().ReadFile<Model3D>("Ressource/null.obj", false),
 		OBJReader().ReadFile<Model3D>("Ressource/debug.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/octogon_no_normals.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/table_basique.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/triangle.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/axisr.obj", true)
-		*/
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
+		*/
+		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
 	};
 
 	// Quick fix for teapot
@@ -161,6 +162,12 @@ void Console::MainThread()
 	// FPS measurement
 	auto tp1 = std::chrono::system_clock::now();
 	auto tp2 = std::chrono::system_clock::now();
+
+	// Ligthing
+	HVector3D light = { 0, 0, -1, false };
+	light.Normalize();
+
+	const char* grayscale = " .:-=+*#%@";
 
 	// Console device loop
 	while (pacemaker.Heartbeat(1))
@@ -268,6 +275,10 @@ void Console::MainThread()
 					_pt2.Homogenize();
 					_pt3.Homogenize();
 
+					//int lightidx = (int)std::floor(-10 * (light | nface) / nface.Norm());
+
+					//if (lightidx >= 0 )
+					//	FillTriangle(_pt1, _pt2, _pt3, grayscale[lightidx]);
 					FillTriangle(_pt1, _pt2, _pt3);
 
 					/*
@@ -347,13 +358,13 @@ void Console::MainThread()
 		Render();
 
 		/*
+		*/
 		a += aspeed * dt;
 
 		R0ToObjs[1].Rux =  std::cos(TORAD(a));
 		R0ToObjs[1].Ruy =  std::sin(TORAD(a));
 		R0ToObjs[1].Rvx = -std::sin(TORAD(a));
 		R0ToObjs[1].Rvy =  std::cos(TORAD(a));
-		*/
 	}
 }
 
