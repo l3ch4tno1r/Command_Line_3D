@@ -57,6 +57,16 @@ public:
 		return m_Focal;
 	}
 
+	inline UINT32 Width() const
+	{
+		return m_Width;
+	}
+
+	inline UINT32 Height() const
+	{
+		return m_Height;
+	}
+
 private:
 	// TODO : Include this in a collision detection API ?
 	static HVector3D SegmentPlaneIntersection(const HVector3D& v1, const HVector3D& v2, // Segment info
@@ -67,7 +77,6 @@ private:
 		                 const HVector3D& n,  const HVector3D& p,  // Plane parameters
 		                       HVector3D& o1,       HVector3D& o2);
 
-public:
 	struct Triangle
 	{
 		HVector3D vertices[3];
@@ -76,8 +85,9 @@ public:
 	static uint ClipTriangle(const Triangle&  in_t,                         // Triangle
 		                     const HVector3D& n,    const HVector3D& p,     // Plane parameters
 		                           Triangle&  o_t1,       Triangle&  o_t2); // Output triangles
-		                     
-private:
+
+	char GetPixelValue(int x, int y) const;
+
 	void DrawPoint(int x, int y, char c = '#');
 
 	void DrawLine(int x1, int y1, int x2, int y2, char c = '#');

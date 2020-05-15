@@ -133,7 +133,7 @@
     <ClCompile Include="Source\Devices\PaceMaker.cpp" />
     <ClCompile Include="Source\Utilities\TimeMeasurement.cpp" />
     <ClCompile Include="Source\Utilities\Utils.cpp" />
-    <ClCompile Include="Source\_Main\Tests\Test03 - Point in triangle.cpp" />
+    <ClCompile Include="Source\_Main\App.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\stb_image\stb_image.h" />

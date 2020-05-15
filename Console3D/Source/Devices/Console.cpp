@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <utility>
 #include <list>
+#include <queue>
 
 #define DRAW_FACES
 /*
@@ -78,15 +79,15 @@ void Console::MainThread()
 	float radius = 35;
 
 	Model3D models[] = {
-		OBJReader().ReadFile<Model3D>("Ressource/carpet.obj", false),
+		OBJReader().ReadFile<Model3D>("Ressource/null.obj", false),
 		/*
-		OBJReader().ReadFile<Model3D>("Ressource/triangle.obj", false),
+		OBJReader().ReadFile<Model3D>("Ressource/carpet.obj", false),
 		OBJReader().ReadFile<Model3D>("Ressource/debug.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/octogon_no_normals.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/table_basique.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
+		OBJReader().ReadFile<Model3D>("Ressource/triangle.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/axisr.obj", true)
-		OBJReader().ReadFile<Model3D>("Ressource/null.obj", false)
 		*/
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
 	};
@@ -267,9 +268,13 @@ void Console::MainThread()
 					_pt2.Homogenize();
 					_pt3.Homogenize();
 
-					DrawLine(_pt1, _pt2);
-					DrawLine(_pt2, _pt3);
-					DrawLine(_pt3, _pt1);
+					FillTriangle(_pt1, _pt2, _pt3);
+
+					/*
+					DrawLine(_pt1, _pt2, '.');
+					DrawLine(_pt2, _pt3, '.');
+					DrawLine(_pt3, _pt1, '.');
+					*/
 				}
 			}
 #endif // DRAW_FACES
@@ -292,7 +297,8 @@ void Console::MainThread()
 				static HVector3D o2(0.0f, 0.0f, 0.0f);
 
 				bool outoffield = false;
-				char symbol = '#';
+				//char symbol = '#';
+				char symbol = ' ';
 
 				for (auto& p : planesfromObj)
 				{
@@ -301,8 +307,8 @@ void Console::MainThread()
 					if (outoffield = (num <= 0))
 						break;
 
-					if (num == 1)
-						symbol = '.';
+					//if (num == 1)
+					//	symbol = '.';
 
 					v1 = o1;
 					v2 = o2;
@@ -360,6 +366,17 @@ Console& Console::Get()
 void Console::Clear()
 {
 	memset(m_Screen, 0, sizeof(char) * m_Width * m_Height);
+}
+
+char Console::GetPixelValue(int x, int y) const
+{
+	// TODO : Check if x and y are not out of range !!!
+	ASSERT(x >= 0);
+	ASSERT(x < m_Width);
+	ASSERT(y >= 0);
+	ASSERT(y < m_Height);
+
+	return m_Screen[x + y * m_Width];
 }
 
 void Console::DrawPoint(int x, int y, char c)
