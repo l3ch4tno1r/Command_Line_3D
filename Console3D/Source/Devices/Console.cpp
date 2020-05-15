@@ -643,30 +643,6 @@ void Console::FillTriangle(const HVector2D& v1, const HVector2D& v2, const HVect
 					DrawPoint((uint32_t)pt.x, (uint32_t)pt.y, c);
 					queue.push(pt);
 				}
-				/*
-				else
-				{
-					HVector2D temp[] = {
-						HVector2D(pt.x + 1, pt.y),
-						HVector2D(pt.x,     pt.y + 1),
-						HVector2D(pt.x - 1, pt.y),
-						HVector2D(pt.x,     pt.y - 1)
-					};
-
-					for (const HVector2D& p : temp)
-					{
-						if (!insidescreen(pt))
-							continue;
-
-						if (insidetriangle(p))
-						{
-							DrawPoint((uint32_t)pt.x, (uint32_t)pt.y, c);
-							queue.push(pt);
-							break;
-						}
-					}
-				}
-				*/
 			}
 		}
 	}
