@@ -39,6 +39,7 @@ int main()
 	Transform3D& r0tocam = console.R0ToCam();
 
 	float camspeed   = 3.0f;
+	float speedboost = 1.0f;
 	float anglespeed = 5.0f;
 	float dt         = 16.0f / 1000.0f;
 
@@ -88,8 +89,15 @@ int main()
 								pause = !pause;
 								pacemaker.Pause(pause);
 
-								if(!pause)
+								if (!pause)
+								{
 									loop = false;
+
+									GetWindowRect(hWnd, &rect);
+
+									Cx = (rect.left + rect.right) / 2;
+									Cy = (rect.top + rect.bottom) / 2;
+								}
 							}
 
 						break;
@@ -104,26 +112,26 @@ int main()
 		// Directionnal movements
 		if (GetAsyncKeyState((unsigned short)'Z') & 0x8000)
 		{
-			Tr.Tx += camspeed * r0tocam.Rwx * dt;
-			Tr.Ty += camspeed * r0tocam.Rwy * dt;
+			Tr.Tx += speedboost * camspeed * r0tocam.Rwx * dt;
+			Tr.Ty += speedboost * camspeed * r0tocam.Rwy * dt;
 		}
 
 		if (GetAsyncKeyState((unsigned short)'S') & 0x8000)
 		{
-			Tr.Tx -= camspeed * r0tocam.Rwx * dt;
-			Tr.Ty -= camspeed * r0tocam.Rwy * dt;
+			Tr.Tx -= speedboost * camspeed * r0tocam.Rwx * dt;
+			Tr.Ty -= speedboost * camspeed * r0tocam.Rwy * dt;
 		}
 
 		if (GetAsyncKeyState((unsigned short)'Q') & 0x8000)
 		{
-			Tr.Tx += camspeed * r0tocam.Rux * dt;
-			Tr.Ty += camspeed * r0tocam.Ruy * dt;
+			Tr.Tx += speedboost * camspeed * r0tocam.Rux * dt;
+			Tr.Ty += speedboost * camspeed * r0tocam.Ruy * dt;
 		}
 
 		if (GetAsyncKeyState((unsigned short)'D') & 0x8000)
 		{
-			Tr.Tx -= camspeed * r0tocam.Rux * dt;
-			Tr.Ty -= camspeed * r0tocam.Ruy * dt;
+			Tr.Tx -= speedboost * camspeed * r0tocam.Rux * dt;
+			Tr.Ty -= speedboost * camspeed * r0tocam.Ruy * dt;
 		}
 
 		// Mouse movements
@@ -162,6 +170,13 @@ int main()
 				default:
 					break;
 				}
+
+				break;
+			case KEY_EVENT:
+				if (record.Event.KeyEvent.dwControlKeyState & SHIFT_PRESSED)
+					speedboost = 10.0f;
+				else
+					speedboost = 1.0f;
 
 				break;
 			default:
