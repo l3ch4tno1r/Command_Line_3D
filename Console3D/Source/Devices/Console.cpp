@@ -23,10 +23,10 @@
 #include <list>
 #include <queue>
 
-#define DRAW_FACES
 /*
-#define DRAW_EDGES
+#define DRAW_FACES
 */
+#define DRAW_EDGES
 
 Console::Console() :
 	m_Width(180),
@@ -84,11 +84,11 @@ void Console::MainThread()
 		OBJReader().ReadFile<Model3D>("Ressource/carpet.obj", false),
 		OBJReader().ReadFile<Model3D>("Ressource/debug.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/octogon_no_normals.obj", true)
-		OBJReader().ReadFile<Model3D>("Ressource/table_basique.obj", false)
-		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/triangle.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
+		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
+		OBJReader().ReadFile<Model3D>("Ressource/table_basique.obj", false)
 		*/
 		OBJReader().ReadFile<Model3D>("Ressource/axisr.obj", true)
 	};
@@ -136,7 +136,6 @@ void Console::MainThread()
 
 	LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> Projection(tab);
 
-	//Transform2D ImgToCam(90.0f, 60.0f, 180.0f);
 	Transform2D ImgToCam(m_Width / 2, m_Height / 2, 180.0f);
 
 	// For clipping
@@ -164,10 +163,10 @@ void Console::MainThread()
 	auto tp2 = std::chrono::system_clock::now();
 
 	// Ligthing
-	HVector3D light = { 1, 1, 0, false };
+	HVector3D light = { -1, -5, -1, false };
 	light.Normalize();
 
-	const char* grayscale = " .:-=+*#%@";
+	const char* grayscale = " .:-=+%*#@";
 
 	// Console device loop
 	while (pacemaker.Heartbeat(1))
@@ -185,7 +184,8 @@ void Console::MainThread()
 		// Loop through models
 		for (uint i = 0; i < 2; i++)
 		{
-			const Model3D& model = models[i];
+			// TODO : Remettre a const
+			Model3D& model = models[i];
 
 			Transform3D CamToObj = CamToR0 * R0ToObjs[i];
 			Transform3D ObjToCam = CamToObj.mat.Invert();
@@ -197,6 +197,26 @@ void Console::MainThread()
 			}
 
 #ifdef DRAW_FACES
+			/*
+			std::sort(model.Faces().begin(), model.Faces().end(), [&](const Model3D::Face& face1, const Model3D::Face& face2)
+			{
+				const HVector3D& f1v1 = model.Vertices()[face1.v1];
+				const HVector3D& f1v2 = model.Vertices()[face1.v2];
+				const HVector3D& f1v3 = model.Vertices()[face1.v3];
+
+				const HVector3D& f2v1 = model.Vertices()[face2.v1];
+				const HVector3D& f2v2 = model.Vertices()[face2.v2];
+				const HVector3D& f2v3 = model.Vertices()[face2.v3];
+
+				HVector3D ObjToCamPos = { ObjToCam.Tx, ObjToCam.Ty, ObjToCam.Tz };
+
+				float z1 = ((f1v1 + f1v2 + f1v3) / 3 - ObjToCamPos | planesfromObj[0].first);
+				float z2 = ((f2v1 + f2v2 + f2v3) / 3 - ObjToCamPos | planesfromObj[0].first);
+
+				return z1 > z2;
+			});
+			*/
+
 			for (const Model3D::Face& face : model.Faces())
 			{
 				Triangle triangle = {
@@ -310,8 +330,12 @@ void Console::MainThread()
 				static HVector3D o2(0.0f, 0.0f, 0.0f);
 
 				bool outoffield = false;
-				//char symbol = '#';
+
+#ifdef DRAW_FACES
 				char symbol = ' ';
+#else
+				char symbol = '#';
+#endif
 
 				for (auto& p : planesfromObj)
 				{
