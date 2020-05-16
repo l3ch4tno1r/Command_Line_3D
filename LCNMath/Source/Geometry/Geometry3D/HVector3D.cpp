@@ -120,6 +120,16 @@ namespace LCNMath {
 
 				return result;
 			}
+
+			HVector3D operator/(const HVector3D & vec, float t)
+			{
+				HVector3D result(vec);
+
+				for (uint i = 0; i < 3; i++)
+					result.mat(i, 0) /= t;
+
+				return result;
+			}
 		}
 	}
 }

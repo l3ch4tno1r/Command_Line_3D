@@ -58,6 +58,8 @@ namespace LCNMath {
 			HVector3D operator-(const HVector3D& a, const HVector3D& b);
 
 			HVector3D operator*(float t, const HVector3D& vec);
+
+			HVector3D operator/(const HVector3D& vec, float t);
 		}
 	}
 }
