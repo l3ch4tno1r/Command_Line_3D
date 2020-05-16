@@ -76,8 +76,8 @@ Pixel FromHVector2D(const HVector2D& other)
 
 int main()
 {
-	HVector2D v1(4,  17);
-	HVector2D v2(15, 17);
+	HVector2D v1(4,  18);
+	HVector2D v2(15, 18);
 	HVector2D v3(9,  6);
 
 	auto insidetriangle = [&](const HVector2D& p)
@@ -97,6 +97,11 @@ int main()
 		short s3 = sign((_p - p3) | n3); //ASSERT(s3 != 0);
 
 		return (s1 == s2 && s2 == s3) || (s1 == 0 || s2 == 0 || s3 == 0);
+	};
+
+	auto insidescreen = [&](const HVector2D& p)
+	{
+
 	};
 
 	char img[20][20];
@@ -132,10 +137,10 @@ int main()
 		uint32_t y = queue.front().y;
 
 		/*
+		*/
 		display();
 
 		std::cin.get();
-		*/
 
 		queue.pop();
 
