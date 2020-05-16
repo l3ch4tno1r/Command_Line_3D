@@ -124,7 +124,7 @@
     <ClCompile Include="Source\Utils\ErrorHandling.cpp" />
     <ClCompile Include="Source\Utils\TimeMeasurement.cpp" />
     <ClCompile Include="Source\Utils\TraceLog.cpp" />
-    <ClCompile Include="Source\_Test\Memory\Test27.cpp" />
+    <ClCompile Include="Source\_Test\Design Pattern\Test20 - Observer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LCNMath\LCNMath.vcxproj">
