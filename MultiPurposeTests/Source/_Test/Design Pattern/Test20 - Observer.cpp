@@ -1,12 +1,18 @@
 #include <iostream>
 #include <list>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <atomic>
+
+using namespace std::literals::chrono_literals;
 
 class ISubject;
 
 class IObserver
 {
 private:
-	ISubject* subject;
+	ISubject* m_SubjectPtr;
 
 	static uint32_t count;
 
@@ -15,7 +21,7 @@ protected:
 
 public:
 	IObserver() :
-		subject(nullptr),
+		m_SubjectPtr(nullptr),
 		id(++count)
 	{}
 
@@ -25,7 +31,12 @@ public:
 
 	void AttachSubject(ISubject* _subject)
 	{
-		subject = _subject;
+		m_SubjectPtr = _subject;
+	}
+
+	void DetachSubject()
+	{
+		m_SubjectPtr = nullptr;
 	}
 };
 
@@ -34,68 +45,138 @@ uint32_t IObserver::count = 0;
 class ISubject
 {
 private:
-	std::list<IObserver*> obslist;
+	std::list<IObserver*> m_ObsList;
 
 public:
 	void AddObserver(IObserver* obs)
 	{
 		obs->AttachSubject(this);
 
-		obslist.push_back(obs);
+		m_ObsList.push_back(obs);
 	}
 
 	void RemoveObserver(IObserver* obs)
 	{
-		auto it = std::find(obslist.begin(), obslist.end(), obs);
+		auto it = std::find(m_ObsList.begin(), m_ObsList.end(), obs);
 
-		obslist.erase(it);
+		(*it)->DetachSubject();
+
+		m_ObsList.erase(it);
 	}
 
 	void Notify()
 	{
-		for (auto& obs : obslist)
+		for (auto& obs : m_ObsList)
 			obs->Update();
 	}
 };
 
 IObserver::~IObserver()
 {
-	if (subject != nullptr)
-		subject->RemoveObserver(this);
+	if (m_SubjectPtr != nullptr)
+		m_SubjectPtr->RemoveObserver(this);
 }
 
 ////////////////////////
 //-- Implementation --//
 ////////////////////////
 
-class ObserverA : public IObserver
+class PaceMaker : public ISubject
 {
-public:
-	void Update()
+private:
+	std::atomic_bool m_Run;
+	std::thread m_MainThread;
+
+	void MainThread()
 	{
-		std::cout << "ObserverA_ " << id << " updated" << std::endl;
+		while (m_Run)
+		{
+			std::cout << "Heartbeat !" << std::endl;
+
+			Notify();
+
+			std::this_thread::sleep_for(1s);
+		}
+	}
+
+public:
+	PaceMaker() :
+		m_Run(true),
+		m_MainThread(&PaceMaker::MainThread, this)
+	{}
+
+	~PaceMaker()
+	{
+		m_Run = false;
+
+		m_MainThread.join();
 	}
 };
 
-class ObserverB : public IObserver
+class Worker : public IObserver
 {
-public:
-	void Update()
+private:
+	std::mutex              m_Mutex;
+	std::condition_variable m_Condition;
+	std::atomic_bool        m_Run, m_Notified;
+
+	std::thread m_MainThread;
+
+	void Wait()
 	{
-		std::cout << "Observer_B " << id << " updated" << std::endl;
+		std::unique_lock<std::mutex> lock(m_Mutex);
+
+		while (!m_Notified)
+			m_Condition.wait(lock);
+
+		m_Notified = false;
+	}
+
+	void MainThread()
+	{
+		while (m_Run)
+		{
+			Wait();
+
+			std::cout << "Thread #" << std::this_thread::get_id() << " working..." << std::endl;
+		}
+	}
+
+public:
+	Worker() :
+		m_Run(true),
+		m_Notified(false),
+		m_MainThread(&Worker::MainThread, this)
+	{}
+
+	~Worker()
+	{
+		m_Run = false;
+
+		m_MainThread.join();
+	}
+
+	void Update() override
+	{
+		std::unique_lock<std::mutex> lock(m_Mutex);
+
+		m_Notified = true;
+
+		m_Condition.notify_one();
 	}
 };
 
 int main()
 {
-	ISubject subject;
-	ObserverA oA1;
-	ObserverB oB1;
+	PaceMaker pacemaker;
 
-	subject.AddObserver(&oA1);
-	subject.AddObserver(&oB1);
+	Worker w1;
+	Worker w2;
+	Worker w3;
 
-	subject.Notify();
+	pacemaker.AddObserver(&w1);
+	pacemaker.AddObserver(&w2);
+	pacemaker.AddObserver(&w3);
 
 	std::cin.get();
 }
