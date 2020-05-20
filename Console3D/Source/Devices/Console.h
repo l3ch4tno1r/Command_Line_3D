@@ -45,7 +45,7 @@ private:
 public:
 	static Console& Get();
 
-	void Clear();
+	void Start();
 
 	inline Transform3D& R0ToCam()
 	{
@@ -68,6 +68,8 @@ public:
 	}
 
 private:
+	void Clear();
+
 	// TODO : Include this in a collision detection API ?
 	static HVector3D SegmentPlaneIntersection(const HVector3D& v1, const HVector3D& v2, // Segment info
 		                                      const HVector3D& n,  const HVector3D& p); // Plane info

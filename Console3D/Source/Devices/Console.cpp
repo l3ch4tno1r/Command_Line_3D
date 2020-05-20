@@ -28,6 +28,8 @@
 */
 #define DRAW_EDGES
 
+#define TEST
+
 Console::Console() :
 	m_Width(180),
 	m_Height(120),
@@ -42,21 +44,18 @@ Console::Console() :
 	SetConsoleActiveScreenBuffer(m_HConsole);
 
 	// Set up Camera transform
-	m_R0ToCam.Rux = 1.0f;
-	m_R0ToCam.Ruy = 0.0f;
-	m_R0ToCam.Ruz = 0.0f;
-	m_R0ToCam.Rvx = 0.0f;
-	m_R0ToCam.Rvy = 0.0f;
-	m_R0ToCam.Rvz = 1.0f;
-	m_R0ToCam.Rwx = 0.0f;
-	m_R0ToCam.Rwy = -1.0f;
-	m_R0ToCam.Rwz = 0.0f;
-	m_R0ToCam.Tx = 0.0f;
-	m_R0ToCam.Ty = 10.0f;
-	m_R0ToCam.Tz = 1.8f;
-
-	// Lauch thread
-	m_MainThread = std::thread(&Console::MainThread, this);
+	m_R0ToCam.Rux =   1.0f;
+	m_R0ToCam.Ruy =   0.0f;
+	m_R0ToCam.Ruz =   0.0f;
+	m_R0ToCam.Rvx =   0.0f;
+	m_R0ToCam.Rvy =   0.0f;
+	m_R0ToCam.Rvz =   1.0f;
+	m_R0ToCam.Rwx =   0.0f;
+	m_R0ToCam.Rwy =  -1.0f;
+	m_R0ToCam.Rwz =   0.0f;
+	m_R0ToCam.Tx  =   0.0f;
+	m_R0ToCam.Ty  =  10.0f;
+	m_R0ToCam.Tz  =   1.8f;
 }
 
 Console::~Console()
@@ -66,6 +65,15 @@ Console::~Console()
 	delete[] m_Screen;
 }
 
+#ifdef TEST
+#include <iostream>
+
+void Console::MainThread()
+{
+
+}
+
+#else
 void Console::MainThread()
 {
 	PaceMaker& pacemaker = PaceMaker::Get();
@@ -371,7 +379,11 @@ void Console::MainThread()
 
 		std::stringstream sstr;
 
-		//sstr << "Position : (" << m_R0ToCam.Tx << ", " << m_R0ToCam.Ty << ", " << m_R0ToCam.Tz << ") - FPS : " << 1.0f / ellapsedtime.count();
+		sstr << "Position : (" << m_R0ToCam.Tx << ", " << m_R0ToCam.Ty << ", " << m_R0ToCam.Tz << ")";
+
+		DisplayMessage(sstr.str(), Slots::_1);
+
+		sstr.str(std::string());
 		sstr << "Ellapsed time : " << (float)ellapsed_micros / 1000.0f << " ms";
 
 		DisplayMessage(sstr.str(), Slots::_3);
@@ -393,11 +405,18 @@ void Console::MainThread()
 		*/
 	}
 }
+#endif // !TEST
 
 Console& Console::Get()
 {
 	static Console console;
 	return console;
+}
+
+void Console::Start()
+{
+	// Lauch thread
+	m_MainThread = std::thread(&Console::MainThread, this);
 }
 
 void Console::Clear()

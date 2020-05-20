@@ -48,6 +48,8 @@ int main()
 
 	while(ShowCursor(false) >= 0);
 
+	console.Start();
+
 	while (run)
 	{
 		pacemaker.Heartbeat(0);
