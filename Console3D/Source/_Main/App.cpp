@@ -6,6 +6,11 @@
 #include "Devices\PaceMaker.h"
 #include "Devices\Console.h"
 
+#ifdef TEST_CONSOLE
+#error Deactivate the Test mode in Devices -> Console.h
+#endif // TEST_CONSOLE
+
+
 #include "Utilities\Angles.h"
 
 using namespace std;

@@ -28,8 +28,6 @@
 */
 #define DRAW_EDGES
 
-#define TEST
-
 Console::Console() :
 	m_Width(180),
 	m_Height(120),
@@ -65,12 +63,80 @@ Console::~Console()
 	delete[] m_Screen;
 }
 
-#ifdef TEST
+#ifdef TEST_CONSOLE
 #include <iostream>
+
+bool Console::Wait()
+{
+	std::unique_lock<std::mutex> lock(m_PauseMut);
+
+	while (!m_PauseNotified)
+		m_PauseCondition.wait(lock);
+
+	m_PauseNotified = false;
+
+	return m_Run;
+}
+
+void Console::FillRectangle(uint32_t tlx, uint32_t tly, uint32_t brx, uint32_t bry, char c)
+{
+	ASSERT(tlx <= brx);
+	ASSERT(tly <= bry);
+
+	for (uint32_t i = tlx; i <= brx; ++i)
+		for (uint32_t j = tly; j <= bry; ++j)
+			DrawPoint(i, j, c);
+}
+
+void Console::FillTriangleRecursive(const Triangle2D& triangle, uint32_t tlx, uint32_t tly, uint32_t brx, uint32_t bry)
+{
+	auto pixeldotproduct = [](const Pixel& p1, const Pixel& p2)
+	{
+		return p1.x * p2.x + p1.y * p2.y;
+	};
+
+	auto AABBsegmentcollision = [](const Pixel& p1, const Pixel& p2, uint32_t tlx, uint32_t tly, uint32_t brx, uint32_t bry)
+	{
+
+	};
+}
+
+void Console::Notify(bool run)
+{
+	std::lock_guard<std::mutex> lock(m_PauseMut);
+
+	m_Run = run;
+	m_PauseNotified = true;
+
+	m_PauseCondition.notify_one();
+}
 
 void Console::MainThread()
 {
+	m_PauseNotified = false;
 
+	int tx1 =  0, ty1 = 6;
+	int tx2 =  7, ty2 = 0;
+	int tx3 = 10, ty3 = 8;
+
+	int minx = std::min({ tx1, tx2, tx3 });
+	int maxx = std::max({ tx1, tx2, tx3 });
+	int miny = std::min({ ty1, ty2, ty3 });
+	int maxy = std::max({ ty1, ty2, ty3 });
+
+	int midx = (maxx + minx) / 2;
+	int midy = (maxy + miny) / 2;
+
+	Clear();
+
+	FillRectangle(minx,     miny,     midx, midy, '1');
+	Render(); WAIT;
+	FillRectangle(midx + 1, miny,     maxx, midy, '2');
+	Render(); WAIT;
+	FillRectangle(minx,     midy + 1, midx, maxy, '3');
+	Render(); WAIT;
+	FillRectangle(midx + 1, midy + 1, maxx, maxy, '4');
+	Render(); WAIT;
 }
 
 #else
@@ -405,7 +471,7 @@ void Console::MainThread()
 		*/
 	}
 }
-#endif // !TEST
+#endif // !TEST_CONSOLE
 
 Console& Console::Get()
 {
