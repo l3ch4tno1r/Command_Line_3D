@@ -32,20 +32,26 @@ namespace LCNMath {
 
 			const HVector3D& HVector3D::X()
 			{
-				static HVector3D x(1.0f, 0.0f, 0.0f);
+				static HVector3D x(1.0f, 0.0f, 0.0f, false);
 				return x;
 			}
 
 			const HVector3D& HVector3D::Y()
 			{
-				static HVector3D y(0.0f, 1.0f, 0.0f);
+				static HVector3D y(0.0f, 1.0f, 0.0f, false);
 				return y;
 			}
 
 			const HVector3D& HVector3D::Z()
 			{
-				static HVector3D z(0.0f, 0.0f, 1.0f);
+				static HVector3D z(0.0f, 0.0f, 1.0f, false);
 				return z;
+			}
+
+			const HVector3D & HVector3D::Zero()
+			{
+				static HVector3D zero(0.0f, 0.0f, 0.0f);
+				return zero;
 			}
 
 			HVector3D& HVector3D::operator=(const HVector3D& vec)
@@ -55,9 +61,23 @@ namespace LCNMath {
 				return *this;
 			}
 
+			float HVector3D::Norm() const
+			{
+				return x * x + y * y + z * z;
+			}
+
+			void HVector3D::Normalize()
+			{
+				float norm = std::sqrt(Norm());
+
+				x /= norm;
+				y /= norm;
+				z /= norm;
+			}
+
 			HVector3D operator^(const HVector3D& vec1, const HVector3D& vec2)
 			{
-				static HVector3D result(true);
+				static HVector3D result(false);
 
 				result.x = vec1.y * vec2.z - vec1.z * vec2.y;
 				result.y = vec1.z * vec2.x - vec1.x * vec2.z;
@@ -68,7 +88,9 @@ namespace LCNMath {
 
 			float operator|(const HVector3D& vec1, const HVector3D& vec2)
 			{
-				return vec1.mat | vec2.mat;
+				// TODO : Quick fix
+				//return vec1.mat | vec2.mat;
+				return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
 			}
 
 			HVector3D operator+(const HVector3D& a, const HVector3D& b)
@@ -95,6 +117,16 @@ namespace LCNMath {
 
 				for (uint i = 0; i < 3; i++)
 					result.mat(i, 0) *= t;
+
+				return result;
+			}
+
+			HVector3D operator/(const HVector3D & vec, float t)
+			{
+				HVector3D result(vec);
+
+				for (uint i = 0; i < 3; i++)
+					result.mat(i, 0) /= t;
 
 				return result;
 			}
