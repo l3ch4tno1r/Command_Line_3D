@@ -10,6 +10,16 @@
 #include "Geometry\Geometry3D\HVector3D.h"
 #include "Geometry\Geometry2D\HVector2D.h"
 
+#define TEST_CONSOLE
+
+#ifdef TEST_CONSOLE
+#include <mutex>
+#include <condition_variable>
+
+using namespace std::literals::chrono_literals;
+#endif // TEST_CONSOLE
+
+
 using namespace LCNMath::Geometry::Dim2;
 using namespace LCNMath::Geometry::Dim3;
 
@@ -66,6 +76,39 @@ public:
 	{
 		return m_Height;
 	}
+
+#ifdef TEST_CONSOLE
+
+#define WAIT if(!Wait()) return
+
+private:
+	std::mutex              m_PauseMut;
+	std::condition_variable m_PauseCondition;
+	bool                    m_PauseNotified;
+	bool                    m_Run;
+
+	bool Wait();
+
+	void FillRectangle(uint32_t tlx, uint32_t tly, uint32_t brx, uint32_t bry, char c = '#');
+
+	struct Pixel
+	{
+		int x, y;
+	};
+
+	struct Triangle2D
+	{
+		Pixel p1;
+		Pixel p2;
+		Pixel p3;
+	};
+
+	void FillTriangleRecursive(const Triangle2D& triangle, uint32_t tlx, uint32_t tly, uint32_t brx, uint32_t bry);
+
+public:
+	void Notify(bool run);
+
+#endif // TEST_CONSOLE
 
 private:
 	void Clear();

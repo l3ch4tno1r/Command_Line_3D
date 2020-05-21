@@ -3,6 +3,10 @@
 
 #include "Devices/Console.h"
 
+#ifndef TEST_CONSOLE
+#error Activate the Test mode in Devices -> Console.h
+#endif // TEST_CONSOLE
+
 int main()
 {
 	bool run = true;
@@ -15,6 +19,7 @@ int main()
 	SetConsoleMode(hStdin, ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT | ENABLE_WINDOW_INPUT);
 
 	Console& console = Console::Get();
+
 	console.Start();
 
 	while (run)
@@ -33,6 +38,12 @@ int main()
 				{
 				case VK_ESCAPE:
 					run = false;
+					console.Notify(false);
+
+					break;
+				case VK_SPACE:
+					if(record.Event.KeyEvent.bKeyDown)
+						console.Notify(true);
 
 					break;
 				default:
