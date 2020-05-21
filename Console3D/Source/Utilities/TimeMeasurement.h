@@ -3,7 +3,11 @@
 #include <iostream>
 #include <chrono>
 #include <string>
+#include <vector>
 
+/////////////////
+//-- Measure --//
+/////////////////
 #define MEASURETIME(X)\
 {\
 	auto _start = std::chrono::high_resolution_clock::now();\
@@ -13,6 +17,9 @@
 	std::cout << "Execution time of '" << #X << "' : " << (float)_ellapsed_micros / 1000.0f << " ms" << std::endl;\
 }
 
+////////////////
+//-- Chrono --//
+////////////////
 #define STARTCHRONO \
 auto start = std::chrono::high_resolution_clock::now()
 
@@ -20,15 +27,21 @@ auto start = std::chrono::high_resolution_clock::now()
 auto end = std::chrono::high_resolution_clock::now();\
 long long ellapsed_micros = std::chrono::duration_cast<std::chrono::microseconds> (end - start).count();\
 
+///////////////////////
+//-- Timer classes --//
+///////////////////////
 class Timer
 {
 private:
 	std::chrono::steady_clock::time_point start;
+	std::vector<long long> steps;
 
 public:
 	Timer();
 
 	~Timer();
+
+	void RegisterStep();
 };
 
 class Timer2
@@ -43,4 +56,12 @@ public:
 	~Timer2();
 };
 
-#define TIMER(msg) Timer2 timer(msg)
+//#define TIMER_ENABLED
+
+#ifdef TIMER_ENABLED
+#define TIMER(X) Timer X
+#define REGISTERTIME(X) X.RegisterStep()
+#else
+#define TIMER(X)
+#define REGISTERTIME(X)
+#endif

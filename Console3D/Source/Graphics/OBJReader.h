@@ -1,11 +1,13 @@
 #pragma once
 
 #include "Model3D.h"
+#include "Utilities/ErrorHandling.h"
 
 #include <string>
 #include <fstream>
 #include <exception>
 #include <sstream>
+#include <cmath>
 
 class OBJReader
 {
@@ -117,7 +119,7 @@ public:
 
 					HVector3D n  = v1 ^ v2;
 
-					float norm = n.x * n.x + n.y * n.y + n.z * n.z;
+					float norm = std::sqrt(n.x * n.x + n.y * n.y + n.z * n.z);
 
 					n.x /= norm;
 					n.y /= norm;
@@ -129,9 +131,21 @@ public:
 
 					Faces.push_back(face);
 
+					/*
 					Edges.insert({ face.v1, face.v2 });
 					Edges.insert({ face.v2, face.v3 });
 					Edges.insert({ face.v3, face.v1 });
+					*/
+
+					for (uint i = 0; i < 3; ++i)
+					{
+						auto edge = Edges.find({ face.Vertices[i], face.Vertices[(i + 1) % 3] });
+
+						if (edge == Edges.end())
+							Edges.insert({ face.Vertices[i], face.Vertices[(i + 1) % 3], face.vn1 });
+						else
+							edge->n2 = face.vn1;
+					}
 				}
 			}
 		}

@@ -45,7 +45,7 @@ private:
 public:
 	static Console& Get();
 
-	void Clear();
+	void Start();
 
 	inline Transform3D& R0ToCam()
 	{
@@ -57,18 +57,57 @@ public:
 		return m_Focal;
 	}
 
+	inline UINT32 Width() const
+	{
+		return m_Width;
+	}
+
+	inline UINT32 Height() const
+	{
+		return m_Height;
+	}
+
 private:
-	bool ScreenPlaneProjection(const HVector3D& a, const HVector3D& b, HVector3D& pa, HVector3D& pb) const;
+	void Clear();
 
-	void DrawPoint(float x, float y, char c = '#');
+	// TODO : Include this in a collision detection API ?
+	static HVector3D SegmentPlaneIntersection(const HVector3D& v1, const HVector3D& v2, // Segment info
+		                                      const HVector3D& n,  const HVector3D& p); // Plane info
 
-	bool LineInSight(HVector2D& OA, HVector2D& OB);
+	// TODO : Improve that !!!
+	static uint ClipEdge(const HVector3D& v1, const HVector3D& v2, // Edge
+		                 const HVector3D& n,  const HVector3D& p,  // Plane parameters
+		                       HVector3D& o1,       HVector3D& o2);
 
-	uint ClipEdge(const HVector3D& v1, const HVector3D& v2, const HVector3D& n, HVector3D& o1, HVector3D& o2);
+	struct Triangle
+	{
+		HVector3D vertices[3];
+	};
 
-	void DrawLine(const HVector2D& v1, const HVector2D& v2);
+	static uint ClipTriangle(const Triangle&  in_t,                         // Triangle
+		                     const HVector3D& n,    const HVector3D& p,     // Plane parameters
+		                           Triangle&  o_t1,       Triangle&  o_t2); // Output triangles
 
-	void DisplayMessage(const std::string& msg);
+	char GetPixelValue(int x, int y) const;
+
+	void DrawPoint(int x, int y, char c = '#');
+
+	void DrawLine(int x1, int y1, int x2, int y2, char c = '#');
+
+	void DrawLine(const HVector2D& v1, const HVector2D& v2, char c = '#');
+
+	void FillTriangle(const HVector2D& v1, const HVector2D& v2, const HVector2D& v3, char c = '#');
+
+	enum Slots
+	{
+		_1 = 5,
+		_2 = 4,
+		_3 = 3,
+		_4 = 2,
+		_5 = 1,
+	};
+
+	void DisplayMessage(const std::string& msg, Slots slot);
 
 	void HeartBeat();
 
