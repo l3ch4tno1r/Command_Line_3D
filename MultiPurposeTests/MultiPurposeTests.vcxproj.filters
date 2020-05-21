@@ -27,7 +27,7 @@
     <ClCompile Include="Source\Utils\TraceLog.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\_Test\Misc\Test20.cpp">
+    <ClCompile Include="Source\_Test\Multi Thread\Test03 - async.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

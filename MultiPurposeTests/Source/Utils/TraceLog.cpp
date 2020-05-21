@@ -42,6 +42,7 @@ namespace LCNUtilities
 
 	TraceLog& TraceLog::Logger() noexcept
 	{
+		static TraceLog logger;
 		return logger;
 	}
 
@@ -111,7 +112,7 @@ namespace LCNUtilities
 
 	//-- Instanciation --//
 
-	TraceLog TraceLog::logger;
+	//TraceLog TraceLog::logger;
 
 	/////////////
 	//-- Log --//

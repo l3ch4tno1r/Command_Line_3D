@@ -21,8 +21,6 @@ namespace LCNUtilities
 	class TraceLog
 	{
 	private:
-		static TraceLog logger;
-
 		string logfilepath;
 
 		bool done;
