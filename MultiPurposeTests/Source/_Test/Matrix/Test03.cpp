@@ -7,7 +7,7 @@ struct Vector2D
 	float x;
 	float y;
 
-	float& operator[](std::size_t i)
+	inline float& operator[](std::size_t i)
 	{
 		return *((float*)this + i);
 	}

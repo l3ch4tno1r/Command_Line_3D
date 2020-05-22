@@ -20,12 +20,22 @@ class StrPtr : public StrExpression<StrPtr>
 {
 private:
 	const char* m_Ptr;
+	size_t m_Size;
 
 public:
 	StrPtr(const char* ptr) :
-		m_Ptr(ptr)
+		m_Ptr(ptr),
+		m_Size(strlen(ptr))
 	{
 		std::cout << "StrPtr" << std::endl;
+	}
+
+	StrPtr(StrPtr&& other) :
+		m_Ptr(other.m_Ptr),
+		m_Size(other.m_Size)
+	{
+		other.m_Ptr  = nullptr;
+		other.m_Size = 0;
 	}
 
 	size_t Size() const
@@ -53,8 +63,6 @@ public:
 
 	String(const char* str)
 	{
-		std::cout << "char* constructor" << std::endl;
-
 		m_Size = strlen(str);
 		m_Str  = new char[m_Size + 1];
 
@@ -181,6 +189,7 @@ StrConcat<EL, ER> operator+(const StrExpression<EL>& el, const StrExpression<ER>
 	return StrConcat<EL, ER>(static_cast<const EL&>(el), static_cast<const ER&>(er));
 }
 
+
 /////////////////////////////
 //-------------------------//
 /////////////////////////////
@@ -205,15 +214,23 @@ std::ostream& operator<<(std::ostream& stream, const StrExpression<E>& strexp)
 
 int main()
 {
-	String str1 = "Hello world !";
-	String str2 = " How are you ?";
-	String str3 = " My name is John.";
+	/*
+	{
+		String str1 = "Hello world !";
+		String str2 = " How are you ?";
+		String str3 = " My name is John.";
 
-	std::cout << "-----------------" << std::endl;
+		std::cout << "-----------------" << std::endl;
 
-	auto str4 = str1 + " Test";
+		std::cout << str1 + str2 + str3 << std::endl;
+	}
+	*/
 
-	std::cout << str4 << std::endl;
+	int* ptr = new int;
+	delete ptr;
+
+	int* tab = new int[10];
+	delete[] tab;
 
 	std::cin.get();
 }

@@ -124,12 +124,7 @@
     <ClCompile Include="Source\Utils\ErrorHandling.cpp" />
     <ClCompile Include="Source\Utils\TimeMeasurement.cpp" />
     <ClCompile Include="Source\Utils\TraceLog.cpp" />
-    <ClCompile Include="Source\_Test\Multi Thread\Test03 - async.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LCNMath\LCNMath.vcxproj">
-      <Project>{840ea722-4361-4ae5-895f-3c305b1df81a}</Project>
-    </ProjectReference>
+    <ClCompile Include="Source\_Test\Matrix\Test03.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\stb_image\stb_image.h" />
