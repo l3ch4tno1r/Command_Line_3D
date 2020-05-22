@@ -55,9 +55,9 @@ namespace LCNMath{
 			}
 
 			template<uint I>
-			static const VectorND<N>& UnitVector()
+			static const VectorND<T, N>& UnitVector()
 			{
-				static VectorND<N> result(I);
+				static VectorND<T, N> result(I);
 				return result;
 			}
 		};
