@@ -7,11 +7,6 @@
 
 #include "Devices\PaceMaker.h"
 
-//#include "Geometry\Geometry2D\Transform2D.h"
-//#include "Geometry\Geometry2D\HVector2D.h"
-//#include "Geometry\Geometry3D\Transform3D.h"
-//#include "Geometry\Geometry3D\HVector3D.h"
-
 #include "Graphics\OBJReader.h"
 
 #include <chrono>
@@ -242,6 +237,9 @@ void Console::MainThread()
 
 	const char* grayscale = " .:-=+%*#@";
 
+	// For info display
+	std::stringstream sstr;
+
 	// Console device loop
 	while (pacemaker.Heartbeat(1))
 	{
@@ -443,8 +441,7 @@ void Console::MainThread()
 
 		ENDCHRONO;
 
-		std::stringstream sstr;
-
+		sstr.str(std::string());
 		sstr << "Position : (" << m_R0ToCam.Tx << ", " << m_R0ToCam.Ty << ", " << m_R0ToCam.Tz << ")";
 
 		DisplayMessage(sstr.str(), Slots::_1);
