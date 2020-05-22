@@ -12,7 +12,7 @@ using uint = unsigned int;
 class Model3D
 {
 public:
-	using Vertex3D = HVector3D;
+	using Vertex3D = HVector3D<float>;
 
 	struct Face
 	{
