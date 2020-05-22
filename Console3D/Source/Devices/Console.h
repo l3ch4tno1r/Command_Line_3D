@@ -7,6 +7,7 @@
 #include <thread>
 
 #include "Geometry\Geometry3D\Transform3D.h"
+#include "Geometry\Geometry2D\Transform2D.h"
 #include "Geometry\Geometry3D\HVector3D.h"
 #include "Geometry\Geometry2D\HVector2D.h"
 
@@ -24,6 +25,7 @@ using namespace LCNMath::Geometry::Dim2;
 using namespace LCNMath::Geometry::Dim3;
 
 using Transform3Df = Transform3D<float>;
+using Transform2Df = Transform2D<float>;
 using HVector3Df   = HVector3D<float>;
 using HVector2Df   = HVector2D<float>;
 

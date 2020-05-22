@@ -1,14 +1,19 @@
 #pragma once
 
 #include "Matrix\Stack\SqrSMatrix.h"
+#include "Utilities\Angles.h"
 
 namespace LCNMath {
 	namespace Geometry {
 		namespace Dim2 {
 
-			using SMatrix33f    = LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 3>;
-			using SqrSMatrix33f = LCNMath::Matrix::StaticMatrix::SqrMatrix<float, 3>;
+			template<typename T>
+			using SMatrix33f    = LCNMath::Matrix::StaticMatrix::Matrix<T, 3, 3>;
 
+			template<typename T>
+			using SqrSMatrix33f = LCNMath::Matrix::StaticMatrix::SqrMatrix<T, 3>;
+
+			template<typename T>
 			union Transform2D
 			{
 				struct
@@ -22,19 +27,40 @@ namespace LCNMath {
 					// [  0,   0,   1 ]
 			;	};
 
-				SqrSMatrix33f mat;
+				SqrSMatrix33f<T> mat;
 
-				Transform2D();
+				Transform2D() :
+					mat(true)
+				{}
 
-				Transform2D(const SMatrix33f& _mat);
+				Transform2D(const SMatrix33f<T>& _mat) :
+					mat(_mat)
+				{}
 
-				Transform2D(const SqrSMatrix33f& _mat);
+				Transform2D(const SqrSMatrix33f<T>& _mat) :
+					mat(_mat)
+				{}
 
-				Transform2D(float x, float y, float a);
+				Transform2D(T x, T y, T a) :
+					mat(true)
+				{
+					SetTranslation(x, y);
+					SetRotationAngle(a);
+				}
 
-				void SetRotationAngle(float a);
+				void SetRotationAngle(float a)
+				{
+					Rux =  std::cos(TORAD(a));
+					Ruy =  std::sin(TORAD(a));
+					Rvx = -std::sin(TORAD(a));
+					Rvy =  std::cos(TORAD(a));
+				}
 
-				void SetTranslation(float x, float y);
+				void SetTranslation(T x, T y)
+				{
+					Tx = x;
+					Ty = y;
+				}
 			};
 		}
 	}

@@ -7,7 +7,7 @@
 
 #include "Devices\PaceMaker.h"
 
-#include "Geometry\Geometry2D\Transform2D.h"
+//#include "Geometry\Geometry2D\Transform2D.h"
 //#include "Geometry\Geometry2D\HVector2D.h"
 //#include "Geometry\Geometry3D\Transform3D.h"
 //#include "Geometry\Geometry3D\HVector3D.h"
@@ -210,7 +210,7 @@ void Console::MainThread()
 
 	LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> Projection(tab);
 
-	Transform2D ImgToCam(m_Width / 2, m_Height / 2, 180.0f);
+	Transform2Df ImgToCam(m_Width / 2, m_Height / 2, 180.0f);
 
 	// For clipping
 
