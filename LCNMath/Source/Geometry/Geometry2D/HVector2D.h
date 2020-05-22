@@ -7,7 +7,7 @@ namespace LCNMath {
 		namespace Dim2{
 
 			using Vector3Df = LCNMath::Geometry::VectorND<3>;
-			using LCNMath::Geometry::MatrixN1f;
+			using LCNMath::Geometry::MatrixN1;
 
 			struct HVector2D
 			{
@@ -31,7 +31,7 @@ namespace LCNMath {
 
 				HVector2D(const Vector3Df& _mat);
 
-				HVector2D(const MatrixN1f<3>& _mat);
+				HVector2D(const MatrixN1<3>& _mat);
 
 				inline float PX() const
 				{

@@ -7,7 +7,7 @@ namespace LCNMath {
 		namespace Dim3 {
 
 			using Vector4Df = LCNMath::Geometry::VectorND<4>;
-			using LCNMath::Geometry::MatrixN1f;
+			using LCNMath::Geometry::MatrixN1;
 
 			struct HVector3D
 			{
@@ -32,7 +32,7 @@ namespace LCNMath {
 
 				HVector3D(const Vector4Df& _mat);
 
-				HVector3D(const MatrixN1f<4>& _mat);
+				HVector3D(const MatrixN1<4>& _mat);
 
 				static const HVector3D& X();
 

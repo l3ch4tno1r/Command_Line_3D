@@ -9,34 +9,34 @@
 namespace LCNMath{
 	namespace Geometry	{
 
-		template<uint N>
-		using MatrixN1f = LCNMath::Matrix::StaticMatrix::Matrix<float, N, 1>;
+		template<typename T, uint N>
+		using MatrixN1 = LCNMath::Matrix::StaticMatrix::Matrix<T, N, 1>;
 
-		template<uint N>
-		class VectorND : public MatrixN1f<N>
+		template<typename T, uint N>
+		class VectorND : public MatrixN1<T, N>
 		{
 		public:
 			VectorND() :
-				MatrixN1f<N>(1.0f)
+				MatrixN1<T, N>(1.0f)
 			{}
 			
 			VectorND(uint i) :
-				MatrixN1f<N>(0.0f)
+				MatrixN1<T, N>(0.0f)
 			{
 				(*this)[i] = 1.0f;
 			}
 
 			VectorND(std::initializer_list<float> _paramlist) :
-				MatrixN1f<N>(_paramlist)
+				MatrixN1<T, N>(_paramlist)
 			{}
 
-			VectorND(const MatrixN1f<N>& mat) :
-				MatrixN1f<N>(mat)
+			VectorND(const MatrixN1<T, N>& mat) :
+				MatrixN1<T, N>(mat)
 			{}
 
-			float Norm() const
+			T Norm() const
 			{
-				float norm = 0.0f;
+				T norm = 0.0f;
 
 				for (uint i = 0; i < N; i++)
 					norm += (*this)(i, 0) * (*this)(i, 0);
@@ -44,12 +44,12 @@ namespace LCNMath{
 				return std::sqrt(norm);
 			}
 
-			inline float& operator[](uint i)
+			inline T& operator[](uint i)
 			{
 				return (*this)(i, 0);
 			}
 
-			inline const float& operator[](uint i) const
+			inline T operator[](uint i) const
 			{
 				return (*this)(i, 0);
 			}
@@ -65,8 +65,8 @@ namespace LCNMath{
 		////////////////////////////
 		//-- External Operators --//
 		////////////////////////////
-		template<uint N>
-		float operator|(const VectorND<N>& vec1, const VectorND<N>& vec2)
+		template<typename T, uint N>
+		T operator|(const VectorND<T, N>& vec1, const VectorND<T, N>& vec2)
 		{
 			float dotproduct = 0.0f;
 		
@@ -76,8 +76,8 @@ namespace LCNMath{
 			return dotproduct;
 		}
 
-		template<uint N>
-		std::ostream& operator<<(std::ostream& stream, const VectorND<N>& vec)
+		template<typename T, uint N>
+		std::ostream& operator<<(std::ostream& stream, const VectorND<T,N>& vec)
 		{
 			stream << '(';
 

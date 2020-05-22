@@ -23,7 +23,7 @@ namespace LCNMath {
 				mat(_mat)
 			{}
 
-			HVector2D::HVector2D(const MatrixN1f<3>& _mat) :
+			HVector2D::HVector2D(const MatrixN1<3>& _mat) :
 				mat(_mat)
 			{}
 

@@ -26,7 +26,7 @@ namespace LCNMath {
 				mat(_mat)
 			{}
 
-			HVector3D::HVector3D(const MatrixN1f<4>& _mat) :
+			HVector3D::HVector3D(const MatrixN1<4>& _mat) :
 				mat(_mat)
 			{}
 
