@@ -69,9 +69,7 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>E:\Utilisateurs\Arnaud\Documents\GitHub\Console3D\Console3D\Source;$(IncludePath)</IncludePath>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -79,12 +77,8 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Console3D\Source;$(SolutionDir)LCNMath\Source;$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)LCNMath\Source;$(ProjectDir)</AdditionalIncludeDirectories>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies>Console.obj;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>E:\Utilisateurs\Arnaud\Documents\GitHub\Console3D\Console3D\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -129,19 +123,14 @@
     <ClCompile Include="External\stb_image\stb_image.cpp" />
     <ClCompile Include="Source\Utils\ErrorHandling.cpp" />
     <ClCompile Include="Source\Utils\TimeMeasurement.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Console3D\Console3D.vcxproj">
-      <Project>{ddb69403-11e2-4bd3-b989-0b645e00c4eb}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\LCNMath\LCNMath.vcxproj">
-      <Project>{840ea722-4361-4ae5-895f-3c305b1df81a}</Project>
-    </ProjectReference>
+    <ClCompile Include="Source\Utils\TraceLog.cpp" />
+    <ClCompile Include="Source\_Test\Memory\Test28 - stringstream.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\stb_image\stb_image.h" />
     <ClInclude Include="Source\Utils\ErrorHandling.h" />
     <ClInclude Include="Source\Utils\TimeMeasurement.h" />
+    <ClInclude Include="Source\Utils\TraceLog.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

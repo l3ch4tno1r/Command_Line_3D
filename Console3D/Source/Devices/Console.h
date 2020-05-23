@@ -7,10 +7,11 @@
 #include <thread>
 
 #include "Geometry\Geometry3D\Transform3D.h"
+#include "Geometry\Geometry2D\Transform2D.h"
 #include "Geometry\Geometry3D\HVector3D.h"
 #include "Geometry\Geometry2D\HVector2D.h"
 
-#define TEST_CONSOLE
+//#define TEST_CONSOLE
 
 #ifdef TEST_CONSOLE
 #include <mutex>
@@ -22,6 +23,11 @@ using namespace std::literals::chrono_literals;
 
 using namespace LCNMath::Geometry::Dim2;
 using namespace LCNMath::Geometry::Dim3;
+
+using Transform3Df = Transform3D<float>;
+using Transform2Df = Transform2D<float>;
+using HVector3Df   = HVector3D<float>;
+using HVector2Df   = HVector2D<float>;
 
 class Console
 {
@@ -40,8 +46,8 @@ private:
 
 	std::thread m_MainThread;
 
-	float       m_Focal;
-	Transform3D m_R0ToCam;
+	float        m_Focal;
+	Transform3Df m_R0ToCam;
 
 	Console();
 
@@ -57,7 +63,7 @@ public:
 
 	void Start();
 
-	inline Transform3D& R0ToCam()
+	inline Transform3Df& R0ToCam()
 	{
 		return m_R0ToCam;
 	}
@@ -114,21 +120,21 @@ private:
 	void Clear();
 
 	// TODO : Include this in a collision detection API ?
-	static HVector3D SegmentPlaneIntersection(const HVector3D& v1, const HVector3D& v2, // Segment info
-		                                      const HVector3D& n,  const HVector3D& p); // Plane info
+	static HVector3Df SegmentPlaneIntersection(const HVector3Df& v1, const HVector3Df& v2, // Segment info
+		                                       const HVector3Df& n,  const HVector3Df& p); // Plane info
 
 	// TODO : Improve that !!!
-	static uint ClipEdge(const HVector3D& v1, const HVector3D& v2, // Edge
-		                 const HVector3D& n,  const HVector3D& p,  // Plane parameters
-		                       HVector3D& o1,       HVector3D& o2);
+	static uint ClipEdge(const HVector3Df& v1, const HVector3Df& v2, // Edge
+		                 const HVector3Df& n,  const HVector3Df& p,  // Plane parameters
+		                       HVector3Df& o1,       HVector3Df& o2);
 
 	struct Triangle
 	{
-		HVector3D vertices[3];
+		HVector3Df vertices[3];
 	};
 
 	static uint ClipTriangle(const Triangle&  in_t,                         // Triangle
-		                     const HVector3D& n,    const HVector3D& p,     // Plane parameters
+		                     const HVector3Df& n,    const HVector3Df& p,     // Plane parameters
 		                           Triangle&  o_t1,       Triangle&  o_t2); // Output triangles
 
 	char GetPixelValue(int x, int y) const;
@@ -137,9 +143,9 @@ private:
 
 	void DrawLine(int x1, int y1, int x2, int y2, char c = '#');
 
-	void DrawLine(const HVector2D& v1, const HVector2D& v2, char c = '#');
+	void DrawLine(const HVector2Df& v1, const HVector2Df& v2, char c = '#');
 
-	void FillTriangle(const HVector2D& v1, const HVector2D& v2, const HVector2D& v3, char c = '#');
+	void FillTriangle(const HVector2Df& v1, const HVector2Df& v2, const HVector2Df& v3, char c = '#');
 
 	enum Slots
 	{

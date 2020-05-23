@@ -14,6 +14,8 @@ short sign(T a)
 	return (a > T(0)) - (a < T(0));
 }
 
-std::ostream& operator<<(std::ostream& stream, const HVector2D& vec);
+template<typename T>
+std::ostream& operator<<(std::ostream& stream, const HVector2D<T>& vec);
 
-std::ostream& operator<<(std::ostream& stream, const HVector3D& vec);
+template<typename T>
+std::ostream& operator<<(std::ostream& stream, const HVector3D<T>& vec);

@@ -41,7 +41,11 @@ int main()
 	PaceMaker& pacemaker = PaceMaker::Get();
 	Console&   console   = Console::Get();	
 
+<<<<<<< HEAD
 	Transform3D& r0tocam = console.R0ToCam();
+=======
+	Transform3D<float>& r0tocam = console.R0ToCam();
+>>>>>>> Branch_LCNMath
 
 	float camspeed   = 3.0f;
 	float speedboost = 1.0f;
@@ -59,9 +63,15 @@ int main()
 	{
 		pacemaker.Heartbeat(0);
 
+<<<<<<< HEAD
 		static Transform3D Tr = r0tocam;
 		static Transform3D RotX;
 		static Transform3D RotY;
+=======
+		static Transform3D<float> Tr = r0tocam;
+		static Transform3D<float> RotX;
+		static Transform3D<float> RotY;
+>>>>>>> Branch_LCNMath
 
 		// Closing the app
 		if (GetAsyncKeyState((unsigned short)27) & 0x8000)

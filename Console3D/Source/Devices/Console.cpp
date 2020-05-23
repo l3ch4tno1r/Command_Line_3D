@@ -7,11 +7,6 @@
 
 #include "Devices\PaceMaker.h"
 
-#include "Geometry\Geometry2D\Transform2D.h"
-//#include "Geometry\Geometry2D\HVector2D.h"
-//#include "Geometry\Geometry3D\Transform3D.h"
-//#include "Geometry\Geometry3D\HVector3D.h"
-
 #include "Graphics\OBJReader.h"
 
 #include <chrono>
@@ -169,17 +164,17 @@ void Console::MainThread()
 
 	// Quick fix for teapot
 	/*
-	Transform3D teapot({
+	Transform3Df teapot({
 		1.0f, 0.0f,  0.0f, 0.0f,
 		0.0f, 0.0f, -1.0f, 0.0f,
 		0.0f, 1.0f,  0.0f, 0.0f,
 		0.0f, 0.0f,  0.0f, 1.0f
 	});
 
-	for (HVector3D& vertex : models[1].Vertices())
+	for (HVector3Df& vertex : models[1].Vertices())
 		vertex = teapot * vertex;
 
-	for (HVector3D& vertex : models[1].Normals())
+	for (HVector3Df& vertex : models[1].Normals())
 		vertex = teapot * vertex;
 	*/
 
@@ -189,7 +184,7 @@ void Console::MainThread()
 	// Scaling models
 	for (uint32_t i = 0; i < 2; ++i)
 	{
-		for (HVector3D& v : models[i].Vertices())
+		for (HVector3Df& v : models[i].Vertices())
 		{
 			v.x *= scalefactor[i];
 			v.y *= scalefactor[i];
@@ -197,9 +192,9 @@ void Console::MainThread()
 		}
 	}
 
-	Transform3D R0ToObjs[] = {
-		Transform3D(),
-		Transform3D()
+	Transform3Df R0ToObjs[] = {
+		Transform3Df(),
+		Transform3Df()
 	};
 
 	const float tab[3][4] = {
@@ -210,24 +205,24 @@ void Console::MainThread()
 
 	LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> Projection(tab);
 
-	Transform2D ImgToCam(m_Width / 2, m_Height / 2, 180.0f);
+	Transform2Df ImgToCam(m_Width / 2, m_Height / 2, 180.0f);
 
 	// For clipping
 
-	std::pair<HVector3D, HVector3D> planes[] = {
-		{ HVector3D(HVector3D::Z()),                         HVector3D(0.0f, 0.0f, 0.5f) },
-		{ HVector3D( 0,       m_Focal, m_Height / 2, false), HVector3D(0.0f, 0.0f, 0.0f) },
-		{ HVector3D( 0,      -m_Focal, m_Height / 2, false), HVector3D(0.0f, 0.0f, 0.0f) },
-		{ HVector3D(-m_Focal, 0,       m_Width  / 2, false), HVector3D(0.0f, 0.0f, 0.0f) },
-		{ HVector3D( m_Focal, 0,       m_Width  / 2, false), HVector3D(0.0f, 0.0f, 0.0f) }
+	std::pair<HVector3Df, HVector3Df> planes[] = {
+		{ HVector3Df(HVector3Df::Z()),                        HVector3Df(0.0f, 0.0f, 0.5f) },
+		{ HVector3Df( 0,       m_Focal, m_Height / 2, false), HVector3Df(0.0f, 0.0f, 0.0f) },
+		{ HVector3Df( 0,      -m_Focal, m_Height / 2, false), HVector3Df(0.0f, 0.0f, 0.0f) },
+		{ HVector3Df(-m_Focal, 0,       m_Width  / 2, false), HVector3Df(0.0f, 0.0f, 0.0f) },
+		{ HVector3Df( m_Focal, 0,       m_Width  / 2, false), HVector3Df(0.0f, 0.0f, 0.0f) }
 	};
 
-	std::pair<HVector3D, HVector3D> planesfromObj[] = {
-		{ HVector3D(0.0f, 0.0f, 0.0f, false), HVector3D(0.0f, 0.0f, 0.0f)},
-		{ HVector3D(0.0f, 0.0f, 0.0f, false), HVector3D(0.0f, 0.0f, 0.0f)},
-		{ HVector3D(0.0f, 0.0f, 0.0f, false), HVector3D(0.0f, 0.0f, 0.0f)},
-		{ HVector3D(0.0f, 0.0f, 0.0f, false), HVector3D(0.0f, 0.0f, 0.0f)},
-		{ HVector3D(0.0f, 0.0f, 0.0f, false), HVector3D(0.0f, 0.0f, 0.0f)}
+	std::pair<HVector3Df, HVector3Df> planesfromObj[] = {
+		{ HVector3Df(0.0f, 0.0f, 0.0f, false), HVector3Df(0.0f, 0.0f, 0.0f)},
+		{ HVector3Df(0.0f, 0.0f, 0.0f, false), HVector3Df(0.0f, 0.0f, 0.0f)},
+		{ HVector3Df(0.0f, 0.0f, 0.0f, false), HVector3Df(0.0f, 0.0f, 0.0f)},
+		{ HVector3Df(0.0f, 0.0f, 0.0f, false), HVector3Df(0.0f, 0.0f, 0.0f)},
+		{ HVector3Df(0.0f, 0.0f, 0.0f, false), HVector3Df(0.0f, 0.0f, 0.0f)}
 	};
 
 	LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = ImgToCam.mat * Projection;
@@ -237,10 +232,13 @@ void Console::MainThread()
 	auto tp2 = std::chrono::system_clock::now();
 
 	// Ligthing
-	HVector3D light = { -1, -5, -1, false };
+	HVector3Df light = { -1, -5, -1, false };
 	light.Normalize();
 
 	const char* grayscale = " .:-=+%*#@";
+
+	// For info display
+	std::stringstream sstr;
 
 	// Console device loop
 	while (pacemaker.Heartbeat(1))
@@ -253,7 +251,7 @@ void Console::MainThread()
 
 		Clear();
 
-		Transform3D CamToR0 = m_R0ToCam.mat.Invert();
+		Transform3Df CamToR0 = m_R0ToCam.mat.Invert();
 
 		// Loop through models
 		for (uint i = 0; i < 2; i++)
@@ -261,8 +259,8 @@ void Console::MainThread()
 			// TODO : Remettre a const
 			Model3D& model = models[i];
 
-			Transform3D CamToObj = CamToR0 * R0ToObjs[i];
-			Transform3D ObjToCam = CamToObj.mat.Invert();
+			Transform3Df CamToObj = CamToR0 * R0ToObjs[i];
+			Transform3Df ObjToCam = CamToObj.mat.Invert();
 
 			for (uint i = 0; i < 5; i++)
 			{
@@ -274,15 +272,15 @@ void Console::MainThread()
 			/*
 			std::sort(model.Faces().begin(), model.Faces().end(), [&](const Model3D::Face& face1, const Model3D::Face& face2)
 			{
-				const HVector3D& f1v1 = model.Vertices()[face1.v1];
-				const HVector3D& f1v2 = model.Vertices()[face1.v2];
-				const HVector3D& f1v3 = model.Vertices()[face1.v3];
+				const HVector3Df& f1v1 = model.Vertices()[face1.v1];
+				const HVector3Df& f1v2 = model.Vertices()[face1.v2];
+				const HVector3Df& f1v3 = model.Vertices()[face1.v3];
 
-				const HVector3D& f2v1 = model.Vertices()[face2.v1];
-				const HVector3D& f2v2 = model.Vertices()[face2.v2];
-				const HVector3D& f2v3 = model.Vertices()[face2.v3];
+				const HVector3Df& f2v1 = model.Vertices()[face2.v1];
+				const HVector3Df& f2v2 = model.Vertices()[face2.v2];
+				const HVector3Df& f2v3 = model.Vertices()[face2.v3];
 
-				HVector3D ObjToCamPos = { ObjToCam.Tx, ObjToCam.Ty, ObjToCam.Tz };
+				HVector3Df ObjToCamPos = { ObjToCam.Tx, ObjToCam.Ty, ObjToCam.Tz };
 
 				float z1 = ((f1v1 + f1v2 + f1v3) / 3 - ObjToCamPos | planesfromObj[0].first);
 				float z2 = ((f2v1 + f2v2 + f2v3) / 3 - ObjToCamPos | planesfromObj[0].first);
@@ -299,23 +297,23 @@ void Console::MainThread()
 					model.Vertices()[face.v3]
 				};
 
-				HVector3D cam2v1 = triangle.vertices[0] - planesfromObj[1].second;
+				HVector3Df cam2v1 = triangle.vertices[0] - planesfromObj[1].second;
 				
-				const HVector3D& nface = model.Normals()[face.vn1];
+				const HVector3Df& nface = model.Normals()[face.vn1];
 				
 				if ((cam2v1 | nface) > 0.0f)
 					continue;
 
 				static Triangle o1 = {
-					HVector3D(0, 0, 0),
-					HVector3D(0, 0, 0),
-					HVector3D(0, 0, 0)
+					HVector3Df(0, 0, 0),
+					HVector3Df(0, 0, 0),
+					HVector3Df(0, 0, 0)
 				};
 
 				static Triangle o2 = {
-					HVector3D(0, 0, 0),
-					HVector3D(0, 0, 0),
-					HVector3D(0, 0, 0)
+					HVector3Df(0, 0, 0),
+					HVector3Df(0, 0, 0),
+					HVector3Df(0, 0, 0)
 				};
 
 				std::list<Triangle> clippedtriangles({ triangle });
@@ -361,15 +359,15 @@ void Console::MainThread()
 
 				for(const auto& t : clippedtriangles)
 				{
-					HVector2D _pt1 = _Proj * (CamToObj * t.vertices[0]).mat;
-					HVector2D _pt2 = _Proj * (CamToObj * t.vertices[1]).mat;
-					HVector2D _pt3 = _Proj * (CamToObj * t.vertices[2]).mat;
+					HVector2Df _pt1 = _Proj * (CamToObj * t.vertices[0]).mat;
+					HVector2Df _pt2 = _Proj * (CamToObj * t.vertices[1]).mat;
+					HVector2Df _pt3 = _Proj * (CamToObj * t.vertices[2]).mat;
 
 					_pt1.Homogenize();
 					_pt2.Homogenize();
 					_pt3.Homogenize();
 
-					HVector3D _n = R0ToObjs[i] * nface;
+					HVector3Df _n = R0ToObjs[i] * nface;
 
 					int lightidx = (int)std::floor(-9 * (light | _n) / _n.Norm());
 
@@ -390,18 +388,18 @@ void Console::MainThread()
 			// Loop through edges
 			for(const Model3D::Edge& edge : model.Edges())
 			{
-				const HVector3D& nface1  = model.Normals()[edge.n1];
-				const HVector3D& nface2  = model.Normals()[edge.n2];
+				const HVector3Df& nface1  = model.Normals()[edge.n1];
+				const HVector3Df& nface2  = model.Normals()[edge.n2];
 
-				HVector3D cam2v1 = model.Vertices()[edge.v1] - planesfromObj[1].second; // CamPos to point
+				HVector3Df cam2v1 = model.Vertices()[edge.v1] - planesfromObj[1].second; // CamPos to point
 
 				if ((cam2v1 | nface1) > 0.0f && (cam2v1 | nface2) > 0.0f)
 					continue;
 
-				HVector3D v1 = model.Vertices()[edge.v1];
-				HVector3D v2 = model.Vertices()[edge.v2];
-				static HVector3D o1(0.0f, 0.0f, 0.0f);
-				static HVector3D o2(0.0f, 0.0f, 0.0f);
+				HVector3Df v1 = model.Vertices()[edge.v1];
+				HVector3Df v2 = model.Vertices()[edge.v2];
+				static HVector3Df o1(0.0f, 0.0f, 0.0f);
+				static HVector3Df o2(0.0f, 0.0f, 0.0f);
 
 				bool outoffield = false;
 
@@ -428,8 +426,8 @@ void Console::MainThread()
 				if (outoffield)
 					continue;
 
-				HVector2D _pt1 = _Proj * (CamToObj * o1).mat;
-				HVector2D _pt2 = _Proj * (CamToObj * o2).mat;
+				HVector2Df _pt1 = _Proj * (CamToObj * o1).mat;
+				HVector2Df _pt2 = _Proj * (CamToObj * o2).mat;
 
 				_pt1.Homogenize();
 				_pt2.Homogenize();
@@ -443,8 +441,7 @@ void Console::MainThread()
 
 		ENDCHRONO;
 
-		std::stringstream sstr;
-
+		sstr.str(std::string());
 		sstr << "Position : (" << m_R0ToCam.Tx << ", " << m_R0ToCam.Ty << ", " << m_R0ToCam.Tz << ")";
 
 		DisplayMessage(sstr.str(), Slots::_1);
@@ -512,23 +509,23 @@ void Console::DrawPoint(int x, int y, char c)
 	m_Screen[x + y * m_Width] = c;
 }
 
-HVector3D Console::SegmentPlaneIntersection(const HVector3D& v1, const HVector3D& v2, const HVector3D& n, const HVector3D& p)
+HVector3Df Console::SegmentPlaneIntersection(const HVector3Df& v1, const HVector3Df& v2, const HVector3Df& n, const HVector3Df& p)
 {
-	HVector3D pv1  = v1 - p;
-	HVector3D v1v2 = v2 - v1;
+	HVector3Df pv1  = v1 - p;
+	HVector3Df v1v2 = v2 - v1;
 
 	float k = -(pv1 | n) / (v1v2 | n);
 
 	return k * v1v2 + v1;
 }
 
-uint Console::ClipEdge(const HVector3D& v1, const HVector3D& v2, // Edge
-	                   const HVector3D& n,  const HVector3D& p,  // Plane parameters
-	                         HVector3D& o1,       HVector3D& o2)
+uint Console::ClipEdge(const HVector3Df& v1, const HVector3Df& v2, // Edge
+	                   const HVector3Df& n,  const HVector3Df& p,  // Plane parameters
+	                         HVector3Df& o1,       HVector3Df& o2)
 {
-	std::array<const HVector3D*, 2> vertices = { &v1, &v2 };
+	std::array<const HVector3Df*, 2> vertices = { &v1, &v2 };
 
-	auto it = std::partition(vertices.begin(), vertices.end(), [&n, &p](const HVector3D* v)
+	auto it = std::partition(vertices.begin(), vertices.end(), [&n, &p](const HVector3Df* v)
 	{
 		return ((*v - p) | n) > 0.0f;
 	});
@@ -546,11 +543,11 @@ uint Console::ClipEdge(const HVector3D& v1, const HVector3D& v2, // Edge
 	return num;
 }
 
-uint Console::ClipTriangle(const Triangle& in_t, const HVector3D& n, const HVector3D& p, Triangle& o_t1, Triangle& o_t2)
+uint Console::ClipTriangle(const Triangle& in_t, const HVector3Df& n, const HVector3Df& p, Triangle& o_t1, Triangle& o_t2)
 {
-	std::array<const HVector3D*, 3> vertices = { &in_t.vertices[0], &in_t.vertices[1], &in_t.vertices[2] };
+	std::array<const HVector3Df*, 3> vertices = { &in_t.vertices[0], &in_t.vertices[1], &in_t.vertices[2] };
 
-	auto it = std::partition(vertices.begin(), vertices.end(), [&n, &p](const HVector3D* v) {
+	auto it = std::partition(vertices.begin(), vertices.end(), [&n, &p](const HVector3Df* v) {
 		return ((*v - p) | n) > 0.0f;
 	});
 
@@ -663,7 +660,7 @@ void Console::DrawLine(int x1, int y1, int x2, int y2, char c)
 	}
 }
 
-void Console::DrawLine(const HVector2D& v1, const HVector2D& v2, char c)
+void Console::DrawLine(const HVector2Df& v1, const HVector2Df& v2, char c)
 {
 	/*
 	float dx = x2 - x1;
@@ -706,13 +703,13 @@ void Console::DrawLine(const HVector2D& v1, const HVector2D& v2, char c)
 	DrawLine(v1.x, v1.y, v2.x, v2.y, c);
 }
 
-void Console::FillTriangle(const HVector2D& v1, const HVector2D& v2, const HVector2D& v3, char c)
+void Console::FillTriangle(const HVector2Df& v1, const HVector2Df& v2, const HVector2Df& v3, char c)
 {
-	auto insidetriangle = [&](const HVector2D& p)
+	auto insidetriangle = [&](const HVector2Df& p)
 	{
-		HVector2D v1v2 = v2 - v1; HVector2D n1 = { -v1v2.y, v1v2.x };
-		HVector2D v2v3 = v3 - v2; HVector2D n2 = { -v2v3.y, v2v3.x };
-		HVector2D v3v1 = v1 - v3; HVector2D n3 = { -v3v1.y, v3v1.x };
+		HVector2Df v1v2 = v2 - v1; HVector2Df n1 = { -v1v2.y, v1v2.x };
+		HVector2Df v2v3 = v3 - v2; HVector2Df n2 = { -v2v3.y, v2v3.x };
+		HVector2Df v3v1 = v1 - v3; HVector2Df n3 = { -v3v1.y, v3v1.x };
 
 		short s1 = sign((p - v1) | n1);
 		short s2 = sign((p - v2) | n2);
@@ -721,7 +718,7 @@ void Console::FillTriangle(const HVector2D& v1, const HVector2D& v2, const HVect
 		return s1 == s2 && s2 == s3;
 	};
 
-	auto insidescreen = [&](const HVector2D& p)
+	auto insidescreen = [&](const HVector2Df& p)
 	{
 		bool a = (uint32_t)p.x >= 0 && (uint32_t)p.x < this->Width();
 		bool b = (uint32_t)p.y >= 0 && (uint32_t)p.y < this->Height();
@@ -733,7 +730,7 @@ void Console::FillTriangle(const HVector2D& v1, const HVector2D& v2, const HVect
 	DrawPoint((uint32_t)v2.x, (uint32_t)v2.y, c);
 	DrawPoint((uint32_t)v3.x, (uint32_t)v3.y, c);
 
-	std::queue<HVector2D> queue;
+	std::queue<HVector2Df> queue;
 
 	queue.push((v1 + v2 + v3) / 3);
 
@@ -746,14 +743,14 @@ void Console::FillTriangle(const HVector2D& v1, const HVector2D& v2, const HVect
 
 		queue.pop();
 
-		HVector2D voisins[] = {
-			HVector2D(x + 1, y),
-			HVector2D(x,     y + 1),
-			HVector2D(x - 1, y),
-			HVector2D(x,     y - 1)
+		HVector2Df voisins[] = {
+			HVector2Df(x + 1, y),
+			HVector2Df(x,     y + 1),
+			HVector2Df(x - 1, y),
+			HVector2Df(x,     y - 1)
 		};
 
-		for (const HVector2D& pt : voisins)
+		for (const HVector2Df& pt : voisins)
 		{
 			if (!insidescreen(pt))
 				continue;

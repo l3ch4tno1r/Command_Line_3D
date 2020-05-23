@@ -7,7 +7,11 @@ struct Vector2D
 	float x;
 	float y;
 
+<<<<<<< HEAD
 	float& operator[](std::size_t i)
+=======
+	inline float& operator[](std::size_t i)
+>>>>>>> Branch_LCNMath
 	{
 		return *((float*)this + i);
 	}

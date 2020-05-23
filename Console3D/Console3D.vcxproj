@@ -133,7 +133,7 @@
     <ClCompile Include="Source\Devices\PaceMaker.cpp" />
     <ClCompile Include="Source\Utilities\TimeMeasurement.cpp" />
     <ClCompile Include="Source\Utilities\Utils.cpp" />
-    <ClCompile Include="Source\_Main\Tests\Test04 - Fill Triangle.cpp" />
+    <ClCompile Include="Source\_Main\App.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\stb_image\stb_image.h" />
@@ -147,11 +147,6 @@
     <ClInclude Include="Source\Graphics\OBJReader.h" />
     <ClInclude Include="Source\Utilities\TimeMeasurement.h" />
     <ClInclude Include="Source\Utilities\Utils.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LCNMath\LCNMath.vcxproj">
-      <Project>{840ea722-4361-4ae5-895f-3c305b1df81a}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
