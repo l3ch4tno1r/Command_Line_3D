@@ -16,22 +16,29 @@ void* operator new(size_t size)
 
 int main()
 {
-	std::stringstream sstr;
+	int sep = 0;
 
-	SEPARATOR(1);
+	std::ostringstream sstr;
+
+	SEPARATOR(++sep); // 1
 
 	for (int i = 0; i < 100; ++i)
 		sstr << i;
 
-	SEPARATOR(2);
+	SEPARATOR(++sep); // 2
 
-	sstr.clear();
+	sstr.clear(); sstr.seekp(0);
 
-	SEPARATOR(3);
+	SEPARATOR(++sep); // 3
+	std::cout << sstr.str() << std::endl;
 
-	sstr << "Hello world !";
+	SEPARATOR(++sep);
 
-	SEPARATOR(4);
+	sstr.clear(); sstr.seekp(0);
+	sstr << "Hello world !" << std::ends;
+	std::cout << sstr.str() << std::endl;
+
+	SEPARATOR(++sep);
 
 	std::cout << "Number of allocations : " << numallocation << std::endl;
 
