@@ -148,11 +148,6 @@
     <ClInclude Include="Source\Utilities\TimeMeasurement.h" />
     <ClInclude Include="Source\Utilities\Utils.h" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LCNMath\LCNMath.vcxproj">
-      <Project>{840ea722-4361-4ae5-895f-3c305b1df81a}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
