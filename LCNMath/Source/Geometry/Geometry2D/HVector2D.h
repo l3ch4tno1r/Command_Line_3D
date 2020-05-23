@@ -108,7 +108,7 @@ namespace LCNMath {
 			}
 
 			template<typename T>
-			HVector2D<T> operator*(float t, const HVector2D<T>& vec)
+			HVector2D<T> operator*(T t, const HVector2D<T>& vec)
 			{
 				HVector2D<T> result(vec);
 
@@ -119,7 +119,7 @@ namespace LCNMath {
 			}
 
 			template<typename T>
-			HVector2D<T> operator/(const HVector2D<T>& vec, float t)
+			HVector2D<T> operator/(const HVector2D<T>& vec, T t)
 			{
 				HVector2D<T> result(vec);
 

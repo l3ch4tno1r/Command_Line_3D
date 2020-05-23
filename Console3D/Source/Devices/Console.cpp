@@ -107,35 +107,34 @@ void Console::FillTriangleRecursive(const Triangle2D& triangle, const AABB2D& aa
 		return (stl + str + sbl + sbr) / 4;
 	};
 
-	int a = LineAABBInter(triangle.p1, triangle.p2, aabb);
-	int b = LineAABBInter(triangle.p2, triangle.p3, aabb);
-	int c = LineAABBInter(triangle.p3, triangle.p1, aabb);
+	auto InsideTriangle = [](const Triangle2D& triangle, const Pixel& pixel)
+	{
+		Pixel offset = { 1, 1 };
 
-	ASSERT(a == b && b == c);
+		Triangle2D triangleX2 = {
+			2 * triangle.p1 + offset,
+			2 * triangle.p2 + offset,
+			2 * triangle.p3 + offset
+		};
 
-	AABB2D test1 = {
-		{ 5, 4 },
-		{ 7, 5 }
+		Pixel pixelX2 = 2 * pixel + offset;
+
+		Pixel n1 = (triangleX2.p2 - triangleX2.p1).NormalVector();
+		Pixel n2 = (triangleX2.p3 - triangleX2.p2).NormalVector();
+		Pixel n3 = (triangleX2.p1 - triangleX2.p3).NormalVector();
+
+		short s1 = sign((pixelX2 - triangleX2.p1) | n1);
+		short s2 = sign((pixelX2 - triangleX2.p2) | n2);
+		short s3 = sign((pixelX2 - triangleX2.p3) | n3);
+
+		return (s1 == s2) && (s2 == s3);
 	};
 
-	a = LineAABBInter(triangle.p1, triangle.p2, test1);
-	b = LineAABBInter(triangle.p2, triangle.p3, test1);
-	c = LineAABBInter(triangle.p3, triangle.p1, test1);
+	int a, b, c;
 
-	ASSERT(a == b && b == c);
-
-	AABB2D test2 = {
-		{ 0, 0 },
-		{ 1, 1 }
-	};
-
-	a = LineAABBInter(triangle.p1, triangle.p2, test2);
-	b = LineAABBInter(triangle.p2, triangle.p3, test2);
-	c = LineAABBInter(triangle.p3, triangle.p1, test2);
-
-	ASSERT(a == b && b == c);
-
-	FillRectangle(aabb.TL.x, aabb.TL.y, aabb.BR.x, aabb.BR.y);
+	a = LineAABBInter(triangle.p1, triangle.p2, aabb);
+	b = LineAABBInter(triangle.p2, triangle.p3, aabb);
+	c = LineAABBInter(triangle.p3, triangle.p1, aabb);
 }
 
 void Console::Notify(bool run)
@@ -745,7 +744,7 @@ void Console::FillTriangle(const HVector2Df& v1, const HVector2Df& v2, const HVe
 
 	std::queue<HVector2Df> queue;
 
-	queue.push((v1 + v2 + v3) / 3);
+	queue.push((v1 + v2 + v3) / 3.0f);
 
 	DrawPoint((uint32_t)queue.front().x, (uint32_t)queue.front().y, c);
 
