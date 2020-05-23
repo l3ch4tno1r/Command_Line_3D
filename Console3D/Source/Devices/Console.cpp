@@ -83,17 +83,59 @@ void Console::FillRectangle(uint32_t tlx, uint32_t tly, uint32_t brx, uint32_t b
 			DrawPoint(i, j, c);
 }
 
-void Console::FillTriangleRecursive(const Triangle2D& triangle, uint32_t tlx, uint32_t tly, uint32_t brx, uint32_t bry)
+void Console::FillTriangleRecursive(const Triangle2D& triangle, const AABB2D& aabb)
 {
-	auto pixeldotproduct = [](const Pixel& p1, const Pixel& p2)
+	auto LineAABBInter = [](const Pixel& p1, const Pixel& p2, const AABB2D& aabb)
 	{
-		return p1.x * p2.x + p1.y * p2.y;
+		const Pixel offset = { 1, 1 };
+
+		Pixel _p1 = 2 * p1 + offset;
+		Pixel _p2 = 2 * p2 + offset;
+
+		Pixel n = (_p2 - _p1).NormalVector();
+
+		Pixel TL = 2 * aabb.TL;
+		Pixel TR = { 2 * (aabb.BR.x + 1), 2 * aabb.TL.y };
+		Pixel BL = { 2 * aabb.TL.x, 2 * (aabb.BR.y + 1) };
+		Pixel BR = 2 * (aabb.BR + offset);
+
+		short stl = sign((TL - _p1) | n);
+		short str = sign((TR - _p1) | n);
+		short sbl = sign((BL - _p1) | n);
+		short sbr = sign((BR - _p1) | n);
+
+		return (stl + str + sbl + sbr) / 4;
 	};
 
-	auto AABBsegmentcollision = [](const Pixel& p1, const Pixel& p2, uint32_t tlx, uint32_t tly, uint32_t brx, uint32_t bry)
-	{
+	int a = LineAABBInter(triangle.p1, triangle.p2, aabb);
+	int b = LineAABBInter(triangle.p2, triangle.p3, aabb);
+	int c = LineAABBInter(triangle.p3, triangle.p1, aabb);
 
+	ASSERT(a == b && b == c);
+
+	AABB2D test1 = {
+		{ 5, 4 },
+		{ 7, 5 }
 	};
+
+	a = LineAABBInter(triangle.p1, triangle.p2, test1);
+	b = LineAABBInter(triangle.p2, triangle.p3, test1);
+	c = LineAABBInter(triangle.p3, triangle.p1, test1);
+
+	ASSERT(a == b && b == c);
+
+	AABB2D test2 = {
+		{ 0, 0 },
+		{ 1, 1 }
+	};
+
+	a = LineAABBInter(triangle.p1, triangle.p2, test2);
+	b = LineAABBInter(triangle.p2, triangle.p3, test2);
+	c = LineAABBInter(triangle.p3, triangle.p1, test2);
+
+	ASSERT(a == b && b == c);
+
+	FillRectangle(aabb.TL.x, aabb.TL.y, aabb.BR.x, aabb.BR.y);
 }
 
 void Console::Notify(bool run)
@@ -110,28 +152,37 @@ void Console::MainThread()
 {
 	m_PauseNotified = false;
 
-	int tx1 =  0, ty1 = 6;
-	int tx2 =  7, ty2 = 0;
-	int tx3 = 10, ty3 = 8;
+	Pixel p1 = { 0,  6 };
+	Pixel p2 = { 7,  0 };
+	Pixel p3 = { 10, 8 };
 
-	int minx = std::min({ tx1, tx2, tx3 });
-	int maxx = std::max({ tx1, tx2, tx3 });
-	int miny = std::min({ ty1, ty2, ty3 });
-	int maxy = std::max({ ty1, ty2, ty3 });
+	Pixel TL = {
+		std::min({ p1.x, p2.x, p3.x }),
+		std::min({ p1.y, p2.y, p3.y })
+	};
 
-	int midx = (maxx + minx) / 2;
-	int midy = (maxy + miny) / 2;
+	Pixel BR = {
+		std::max({ p1.x, p2.x, p3.x }),
+		std::max({ p1.y, p2.y, p3.y })
+	};
+
+	Pixel mid = (TL + BR) / 2;
 
 	Clear();
 
-	FillRectangle(minx,     miny,     midx, midy, '1');
-	Render(); WAIT;
-	FillRectangle(midx + 1, miny,     maxx, midy, '2');
-	Render(); WAIT;
-	FillRectangle(minx,     midy + 1, midx, maxy, '3');
-	Render(); WAIT;
-	FillRectangle(midx + 1, midy + 1, maxx, maxy, '4');
-	Render(); WAIT;
+	/*
+	FillRectangle(TL.x,      TL.y,      mid.x, mid.y, '1');
+	RENDER_AND_WAIT;
+	FillRectangle(mid.x + 1, TL.y,      BR.x,  mid.y, '2');
+	RENDER_AND_WAIT;
+	FillRectangle(TL.x,      mid.y + 1, mid.x, BR.y,  '3');
+	RENDER_AND_WAIT;
+	FillRectangle(mid.x + 1, mid.y + 1, BR.x,  BR.y,  '4');
+	RENDER_AND_WAIT;
+	*/
+
+	FillTriangleRecursive({ p1, p2, p3 }, { TL, BR });
+	RENDER_AND_WAIT;
 }
 
 #else
@@ -662,44 +713,6 @@ void Console::DrawLine(int x1, int y1, int x2, int y2, char c)
 
 void Console::DrawLine(const HVector2Df& v1, const HVector2Df& v2, char c)
 {
-	/*
-	float dx = x2 - x1;
-	float dy = y2 - y1;
-
-	if (dx == 0 && dy == 0)
-	{
-		DrawPoint(x1, y1, c);
-		return;
-	}
-
-	float stepx, stepy;
-
-	if (abs(dx) > abs(dy))
-	{
-		stepx = (dx > 0 ? 1.0f : -1.0f);
-		stepy = dy / abs(dx);
-	}
-	else
-	{
-		stepx = dx / abs(dy);
-		stepy = (dy > 0 ? 1.0f : -1.0f);
-	}
-
-	float X = x1;
-	float Y = y1;
-
-	while ((abs(X - x1) + abs(Y - y1)) < (abs(x2 - x1) + abs(y2 - y1)))
-	{
-		X += stepx;
-		Y += stepy;
-
-		DrawPoint(X, Y, c);
-	}
-
-	DrawPoint(x1, y1, c);
-	DrawPoint(x2, y2, c);
-	*/
-
 	DrawLine(v1.x, v1.y, v2.x, v2.y, c);
 }
 

@@ -11,7 +11,7 @@
 #include "Geometry\Geometry3D\HVector3D.h"
 #include "Geometry\Geometry2D\HVector2D.h"
 
-//#define TEST_CONSOLE
+#define TEST_CONSOLE
 
 #ifdef TEST_CONSOLE
 #include <mutex>
@@ -86,6 +86,7 @@ public:
 #ifdef TEST_CONSOLE
 
 #define WAIT if(!Wait()) return
+#define RENDER_AND_WAIT Render(); WAIT
 
 private:
 	std::mutex              m_PauseMut;
@@ -97,10 +98,7 @@ private:
 
 	void FillRectangle(uint32_t tlx, uint32_t tly, uint32_t brx, uint32_t bry, char c = '#');
 
-	struct Pixel
-	{
-		int x, y;
-	};
+	using Pixel = HVector2D<int>;
 
 	struct Triangle2D
 	{
@@ -109,7 +107,13 @@ private:
 		Pixel p3;
 	};
 
-	void FillTriangleRecursive(const Triangle2D& triangle, uint32_t tlx, uint32_t tly, uint32_t brx, uint32_t bry);
+	struct AABB2D
+	{
+		Pixel TL;
+		Pixel BR;
+	};
+
+	void FillTriangleRecursive(const Triangle2D& triangle, const AABB2D& aabb);
 
 public:
 	void Notify(bool run);
@@ -133,9 +137,9 @@ private:
 		HVector3Df vertices[3];
 	};
 
-	static uint ClipTriangle(const Triangle&  in_t,                         // Triangle
+	static uint ClipTriangle(const Triangle&   in_t,                         // Triangle
 		                     const HVector3Df& n,    const HVector3Df& p,     // Plane parameters
-		                           Triangle&  o_t1,       Triangle&  o_t2); // Output triangles
+		                           Triangle&   o_t1,       Triangle&  o_t2); // Output triangles
 
 	char GetPixelValue(int x, int y) const;
 

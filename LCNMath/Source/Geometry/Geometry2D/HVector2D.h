@@ -30,7 +30,7 @@ namespace LCNMath {
 					mat(1.0f)
 				{}
 
-				HVector2D(float _x, float _y) :
+				HVector2D(T _x, T _y) :
 					x(_x),
 					y(_y)
 				{
@@ -64,6 +64,11 @@ namespace LCNMath {
 					x /= s;
 					y /= s;
 					s = 1.0f;
+				}
+
+				HVector2D NormalVector() const
+				{
+					return { -y, x };
 				}
 
 				HVector2D& operator=(const HVector2D& vec)
