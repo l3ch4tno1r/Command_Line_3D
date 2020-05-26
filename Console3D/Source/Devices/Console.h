@@ -11,7 +11,7 @@
 #include "Geometry\Geometry3D\HVector3D.h"
 #include "Geometry\Geometry2D\HVector2D.h"
 
-#define TEST_CONSOLE
+//#define TEST_CONSOLE
 
 #ifdef TEST_CONSOLE
 #include <mutex>
@@ -120,7 +120,7 @@ private:
 		Pixel BR;
 	};
 
-	void FillTriangleRecursive(const Triangle2D& triangle, const AABB2D& aabb);
+	void FillTriangleRecursive(const Triangle2D& triangle, const AABB2D& aabb, char c = '#');
 
 public:
 	void Notify(bool run);
