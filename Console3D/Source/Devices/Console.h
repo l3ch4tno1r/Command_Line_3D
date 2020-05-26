@@ -102,9 +102,16 @@ private:
 
 	struct Triangle2D
 	{
-		Pixel p1;
-		Pixel p2;
-		Pixel p3;
+		union
+		{
+			struct
+			{
+				Pixel p1;
+				Pixel p2;
+				Pixel p3;
+			};
+			Pixel pixels[3];
+		};
 	};
 
 	struct AABB2D

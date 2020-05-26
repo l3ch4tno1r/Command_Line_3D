@@ -89,20 +89,20 @@ void Console::FillTriangleRecursive(const Triangle2D& triangle, const AABB2D& aa
 	{
 		const Pixel offset = { 1, 1 };
 
-		Pixel _p1 = 2 * p1 + offset;
-		Pixel _p2 = 2 * p2 + offset;
+		Pixel p1X2 = 2 * p1 + offset;
+		Pixel p2X2 = 2 * p2 + offset;
 
-		Pixel n = (_p2 - _p1).NormalVector();
+		Pixel n = (p2X2 - p1X2).NormalVector();
 
 		Pixel TL = 2 * aabb.TL;
 		Pixel TR = { 2 * (aabb.BR.x + 1), 2 * aabb.TL.y };
 		Pixel BL = { 2 * aabb.TL.x, 2 * (aabb.BR.y + 1) };
 		Pixel BR = 2 * (aabb.BR + offset);
 
-		short stl = sign((TL - _p1) | n);
-		short str = sign((TR - _p1) | n);
-		short sbl = sign((BL - _p1) | n);
-		short sbr = sign((BR - _p1) | n);
+		short stl = sign((TL - p1X2) | n);
+		short str = sign((TR - p1X2) | n);
+		short sbl = sign((BL - p1X2) | n);
+		short sbr = sign((BR - p1X2) | n);
 
 		return (stl + str + sbl + sbr) / 4;
 	};
@@ -130,11 +130,107 @@ void Console::FillTriangleRecursive(const Triangle2D& triangle, const AABB2D& aa
 		return (s1 == s2) && (s2 == s3);
 	};
 
+	auto InsideAABB = [](const Pixel& p, const AABB2D& aabb)
+	{
+		const Pixel offset = { 1, 1 };
+
+		Pixel pX2 = 2 * p + offset;
+
+		Pixel TL = 2 * aabb.TL;
+		Pixel BR = 2 * (aabb.BR + offset);
+
+		bool a = (pX2.x >= TL.x) && (pX2.x <= BR.x);
+		bool b = (pX2.y >= TL.y) && (pX2.y <= BR.y);
+
+		return a && b;
+	};
+
 	int a, b, c;
 
 	a = LineAABBInter(triangle.p1, triangle.p2, aabb);
 	b = LineAABBInter(triangle.p2, triangle.p3, aabb);
 	c = LineAABBInter(triangle.p3, triangle.p1, aabb);
+
+	if (a < 0 || b < 0 || c < 0)
+		return;
+
+	struct Flags
+	{
+		union
+		{
+			struct 
+			{
+				char a : 1;
+				char b : 1;
+				char c : 1;
+			};
+			char total;
+		};
+	} flags;
+
+	flags.a = a > 0;
+	flags.b = b > 0;
+	flags.c = c > 0;
+
+	uint8_t count = 0;
+
+	for (uint8_t i = 1; i < 8; i = i << 1)
+		if (flags.total & i)
+			++count;
+
+	switch (count)
+	{
+	case 0:
+	case 2:
+	{
+		if ((aabb.BR.x - aabb.TL.x <= 1) && (aabb.BR.y - aabb.TL.y <= 1))
+		{
+			DrawPoint(aabb.BR.x, aabb.BR.y);
+
+			return;
+		}
+
+		int midx = (aabb.TL.x + aabb.BR.x) / 2;
+		int midy = (aabb.TL.y + aabb.BR.y) / 2;
+
+		AABB2D subaabbs[] = {
+			{ { aabb.TL.x, aabb.TL.y }, { midx,      midy      } },
+			{ { midx + 1,  aabb.TL.y }, { aabb.BR.x, midy      } },
+			{ { aabb.TL.x, midy + 1  }, { midx,      aabb.BR.y } },
+			{ { midx + 1,  midy + 1  }, { aabb.BR.x, aabb.BR.y } },
+		};
+
+		for (const AABB2D& _aabb : subaabbs)
+			FillTriangleRecursive(triangle, _aabb);
+
+		break;
+	}
+	case 1:
+	{
+		/*
+		bool inter = false;
+
+		for (const Pixel& pixel : triangle.pixels)
+			if (InsideAABB(pixel, aabb))
+			{
+				inter = true;
+				break;
+			}
+
+		if(inter)
+
+		*/
+		break;
+	}
+	case 3:
+	{
+		FillRectangle(aabb.TL.x, aabb.TL.y, aabb.BR.x, aabb.BR.y);
+
+		break;
+	}
+	default:
+		break;
+	}
 }
 
 void Console::Notify(bool run)
@@ -165,23 +261,30 @@ void Console::MainThread()
 		std::max({ p1.y, p2.y, p3.y })
 	};
 
-	Pixel mid = (TL + BR) / 2;
-
 	Clear();
-
-	/*
-	FillRectangle(TL.x,      TL.y,      mid.x, mid.y, '1');
-	RENDER_AND_WAIT;
-	FillRectangle(mid.x + 1, TL.y,      BR.x,  mid.y, '2');
-	RENDER_AND_WAIT;
-	FillRectangle(TL.x,      mid.y + 1, mid.x, BR.y,  '3');
-	RENDER_AND_WAIT;
-	FillRectangle(mid.x + 1, mid.y + 1, BR.x,  BR.y,  '4');
-	RENDER_AND_WAIT;
-	*/
 
 	FillTriangleRecursive({ p1, p2, p3 }, { TL, BR });
 	RENDER_AND_WAIT;
+
+	/*
+	TL = { 0, 0 };
+	BR = { 5, 4 };
+
+	FillTriangleRecursive({ p1, p2, p3 }, { TL, BR });
+	RENDER_AND_WAIT;
+
+	TL = { 5, 4 };
+	BR = { 7, 5 };
+
+	FillTriangleRecursive({ p1, p2, p3 }, { TL, BR });
+	RENDER_AND_WAIT;
+
+	TL = { 0, 0 };
+	BR = { 1, 1 };
+
+	FillTriangleRecursive({ p1, p2, p3 }, { TL, BR });
+	RENDER_AND_WAIT;
+	*/
 }
 
 #else
