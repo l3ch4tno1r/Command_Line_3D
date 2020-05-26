@@ -55,13 +55,13 @@ int main()
 
 	console.Start();
 
+	Transform3D<float> Tr = r0tocam;
+	Transform3D<float> RotX;
+	Transform3D<float> RotY;
+
 	while (run)
 	{
 		pacemaker.Heartbeat(0);
-
-		static Transform3D<float> Tr = r0tocam;
-		static Transform3D<float> RotX;
-		static Transform3D<float> RotY;
 
 		// Closing the app
 		if (GetAsyncKeyState((unsigned short)27) & 0x8000)
