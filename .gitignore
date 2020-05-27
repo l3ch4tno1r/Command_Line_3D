@@ -7,3 +7,4 @@ Debug
 /UnitTest/Release
 *.csv
 MultiPurposeTests/Release
+MultiPurposeTests/results.json

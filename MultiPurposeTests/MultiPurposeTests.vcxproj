@@ -124,10 +124,11 @@
     <ClCompile Include="Source\Utils\ErrorHandling.cpp" />
     <ClCompile Include="Source\Utils\TimeMeasurement.cpp" />
     <ClCompile Include="Source\Utils\TraceLog.cpp" />
-    <ClCompile Include="Source\_Test\Misc\Test21 - rvalue.cpp" />
+    <ClCompile Include="Source\_Test\Benchmark\Test03.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\stb_image\stb_image.h" />
+    <ClInclude Include="External\TheCherno\Instrumentor.h" />
     <ClInclude Include="Source\Utils\ErrorHandling.h" />
     <ClInclude Include="Source\Utils\TimeMeasurement.h" />
     <ClInclude Include="Source\Utils\TraceLog.h" />
