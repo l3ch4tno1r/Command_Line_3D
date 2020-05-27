@@ -11,7 +11,7 @@ void Function()
 
 	std::cout << "Hello world !" << std::endl;
 
-	std::this_thread::sleep_for(1s);
+	std::this_thread::sleep_for(0.1s);
 }
 
 void Benchmark()
@@ -30,15 +30,21 @@ void Test()
 	Benchmark();
 	Benchmark();
 	Benchmark();
+	Benchmark();
 }
 
 int main()
 {
 	Instrumentor::Get().BeginSession("Test");
 
-	Test();
+	{
+		PROFILE_FUNC();
+
+		Test();
+
+		std::cin.get();
+	}
 
 	Instrumentor::Get().EndSession();
 
-	std::cin.get();
 }

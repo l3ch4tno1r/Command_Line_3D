@@ -64,20 +64,20 @@ public:
 	void WriteProfile(const ProfileResult& result)
 	{
 		if (m_ProfileCount++ > 0)
-			m_OutputStream << ",";
+			m_OutputStream << ",\n";
 
 		std::string name = result.Name;
 		std::replace(name.begin(), name.end(), '"', '\'');
 
-		m_OutputStream << "{";
-		m_OutputStream << "\"cat\":\"function\",";
-		m_OutputStream << "\"dur\":" << (result.End - result.Start) << ',';
-		m_OutputStream << "\"name\":\"" << name << "\",";
-		m_OutputStream << "\"ph\":\"X\",";
-		m_OutputStream << "\"pid\":0,";
-		m_OutputStream << "\"tid\":" << result.ThreadID << ",";
-		m_OutputStream << "\"ts\":" << result.Start;
-		m_OutputStream << "}";
+		m_OutputStream << "\t{\n";
+		m_OutputStream << "\t\t\"cat\" :\"function\",\n";
+		m_OutputStream << "\t\t\"dur\" :" << (result.End - result.Start) << ",\n";
+		m_OutputStream << "\t\t\"name\":\"" << name << "\",\n";
+		m_OutputStream << "\t\t\"ph\"  :\"X\",\n";
+		m_OutputStream << "\t\t\"pid\" :0,\n";
+		m_OutputStream << "\t\t\"tid\" :" << result.ThreadID << ",\n";
+		m_OutputStream << "\t\t\"ts\"  :" << result.Start << "\n";
+		m_OutputStream << "\t}";
 
 		m_OutputStream.flush();
 	}
