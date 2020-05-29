@@ -4,6 +4,7 @@
 #include "Source/Utils/TraceLog.h"
 
 using namespace LCNUtilities;
+using namespace std::literals::chrono_literals;
 
 int ExessivelyLongAddition(int a, int b)
 {

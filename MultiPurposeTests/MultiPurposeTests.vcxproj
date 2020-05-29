@@ -124,7 +124,7 @@
     <ClCompile Include="Source\Utils\ErrorHandling.cpp" />
     <ClCompile Include="Source\Utils\TimeMeasurement.cpp" />
     <ClCompile Include="Source\Utils\TraceLog.cpp" />
-    <ClCompile Include="Source\_Test\Misc\Test22 - static.cpp" />
+    <ClCompile Include="Source\_Test\Misc\Test21 - rvalue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\stb_image\stb_image.h" />

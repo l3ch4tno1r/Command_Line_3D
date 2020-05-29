@@ -3,33 +3,30 @@
 class RValue
 {
 private:
-	RValue() = default;
+	RValue()
+	{
+		std::cout << "RValue Hello World !" << std::endl;
+	}
+
 	RValue(const RValue&) = default;
 	RValue& operator=(const RValue&) = default;
 
-	friend class Test;
-};
-
-template<typename T>
-RValue& operator<<(RValue& stream, const T& value)
-{
-	stream << value;
-
-	return stream;
-}
-
-class Test
-{
-public:
-	operator RValue()
+	~RValue()
 	{
-		return RValue();
+		std::cout << "RValue Goodbye World !" << std::endl;
 	}
+
+	friend RValue rValue();
 };
+
+RValue rValue()
+{
+	return RValue();
+}
 
 int main()
 {
-	Test() << "Hello world";
+	rValue();
 
 	std::cin.get();
 }
