@@ -20,10 +20,10 @@ namespace LCNUtilities
 		done(false),
 		logthread(&TraceLog::LogLoop, this)
 	{
-		auto now = chrono::system_clock::now();
-		auto in_time_t = chrono::system_clock::to_time_t(now);
+		auto now = std::chrono::system_clock::now();
+		auto in_time_t = std::chrono::system_clock::to_time_t(now);
 
-		stringstream ss;
+		std::stringstream ss;
 		//ss << put_time(std::localtime(&in_time_t), "%Y%m%d%Hh%Mm%Ss");
 
 		logfilepath = "APP" + ss.str() + ".log";
@@ -48,17 +48,17 @@ namespace LCNUtilities
 
 	//-- Log to Console --//
 
-	inline void TraceLog::WriteToConsole(const string &msg)
+	inline void TraceLog::WriteToConsole(const std::string &msg)
 	{
-		cout << msg + '\n';
+		std::cout << msg + '\n';
 
-		cout.flush();
+		std::cout.flush();
 	}
 
 	//-- Log to File --//
-	inline void TraceLog::WriteToFile(const string &logfilepath, const string &msg)
+	inline void TraceLog::WriteToFile(const std::string &logfilepath, const std::string &msg)
 	{
-		ofstream logfile(logfilepath, ios::out | ios::app);
+		std::ofstream logfile(logfilepath, std::ios::out | std::ios::app);
 
 		if (logfile.is_open())
 		{
@@ -68,9 +68,9 @@ namespace LCNUtilities
 		}
 	}
 
-	void TraceLog::AddToQueue(const string &logfilepath, const string &msg)
+	void TraceLog::AddToQueue(const std::string &logfilepath, const std::string &msg)
 	{
-		unique_lock<mutex> lock(logmutex);
+		std::unique_lock<std::mutex> lock(logmutex);
 
 		logqueue.push(FileMsgPair(logfilepath, msg));
 
@@ -80,7 +80,7 @@ namespace LCNUtilities
 	inline FileMsgPair TraceLog::GetFrontPair()
 	{
 		FileMsgPair filemsg;
-		unique_lock<mutex> lock(logmutex);
+		std::unique_lock<std::mutex> lock(logmutex);
 
 		logcondition.wait(lock, [&]
 		{
@@ -118,10 +118,12 @@ namespace LCNUtilities
 	//-- Log --//
 	/////////////
 
-	Log::Log() : logfilepath()
+	Log::Log() :
+		logfilepath()
 	{}
 
-	Log::Log(const string &path) : logfilepath(path)
+	Log::Log(const std::string &path) :
+		logfilepath(path)
 	{}
 
 	Log::~Log()
@@ -129,7 +131,7 @@ namespace LCNUtilities
 		TraceLog::Logger().AddToQueue(logfilepath, ssmsg.str());
 	}
 
-	Log& Log::operator<<(const exception& e)
+	Log& Log::operator<<(const std::exception& e)
 	{
 		ssmsg << "Exception : " << e.what();
 

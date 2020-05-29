@@ -8,11 +8,9 @@
 #include <mutex>
 #include <condition_variable>
 
-using namespace std;
-
 namespace LCNUtilities
 {
-	typedef pair<string, string> FileMsgPair;
+	typedef std::pair<std::string, std::string> FileMsgPair;
 
 	//////////////////
 	//-- TraceLog --//
@@ -21,30 +19,29 @@ namespace LCNUtilities
 	class TraceLog
 	{
 	private:
-		string logfilepath;
+		std::string logfilepath;
 
 		bool done;
 
-		queue<FileMsgPair> logqueue;
-		mutex              logmutex;
-		condition_variable logcondition;
-		thread             logthread;
+		std::queue<FileMsgPair> logqueue;
+		std::mutex              logmutex;
+		std::condition_variable logcondition;
+		std::thread             logthread;
 
 		TraceLog();
-		TraceLog(const TraceLog&) = delete;
 
+		TraceLog(const TraceLog&) = delete;
 		TraceLog& operator=(const TraceLog&) = delete;
 
 		~TraceLog();
 
-
 		inline FileMsgPair GetFrontPair();
 
 		//-- Log to Console --//
-		static inline void WriteToConsole(const string &msg);
+		static inline void WriteToConsole(const std::string &msg);
 
 		//-- Log to File --//
-		static inline void WriteToFile(const string &logfilepath, const string &msg);
+		static inline void WriteToFile(const std::string &logfilepath, const std::string &msg);
 
 		void LogLoop();
 
@@ -52,7 +49,7 @@ namespace LCNUtilities
 
 		static TraceLog& Logger() noexcept;
 
-		void AddToQueue(const string &logfilepath, const string &msg);
+		void AddToQueue(const std::string &logfilepath, const std::string &msg);
 	};
 
 	/////////////
@@ -62,20 +59,20 @@ namespace LCNUtilities
 	class Log
 	{
 	protected:
-		stringstream ssmsg;
-		string logfilepath;
+		std::stringstream ssmsg;
+		std::string logfilepath;
 
 	public:
 		Log();
 
-		Log(const string &path);
+		Log(const std::string &path);
 
 		~Log();
 
 		template<class C>
 		Log& operator<<(const C &input);
 
-		Log& operator<<(const exception &e);
+		Log& operator<<(const std::exception &e);
 	};
 
 	template<class C>
