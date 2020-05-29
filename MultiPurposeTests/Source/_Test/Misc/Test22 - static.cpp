@@ -1,39 +1,45 @@
 #include <iostream>
+#include <string>
+
+void func1();
 
 class Test
 {
 private:
-	uint32_t id;
+	std::string name;
 
 public:
-	Test(uint32_t _id) :
-		id(_id)
+	Test(const char* str) :
+		name(str)
 	{
-		std::cout << "Test " << id << " constructed" << std::endl;
+		func1();
+		std::cout << "Test " << name << " constructed" << std::endl;
 	}
 
 	~Test()
 	{
-		std::cout << "Test " << id << " destructed" << std::endl;
+		std::cout << "Test " << name << " destructed" << std::endl;
 	}
 };
 
 void func1()
 {
-	static Test test(1);
+	static Test test("func1");
 }
 
 void func2()
 {
-	static Test test(2);
+	static Test test("func2");
 }
+
+Test global("global");
 
 int main()
 {
-	Test test(0);
+	Test test("main");
 
-	func2();
 	func1();
+	func2();
 
 	std::cin.get();
 }
