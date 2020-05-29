@@ -35,7 +35,7 @@ void Test()
 
 int main()
 {
-	Instrumentor::Get().BeginSession("Test");
+	Instrumentor::Get().BeginSession("TestLCN");
 
 	{
 		PROFILE_FUNC();

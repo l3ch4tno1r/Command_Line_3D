@@ -8,3 +8,4 @@ Debug
 *.csv
 MultiPurposeTests/Release
 MultiPurposeTests/results.json
+MultiPurposeTests/shared_file.txt
