@@ -82,10 +82,8 @@ namespace LCNUtilities
 		FileMsgPair filemsg;
 		std::unique_lock<std::mutex> lock(logmutex);
 
-		logcondition.wait(lock, [&]
-		{
-			return (!logqueue.empty() || done); 
-		});
+		while (logqueue.empty() && !done)
+			logcondition.wait(lock);
 
 		if (!logqueue.empty())
 		{
