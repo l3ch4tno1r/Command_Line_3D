@@ -3,7 +3,6 @@
 #include <iostream>
 #include <chrono>
 #include <string>
-#include <vector>
 
 /////////////////
 //-- Measure --//
@@ -34,14 +33,11 @@ class Timer
 {
 private:
 	std::chrono::steady_clock::time_point start;
-	std::vector<long long> steps;
 
 public:
 	Timer();
 
 	~Timer();
-
-	void RegisterStep();
 };
 
 class Timer2
@@ -56,12 +52,4 @@ public:
 	~Timer2();
 };
 
-//#define TIMER_ENABLED
-
-#ifdef TIMER_ENABLED
-#define TIMER(X) Timer X
-#define REGISTERTIME(X) X.RegisterStep()
-#else
-#define TIMER(X)
-#define REGISTERTIME(X)
-#endif
+#define TIMER(msg) Timer2 timer(msg)
