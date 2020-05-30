@@ -78,8 +78,6 @@ int main()
 
 	{
 		PROFILE_SCOPE("Test Profile 1");
-		PROFILE_SCOPE("Test Profile 2");
-		PROFILE_SCOPE("Test Profile 3");
 
 		InstrumentationTimer timer("AUTO TEST");
 	}
