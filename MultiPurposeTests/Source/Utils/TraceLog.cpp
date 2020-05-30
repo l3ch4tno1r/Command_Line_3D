@@ -17,8 +17,8 @@
 namespace LCNUtilities
 {
 	TraceLog::TraceLog() :
-		done(false),
-		logthread(&TraceLog::LogLoop, this)
+		m_Done(false),
+		m_LogThread(&TraceLog::MainThread, this)
 	{
 		auto now = std::chrono::system_clock::now();
 		auto in_time_t = std::chrono::system_clock::to_time_t(now);
@@ -26,16 +26,16 @@ namespace LCNUtilities
 		std::stringstream ss;
 		//ss << put_time(std::localtime(&in_time_t), "%Y%m%d%Hh%Mm%Ss");
 
-		logfilepath = "APP" + ss.str() + ".log";
+		m_LogFilePath = "APP" + ss.str() + ".log";
 	}
 
 	TraceLog::~TraceLog()
 	{
-		done = true;
+		m_Done = true;
 
-		logcondition.notify_all();
+		m_LogCondition.notify_all();
 
-		logthread.join();
+		m_LogThread.join();
 	}
 
 	//-- Accessor --//
@@ -56,9 +56,9 @@ namespace LCNUtilities
 	}
 
 	//-- Log to File --//
-	inline void TraceLog::WriteToFile(const std::string &logfilepath, const std::string &msg)
+	inline void TraceLog::WriteToFile(const std::string &m_LogFilePath, const std::string &msg)
 	{
-		std::ofstream logfile(logfilepath, std::ios::out | std::ios::app);
+		std::ofstream logfile(m_LogFilePath, std::ios::out | std::ios::app);
 
 		if (logfile.is_open())
 		{
@@ -68,36 +68,36 @@ namespace LCNUtilities
 		}
 	}
 
-	void TraceLog::AddToQueue(const std::string &logfilepath, const std::string &msg)
+	void TraceLog::AddToQueue(const std::string &m_LogFilePath, const std::string &msg)
 	{
-		std::unique_lock<std::mutex> lock(logmutex);
+		std::unique_lock<std::mutex> lock(m_LogMutex);
 
-		logqueue.push(FileMsgPair(logfilepath, msg));
+		m_LogQueue.push(FileMsgPair(m_LogFilePath, msg));
 
-		logcondition.notify_one();
+		m_LogCondition.notify_one();
 	}
 
 	inline FileMsgPair TraceLog::GetFrontPair()
 	{
 		FileMsgPair filemsg;
-		std::unique_lock<std::mutex> lock(logmutex);
+		std::unique_lock<std::mutex> lock(m_LogMutex);
 
-		while (logqueue.empty() && !done)
-			logcondition.wait(lock);
+		while (m_LogQueue.empty() && !m_Done)
+			m_LogCondition.wait(lock);
 
-		if (!logqueue.empty())
+		if (!m_LogQueue.empty())
 		{
-			filemsg = logqueue.front();
+			filemsg = m_LogQueue.front();
 
-			logqueue.pop();
+			m_LogQueue.pop();
 		}
 
 		return filemsg;
 	}
 
-	void TraceLog::LogLoop()
+	void TraceLog::MainThread()
 	{
-		while (!done || !logqueue.empty())
+		while (!m_Done || !m_LogQueue.empty())
 		{
 			FileMsgPair filemsg = GetFrontPair();
 
@@ -117,16 +117,16 @@ namespace LCNUtilities
 	/////////////
 
 	Log::Log() :
-		logfilepath()
+		m_LogFilePath()
 	{}
 
 	Log::Log(const std::string &path) :
-		logfilepath(path)
+		m_LogFilePath(path)
 	{}
 
 	Log::~Log()
 	{
-		TraceLog::Logger().AddToQueue(logfilepath, ssmsg.str());
+		TraceLog::Logger().AddToQueue(m_LogFilePath, ssmsg.str());
 	}
 
 	Log& Log::operator<<(const std::exception& e)

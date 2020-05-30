@@ -7,6 +7,7 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
+#include <atomic>
 
 namespace LCNUtilities
 {
@@ -19,14 +20,14 @@ namespace LCNUtilities
 	class TraceLog
 	{
 	private:
-		std::string logfilepath;
+		std::string m_LogFilePath;
 
-		bool done;
+		std::atomic_bool m_Done;
 
-		std::queue<FileMsgPair> logqueue;
-		std::mutex              logmutex;
-		std::condition_variable logcondition;
-		std::thread             logthread;
+		std::queue<FileMsgPair> m_LogQueue;
+		std::mutex              m_LogMutex;
+		std::condition_variable m_LogCondition;
+		std::thread             m_LogThread;
 
 		TraceLog();
 
@@ -41,15 +42,15 @@ namespace LCNUtilities
 		static inline void WriteToConsole(const std::string &msg);
 
 		//-- Log to File --//
-		static inline void WriteToFile(const std::string &logfilepath, const std::string &msg);
+		static inline void WriteToFile(const std::string &m_LogFilePath, const std::string &msg);
 
-		void LogLoop();
+		void MainThread();
 
 	public:
 
 		static TraceLog& Logger() noexcept;
 
-		void AddToQueue(const std::string &logfilepath, const std::string &msg);
+		void AddToQueue(const std::string &m_LogFilePath, const std::string &msg);
 	};
 
 	/////////////
@@ -60,7 +61,7 @@ namespace LCNUtilities
 	{
 	protected:
 		std::stringstream ssmsg;
-		std::string logfilepath;
+		std::string m_LogFilePath;
 
 	public:
 		Log();
