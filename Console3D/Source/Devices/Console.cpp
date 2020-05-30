@@ -4,6 +4,7 @@
 #include "Utilities\Angles.h"
 #include "Utilities\TimeMeasurement.h"
 #include "Utilities\Utils.h"
+#include "Utilities\Instrumentor.h"
 
 #include "Devices\PaceMaker.h"
 
@@ -80,8 +81,8 @@ void Console::MainThread()
 		OBJReader().ReadFile<Model3D>("Ressource/triangle.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
-		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/table_basique.obj", false)
+		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
 		*/
 		OBJReader().ReadFile<Model3D>("Ressource/axisr.obj", true)
 	};
