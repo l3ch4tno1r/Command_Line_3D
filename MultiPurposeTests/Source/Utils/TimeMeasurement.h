@@ -4,6 +4,9 @@
 #include <chrono>
 #include <string>
 
+/////////////////
+//-- Measure --//
+/////////////////
 #define MEASURETIME(X)\
 {\
 	auto _start = std::chrono::high_resolution_clock::now();\
@@ -13,6 +16,9 @@
 	std::cout << "Execution time of '" << #X << "' : " << (float)_ellapsed_micros / 1000.0f << " ms" << std::endl;\
 }
 
+////////////////
+//-- Chrono --//
+////////////////
 #define STARTCHRONO \
 auto start = std::chrono::high_resolution_clock::now()
 
@@ -20,6 +26,9 @@ auto start = std::chrono::high_resolution_clock::now()
 auto end = std::chrono::high_resolution_clock::now();\
 long long ellapsed_micros = std::chrono::duration_cast<std::chrono::microseconds> (end - start).count();\
 
+///////////////////////
+//-- Timer classes --//
+///////////////////////
 class Timer
 {
 private:

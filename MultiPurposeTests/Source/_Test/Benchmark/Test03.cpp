@@ -3,7 +3,10 @@
 
 using namespace std::literals::chrono_literals;
 
+/*
 #include "External/TheCherno/Instrumentor.h"
+*/
+#include "Source/Utils/Instrumentor.h"
 
 #include "Source/Utils/TimeMeasurement.h"
 
@@ -74,11 +77,14 @@ int main()
 	Instrumentor::Get().BeginSession("TestLCN");
 
 	{
-		PROFILE_SCOPE("Test Profile");
+		PROFILE_SCOPE("Test Profile 1");
+		PROFILE_SCOPE("Test Profile 2");
+		PROFILE_SCOPE("Test Profile 3");
 
 		InstrumentationTimer timer("AUTO TEST");
 	}
 
+	/*
 	{
 		PROFILE_SCOPE("FibonacciRecursive");
 
@@ -89,14 +95,37 @@ int main()
 	std::cout << "----------------" << std::endl;
 
 	{
-		PROFILE_SCOPE("FibonacciIterative");
+		PROFILE_SCOPE("FibonacciIterative - for loop");
 
 		for (int i = 0; i < numiter; i++)
-			std::cout << FibonacciIterative(i) << std::endl;
+			FibonacciIterative(i);
 	}
 
+	{
+		PROFILE_SCOPE("FibonacciIterative");
+
+		FibonacciIterative(0);
+		FibonacciIterative(1);
+		FibonacciIterative(2);
+		FibonacciIterative(3);
+		FibonacciIterative(4);
+		FibonacciIterative(5);
+		FibonacciIterative(6);
+		FibonacciIterative(7);
+		FibonacciIterative(8);
+		FibonacciIterative(9);
+		FibonacciIterative(10);
+		FibonacciIterative(11);
+		FibonacciIterative(12);
+		FibonacciIterative(13);
+		FibonacciIterative(14);
+		FibonacciIterative(15);
+		FibonacciIterative(16);
+		FibonacciIterative(17);
+		FibonacciIterative(18);
+		FibonacciIterative(19);
+	}
+	*/
+
 	std::cin.get();
-
-	Instrumentor::Get().EndSession();
-
 }
