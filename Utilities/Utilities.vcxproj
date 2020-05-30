@@ -26,7 +26,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -123,6 +123,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Utilities\ConfigManager.cpp" />
+    <ClCompile Include="Utilities\ErrorHandling.cpp" />
+    <ClCompile Include="Utilities\TimeMeasurement.cpp" />
+    <ClCompile Include="Utilities\TraceLog.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Utilities\ConfigManager.h" />
+    <ClInclude Include="Utilities\ErrorHandling.h" />
+    <ClInclude Include="Utilities\Instrumentor.h" />
+    <ClInclude Include="Utilities\TimeMeasurement.h" />
+    <ClInclude Include="Utilities\TraceLog.h" />
+    <ClInclude Include="Utilities\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
