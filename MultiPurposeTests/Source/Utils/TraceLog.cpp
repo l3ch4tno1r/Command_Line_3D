@@ -71,7 +71,7 @@ namespace LCNUtilities
 
 	void TraceLog::AddToQueue(const std::string &m_LogFilePath, const std::string &msg)
 	{
-		std::unique_lock<std::mutex> lock(m_LogMutex);
+		std::lock_guard<std::mutex> lock(m_LogMutex);
 
 		m_LogQueue.push(FileMsgPair(m_LogFilePath, msg));
 
@@ -108,10 +108,6 @@ namespace LCNUtilities
 				WriteToFile(filemsg.first, filemsg.second);
 		}
 	}
-
-	//-- Instanciation --//
-
-	//TraceLog TraceLog::logger;
 
 	/////////////
 	//-- Log --//
