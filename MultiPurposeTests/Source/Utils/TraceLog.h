@@ -48,7 +48,7 @@ namespace LCNUtilities
 
 	public:
 
-		static TraceLog& Logger() noexcept;
+		static TraceLog& Get() noexcept;
 
 		void AddToQueue(const std::string &m_LogFilePath, const std::string &msg);
 	};
@@ -61,7 +61,7 @@ namespace LCNUtilities
 	{
 	protected:
 		std::stringstream m_ssMsg;
-		std::string m_LogFilePath;
+		std::string       m_LogFilePath;
 
 	public:
 		Log();

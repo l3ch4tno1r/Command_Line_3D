@@ -41,7 +41,7 @@ namespace LCNUtilities
 
 	//-- Accessor --//
 
-	TraceLog& TraceLog::Logger() noexcept
+	TraceLog& TraceLog::Get() noexcept
 	{
 		static TraceLog logger;
 		return logger;
@@ -127,7 +127,7 @@ namespace LCNUtilities
 
 	Log::~Log()
 	{
-		TraceLog::Logger().AddToQueue(m_LogFilePath, m_ssMsg.str());
+		TraceLog::Get().AddToQueue(m_LogFilePath, m_ssMsg.str());
 	}
 
 	Log& Log::operator<<(const std::exception& e)
