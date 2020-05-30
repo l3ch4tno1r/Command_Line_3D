@@ -6,9 +6,9 @@ using namespace std::literals::chrono_literals;
 /*
 #include "External/TheCherno/Instrumentor.h"
 */
-#include "Source/Utils/Instrumentor.h"
+#include "Utilities\Instrumentor.h"
 
-#include "Source/Utils/TimeMeasurement.h"
+#include "Utilities\TimeMeasurement.h"
 
 void Function()
 {
