@@ -60,7 +60,7 @@ namespace LCNUtilities
 	class Log
 	{
 	protected:
-		std::stringstream ssmsg;
+		std::stringstream m_ssMsg;
 		std::string m_LogFilePath;
 
 	public:
@@ -79,7 +79,7 @@ namespace LCNUtilities
 	template<class C>
 	inline Log& Log::operator<<(const C &input)
 	{
-		ssmsg << input;
+		m_ssMsg << input;
 
 		return *this;
 	}

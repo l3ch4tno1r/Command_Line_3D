@@ -17,8 +17,7 @@
 namespace LCNUtilities
 {
 	TraceLog::TraceLog() :
-		m_Done(false),
-		m_LogThread(&TraceLog::MainThread, this)
+		m_Done(false)
 	{
 		auto now = std::chrono::system_clock::now();
 		auto in_time_t = std::chrono::system_clock::to_time_t(now);
@@ -27,13 +26,15 @@ namespace LCNUtilities
 		//ss << put_time(std::localtime(&in_time_t), "%Y%m%d%Hh%Mm%Ss");
 
 		m_LogFilePath = "APP" + ss.str() + ".log";
+
+		m_LogThread = std::thread(&TraceLog::MainThread, this);
 	}
 
 	TraceLog::~TraceLog()
 	{
 		m_Done = true;
 
-		m_LogCondition.notify_all();
+		m_LogCondition.notify_one();
 
 		m_LogThread.join();
 	}
@@ -126,12 +127,12 @@ namespace LCNUtilities
 
 	Log::~Log()
 	{
-		TraceLog::Logger().AddToQueue(m_LogFilePath, ssmsg.str());
+		TraceLog::Logger().AddToQueue(m_LogFilePath, m_ssMsg.str());
 	}
 
 	Log& Log::operator<<(const std::exception& e)
 	{
-		ssmsg << "Exception : " << e.what();
+		m_ssMsg << "Exception : " << e.what();
 
 		return *this;
 	}
