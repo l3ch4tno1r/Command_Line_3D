@@ -45,6 +45,11 @@ public:
 	{
 	}
 
+	~Instrumentor()
+	{
+		EndSession();
+	}
+
 	void BeginSession(const std::string& name, const std::string& filepath = "results.json")
 	{
 		m_OutputStream.open(filepath);
