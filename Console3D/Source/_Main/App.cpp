@@ -12,6 +12,7 @@
 
 
 #include "Utilities\Angles.h"
+#include "Utilities\Instrumentor.h"
 
 using namespace std;
 
@@ -38,8 +39,11 @@ int main()
 
 	SetCursorPos(Cx, Cy);
 
-	PaceMaker& pacemaker = PaceMaker::Get();
-	Console&   console   = Console::Get();	
+	Instrumentor& instrumentor = Instrumentor::Get();
+	PaceMaker&    pacemaker    = PaceMaker::Get();
+	Console&      console      = Console::Get();
+
+	instrumentor.BeginSession("Test");
 
 	Transform3D<float>& r0tocam = console.R0ToCam();
 
