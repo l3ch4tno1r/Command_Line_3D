@@ -8,7 +8,7 @@ using namespace std::literals::chrono_literals;
 
 int ExessivelyLongAddition(int a, int b)
 {
-	std::this_thread::sleep_for(5s);
+	std::this_thread::sleep_for(2s);
 
 	return a + b;
 }
