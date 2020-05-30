@@ -146,6 +146,7 @@
     <ClInclude Include="Source\Utilities\ErrorHandling.h" />
     <ClInclude Include="Source\Devices\PaceMaker.h" />
     <ClInclude Include="Source\Graphics\OBJReader.h" />
+    <ClInclude Include="Source\Utilities\Instrumentor.h" />
     <ClInclude Include="Source\Utilities\TimeMeasurement.h" />
     <ClInclude Include="Source\Utilities\Utils.h" />
   </ItemGroup>
