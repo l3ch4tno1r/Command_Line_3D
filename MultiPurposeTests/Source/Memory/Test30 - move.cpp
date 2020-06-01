@@ -8,16 +8,39 @@ void* operator new(size_t size)
 	return std::malloc(size);
 }
 
+class Test
+{
+public:
+	Test()
+	{
+		std::cout << "Default ctor" << std::endl;
+	}
+
+	Test(const Test&)
+	{
+		std::cout << "Copy ctor" << std::endl;
+	}
+
+	Test(Test&&)
+	{
+		std::cout << "Move ctor" << std::endl;
+	}
+
+	~Test()
+	{
+		std::cout << "dtor" << std::endl;
+	}
+};
+
 int main()
 {
-	std::string str1 = "Hello world ! My name is Matt !";
+	{
+		Test test1;
 
-	//const std::string& ref = str1;
+		const Test& ref = test1;
 
-	std::string str2 = std::move(str1);
-
-	std::cout << str1 << std::endl;
-	std::cout << str2 << std::endl;
+		Test test2 = std::move(ref);
+	}
 
 	std::cin.get();
 }
