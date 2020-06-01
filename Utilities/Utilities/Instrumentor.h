@@ -24,6 +24,8 @@
 #include <atomic>
 #include <queue>
 
+#include "ErrorHandling.h"
+
 #define PROFILING 1
 
 #if PROFILING
@@ -73,6 +75,8 @@ private:
 
 		if (!m_ProfileQueue.empty())
 		{
+			ASSERT(m_ProfileQueue.size() < 100);
+
 			result = m_ProfileQueue.front();
 
 			m_ProfileQueue.pop();
@@ -81,7 +85,7 @@ private:
 		return m_SessionRunning;
 	}
 
-	void MainThread(const std::string& filepath)
+	void MainThread(std::string filepath)
 	{
 		std::ofstream outputstream(filepath);
 
@@ -127,7 +131,7 @@ public:
 		m_SessionRunning = true;
 
 		if(!m_MainThread.joinable())
-			m_MainThread = std::thread(&Instrumentor::MainThread, this, std::move(filepath));
+			m_MainThread = std::thread(&Instrumentor::MainThread, this, filepath);
 	}
 
 	void EndSession()
