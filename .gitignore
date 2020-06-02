@@ -1,12 +1,8 @@
 .vs
 Debug
+Release
 *.bak
-/Console3D/Release
-/LCNMath/Release
-/Release
-/UnitTest/Release
 *.csv
-MultiPurposeTests/Release
 MultiPurposeTests/results.json
 MultiPurposeTests/shared_file.txt
 Console3D/results.json
