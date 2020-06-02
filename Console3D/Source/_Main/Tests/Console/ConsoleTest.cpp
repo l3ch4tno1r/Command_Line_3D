@@ -4,6 +4,7 @@
 
 #include "Utilities/ErrorHandling.h"
 #include "Utilities/Utils.h"
+#include "Utilities/Instrumentor.h"
 
 #include <iostream>
 #include <sstream>
@@ -231,7 +232,7 @@ void Console::FillTriangleRecursive(const Triangle2D& triangle, const AABB2D& aa
 		break;
 	}
 
-	RENDER_AND_WAIT;
+	//RENDER_AND_WAIT;
 }
 
 void Console::Notify(bool run)
@@ -246,11 +247,15 @@ void Console::Notify(bool run)
 
 void Console::MainThread()
 {
+	Instrumentor::Get().BeginSession("Test fill triangle");
+
 	m_PauseNotified = false;
 
-	Pixel p1 = { 0,  6 };
-	Pixel p2 = { 7,  0 };
-	Pixel p3 = { 10, 8 };
+	const int scale = 10;
+
+	Pixel p1 = { scale * 0,  scale * 6 };
+	Pixel p2 = { scale * 7,  scale * 0 };
+	Pixel p3 = { scale * 10, scale * 8 };
 
 	Pixel TL = {
 		std::min({ p1.x, p2.x, p3.x }),
@@ -262,15 +267,63 @@ void Console::MainThread()
 		std::max({ p1.y, p2.y, p3.y }) + 1
 	};
 
+	auto InsideTriangle = [](const Triangle2D& triangle, const Pixel& pixel)
+	{
+		Pixel offset = { 1, 1 };
+
+		Triangle2D triangleX2 = {
+			2 * triangle.p1 + offset,
+			2 * triangle.p2 + offset,
+			2 * triangle.p3 + offset
+		};
+
+		Pixel pixelX2 = 2 * pixel + offset;
+
+		Pixel n1 = (triangleX2.p2 - triangleX2.p1).NormalVector();
+		Pixel n2 = (triangleX2.p3 - triangleX2.p2).NormalVector();
+		Pixel n3 = (triangleX2.p1 - triangleX2.p3).NormalVector();
+
+		short s1 = sign((pixelX2 - triangleX2.p1) | n1);
+		short s2 = sign((pixelX2 - triangleX2.p2) | n2);
+		short s3 = sign((pixelX2 - triangleX2.p3) | n3);
+
+		return (s1 == s2) && (s2 == s3);
+	};
+
+	Clear();
+
+	{
+		PROFILE_SCOPE("Fill area");
+
+		Triangle2D triangle = { p1, p2, p3 };
+
+		for(int i = TL.x; i < BR.x; ++i)
+			for (int j = TL.y; j < BR.y; ++j)
+			{
+				if (InsideTriangle(triangle, {i, j}))
+					DrawPoint(i, j);
+			}
+
+		DrawPoint(p1.x, p1.y);
+		DrawPoint(p2.x, p2.y);
+		DrawPoint(p3.x, p3.y);
+	}
+
+	//RENDER_AND_WAIT;
+
 	Clear();
 
 	DrawLine(BR.x, 0, BR.x, BR.y, '|');
 	DrawLine(0, BR.y, BR.x, BR.y, '-');
 	DrawPoint(BR.x, BR.y, '+');
 
-	RENDER_AND_WAIT;
+	//RENDER_AND_WAIT;
 
-	FillTriangleRecursive({ p1, p2, p3 }, { TL, BR }, 'a');
+	{
+		PROFILE_SCOPE("Fill area recursive");
+
+		FillTriangleRecursive({ p1, p2, p3 }, { TL, BR }, 'a');
+	}
 	/*
 	FillRectangle(TL.x, TL.y, BR.x, BR.y);
 	*/
