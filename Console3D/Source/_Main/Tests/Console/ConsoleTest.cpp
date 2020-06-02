@@ -1,6 +1,6 @@
 #include "Devices/Console.h"
 
-#ifdef TEST_CONSOLE
+#if TEST_CONSOLE
 
 #include "Utilities/ErrorHandling.h"
 #include "Utilities/Utils.h"
@@ -18,6 +18,26 @@ bool Console::Wait()
 	m_PauseNotified = false;
 
 	return m_Run;
+}
+
+int Console::AABB2D::Width() const
+{
+	return BR.x - TL.x;
+}
+
+int Console::AABB2D::Height() const
+{
+	return BR.y - TL.y;
+}
+
+Console::Pixel Console::AABB2D::TR() const
+{
+	return { BR.x, TL.y };
+}
+
+Console::Pixel Console::AABB2D::BL() const
+{
+	return { TL.x, BR.y };
 }
 
 void Console::FillRectangle(uint32_t tlx, uint32_t tly, uint32_t brx, uint32_t bry, char c)

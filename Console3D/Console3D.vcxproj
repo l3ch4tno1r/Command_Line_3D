@@ -129,8 +129,8 @@
     <ClCompile Include="Source\Graphics\Model3D.cpp" />
     <ClCompile Include="Source\Graphics\OBJReader.cpp" />
     <ClCompile Include="Source\Devices\PaceMaker.cpp" />
-    <ClCompile Include="Source\_Main\App.cpp" />
     <ClCompile Include="Source\_Main\Tests\Console\ConsoleTest.cpp" />
+    <ClCompile Include="Source\_Main\Tests\Test04 - Fill Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\stb_image\stb_image.h" />

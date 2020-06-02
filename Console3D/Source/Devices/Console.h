@@ -11,9 +11,9 @@
 #include "Geometry\Geometry3D\HVector3D.h"
 #include "Geometry\Geometry2D\HVector2D.h"
 
-//#define TEST_CONSOLE
+#define TEST_CONSOLE 1
 
-#ifdef TEST_CONSOLE
+#if TEST_CONSOLE
 #include <mutex>
 #include <condition_variable>
 
@@ -83,7 +83,7 @@ public:
 		return m_Height;
 	}
 
-#ifdef TEST_CONSOLE
+#if TEST_CONSOLE
 
 #define WAIT if(!Wait()) return
 #define RENDER_AND_WAIT Render(); WAIT
@@ -118,6 +118,12 @@ private:
 	{
 		Pixel TL;
 		Pixel BR;
+
+		int Width() const;
+		int Height() const;
+
+		Pixel TR() const;
+		Pixel BL() const;
 	};
 
 	void FillTriangleRecursive(const Triangle2D& triangle, const AABB2D& aabb, char c = '#');

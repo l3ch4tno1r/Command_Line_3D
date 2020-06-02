@@ -3,7 +3,7 @@
 
 #include "Devices/Console.h"
 
-#ifndef TEST_CONSOLE
+#if !TEST_CONSOLE
 #error Activate the Test mode in Devices -> Console.h
 #endif // TEST_CONSOLE
 

@@ -59,9 +59,11 @@ Console::~Console()
 	delete[] m_Screen;
 }
 
-#ifndef TEST_CONSOLE
+#if !TEST_CONSOLE
 void Console::MainThread()
 {
+	PROFILE_FUNC();
+
 	PaceMaker& pacemaker = PaceMaker::Get();
 	
 	/*
@@ -168,6 +170,8 @@ void Console::MainThread()
 	// Console device loop
 	while (pacemaker.Heartbeat(1))
 	{
+		PROFILE_SCOPE("Main Loop");
+
 		STARTCHRONO;
 
 		tp2 = std::chrono::system_clock::now();
@@ -181,6 +185,8 @@ void Console::MainThread()
 		// Loop through models
 		for (uint i = 0; i < 2; i++)
 		{
+			PROFILE_SCOPE("Model Loop");
+
 			// TODO : Remettre a const
 			Model3D& model = models[i];
 
@@ -677,6 +683,3 @@ void Console::Render()
 	m_Screen[m_Width * m_Height - 1] = '\0';
 	WriteConsoleOutputCharacter(m_HConsole, m_Screen, m_Width * m_Height, { 0,0 }, &m_DwBytesWritten);
 }
-
-// Instanciation
-//Console Console::console;
