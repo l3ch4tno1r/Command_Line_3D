@@ -75,7 +75,7 @@ private:
 
 		if (!m_ProfileQueue.empty())
 		{
-			ASSERT(m_ProfileQueue.size() < 100);
+			//ASSERT(m_ProfileQueue.size() < 1000);
 
 			result = m_ProfileQueue.front();
 
