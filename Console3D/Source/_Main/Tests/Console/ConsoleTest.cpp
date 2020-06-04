@@ -54,8 +54,9 @@ void Console::FillRectangle(uint32_t tlx, uint32_t tly, uint32_t brx, uint32_t b
 void Console::FillTriangleRecursive(const Triangle2D& triangle, const AABB2D& aabb, char c)
 {
 	// Temporary
-	//FillRectangle(aabb.TL.x, aabb.TL.y, aabb.BR.x, aabb.BR.y, c);
-	//++c;
+	FillRectangle(aabb.TL.x, aabb.TL.y, aabb.BR.x, aabb.BR.y, c);
+	RENDER_AND_WAIT;
+	++c;
 
 	auto LineAABBInter = [](const Pixel& p1, const Pixel& p2, const AABB2D& aabb)
 	{
@@ -123,7 +124,7 @@ void Console::FillTriangleRecursive(const Triangle2D& triangle, const AABB2D& aa
 	B = LineAABBInter(triangle.p2, triangle.p3, aabb);
 	C = LineAABBInter(triangle.p3, triangle.p1, aabb);
 
-	if (A < 0 || B < 0 || c < 0)
+	if (A < 0 || B < 0 || C < 0)
 		return;
 
 	struct Flags
@@ -251,7 +252,7 @@ void Console::MainThread()
 
 	m_PauseNotified = false;
 
-	const int scale = 10;
+	const int scale = 13;
 
 	Pixel p1 = { scale * 0,  scale * 6 };
 	Pixel p2 = { scale * 7,  scale * 0 };
