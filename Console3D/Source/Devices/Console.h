@@ -11,9 +11,10 @@
 #include "Geometry\Geometry3D\HVector3D.h"
 #include "Geometry\Geometry2D\HVector2D.h"
 
-#define TEST_CONSOLE 1
+#define TEST_CONSOLE 0
 
 #if TEST_CONSOLE
+#include <functional>
 #include <mutex>
 #include <condition_variable>
 
@@ -58,6 +59,22 @@ private:
 
 	void MainThread();
 
+	using Pixel = HVector2D<int>;
+
+	struct Triangle2D
+	{
+		union
+		{
+			struct
+			{
+				Pixel p1;
+				Pixel p2;
+				Pixel p3;
+			};
+			Pixel pixels[3];
+		};
+	};
+
 public:
 	static Console& Get();
 
@@ -96,38 +113,6 @@ private:
 
 	bool Wait();
 
-	void FillRectangle(uint32_t tlx, uint32_t tly, uint32_t brx, uint32_t bry, char c = '#');
-
-	using Pixel = HVector2D<int>;
-
-	struct Triangle2D
-	{
-		union
-		{
-			struct
-			{
-				Pixel p1;
-				Pixel p2;
-				Pixel p3;
-			};
-			Pixel pixels[3];
-		};
-	};
-
-	struct AABB2D
-	{
-		Pixel TL;
-		Pixel BR;
-
-		int Width() const;
-		int Height() const;
-
-		Pixel TR() const;
-		Pixel BL() const;
-	};
-
-	void FillTriangleRecursive(const Triangle2D& triangle, const AABB2D& aabb, char c = '#');
-
 public:
 	void Notify(bool run);
 
@@ -151,7 +136,7 @@ private:
 	};
 
 	static uint ClipTriangle(const Triangle&   in_t,                         // Triangle
-		                     const HVector3Df& n,    const HVector3Df& p,     // Plane parameters
+		                     const HVector3Df& n,    const HVector3Df& p,    // Plane parameters
 		                           Triangle&   o_t1,       Triangle&  o_t2); // Output triangles
 
 	char GetPixelValue(int x, int y) const;
@@ -162,7 +147,25 @@ private:
 
 	void DrawLine(const HVector2Df& v1, const HVector2Df& v2, char c = '#');
 
+	void FillRectangle(const Pixel& TL, const Pixel& BR, char c = '#', const std::function<bool(const Pixel&)>& criteria = [](const Pixel&) { return true; });
+
 	void FillTriangle(const HVector2Df& v1, const HVector2Df& v2, const HVector2Df& v3, char c = '#');
+
+	void FillTriangle(const Triangle2D& triangle, char c = '#');
+
+	struct ROI
+	{
+		Pixel TL;
+		Pixel BR;
+
+		int Width() const;
+		int Height() const;
+
+		Pixel TR() const;
+		Pixel BL() const;
+	};
+
+	void FillTriangleRecursive(const Triangle2D& triangle, const ROI& aabb, char c = '#');
 
 	enum Slots
 	{
