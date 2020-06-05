@@ -835,11 +835,11 @@ void Console::FillTriangleRecursive(const Triangle2D& triangle, const ROI& aabb,
 		if (flags.total & i)
 			++count;
 
-	std::stringstream sstr;
-
-	sstr << "Case : " << (int)count;
-
-	DisplayMessage(sstr.str(), Slots::_5);
+	//std::stringstream sstr;
+	//
+	//sstr << "Case : " << (int)count;
+	//
+	//DisplayMessage(sstr.str(), Slots::_5);
 
 	switch (count)
 	{
