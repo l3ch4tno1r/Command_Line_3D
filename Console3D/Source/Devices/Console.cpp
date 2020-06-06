@@ -249,7 +249,7 @@ void Console::MainThread()
 
 				std::list<Triangle> clippedtriangles({ triangle });
 
-				for (auto& plane : planesfromObj)
+				for (const auto& plane : planesfromObj)
 				{
 					auto it = clippedtriangles.begin();
 
@@ -288,7 +288,7 @@ void Console::MainThread()
 					}
 				}
 
-				for(const auto& t : clippedtriangles)
+				for (const auto& t : clippedtriangles)
 				{
 					HVector2Df _pt1 = _Proj * (CamToObj * t.vertices[0]).mat;
 					HVector2Df _pt2 = _Proj * (CamToObj * t.vertices[1]).mat;
@@ -309,10 +309,10 @@ void Console::MainThread()
 					Pixel p3 = { (int)_pt3.x, (int)_pt3.y };
 
 					//FillTriangle(_pt1, _pt2, _pt3, grayscale[lightidx]);
-					//FillTriangle({ p1, p2, p3 }, grayscale[lightidx]);
+					FillTriangle({ p1, p2, p3 }, grayscale[lightidx]);
 
-					ROI roi = { {0, 0}, { (int)m_Width, (int)m_Height } };
-					FillTriangleRecursive({ p1, p2, p3 }, roi, grayscale[lightidx]);
+					//ROI roi = { {0, 0}, { (int)m_Width, (int)m_Height } };
+					//FillTriangleRecursive({ p1, p2, p3 }, roi, grayscale[lightidx]);
 
 					/*
 					DrawLine(_pt1, _pt2, '.');
