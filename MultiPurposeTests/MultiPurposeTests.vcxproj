@@ -121,7 +121,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="External\stb_image\stb_image.cpp" />
-    <ClCompile Include="Source\Functor\Test21 - Reusable object.cpp" />
+    <ClCompile Include="Source\Misc\Test23 - Metaprogramming.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\stb_image\stb_image.h" />
