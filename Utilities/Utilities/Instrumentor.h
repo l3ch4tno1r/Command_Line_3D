@@ -148,6 +148,9 @@ public:
 
 	void WriteProfile(const ProfileResult& result)
 	{
+		if (!m_SessionRunning)
+			return;
+
 		std::lock_guard<std::mutex> lock(m_Mutex);
 
 		m_ProfileQueue.push(result);
