@@ -11,7 +11,7 @@
 #include "Geometry\Geometry3D\HVector3D.h"
 #include "Geometry\Geometry2D\HVector2D.h"
 
-#define TEST_CONSOLE 0
+#define TEST_CONSOLE 1
 
 #if TEST_CONSOLE
 #include <functional>
