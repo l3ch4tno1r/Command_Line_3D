@@ -121,7 +121,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="External\stb_image\stb_image.cpp" />
-    <ClCompile Include="Source\Template\Test23 - Metaprogramming.cpp" />
+    <ClCompile Include="Source\Functor\Test19 - Functor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\stb_image\stb_image.h" />

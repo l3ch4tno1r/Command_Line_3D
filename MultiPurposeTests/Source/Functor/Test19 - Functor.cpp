@@ -1,4 +1,5 @@
 #include <iostream>
+#include <functional>
 
 class Test
 {
@@ -36,6 +37,30 @@ public:
 	}
 };
 
+template<class C, class M>
+class MemFunc;
+
+template<class C, class Ret, class... Args>
+class MemFunc<C, Ret(Args...)>
+{
+private:
+	typedef Ret(C::*MemFuncPtr)(Args...);
+
+	C* o;
+	MemFuncPtr m;
+
+public:
+	MemFunc(C* _o, MemFunc _m) :
+		o(_o),
+		m(_m)
+	{}
+
+	Ret operator()(Args... args)
+	{
+		return (o.*m)(args...);
+	}
+};
+
 int main()
 {
 	/*
@@ -49,6 +74,14 @@ int main()
 	Func<void(int, char)> f(Display);
 
 	f(1, 'a');
+
+	Test test;
+
+	std::function<void(void)> func = std::bind(&Test::Method, &test);
+
+	func();
+
+	//MemFunc<Test, void(void)> m(&test, &Test::Method);
 
 	std::cin.get();
 }
