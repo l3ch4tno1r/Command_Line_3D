@@ -18,7 +18,7 @@
     <ClCompile Include="External\stb_image\stb_image.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Functor\Test19 - Functor.cpp">
+    <ClCompile Include="Source\Template\Test25 - Type traits.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
