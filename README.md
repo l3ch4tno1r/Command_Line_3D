@@ -6,8 +6,8 @@ This project has been set up under Visual Studio Community 2017.
 
 Be sure to set the "Console3D" project as the default project.
 
-I recommend to use these parameter for the console window in order to have a correct display of the 3D scenes
-(those parameterscan be found by clicking the top left icon of the window, and under "Properties")
+I recommend to use these parameters for the console window in order to have a correct display of the 3D scenes
+(those parameters can be found by clicking the top left icon of the window, and under "Properties")
   - Window size :
     > Width  = 180
     > Height = 120
