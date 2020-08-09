@@ -15,6 +15,7 @@ class OBJReader
 {
 private:
 	void ExtractData(const std::string& rawdata, uint& overtexidx, uint& onormalidx);
+
 public:
 	template <class C>
 	C ReadFile(const std::string& filepath, bool generatenormals)
