@@ -11,7 +11,7 @@
 #include "Geometry\Geometry3D\HVector3D.h"
 #include "Geometry\Geometry2D\HVector2D.h"
 
-#define TEST_CONSOLE 1
+#define TEST_CONSOLE 0
 
 #if TEST_CONSOLE
 #include <functional>
@@ -41,7 +41,7 @@ private:
 	UINT32 m_Width;
 	UINT32 m_Height;
 
-	char*  m_Screen;
+	char*  m_ScreenBuffer;
 	HANDLE m_HConsole;
 	DWORD  m_DwBytesWritten;
 

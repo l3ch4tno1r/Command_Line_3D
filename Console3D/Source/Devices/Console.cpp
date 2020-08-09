@@ -19,21 +19,21 @@
 #include <list>
 #include <queue>
 
-#define DRAW_FACES
 /*
-#define DRAW_EDGES
+#define DRAW_FACES
 */
+#define DRAW_EDGES
 
 Console::Console() :
 	m_Width(180),
 	m_Height(120),
-	m_Screen(nullptr),
+	m_ScreenBuffer(nullptr),
 	m_HConsole(nullptr),
 	m_DwBytesWritten(0),
 	m_Focal(120.0f)
 	//m_Focal(90.0f)
 {
-	m_Screen = new char[m_Width * m_Height];
+	m_ScreenBuffer = new char[m_Width * m_Height];
 	m_HConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
 	SetConsoleActiveScreenBuffer(m_HConsole);
 
@@ -56,7 +56,7 @@ Console::~Console()
 {
 	m_MainThread.join();
 
-	delete[] m_Screen;
+	delete[] m_ScreenBuffer;
 }
 
 #if !TEST_CONSOLE
@@ -84,13 +84,12 @@ void Console::MainThread()
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/table_basique.obj", false)
-		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
-		*/
 		OBJReader().ReadFile<Model3D>("Ressource/axisr.obj", true)
+		*/
+		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
 	};
 
 	// Quick fix for teapot
-	/*
 	Transform3Df teapot({
 		1.0f, 0.0f,  0.0f, 0.0f,
 		0.0f, 0.0f, -1.0f, 0.0f,
@@ -103,6 +102,7 @@ void Console::MainThread()
 
 	for (HVector3Df& vertex : models[1].Normals())
 		vertex = teapot * vertex;
+	/*
 	*/
 
 	//const float scalefactor = 1.0f;
@@ -423,7 +423,7 @@ void Console::Start()
 
 void Console::Clear()
 {
-	memset(m_Screen, 0, sizeof(char) * m_Width * m_Height);
+	memset(m_ScreenBuffer, 0, sizeof(char) * m_Width * m_Height);
 }
 
 char Console::GetPixelValue(int x, int y) const
@@ -434,7 +434,7 @@ char Console::GetPixelValue(int x, int y) const
 	ASSERT(y >= 0);
 	ASSERT(y < m_Height);
 
-	return m_Screen[x + y * m_Width];
+	return m_ScreenBuffer[x + y * m_Width];
 }
 
 void Console::DrawPoint(int x, int y, char c)
@@ -445,7 +445,7 @@ void Console::DrawPoint(int x, int y, char c)
 	if (y < 0 || y >= m_Height)
 		return;
 
-	m_Screen[x + y * m_Width] = c;
+	m_ScreenBuffer[x + y * m_Width] = c;
 }
 
 HVector3Df Console::SegmentPlaneIntersection(const HVector3Df& v1, const HVector3Df& v2, const HVector3Df& n, const HVector3Df& p)
@@ -943,6 +943,6 @@ void Console::HeartBeat()
 
 void Console::Render()
 {
-	m_Screen[m_Width * m_Height - 1] = '\0';
-	WriteConsoleOutputCharacter(m_HConsole, m_Screen, m_Width * m_Height, { 0,0 }, &m_DwBytesWritten);
+	m_ScreenBuffer[m_Width * m_Height - 1] = '\0';
+	WriteConsoleOutputCharacter(m_HConsole, m_ScreenBuffer, m_Width * m_Height, { 0,0 }, &m_DwBytesWritten);
 }
