@@ -121,7 +121,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="External\stb_image\stb_image.cpp" />
-    <ClCompile Include="Source\Template\Test27.cpp" />
+    <ClCompile Include="Source\Windows\Test01 - Screen sizing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\stb_image\stb_image.h" />
