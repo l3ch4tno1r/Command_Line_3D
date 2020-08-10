@@ -38,7 +38,7 @@ private:
 	void NotifyAll();
 
 public:
-	static PaceMaker& Get();
+	static PaceMaker& Get() noexcept;
 
 	bool Heartbeat(uint32_t id);
 
