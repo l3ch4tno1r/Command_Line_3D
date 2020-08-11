@@ -47,5 +47,8 @@
     <ClInclude Include="Utilities\TraceLog.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities\InstanceCounter.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
