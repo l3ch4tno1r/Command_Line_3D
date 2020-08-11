@@ -2,6 +2,12 @@
 #include <utility>
 #include <thread>
 #include <mutex>
+#include <vector>
+#include <string>
+
+#include "Utilities/InstanceCounter.h"
+
+#define SEPARATOR(X) std::cout << "------- " << X << " -------" << std::endl
 
 class MemTracker
 {
@@ -20,6 +26,8 @@ public:
 
 	~MemTracker()
 	{
+		std::cout << std::endl;
+
 		std::cout << "Total Memory allocated   : " << allocated   << " bytes." << std::endl;
 		std::cout << "Total Memory deallocated : " << deallocated << " bytes." << std::endl;
 
@@ -47,6 +55,8 @@ MemTracker tracker;
 
 void* operator new(size_t size)
 {
+	std::cout << "Allocated " << size << " bytes." << std::endl;
+
 	tracker.Allocate(size);
 
 	return malloc(size);
@@ -54,6 +64,8 @@ void* operator new(size_t size)
 
 void operator delete(void* ptr, size_t size)
 {
+	std::cout << "Deallocated " << size << " bytes." << std::endl;
+
 	tracker.Deallocate(size);
 
 	free(ptr);
@@ -257,35 +269,64 @@ public:
 	}
 };
 
-class Test
+class Test : public Counter<Test>
 {
 private:
-	static uint32_t count;
-	uint32_t id;
+	std::string m_Name;
 
 public:
-	Test() : id(++count)
+	Test() :
+		m_Name("No name")
 	{
-		std::cout << "Hello world ! " << id << std::endl;
+		std::cout << "#" << this->Id() << " Hello world " << m_Name << std::endl;
 	}
 
-	Test(const Test&) : id(++count)
+	Test(const char* str) :
+		m_Name(str)
 	{
-		std::cout << "Hello world copy ! " << id << std::endl;
+		std::cout << "#" << this->Id() << " Hello world " << m_Name << std::endl;
+	}
+
+	Test(const Test& other) :
+		m_Name(other.m_Name)
+	{
+		std::cout << "#" << this->Id() << " Hello world - Copy " << m_Name << std::endl;
+	}
+
+	Test(Test&& other) :
+		m_Name(std::move(other.m_Name))
+	{
+		std::cout << "#" << this->Id() << " Hello world - Move " << m_Name << std::endl;
 	}
 
 	~Test()
 	{
-		std::cout << "Goodbye world ! " << id << std::endl;
+		std::cout << "#" << this->Id() << " Goodbye world " << m_Name << std::endl;
 	}
 
-	void Display() const
+	Test& operator=(const Test& other)
 	{
-		std::cout << "Display ! " << id << std::endl;
+		std::cout << "#" << this->Id() << " copy assigned " << m_Name << std::endl;
+
+		m_Name = other.m_Name;
+
+		return *this;
+	}
+
+	Test& operator=(Test&& other)
+	{
+		m_Name = std::move(other.m_Name);
+
+		std::cout << "#" << this->Id() << " move assigned " << this->Name() << std::endl;
+
+		return *this;
+	}
+
+	const std::string& Name() const
+	{
+		return m_Name;
 	}
 };
-
-uint32_t Test::count = 0;
 
 //----------------------//
 
@@ -306,21 +347,26 @@ void ThreadTest(uint32_t id)
 
 int main()
 {
-	std::thread t1(ThreadTest, 1);
-	std::thread t2(ThreadTest, 2);
+	std::vector<Test> vec;
 
-	t1.join();
-	t2.join();
+	SEPARATOR(1);
+	vec.reserve(5);
 
-	/*
-	uint32_t count = 0;
+	SEPARATOR(2);
+	vec.emplace_back("Joe");
+	vec.emplace_back("Jack");
+	vec.emplace_back("William");
+	vec.emplace_back("Averell");
+	vec.emplace_back("Matt");
+	vec.emplace_back("Melody");
+	vec.emplace_back("Donald");
 
-	for (auto it = list.Begin(); it != list.End(); ++it)
-	{
-		std::cout << it->first << ", " << it->second << std::endl;
-		count++;
-	}
+	SEPARATOR(3);
+	Test* ptr1 = (Test*)::operator new(sizeof(Test));
+	new(ptr1) Test("Jean Raoul");
 
-	std::cin.get();
-	*/
+	ptr1->~Test();
+	::operator delete(ptr1, sizeof(Test));
+
+	SEPARATOR(4);
 }
