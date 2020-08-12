@@ -362,11 +362,12 @@ int main()
 	vec.emplace_back("Donald");
 
 	SEPARATOR(3);
-	Test* ptr1 = (Test*)::operator new(sizeof(Test));
-	new(ptr1) Test("Jean Raoul");
 
-	ptr1->~Test();
-	::operator delete(ptr1, sizeof(Test));
+	vec.erase(vec.begin() + 3);
 
 	SEPARATOR(4);
+
+	vec.insert(vec.end(), Test("John"));
+
+	SEPARATOR(5);
 }

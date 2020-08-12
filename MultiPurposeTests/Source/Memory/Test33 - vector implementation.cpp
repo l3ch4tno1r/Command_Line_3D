@@ -2,6 +2,9 @@
 #include <string>
 
 #include "Utilities/InstanceCounter.h"
+#include "Utilities/ErrorHandling.h"
+
+#define SEPARATOR(X) std::cout << "\n----------- " << X << " -----------" << std::endl
 
 template<typename T>
 class DynamicArray
@@ -101,6 +104,125 @@ public:
 
 		m_Size = 0;
 	}
+
+	class Iterator
+	{
+	private:
+		T* m_Ptr;
+
+		Iterator(T* ptr) :
+			m_Ptr(ptr)
+		{}
+
+		friend class DynamicArray<T>;
+
+	public:
+		Iterator() :
+			m_Ptr(nullptr)
+		{}
+
+		Iterator(const Iterator& other) :
+			m_Ptr(other.m_Ptr)
+		{}
+
+		T* operator->() { return m_Ptr; }
+
+		T& operator*() { return *m_Ptr; }
+
+		Iterator& operator++()
+		{
+			++m_Ptr;
+
+			return *this;
+		}
+
+		Iterator operator++(int) { return Iterator(m_Ptr++); }
+
+		Iterator& operator--()
+		{
+			--m_Ptr;
+
+			return *this;
+		}
+
+		Iterator operator--(int) { return Iterator(m_Ptr--); }
+
+		Iterator operator+(size_t i) { return Iterator(m_Ptr + i); }
+		Iterator operator-(size_t i) { return Iterator(m_Ptr - i); }
+
+		bool operator==(const Iterator& other) const { return m_Ptr == other.m_Ptr; }
+		bool operator!=(const Iterator& other) const { return m_Ptr != other.m_Ptr; }
+		bool operator< (const Iterator& other) const { return m_Ptr <  other.m_Ptr; }
+		bool operator<=(const Iterator& other) const { return m_Ptr <= other.m_Ptr; }
+		bool operator> (const Iterator& other) const { return m_Ptr >  other.m_Ptr; }
+		bool operator>=(const Iterator& other) const { return m_Ptr >= other.m_Ptr; }
+	};
+
+	Iterator Begin()
+	{
+		return Iterator(m_Data);
+	}
+
+	Iterator End()
+	{
+		return Iterator(m_Data + m_Size);
+	}
+
+private:
+	void MoveMemBlockBackward(T* dest, T* src)
+	{
+		ASSERT(dest >= m_Data && dest < m_Data + m_Size);
+		ASSERT(src  >= m_Data && src  < m_Data + m_Size);
+		ASSERT(dest < src);
+
+		for (T* ptr = dest; ptr < src; ++ptr)
+			ptr->~T();
+
+		size_t delta = src - dest;
+		m_Size -= delta;
+
+		for (T* ptr = dest; ptr < m_Data + m_Size; ptr++)
+			*ptr = std::move(*(ptr + delta));
+	}
+
+public:
+	void Erase(const Iterator& it)
+	{
+		ASSERT(it >= this->Begin());
+		ASSERT(it <  this->End());
+
+		MoveMemBlockBackward(it.m_Ptr, it.m_Ptr + 1);
+	}
+
+	void Insert(const Iterator& it, const T& value)
+	{
+		ASSERT(it >= this->Begin());
+		ASSERT(it <= this->End());
+
+		if (m_Size >= m_Capacity)
+			Realloc(m_Capacity + m_Capacity / 2);
+
+		for (T* ptr = m_Data + m_Size - 1; ptr >= it.m_Ptr; --ptr)
+			*(ptr + 1) = std::move(*ptr);
+
+		*(it.m_Ptr) = value;
+	}
+
+	void Insert(const Iterator& it, T&& value)
+	{
+		ASSERT(it >= this->Begin());
+		ASSERT(it <= this->End());
+
+		if (m_Size >= m_Capacity)
+			Realloc(m_Capacity + m_Capacity / 2);
+
+		for (T* ptr = m_Data + m_Size - 1; ptr >= it.m_Ptr; --ptr)
+			*(ptr + 1) = std::move(*ptr);
+
+		*(it.m_Ptr) = std::move(value);
+
+		++m_Size;
+	}
 };
 
 class Test : public Counter<Test>
@@ -165,36 +287,73 @@ public:
 int main()
 {
 	{
-		DynamicArray<Test> array;
+		DynamicArray<Test> vec;
 
-		std::cout << "------------- Add Joe --------------" << std::endl;
-		array.EmplaceBack("Joe");
-		std::cout << "------------- Add Jack --------------" << std::endl;
-		array.EmplaceBack("Jack");
-		std::cout << "------------- Add William --------------" << std::endl;
-		array.EmplaceBack("William");
-		std::cout << "------------- Add Averell --------------" << std::endl;
-		array.EmplaceBack("Averell");
+		SEPARATOR("Add Joe");
+		vec.EmplaceBack("Joe");
+		SEPARATOR("Add Jack");
+		vec.EmplaceBack("Jack");
+		SEPARATOR("Add William");
+		vec.EmplaceBack("William");
+		SEPARATOR("Add Averell");
+		vec.EmplaceBack("Averell");
 
-		std::cout << "------------- Display --------------" << std::endl;
+		SEPARATOR("Display");
 
-		for (size_t i = 0; i < array.Size(); ++i)
-			std::cout << array[i].Id() << " - " << array[i].Name() << std::endl;
+		for (size_t i = 0; i < vec.Size(); ++i)
+			std::cout << vec[i].Id() << " - " << vec[i].Name() << std::endl;
 
-		std::cout << "------------- Pop --------------" << std::endl;
+		SEPARATOR("Pop");
 
-		array.PopBack();
+		vec.PopBack();
 
-		for (size_t i = 0; i < array.Size(); ++i)
-			std::cout << array[i].Id() << " - " << array[i].Name() << std::endl;
+		for (size_t i = 0; i < vec.Size(); ++i)
+			std::cout << vec[i].Id() << " - " << vec[i].Name() << std::endl;
 
-		std::cout << "------------- Clear --------------" << std::endl;
+		SEPARATOR("Clear");
 
-		array.Clear();
+		vec.Clear();
 
-		array.EmplaceBack("Matt");
+		vec.EmplaceBack("Joe");
+		vec.EmplaceBack("Jack");
+		vec.EmplaceBack("William");
+		vec.EmplaceBack("Averell");
+		vec.EmplaceBack("Matt");
 
-		std::cout << "---------------------------" << std::endl;
+		SEPARATOR("Iterator 1");
+
+		for(auto it = vec.Begin(); it != vec.End(); ++it)
+			std::cout << "Iterator test : " << it->Name() << std::endl;
+
+		SEPARATOR("Iterator 2");
+
+		auto it1 = vec.Begin();
+		auto it2 = it1++;
+
+		std::cout << "Iterator test : " << it1->Name() << std::endl;
+		std::cout << "Iterator test : " << it2->Name() << std::endl;
+		std::cout << "Iterator test : " << (it1 + 2)->Name() << std::endl;
+		std::cout << "Iterator test : " << (vec.End() - 1)->Name() << std::endl;
+
+		SEPARATOR("Erase");
+
+		for (auto it = vec.Begin(); it != vec.End(); ++it)
+			std::cout << "Before erase : " << it->Name() << std::endl;
+
+		vec.Erase(vec.Begin() + 2);
+
+		for (auto it = vec.Begin(); it != vec.End(); ++it)
+			std::cout << "After erase : " << it->Name() << std::endl;
+
+		SEPARATOR("Insert");
+
+		vec.Insert(vec.Begin() + 2, Test("William"));
+		//vec.Insert(vec.End(),       Test("Melody"));
+
+		for (auto it = vec.Begin(); it != vec.End(); ++it)
+			std::cout << "After insert : " << it->Name() << std::endl;
+
+		SEPARATOR("End");
 	}
 
 	std::cin.get();
