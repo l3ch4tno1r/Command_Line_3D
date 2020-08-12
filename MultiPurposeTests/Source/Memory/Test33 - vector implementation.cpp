@@ -185,43 +185,48 @@ private:
 			*ptr = std::move(*(ptr + delta));
 	}
 
+	void MoveMemBlockForward(T* dest, T* src)
+	{
+		ASSERT(dest >= m_Data && dest < m_Data + m_Size);
+		ASSERT(src  >= m_Data && src  < m_Data + m_Size);
+		ASSERT(dest >  src);
+
+		size_t delta = dest - src;
+
+		if (m_Size + delta > m_Capacity)
+			Realloc(m_Capacity + m_Capacity / 2);
+
+		ASSERT(m_Size + delta <= m_Capacity);
+
+		for (T* ptr = m_Data + m_Size - 1; ptr >= src; --ptr)
+			*(ptr + delta) = std::move(*ptr);
+
+		m_Size += delta;
+	}
+
 public:
 	void Erase(const Iterator& it)
 	{
-		ASSERT(it >= this->Begin());
-		ASSERT(it <  this->End());
-
 		MoveMemBlockBackward(it.m_Ptr, it.m_Ptr + 1);
+	}
+
+	void Erase(const Iterator& first, const Iterator& last)
+	{
+		MoveMemBlockBackward(first.m_Ptr, last.m_Ptr);
 	}
 
 	void Insert(const Iterator& it, const T& value)
 	{
-		ASSERT(it >= this->Begin());
-		ASSERT(it <= this->End());
-
-		if (m_Size >= m_Capacity)
-			Realloc(m_Capacity + m_Capacity / 2);
-
-		for (T* ptr = m_Data + m_Size - 1; ptr >= it.m_Ptr; --ptr)
-			*(ptr + 1) = std::move(*ptr);
+		MoveMemBlockForward(it.m_Ptr + 1, it.m_Ptr);
 
 		*(it.m_Ptr) = value;
 	}
 
 	void Insert(const Iterator& it, T&& value)
 	{
-		ASSERT(it >= this->Begin());
-		ASSERT(it <= this->End());
-
-		if (m_Size >= m_Capacity)
-			Realloc(m_Capacity + m_Capacity / 2);
-
-		for (T* ptr = m_Data + m_Size - 1; ptr >= it.m_Ptr; --ptr)
-			*(ptr + 1) = std::move(*ptr);
+		MoveMemBlockForward(it.m_Ptr + 1, it.m_Ptr);
 
 		*(it.m_Ptr) = std::move(value);
-
-		++m_Size;
 	}
 };
 
@@ -335,7 +340,7 @@ int main()
 		std::cout << "Iterator test : " << (it1 + 2)->Name() << std::endl;
 		std::cout << "Iterator test : " << (vec.End() - 1)->Name() << std::endl;
 
-		SEPARATOR("Erase");
+		SEPARATOR("Erase 1");
 
 		for (auto it = vec.Begin(); it != vec.End(); ++it)
 			std::cout << "Before erase : " << it->Name() << std::endl;
@@ -349,6 +354,13 @@ int main()
 
 		vec.Insert(vec.Begin() + 2, Test("William"));
 		//vec.Insert(vec.End(),       Test("Melody"));
+
+		for (auto it = vec.Begin(); it != vec.End(); ++it)
+			std::cout << "After insert : " << it->Name() << std::endl;
+
+		SEPARATOR("Erase 2");
+
+		vec.Erase(vec.Begin() + 1, vec.Begin() + 3);
 
 		for (auto it = vec.Begin(); it != vec.End(); ++it)
 			std::cout << "After insert : " << it->Name() << std::endl;
