@@ -11,6 +11,11 @@
 #include "Geometry\Geometry3D\HVector3D.h"
 #include "Geometry\Geometry2D\HVector2D.h"
 
+#ifndef UNICODE
+#error Please enable UNICODE for your compiler ! VS : \
+Project Properties -> General -> Character Set -> Use Unicode.
+#endif
+
 #define TEST_CONSOLE 0
 
 #if TEST_CONSOLE
@@ -20,6 +25,42 @@
 
 using namespace std::literals::chrono_literals;
 #endif // TEST_CONSOLE
+
+enum COLOUR
+{
+	FG_BLACK        = 0x0000,
+	FG_DARK_BLUE    = 0x0001,
+	FG_DARK_GREEN   = 0x0002,
+	FG_DARK_CYAN    = 0x0003,
+	FG_DARK_RED     = 0x0004,
+	FG_DARK_MAGENTA = 0x0005,
+	FG_DARK_YELLOW  = 0x0006,
+	FG_GREY         = 0x0007,
+	FG_DARK_GREY    = 0x0008,
+	FG_BLUE         = 0x0009,
+	FG_GREEN        = 0x000A,
+	FG_CYAN         = 0x000B,
+	FG_RED          = 0x000C,
+	FG_MAGENTA      = 0x000D,
+	FG_YELLOW       = 0x000E,
+	FG_WHITE        = 0x000F,
+	BG_BLACK        = 0x0000,
+	BG_DARK_BLUE    = 0x0010,
+	BG_DARK_GREEN   = 0x0020,
+	BG_DARK_CYAN    = 0x0030,
+	BG_DARK_RED     = 0x0040,
+	BG_DARK_MAGENTA = 0x0050,
+	BG_DARK_YELLOW  = 0x0060,
+	BG_GREY         = 0x0070,
+	BG_DARK_GREY    = 0x0080,
+	BG_BLUE         = 0x0090,
+	BG_GREEN        = 0x00A0,
+	BG_CYAN         = 0x00B0,
+	BG_RED          = 0x00C0,
+	BG_MAGENTA      = 0x00D0,
+	BG_YELLOW       = 0x00E0,
+	BG_WHITE        = 0x00F0,
+};
 
 
 using namespace LCNMath::Geometry::Dim2;
@@ -41,9 +82,9 @@ private:
 	UINT32 m_Width;
 	UINT32 m_Height;
 
-	char*  m_ScreenBuffer;
-	HANDLE m_HConsole;
-	DWORD  m_DwBytesWritten;
+	CHAR_INFO* m_ScreenBuffer;
+	HANDLE     m_HConsole;
+	SMALL_RECT m_RectWindow;
 
 	std::thread m_MainThread;
 
@@ -56,6 +97,8 @@ private:
 
 	Console(const Console&) = delete;
 	Console& operator=(const Console&) = delete;
+
+	void ConstructConsole();
 
 	void MainThread();
 
@@ -76,7 +119,7 @@ private:
 	};
 
 public:
-	static Console& Get();
+	static Console& Get() noexcept;
 
 	void Start();
 
@@ -141,9 +184,9 @@ private:
 
 	char GetPixelValue(int x, int y) const;
 
-	void DrawPoint(int x, int y, char c = '#');
+	void DrawPoint(int x, int y, short c = 0x2588, short col = 0x000F);
 
-	void DrawLine(int x1, int y1, int x2, int y2, char c = '#');
+	void DrawLine(int x1, int y1, int x2, int y2, short c = 0, short color = COLOUR::BG_WHITE);
 
 	void DrawLine(const HVector2Df& v1, const HVector2Df& v2, char c = '#');
 

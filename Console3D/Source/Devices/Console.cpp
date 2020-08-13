@@ -29,13 +29,10 @@ Console::Console() :
 	m_Height(120),
 	m_ScreenBuffer(nullptr),
 	m_HConsole(nullptr),
-	m_DwBytesWritten(0),
 	m_Focal(120.0f)
 	//m_Focal(90.0f)
 {
-	m_ScreenBuffer = new char[m_Width * m_Height];
-	m_HConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-	SetConsoleActiveScreenBuffer(m_HConsole);
+	m_HConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	// Set up Camera transform
 	m_R0ToCam.Rux =   1.0f;
@@ -54,18 +51,72 @@ Console::Console() :
 
 Console::~Console()
 {
-	m_MainThread.join();
+	if(m_MainThread.joinable())
+		m_MainThread.join();
 
 	delete[] m_ScreenBuffer;
+}
+
+void Console::ConstructConsole()
+{
+	if (m_HConsole == INVALID_HANDLE_VALUE)
+		throw std::exception("Handle invalid.");
+
+	int fontw = 8;
+	int fonth = 8;
+
+	m_RectWindow = { 0, 0, 1, 1 };
+
+	SetConsoleWindowInfo(m_HConsole, TRUE, &m_RectWindow);
+
+	COORD coord = { (short)m_Width, (short)m_Height };
+
+	if (!SetConsoleScreenBufferSize(m_HConsole, coord))
+		throw std::exception("Cannot set Console screen buffer size.");
+
+	if (!SetConsoleActiveScreenBuffer(m_HConsole))
+		throw std::exception("Cannot set Console active screen buffer.");
+
+	m_RectWindow = { 0, 0, (short)m_Width - 1, (short)m_Height - 1 };
+
+	CONSOLE_FONT_INFOEX cfi;
+
+	cfi.cbSize       = sizeof(cfi);
+	cfi.nFont        = 0;
+	cfi.dwFontSize.X = fontw;
+	cfi.dwFontSize.Y = fonth;
+	cfi.FontFamily   = FF_DONTCARE;
+	cfi.FontWeight   = FW_NORMAL;
+
+	wcscpy_s(cfi.FaceName, L"Consolas");
+
+	if (!SetCurrentConsoleFontEx(m_HConsole, FALSE, &cfi))
+		throw std::exception("Cannot set Console font.");
+
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+	if (!GetConsoleScreenBufferInfo(m_HConsole, &csbi))
+		throw std::exception("Cannot get Console screen buffer info.");
+
+	if (m_Width > csbi.dwMaximumWindowSize.X)
+		throw std::exception("Screen Width / Font Width Too Big.");
+
+	if (m_Height > csbi.dwMaximumWindowSize.Y)
+		throw std::exception("Screen Height / Font Height Too Big.");
+
+	// Set console size
+	if (!SetConsoleWindowInfo(m_HConsole, TRUE, &m_RectWindow))
+		throw std::exception("Cannot set Console physical size.");
+
+	// Allocate buffer
+	m_ScreenBuffer = new CHAR_INFO[m_Width * m_Height];
 }
 
 #if !TEST_CONSOLE
 void Console::MainThread()
 {
-	PROFILE_FUNC();
-
 	PaceMaker& pacemaker = PaceMaker::Get();
-	
+
 	/*
 	float aspeed = 36.0f;			// 1 tour / 10s
 	float dt     = 16.0f / 1000.0f;	// Delta de temps
@@ -84,12 +135,13 @@ void Console::MainThread()
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/table_basique.obj", false)
-		OBJReader().ReadFile<Model3D>("Ressource/axisr.obj", true)
-		*/
 		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
+		*/
+		OBJReader().ReadFile<Model3D>("Ressource/axisr.obj", true)
 	};
 
 	// Quick fix for teapot
+	/*
 	Transform3Df teapot({
 		1.0f, 0.0f,  0.0f, 0.0f,
 		0.0f, 0.0f, -1.0f, 0.0f,
@@ -102,7 +154,6 @@ void Console::MainThread()
 
 	for (HVector3Df& vertex : models[1].Normals())
 		vertex = teapot * vertex;
-	/*
 	*/
 
 	//const float scalefactor = 1.0f;
@@ -170,8 +221,6 @@ void Console::MainThread()
 	// Console device loop
 	while (pacemaker.Heartbeat(1))
 	{
-		PROFILE_SCOPE("Main Loop");
-
 		STARTCHRONO;
 
 		tp2 = std::chrono::system_clock::now();
@@ -185,8 +234,6 @@ void Console::MainThread()
 		// Loop through models
 		for (uint i = 0; i < 2; i++)
 		{
-			PROFILE_SCOPE("Model Loop");
-
 			// TODO : Remettre a const
 			Model3D& model = models[i];
 
@@ -345,7 +392,7 @@ void Console::MainThread()
 #ifdef DRAW_FACES
 				char symbol = ' ';
 #else
-				char symbol = '#';
+				char symbol = 0;
 #endif
 
 				for (auto& p : planesfromObj)
@@ -409,7 +456,7 @@ void Console::MainThread()
 }
 #endif // !TEST_CONSOLE
 
-Console& Console::Get()
+Console& Console::Get() noexcept
 {
 	static Console console;
 	return console;
@@ -417,13 +464,16 @@ Console& Console::Get()
 
 void Console::Start()
 {
+	// Start up Console device
+	ConstructConsole();
+
 	// Lauch thread
 	m_MainThread = std::thread(&Console::MainThread, this);
 }
 
 void Console::Clear()
 {
-	memset(m_ScreenBuffer, 0, sizeof(char) * m_Width * m_Height);
+	std::memset(m_ScreenBuffer, 0, sizeof(CHAR_INFO) * m_Width * m_Height);
 }
 
 char Console::GetPixelValue(int x, int y) const
@@ -434,10 +484,10 @@ char Console::GetPixelValue(int x, int y) const
 	ASSERT(y >= 0);
 	ASSERT(y < m_Height);
 
-	return m_ScreenBuffer[x + y * m_Width];
+	return m_ScreenBuffer[x + y * m_Width].Char.AsciiChar;
 }
 
-void Console::DrawPoint(int x, int y, char c)
+void Console::DrawPoint(int x, int y, short c, short col)
 {
 	if (x < 0 || x >= m_Width)
 		return;
@@ -445,7 +495,8 @@ void Console::DrawPoint(int x, int y, char c)
 	if (y < 0 || y >= m_Height)
 		return;
 
-	m_ScreenBuffer[x + y * m_Width] = c;
+	m_ScreenBuffer[x + y * m_Width].Char.UnicodeChar = c;
+	m_ScreenBuffer[x + y * m_Width].Attributes       = col;
 }
 
 HVector3Df Console::SegmentPlaneIntersection(const HVector3Df& v1, const HVector3Df& v2, const HVector3Df& n, const HVector3Df& p)
@@ -520,7 +571,7 @@ uint Console::ClipTriangle(const Triangle& in_t, const HVector3Df& n, const HVec
 	return num;
 }
 
-void Console::DrawLine(int x1, int y1, int x2, int y2, char c)
+void Console::DrawLine(int x1, int y1, int x2, int y2, short c, short color)
 {
 	// Adapted from OneLoneCoder
 	// Original code can be found at https://github.com/OneLoneCoder/videos/blob/master/olcConsoleGameEngine.h
@@ -545,7 +596,7 @@ void Console::DrawLine(int x1, int y1, int x2, int y2, char c)
 			x = x2; y = y2; xe = x1;
 		}
 
-		DrawPoint(x, y, c);
+		DrawPoint(x, y, c, color);
 
 		for (i = 0; x < xe; i++)
 		{
@@ -563,7 +614,7 @@ void Console::DrawLine(int x1, int y1, int x2, int y2, char c)
 				px = px + 2 * (dy1 - dx1);
 			}
 
-			DrawPoint(x, y, c);
+			DrawPoint(x, y, c, color);
 		}
 	}
 	else
@@ -577,7 +628,7 @@ void Console::DrawLine(int x1, int y1, int x2, int y2, char c)
 			x = x2; y = y2; ye = y1;
 		}
 
-		DrawPoint(x, y, c);
+		DrawPoint(x, y, c, color);
 
 		for (i = 0; y<ye; i++)
 		{
@@ -594,7 +645,7 @@ void Console::DrawLine(int x1, int y1, int x2, int y2, char c)
 				py = py + 2 * (dx1 - dy1);
 			}
 
-			DrawPoint(x, y, c);
+			DrawPoint(x, y, c, color);
 		}
 	}
 }
@@ -923,7 +974,7 @@ void Console::FillTriangleRecursive(const Triangle2D& triangle, const ROI& aabb,
 	//Render();
 }
 
-void Console::DisplayMessage(const std::string & msg, Slots slot)
+void Console::DisplayMessage(const std::string& msg, Slots slot)
 {
 	for (UINT32 i = 0; i < msg.length(); i++)
 		DrawPoint(i + 1, m_Height - 1 - slot, msg[i]);
@@ -943,6 +994,7 @@ void Console::HeartBeat()
 
 void Console::Render()
 {
-	m_ScreenBuffer[m_Width * m_Height - 1] = '\0';
-	WriteConsoleOutputCharacter(m_HConsole, m_ScreenBuffer, m_Width * m_Height, { 0,0 }, &m_DwBytesWritten);
+	//m_ScreenBuffer[m_Width * m_Height - 1].Char.UnicodeChar = 0;
+	//WriteConsoleOutputCharacter(m_HConsole, m_ScreenBuffer, m_Width * m_Height, { 0,0 }, &m_DwBytesWritten);
+	WriteConsoleOutput(m_HConsole, m_ScreenBuffer, { (short)m_Width, (short)m_Height }, { 0, 0 }, &m_RectWindow);
 }

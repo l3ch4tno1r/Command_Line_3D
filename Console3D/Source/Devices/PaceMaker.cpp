@@ -79,7 +79,7 @@ void PaceMaker::Stop()
 	m_Run = false;
 }
 
-PaceMaker& PaceMaker::Get()
+PaceMaker& PaceMaker::Get() noexcept
 {
 	static PaceMaker instance;
 	return instance;

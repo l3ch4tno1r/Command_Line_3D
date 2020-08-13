@@ -158,7 +158,7 @@ public:
 		m_Condition.notify_one();
 	}
 
-	static Instrumentor& Get()
+	static Instrumentor& Get() noexcept
 	{
 		static Instrumentor instance;
 		return instance;
