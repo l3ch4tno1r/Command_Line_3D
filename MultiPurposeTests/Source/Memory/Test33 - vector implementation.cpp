@@ -187,19 +187,21 @@ private:
 
 	void MoveMemBlockForward(T* dest, T* src)
 	{
-		ASSERT(dest >= m_Data && dest < m_Data + m_Size);
+		//ASSERT(dest >= m_Data && dest < m_Data + m_Size);
+		ASSERT(dest >= m_Data);
 		ASSERT(src  >= m_Data && src  < m_Data + m_Size);
 		ASSERT(dest >  src);
 
 		size_t delta = dest - src;
 
 		if (m_Size + delta > m_Capacity)
-			Realloc(m_Capacity + m_Capacity / 2);
+			Realloc(m_Size + delta);
 
-		ASSERT(m_Size + delta <= m_Capacity);
+		for(T* ptr = m_Data + m_Capacity - 1; ptr >= m_Data + m_Size; --ptr)
+			new(ptr) T(std::move(*(ptr - delta)));
 
-		for (T* ptr = m_Data + m_Size - 1; ptr >= src; --ptr)
-			*(ptr + delta) = std::move(*ptr);
+		for (T* ptr = m_Data + m_Size - 1; ptr > src; --ptr)
+			*ptr = std::move(*(ptr - delta));
 
 		m_Size += delta;
 	}
@@ -227,6 +229,16 @@ public:
 		MoveMemBlockForward(it.m_Ptr + 1, it.m_Ptr);
 
 		*(it.m_Ptr) = std::move(value);
+	}
+
+	void Insert(const Iterator& it, const std::initializer_list<T> list)
+	{
+		MoveMemBlockForward(it.m_Ptr + list.size(), it.m_Ptr);
+
+		T* ptr = it.m_Ptr;
+
+		for (const auto& e : list)
+			*(ptr++) = e;
 	}
 };
 
@@ -357,6 +369,13 @@ int main()
 
 		for (auto it = vec.Begin(); it != vec.End(); ++it)
 			std::cout << "After insert : " << it->Name() << std::endl;
+
+		vec.Insert(vec.Begin() + 4, {
+			Test("Bob"),
+			Test("Gratt"),
+			Test("Bill"),
+			Test("Emmett")
+		});
 
 		SEPARATOR("Erase 2");
 
