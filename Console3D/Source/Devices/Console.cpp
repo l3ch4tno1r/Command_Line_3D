@@ -117,14 +117,6 @@ void Console::MainThread()
 {
 	PaceMaker& pacemaker = PaceMaker::Get();
 
-	/*
-	float aspeed = 36.0f;			// 1 tour / 10s
-	float dt     = 16.0f / 1000.0f;	// Delta de temps
-	float a      = 0.0f;			// Angle
-	*/
-
-	float radius = 35;
-
 	Model3D models[] = {
 		OBJReader().ReadFile<Model3D>("Ressource/null.obj", false),
 		/*
