@@ -129,7 +129,7 @@
     <ClCompile Include="Source\Graphics\Model3D.cpp" />
     <ClCompile Include="Source\Graphics\OBJReader.cpp" />
     <ClCompile Include="Source\Devices\PaceMaker.cpp" />
-    <ClCompile Include="Source\_Main\App.cpp" />
+    <ClCompile Include="Source\_Main\Main.cpp" />
     <ClCompile Include="Source\_Main\Tests\Console\ConsoleTest.cpp" />
   </ItemGroup>
   <ItemGroup>

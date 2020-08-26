@@ -36,7 +36,7 @@
     <ClCompile Include="Source\_Main\Tests\Console\ConsoleTest.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\_Main\App.cpp">
+    <ClCompile Include="Source\_Main\Main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
