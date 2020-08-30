@@ -130,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities\ConfigManager.h" />
+    <ClInclude Include="Utilities\Design Patterns\Observer.h" />
     <ClInclude Include="Utilities\ErrorHandling.h" />
     <ClInclude Include="Utilities\InstanceCounter.h" />
     <ClInclude Include="Utilities\Instrumentor.h" />

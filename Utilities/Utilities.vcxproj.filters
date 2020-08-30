@@ -50,5 +50,8 @@
     <ClInclude Include="Utilities\InstanceCounter.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Utilities\Design Patterns\Observer.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
