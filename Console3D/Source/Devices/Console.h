@@ -98,7 +98,7 @@ private:
 	Console(const Console&) = delete;
 	Console& operator=(const Console&) = delete;
 
-	void ConstructConsole();
+	void ConstructConsole(size_t width, size_t height, size_t fontw, size_t fonth);
 
 	void MainThread();
 

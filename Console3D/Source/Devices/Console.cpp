@@ -25,8 +25,8 @@
 #define DRAW_EDGES
 
 Console::Console() :
-	m_Width(180),
-	m_Height(120),
+	m_Width(0),
+	m_Height(0),
 	m_ScreenBuffer(nullptr),
 	m_HConsole(nullptr),
 	m_Focal(120.0f)
@@ -57,13 +57,13 @@ Console::~Console()
 	delete[] m_ScreenBuffer;
 }
 
-void Console::ConstructConsole()
+void Console::ConstructConsole(size_t width, size_t height, size_t fontw, size_t fonth)
 {
 	if (m_HConsole == INVALID_HANDLE_VALUE)
 		throw std::exception("Handle invalid.");
 
-	int fontw = 8;
-	int fonth = 8;
+	m_Width  = width;
+	m_Height = height;
 
 	m_RectWindow = { 0, 0, 1, 1 };
 
@@ -457,7 +457,7 @@ Console& Console::Get() noexcept
 void Console::Start()
 {
 	// Start up Console device
-	ConstructConsole();
+	ConstructConsole(150, 100, 8, 8);
 
 	// Lauch thread
 	m_MainThread = std::thread(&Console::MainThread, this);

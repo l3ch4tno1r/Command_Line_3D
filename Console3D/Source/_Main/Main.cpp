@@ -31,18 +31,6 @@ int main()
 
 		SetConsoleMode(hStdin, ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT | ENABLE_WINDOW_INPUT);
 
-		RECT rect;
-
-		GetWindowRect(hWnd, &rect);
-
-		SHORT mouseposx = 0;
-		SHORT mouseposy = 0;
-
-		int Cx = (rect.left + rect.right) / 2;
-		int Cy = (rect.top + rect.bottom) / 2;
-
-		SetCursorPos(Cx, Cy);
-
 		instrumentor.BeginSession("Test");
 
 		Transform3D<float>& r0tocam = console.R0ToCam();
@@ -55,9 +43,21 @@ int main()
 		float ax = 0.0f;
 		float ay = 0.0f;
 
-		while(ShowCursor(false) >= 0);
-
 		console.Start();
+
+		RECT rect;
+
+		GetWindowRect(hWnd, &rect);
+
+		SHORT mouseposx = 0;
+		SHORT mouseposy = 0;
+
+		int Cx = (rect.left + rect.right) / 2;
+		int Cy = (rect.top + rect.bottom) / 2;
+
+		SetCursorPos(Cx, Cy);
+
+		while(ShowCursor(false) >= 0);
 
 		Transform3D<float> Tr = r0tocam;
 		Transform3D<float> RotX;
