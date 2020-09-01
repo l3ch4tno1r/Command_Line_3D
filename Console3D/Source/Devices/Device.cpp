@@ -1,6 +1,6 @@
 #include "Device.h"
 
-bool Device::Continue()
+bool SyncDevice::Continue()
 {
 	std::unique_lock<std::mutex> lock(m_NotifMut);
 
@@ -12,7 +12,7 @@ bool Device::Continue()
 	return m_State.Run;
 }
 
-Device::~Device()
+SyncDevice::~SyncDevice()
 {
 	Update(false);
 
@@ -20,17 +20,17 @@ Device::~Device()
 		m_MainThread.join();
 }
 
-void Device::Start()
+void SyncDevice::Start()
 {
 	if (m_State.Run)
 		return;
 
 	m_State.Run = true;
 
-	m_MainThread = std::thread(&Device::MainThread, this);
+	m_MainThread = std::thread(&SyncDevice::MainThread, this);
 }
 
-void Device::Update(bool run)
+void SyncDevice::Update(bool run)
 {
 	std::lock_guard<std::mutex> lock(m_NotifMut);
 
