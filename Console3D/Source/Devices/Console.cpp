@@ -51,9 +51,6 @@ Console::Console() :
 
 Console::~Console()
 {
-	if(m_MainThread.joinable())
-		m_MainThread.join();
-
 	delete[] m_ScreenBuffer;
 }
 
@@ -115,8 +112,6 @@ void Console::ConstructConsole(size_t width, size_t height, size_t fontw, size_t
 #if !TEST_CONSOLE
 void Console::MainThread()
 {
-	PaceMaker& pacemaker = PaceMaker::Get();
-
 	Model3D models[] = {
 		OBJReader().ReadFile<Model3D>("Ressource/null.obj", false),
 		/*
@@ -211,7 +206,7 @@ void Console::MainThread()
 	std::stringstream sstr;
 
 	// Console device loop
-	while (pacemaker.Heartbeat(1))
+	while (Continue())
 	{
 		STARTCHRONO;
 
@@ -460,7 +455,7 @@ void Console::Start()
 	ConstructConsole(150, 100, 8, 8);
 
 	// Lauch thread
-	m_MainThread = std::thread(&Console::MainThread, this);
+	Device::Start();
 }
 
 void Console::Clear()

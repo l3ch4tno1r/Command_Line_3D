@@ -14,13 +14,24 @@
 #include "Utilities\Angles.h"
 #include "Utilities\Instrumentor.h"
 
-using namespace std;
+class Temp : public Device
+{
+public:
+	void MainThread() override {}
+
+	bool PContinue() { return Continue(); }
+};
 
 int main()
 {
 	Instrumentor& instrumentor = Instrumentor::Get();
 	PaceMaker&    pacemaker    = PaceMaker::Get();
 	Console&      console      = Console::Get();
+
+	Temp temp;
+
+	pacemaker.AddObserver(console);
+	pacemaker.AddObserver(temp);
 
 	try
 	{
@@ -65,7 +76,7 @@ int main()
 
 		while (true)
 		{
-			pacemaker.Heartbeat(0);
+			temp.PContinue();
 
 			// Closing the app
 			if (GetAsyncKeyState((unsigned short)27) & 0x8000)
