@@ -68,5 +68,8 @@
     <ClInclude Include="Source\Devices\Device.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Devices\GraphicEngine.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

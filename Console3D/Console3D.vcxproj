@@ -137,6 +137,7 @@
     <ClInclude Include="External\stb_image\stb_image.h" />
     <ClInclude Include="Source\Devices\Console.h" />
     <ClInclude Include="Source\Devices\Device.h" />
+    <ClInclude Include="Source\Devices\GraphicEngine.h" />
     <ClInclude Include="Source\Graphics\Camera.h" />
     <ClInclude Include="Source\Graphics\GraphicRessourcesManager.h" />
     <ClInclude Include="Source\Graphics\Model3D.h" />
