@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="External\stb_image\stb_image.cpp" />
     <ClCompile Include="Source\Devices\Console.cpp" />
+    <ClCompile Include="Source\Devices\Device.cpp" />
     <ClCompile Include="Source\Graphics\Camera.cpp" />
     <ClCompile Include="Source\Graphics\Model3D.cpp" />
     <ClCompile Include="Source\Graphics\OBJReader.cpp" />
@@ -135,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="External\stb_image\stb_image.h" />
     <ClInclude Include="Source\Devices\Console.h" />
+    <ClInclude Include="Source\Devices\Device.h" />
     <ClInclude Include="Source\Graphics\Camera.h" />
     <ClInclude Include="Source\Graphics\GraphicRessourcesManager.h" />
     <ClInclude Include="Source\Graphics\Model3D.h" />
