@@ -73,7 +73,7 @@ using Transform2Df = Transform2D<float>;
 using HVector3Df   = HVector3D<float>;
 using HVector2Df   = HVector2D<float>;
 
-class Console : public SyncDevice
+class Console : public Device
 {
 private:
 	const float cm_ScreenDist = 0.1f;

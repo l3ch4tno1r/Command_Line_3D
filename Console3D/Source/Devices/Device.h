@@ -2,7 +2,7 @@
 
 #include "Utilities/Design Patterns/Observer.h"
 
-class SyncDevice : public Observer<SyncDevice>
+class Device : public Observer<Device>
 {
 private:
 	std::thread m_MainThread;
@@ -22,7 +22,7 @@ protected:
 	bool Continue();
 
 public:
-	virtual ~SyncDevice();
+	virtual ~Device();
 
 	void Start();
 

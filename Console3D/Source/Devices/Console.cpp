@@ -455,7 +455,7 @@ void Console::Start()
 	ConstructConsole(150, 100, 8, 8);
 
 	// Lauch thread
-	SyncDevice::Start();
+	Device::Start();
 }
 
 void Console::Clear()

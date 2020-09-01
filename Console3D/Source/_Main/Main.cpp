@@ -14,7 +14,7 @@
 #include "Utilities\Angles.h"
 #include "Utilities\Instrumentor.h"
 
-class Temp : public SyncDevice
+class Temp : public Device
 {
 public:
 	void MainThread() override {}

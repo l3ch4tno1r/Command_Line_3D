@@ -10,7 +10,7 @@
 #include "Utilities/Design Patterns/Observer.h"
 #include "Device.h"
 
-class PaceMaker : public Subject<SyncDevice>
+class PaceMaker : public Subject<Device>
 {
 private:
 	std::atomic<bool>         m_Run;
