@@ -51,9 +51,6 @@ Console::Console() :
 
 Console::~Console()
 {
-	if(m_MainThread.joinable())
-		m_MainThread.join();
-
 	delete[] m_ScreenBuffer;
 }
 

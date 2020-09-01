@@ -88,8 +88,6 @@ private:
 	HANDLE     m_HConsole;
 	SMALL_RECT m_RectWindow;
 
-	std::thread m_MainThread;
-
 	float        m_Focal;
 	Transform3Df m_R0ToCam;
 
