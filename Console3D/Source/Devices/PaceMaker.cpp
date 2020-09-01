@@ -26,12 +26,10 @@ void PaceMaker::MainThread()
 
 		Continue();
 
-		NotifyAll();
+		Notify(true);
 
 		std::this_thread::sleep_until(next);
 	}
-
-	NotifyAll();
 }
 
 void PaceMaker::Continue()
@@ -41,30 +39,6 @@ void PaceMaker::Continue()
 
 	while (m_Pause)
 		m_PauseCondition.wait(lock);
-}
-
-// TODO : Try not to do it this way #1
-void PaceMaker::NotifyAll()
-{
-	std::unique_lock<std::mutex> lock(m_NotifiedMutex);
-
-	for (bool& notified : m_Notifications)
-		notified = true;
-
-	m_Condition.notify_all();
-}
-
-// TODO : Try not to do it this way #2
-bool PaceMaker::Heartbeat(uint32_t id)
-{
-	std::unique_lock<std::mutex> lock(m_NotifiedMutex);
-
-	while(!m_Notifications[id])
-		m_Condition.wait(lock);
-
-	m_Notifications[id] = false;
-
-	return m_Run;
 }
 
 void PaceMaker::Pause(bool _pause)

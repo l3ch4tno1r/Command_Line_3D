@@ -11,6 +11,8 @@
 #include "Geometry\Geometry3D\HVector3D.h"
 #include "Geometry\Geometry2D\HVector2D.h"
 
+#include "Device.h"
+
 #ifndef UNICODE
 #error Please enable UNICODE for your compiler ! VS : \
 Project Properties -> General -> Character Set -> Use Unicode.
@@ -71,7 +73,7 @@ using Transform2Df = Transform2D<float>;
 using HVector3Df   = HVector3D<float>;
 using HVector2Df   = HVector2D<float>;
 
-class Console
+class Console : public SyncDevice
 {
 private:
 	const float cm_ScreenDist = 0.1f;
@@ -100,7 +102,7 @@ private:
 
 	void ConstructConsole(size_t width, size_t height, size_t fontw, size_t fonth);
 
-	void MainThread();
+	void MainThread() override;
 
 	using Pixel = HVector2D<int>;
 
