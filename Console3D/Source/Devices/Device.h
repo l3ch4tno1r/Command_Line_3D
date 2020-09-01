@@ -2,7 +2,7 @@
 
 #include "Utilities/Design Patterns/Observer.h"
 
-class SyncDevice : public ObserverBase<SyncDevice>
+class SyncDevice : public Observer<SyncDevice>
 {
 private:
 	std::thread m_MainThread;

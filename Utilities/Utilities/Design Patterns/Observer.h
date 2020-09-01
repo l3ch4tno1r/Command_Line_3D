@@ -12,11 +12,11 @@ template<class Obs>
 class Subject;
 
 //////////////////////
-//-- ObserverBase --//
+//-- Observer --//
 //////////////////////
 
 template<class Obs>
-class ObserverBase
+class Observer
 {
 private:
 	using SubjectType = Subject<Obs>;
@@ -24,7 +24,7 @@ private:
 	SubjectType* m_Subject = nullptr;
 
 public:
-	virtual ~ObserverBase()
+	virtual ~Observer()
 	{
 		if (m_Subject)
 			m_Subject->RemoveObserver(static_cast<Obs&>(*this));
@@ -42,7 +42,7 @@ public:
 template<class Obs>
 class Subject
 {
-	static_assert(std::is_base_of<ObserverBase<Obs>, Obs>::value, "Obs must inherit from ObserverBase<Obs>");
+	static_assert(std::is_base_of<Observer<Obs>, Obs>::value, "Obs must inherit from Observer<Obs>");
 
 private:
 	std::list<Obs*> m_Observers;
