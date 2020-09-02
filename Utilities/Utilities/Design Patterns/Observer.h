@@ -3,6 +3,7 @@
 #include <list>
 #include <type_traits>
 #include <mutex>
+#include <exception>
 
 //////////////////////////////
 //-- Forward declarations --//
@@ -30,7 +31,13 @@ public:
 			m_Subject->RemoveObserver(static_cast<Obs&>(*this));
 	}
 
-	void ConnectToSubject(SubjectType* subject) { m_Subject = subject; };
+	void ConnectToSubject(SubjectType* subject)
+	{
+		if (m_Subject)
+			throw std::exception("Already connected !");
+
+		m_Subject = subject; 
+	};
 
 	void DisconnectFromSubject() { m_Subject = nullptr; }
 };
