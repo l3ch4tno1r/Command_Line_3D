@@ -10,6 +10,8 @@
 #include "Utilities/Design Patterns/Observer.h"
 #include "Device.h"
 
+using namespace std::literals::chrono_literals;
+
 class PaceMaker : public Subject<Device>
 {
 private:
@@ -20,9 +22,6 @@ private:
 	std::atomic<bool>       m_Pause;
 	std::condition_variable m_PauseCondition;
 
-	PaceMaker();
-	~PaceMaker();
-
 	PaceMaker(const PaceMaker&) = delete;
 	PaceMaker& operator=(const PaceMaker&) = delete;
 
@@ -31,7 +30,11 @@ private:
 	void Continue();
 
 public:
-	static PaceMaker& Get() noexcept;
+	PaceMaker();
+
+	~PaceMaker();
+
+	void Start(std::chrono::milliseconds interval);
 
 	void Pause(bool _pause);
 

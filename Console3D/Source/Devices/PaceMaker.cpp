@@ -1,18 +1,21 @@
 #include "PaceMaker.h"
 
-using namespace std::literals::chrono_literals;
-
 PaceMaker::PaceMaker() :
 	m_Run(true),
-	m_Pause(false),
-	m_Interval(16ms),
-	m_RunThread(&PaceMaker::MainThread, this)
+	m_Pause(false)
 {}
 
 PaceMaker::~PaceMaker()
 {
 	m_Run = false;
 	m_RunThread.join();
+}
+
+void PaceMaker::Start(std::chrono::milliseconds interval)
+{
+	m_Interval = interval;
+
+	m_RunThread = std::thread(&PaceMaker::MainThread, this);
 }
 
 void PaceMaker::MainThread()
@@ -52,11 +55,3 @@ void PaceMaker::Stop()
 {
 	m_Run = false;
 }
-
-PaceMaker& PaceMaker::Get() noexcept
-{
-	static PaceMaker instance;
-	return instance;
-}
-
-//PaceMaker PaceMaker::s_Instance;

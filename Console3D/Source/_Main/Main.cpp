@@ -25,16 +25,17 @@ public:
 int main()
 {
 	Instrumentor& instrumentor = Instrumentor::Get();
-	PaceMaker&    pacemaker    = PaceMaker::Get();
 	Console&      console      = Console::Get();
+
+	PaceMaker pacemaker;
 
 	Temp temp;
 
-	pacemaker.AddObserver(console);
-	pacemaker.AddObserver(temp);
-
 	try
 	{
+		pacemaker.AddObserver(console);
+		pacemaker.AddObserver(temp);
+
 		HANDLE       hStdin = GetStdHandle(STD_INPUT_HANDLE);
 		HWND         hWnd   = GetConsoleWindow();
 		DWORD        cNumRead;
@@ -54,6 +55,7 @@ int main()
 		float ax = 0.0f;
 		float ay = 0.0f;
 
+		pacemaker.Start(16ms);
 		console.Start();
 
 		RECT rect;
