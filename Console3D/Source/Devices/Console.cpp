@@ -6,8 +6,6 @@
 #include "Utilities\Utils.h"
 #include "Utilities\Instrumentor.h"
 
-#include "Devices\PaceMaker.h"
-
 #include "Graphics\OBJReader.h"
 
 #include <chrono>
