@@ -9,6 +9,7 @@ private:
 
 	struct
 	{
+		bool Started  : 1;
 		bool Run      : 1;
 		bool Notified : 1;
 	} m_State;
@@ -22,6 +23,8 @@ protected:
 	bool Continue();
 
 public:
+	Device();
+
 	virtual ~Device();
 
 	void Start();

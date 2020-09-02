@@ -12,6 +12,13 @@ bool Device::Continue()
 	return m_State.Run;
 }
 
+Device::Device()
+{
+	m_State.Started  = false;
+	m_State.Run      = false;
+	m_State.Notified = false;
+}
+
 Device::~Device()
 {
 	Update(false);
@@ -22,10 +29,11 @@ Device::~Device()
 
 void Device::Start()
 {
-	if (m_State.Run)
+	if (m_State.Started)
 		return;
 
-	m_State.Run = true;
+	m_State.Started = true;
+	m_State.Run     = true;
 
 	m_MainThread = std::thread(&Device::MainThread, this);
 }
