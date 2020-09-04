@@ -146,7 +146,7 @@ void Console::MainThread()
 {
 	float theta  = 0;
 	float aspeed = 6;            // degrès secondes
-	float dt     = 16.0f / 1000; // 16ms
+	float dt     = 2.0f * 16.0f / 1000; // 16ms
 
 	Transform2Df frame = {
 		1.0f, 0.0f, (float)m_Width / 2,
@@ -154,15 +154,25 @@ void Console::MainThread()
 		0.0f, 0.0f, 1.0f
 	};
 
-	Pixelf _p = { 0.0f, -30.0f };
+	Pixelf p1 = {  0.0f,  -30.0f };
+	Pixelf p2 = {  30.0f,  10.0f };
+	Pixelf p3 = { -20.0f,  0.0f };
 
 	while (Continue())
 	{
 		Clear();
 
-		Pixelf pix = frame.mat * _p.mat;
+		Pixelf pix1 = frame.mat * p1.mat;
+		Pixelf pix2 = frame.mat * p2.mat;
+		Pixelf pix3 = frame.mat * p3.mat;
 
-		DrawLine(frame.Tx, frame.Ty, pix.x, pix.y);
+		/*
+		DrawLine(pix1.x, pix1.y, pix2.x, pix2.y);
+		DrawLine(pix2.x, pix2.y, pix3.x, pix3.y);
+		DrawLine(pix3.x, pix3.y, pix1.x, pix1.y);
+		*/
+
+		FillTriangle(pix1, pix2, pix3);
 
 		theta += aspeed * dt;
 
