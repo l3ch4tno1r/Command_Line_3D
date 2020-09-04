@@ -1,6 +1,0 @@
-[submodule "LCN_Math"]
-	path = LCN_Math
-	url = https://github.com/l3ch4tno1r/LCN_Math.git
-[submodule "MiscellaneousTests"]
-	path = MiscellaneousTests
-	url = https://github.com/l3ch4tno1r/MiscellaneousTests.git
