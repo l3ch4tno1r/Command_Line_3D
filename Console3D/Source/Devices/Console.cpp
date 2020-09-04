@@ -403,7 +403,7 @@ void Console::MainThread()
 				_pt1.Homogenize();
 				_pt2.Homogenize();
 
-				DrawLine(_pt1, _pt2, symbol);
+				DrawLine(_pt1.x, _pt1.y, _pt2.x, _pt2.y, symbol);
 			}
 #endif // DRAW_EDGES
 		}
@@ -559,7 +559,7 @@ uint Console::ClipTriangle(const Triangle& in_t, const HVector3Df& n, const HVec
 void Console::DrawLine(int x1, int y1, int x2, int y2, short c, short color)
 {
 	// Adapted from OneLoneCoder
-	// Original code can be found at https://github.com/OneLoneCoder/videos/blob/master/olcConsoleGameEngine.h
+	// Original code : https://github.com/OneLoneCoder/videos/blob/master/olcConsoleGameEngine.h
 
 	int x, y, dx, dy, dx1, dy1, px, py, xe, ye, i;
 
@@ -633,11 +633,6 @@ void Console::DrawLine(int x1, int y1, int x2, int y2, short c, short color)
 			DrawPoint(x, y, c, color);
 		}
 	}
-}
-
-void Console::DrawLine(const HVector2Df& v1, const HVector2Df& v2, char c)
-{
-	DrawLine(v1.x, v1.y, v2.x, v2.y, c);
 }
 
 void Console::FillRectangle(const Pixel& TL, const Pixel& BR, char c, const std::function<bool(const Pixel&)>& criteria)
@@ -736,19 +731,19 @@ void Console::FillTriangle(const Triangle2D& triangle, char c)
 	};
 
 	FillRectangle(TL, BR, c, [&](const Pixel& p)
-		{
-			Pixel pX2 = 2 * p + offset;
+	{
+		Pixel pX2 = 2 * p + offset;
 
-			Pixel n1 = (triangleX2.p2 - triangleX2.p1).NormalVector();
-			Pixel n2 = (triangleX2.p3 - triangleX2.p2).NormalVector();
-			Pixel n3 = (triangleX2.p1 - triangleX2.p3).NormalVector();
+		Pixel n1 = (triangleX2.p2 - triangleX2.p1).NormalVector();
+		Pixel n2 = (triangleX2.p3 - triangleX2.p2).NormalVector();
+		Pixel n3 = (triangleX2.p1 - triangleX2.p3).NormalVector();
 
-			short s1 = sign((pX2 - triangleX2.p1) | n1);
-			short s2 = sign((pX2 - triangleX2.p2) | n2);
-			short s3 = sign((pX2 - triangleX2.p3) | n3);
+		short s1 = sign((pX2 - triangleX2.p1) | n1);
+		short s2 = sign((pX2 - triangleX2.p2) | n2);
+		short s3 = sign((pX2 - triangleX2.p3) | n3);
 
-			return (s1 == s2) && (s2 == s3);
-		});
+		return (s1 == s2) && (s2 == s3);
+	});
 }
 
 int Console::ROI::Width() const

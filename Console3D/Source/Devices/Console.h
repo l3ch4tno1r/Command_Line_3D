@@ -18,7 +18,7 @@
 Project Properties -> General -> Character Set -> Use Unicode.
 #endif
 
-#define TEST_CONSOLE 0
+#define TEST_CONSOLE 1
 
 #if TEST_CONSOLE
 #include <functional>
@@ -159,6 +159,8 @@ private:
 public:
 	void Notify(bool run);
 
+	void DrawLine2(int x1, int y1, int x2, int y2, short c = 0, short color = COLOUR::BG_WHITE);
+
 #endif // TEST_CONSOLE
 
 private:
@@ -187,8 +189,6 @@ private:
 	void DrawPoint(int x, int y, short c = 0x2588, short col = 0x000F);
 
 	void DrawLine(int x1, int y1, int x2, int y2, short c = 0, short color = COLOUR::BG_WHITE);
-
-	void DrawLine(const HVector2Df& v1, const HVector2Df& v2, char c = '#');
 
 	void FillRectangle(const Pixel& TL, const Pixel& BR, char c = '#', const std::function<bool(const Pixel&)>& criteria = [](const Pixel&) { return true; });
 
