@@ -2,6 +2,7 @@
 #include <thread>
 
 #include "Devices/Console.h"
+#include "Devices/PaceMaker.h"
 
 #if !TEST_CONSOLE
 #error Activate the Test mode in Devices -> Console.h
@@ -9,6 +10,8 @@
 
 int main()
 {
+	PaceMaker pacemaker;
+
 	bool run = true;
 
 	HANDLE       hStdin = GetStdHandle(STD_INPUT_HANDLE);
@@ -21,6 +24,10 @@ int main()
 	Console& console = Console::Get();
 
 	console.Start();
+
+	pacemaker.AddObserver(console);
+
+	pacemaker.Start(16ms);
 
 	while (run)
 	{
