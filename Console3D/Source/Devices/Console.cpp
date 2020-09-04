@@ -461,7 +461,7 @@ void Console::Clear()
 	std::memset(m_ScreenBuffer, 0, sizeof(CHAR_INFO) * m_Width * m_Height);
 }
 
-char Console::GetPixelValue(int x, int y) const
+CHAR_INFO Console::GetPixelValue(int x, int y) const
 {
 	// TODO : Check if x and y are not out of range !!!
 	ASSERT(x >= 0);
@@ -469,7 +469,7 @@ char Console::GetPixelValue(int x, int y) const
 	ASSERT(y >= 0);
 	ASSERT(y < m_Height);
 
-	return m_ScreenBuffer[x + y * m_Width].Char.AsciiChar;
+	return m_ScreenBuffer[x + y * m_Width];
 }
 
 void Console::DrawPoint(int x, int y, short c, short col)
@@ -635,7 +635,7 @@ void Console::DrawLine(int x1, int y1, int x2, int y2, short c, short color)
 	}
 }
 
-void Console::FillRectangle(const Pixel& TL, const Pixel& BR, char c, const std::function<bool(const Pixel&)>& criteria)
+void Console::FillRectangle(const Pixel& TL, const Pixel& BR, const std::function<bool(const Pixel&)>& criteria, short c, short color)
 {
 	ASSERT(TL.x <= BR.x);
 	ASSERT(TL.y <= BR.y);
@@ -646,7 +646,7 @@ void Console::FillRectangle(const Pixel& TL, const Pixel& BR, char c, const std:
 				DrawPoint(i, j, c);
 }
 
-void Console::FillTriangle(const HVector2Df& v1, const HVector2Df& v2, const HVector2Df& v3, char c)
+void Console::FillTriangle(const HVector2Df& v1, const HVector2Df& v2, const HVector2Df& v3, short c, short color)
 {
 	auto insidetriangle = [&](const HVector2Df& p)
 	{
@@ -669,15 +669,15 @@ void Console::FillTriangle(const HVector2Df& v1, const HVector2Df& v2, const HVe
 		return a && b;
 	};
 
-	DrawPoint((uint32_t)v1.x, (uint32_t)v1.y, c);
-	DrawPoint((uint32_t)v2.x, (uint32_t)v2.y, c);
-	DrawPoint((uint32_t)v3.x, (uint32_t)v3.y, c);
+	DrawPoint((uint32_t)v1.x, (uint32_t)v1.y, c, color);
+	DrawPoint((uint32_t)v2.x, (uint32_t)v2.y, c, color);
+	DrawPoint((uint32_t)v3.x, (uint32_t)v3.y, c, color);
 
 	std::queue<HVector2Df> queue;
 
 	queue.push((v1 + v2 + v3) / 3.0f);
 
-	DrawPoint((uint32_t)queue.front().x, (uint32_t)queue.front().y, c);
+	DrawPoint((uint32_t)queue.front().x, (uint32_t)queue.front().y, c, color);
 
 	while (!queue.empty())
 	{
@@ -698,11 +698,11 @@ void Console::FillTriangle(const HVector2Df& v1, const HVector2Df& v2, const HVe
 			if (!insidescreen(pt))
 				continue;
 
-			if (GetPixelValue((uint32_t)pt.x, (uint32_t)pt.y) == 0)
+			if (GetPixelValue((uint32_t)pt.x, (uint32_t)pt.y).Attributes == 0)
 			{
 				if (insidetriangle(pt))
 				{
-					DrawPoint((uint32_t)pt.x, (uint32_t)pt.y, c);
+					DrawPoint((uint32_t)pt.x, (uint32_t)pt.y, c, color);
 					queue.push(pt);
 				}
 			}
@@ -710,7 +710,7 @@ void Console::FillTriangle(const HVector2Df& v1, const HVector2Df& v2, const HVe
 	}
 }
 
-void Console::FillTriangle(const Triangle2D& triangle, char c)
+void Console::FillTriangle(const Triangle2D& triangle, short c, short color)
 {
 	Pixel TL = {
 		std::min({ triangle.p1.x, triangle.p2.x,triangle.p3.x }),
@@ -730,7 +730,7 @@ void Console::FillTriangle(const Triangle2D& triangle, char c)
 		2 * triangle.p3 + offset
 	};
 
-	FillRectangle(TL, BR, c, [&](const Pixel& p)
+	FillRectangle(TL, BR, [&](const Pixel& p)
 	{
 		Pixel pX2 = 2 * p + offset;
 
@@ -743,8 +743,10 @@ void Console::FillTriangle(const Triangle2D& triangle, char c)
 		short s3 = sign((pX2 - triangleX2.p3) | n3);
 
 		return (s1 == s2) && (s2 == s3);
-	});
+	}, c, color);
 }
+
+/*
 
 int Console::ROI::Width() const
 {
@@ -953,6 +955,7 @@ void Console::FillTriangleRecursive(const Triangle2D& triangle, const ROI& aabb,
 	//RENDER_AND_WAIT;
 	//Render();
 }
+*/
 
 void Console::DisplayMessage(const std::string& msg, Slots slot)
 {

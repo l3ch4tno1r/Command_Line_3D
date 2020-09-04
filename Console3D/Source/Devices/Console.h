@@ -184,18 +184,19 @@ private:
 		                     const HVector3Df& n,    const HVector3Df& p,    // Plane parameters
 		                           Triangle&   o_t1,       Triangle&  o_t2); // Output triangles
 
-	char GetPixelValue(int x, int y) const;
+	CHAR_INFO GetPixelValue(int x, int y) const;
 
 	void DrawPoint(int x, int y, short c = 0x2588, short col = 0x000F);
 
 	void DrawLine(int x1, int y1, int x2, int y2, short c = 0, short color = COLOUR::BG_WHITE);
 
-	void FillRectangle(const Pixel& TL, const Pixel& BR, char c = '#', const std::function<bool(const Pixel&)>& criteria = [](const Pixel&) { return true; });
+	void FillRectangle(const Pixel& TL, const Pixel& BR, const std::function<bool(const Pixel&)>& criteria = [](const Pixel&) { return true; }, short c = 0, short color = COLOUR::BG_WHITE);
 
-	void FillTriangle(const HVector2Df& v1, const HVector2Df& v2, const HVector2Df& v3, char c = '#');
+	void FillTriangle(const HVector2Df& v1, const HVector2Df& v2, const HVector2Df& v3, short c = 0, short color = COLOUR::BG_WHITE);
 
-	void FillTriangle(const Triangle2D& triangle, char c = '#');
+	void FillTriangle(const Triangle2D& triangle, short c = 0, short color = COLOUR::BG_WHITE);
 
+	/*
 	struct ROI
 	{
 		Pixel TL;
@@ -209,6 +210,7 @@ private:
 	};
 
 	void FillTriangleRecursive(const Triangle2D& triangle, const ROI& aabb, char c = '#');
+	*/
 
 	enum Slots
 	{
