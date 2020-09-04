@@ -35,7 +35,7 @@ namespace LCNMath {
 							m_Matrix[i][j] = value;
 				}
 
-				Matrix(std::initializer_list<T> _params)
+				Matrix(const std::initializer_list<T>& _params)
 				{
 					uint idx = 0;
 

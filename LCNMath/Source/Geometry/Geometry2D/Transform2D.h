@@ -1,5 +1,7 @@
 #pragma once
 
+#include <initializer_list>
+
 #include "Matrix\Stack\SqrSMatrix.h"
 #include "Utilities\Angles.h"
 
@@ -8,7 +10,7 @@ namespace LCNMath {
 		namespace Dim2 {
 
 			template<typename T>
-			using SMatrix33f    = LCNMath::Matrix::StaticMatrix::Matrix<T, 3, 3>;
+			using SMatrix33f = LCNMath::Matrix::StaticMatrix::Matrix<T, 3, 3>;
 
 			template<typename T>
 			using SqrSMatrix33f = LCNMath::Matrix::StaticMatrix::SqrMatrix<T, 3>;
@@ -18,8 +20,8 @@ namespace LCNMath {
 			{
 				struct
 				{
-					float Rux, Rvx, Tx,
-						  Ruy, Rvy, Ty;
+					T Rux, Rvx, Tx,
+					  Ruy, Rvy, Ty;
 
 					// Representation of :
 					// [ Rux, Rvx, Tx ]
@@ -46,6 +48,24 @@ namespace LCNMath {
 				{
 					SetTranslation(x, y);
 					SetRotationAngle(a);
+				}
+
+				Transform2D(const std::initializer_list<T>& list)
+				{
+					size_t i = 0;
+
+					for (const T& e : list)
+					{
+						if (i > mat.Lines() * mat.Columns())
+							return;
+
+						size_t I = i / mat.Columns();
+						size_t J = i % mat.Columns();
+
+						mat(I, J) = e;
+
+						++i;
+					}
 				}
 
 				void SetRotationAngle(float a)
