@@ -1,7 +1,7 @@
 #include "PaceMaker.h"
 
 PaceMaker::PaceMaker() :
-	m_Run(true),
+	m_Run(false),
 	m_Pause(false)
 {}
 
@@ -9,13 +9,6 @@ PaceMaker::~PaceMaker()
 {
 	m_Run = false;
 	m_RunThread.join();
-}
-
-void PaceMaker::Start(std::chrono::milliseconds interval)
-{
-	m_Interval = interval;
-
-	m_RunThread = std::thread(&PaceMaker::MainThread, this);
 }
 
 void PaceMaker::MainThread()
@@ -42,6 +35,21 @@ void PaceMaker::Continue()
 
 	while (m_Pause)
 		m_PauseCondition.wait(lock);
+}
+
+void PaceMaker::Start(std::chrono::milliseconds interval)
+{
+	if (m_Run)
+	{
+		m_Run = false;
+		m_RunThread.join();
+	}
+
+	m_Run = true;
+
+	m_Interval = interval;
+
+	m_RunThread = std::thread(&PaceMaker::MainThread, this);
 }
 
 void PaceMaker::Pause(bool _pause)
