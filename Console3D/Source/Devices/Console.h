@@ -79,8 +79,6 @@ private:
 	const float cm_ScreenDist = 0.1f;
 
 private:
-	//static Console console;
-
 	UINT32 m_Width;
 	UINT32 m_Height;
 
