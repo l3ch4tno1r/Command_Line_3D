@@ -145,11 +145,6 @@
     <ClInclude Include="Source\Devices\PaceMaker.h" />
     <ClInclude Include="Source\Graphics\OBJReader.h" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Utilities\Utilities.vcxproj">
-      <Project>{9c344fbf-3053-4c64-a2ee-739e310656c4}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
