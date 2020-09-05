@@ -2,9 +2,9 @@
 
 #if TEST_CONSOLE
 
-#include "Utilities/ErrorHandling.h"
-#include "Utilities/Utils.h"
-#include "Utilities/Instrumentor.h"
+#include "Source/ErrorHandling.h"
+#include "Source/Utils.h"
+#include "Source/Instrumentor.h"
 
 #include "Utilities/Angles.h"
 #include "Geometry/Geometry2D/Transform2D.h"

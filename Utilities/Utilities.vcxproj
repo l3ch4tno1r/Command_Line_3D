@@ -123,20 +123,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Utilities\ConfigManager.cpp" />
-    <ClCompile Include="Utilities\ErrorHandling.cpp" />
-    <ClCompile Include="Utilities\TimeMeasurement.cpp" />
-    <ClCompile Include="Utilities\TraceLog.cpp" />
+    <ClCompile Include="Source\ConfigManager.cpp" />
+    <ClCompile Include="Source\ErrorHandling.cpp" />
+    <ClCompile Include="Source\TimeMeasurement.cpp" />
+    <ClCompile Include="Source\TraceLog.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Utilities\ConfigManager.h" />
-    <ClInclude Include="Utilities\Design Patterns\Observer.h" />
-    <ClInclude Include="Utilities\ErrorHandling.h" />
-    <ClInclude Include="Utilities\InstanceCounter.h" />
-    <ClInclude Include="Utilities\Instrumentor.h" />
-    <ClInclude Include="Utilities\TimeMeasurement.h" />
-    <ClInclude Include="Utilities\TraceLog.h" />
-    <ClInclude Include="Utilities\Utils.h" />
+    <ClInclude Include="Source\ConfigManager.h" />
+    <ClInclude Include="Source\Design Patterns\Observer.h" />
+    <ClInclude Include="Source\ErrorHandling.h" />
+    <ClInclude Include="Source\InstanceCounter.h" />
+    <ClInclude Include="Source\Instrumentor.h" />
+    <ClInclude Include="Source\TimeMeasurement.h" />
+    <ClInclude Include="Source\TraceLog.h" />
+    <ClInclude Include="Source\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

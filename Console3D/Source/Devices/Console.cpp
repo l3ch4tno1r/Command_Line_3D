@@ -1,10 +1,11 @@
 #include "Console.h"
 
-#include "Utilities\ErrorHandling.h"
 #include "Utilities\Angles.h"
-#include "Utilities\TimeMeasurement.h"
-#include "Utilities\Utils.h"
-#include "Utilities\Instrumentor.h"
+
+#include "Source\ErrorHandling.h"
+#include "Source\TimeMeasurement.h"
+#include "Source\Utils.h"
+#include "Source\Instrumentor.h"
 
 #include "Graphics\OBJReader.h"
 

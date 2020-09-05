@@ -15,42 +15,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Utilities\ConfigManager.cpp">
+    <ClCompile Include="Source\ConfigManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\ErrorHandling.cpp">
+    <ClCompile Include="Source\ErrorHandling.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\TimeMeasurement.cpp">
+    <ClCompile Include="Source\TimeMeasurement.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\TraceLog.cpp">
+    <ClCompile Include="Source\TraceLog.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Utilities\ConfigManager.h">
+    <ClInclude Include="Source\Design Patterns\Observer.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\ErrorHandling.h">
+    <ClInclude Include="Source\ConfigManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\Instrumentor.h">
+    <ClInclude Include="Source\ErrorHandling.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\TimeMeasurement.h">
+    <ClInclude Include="Source\InstanceCounter.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\Utils.h">
+    <ClInclude Include="Source\Instrumentor.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\TraceLog.h">
+    <ClInclude Include="Source\TimeMeasurement.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\InstanceCounter.h">
+    <ClInclude Include="Source\TraceLog.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\Design Patterns\Observer.h">
+    <ClInclude Include="Source\Utils.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
