@@ -4,3 +4,6 @@
 [submodule "MiscellaneousTests"]
 	path = MiscellaneousTests
 	url = https://github.com/l3ch4tno1r/MiscellaneousTests.git
+[submodule "Utilities"]
+	path = Utilities
+	url = https://github.com/l3ch4tno1r/Utilities.git
