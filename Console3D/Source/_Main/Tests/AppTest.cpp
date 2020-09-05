@@ -12,7 +12,8 @@ int main()
 {
 	PaceMaker pacemaker;
 
-	bool run = true;
+	bool run   = true;
+	bool pause = false;
 
 	HANDLE       hStdin = GetStdHandle(STD_INPUT_HANDLE);
 	HWND         hWnd = GetConsoleWindow();
@@ -44,6 +45,7 @@ int main()
 				switch (record.Event.KeyEvent.wVirtualKeyCode)
 				{
 				case VK_ESCAPE:
+					pacemaker.Pause(false);
 					run = false;
 					console.Notify(false);
 
@@ -51,6 +53,14 @@ int main()
 				case VK_SPACE:
 					if(record.Event.KeyEvent.bKeyDown)
 						console.Notify(true);
+
+					break;
+				case 0x50:
+					if (record.Event.KeyEvent.bKeyDown)
+					{
+						pause = !pause;
+						pacemaker.Pause(pause);
+					}
 
 					break;
 				default:

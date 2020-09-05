@@ -12,7 +12,7 @@
 
 
 #include "Utilities\Angles.h"
-#include "Utilities\Instrumentor.h"
+#include "Source\Instrumentor.h"
 
 class Temp : public Device
 {

@@ -39,17 +39,6 @@ void Console::Notify(bool run)
 	m_PauseCondition.notify_one();
 }
 
-void Console::DrawLine2(int x1, int y1, int x2, int y2, short c, short color)
-{
-	DrawPoint(x1, y1, 'X');
-	DrawPoint(x2, y2, 'X');
-
-	int dx = x2 - x1;
-	int dy = y2 - y1;
-
-
-}
-
 #if false
 void Console::MainThread()
 {
@@ -142,6 +131,7 @@ void Console::MainThread()
 	*/
 }
 #endif
+
 void Console::MainThread()
 {
 	float theta  = 0;
@@ -162,17 +152,31 @@ void Console::MainThread()
 	{
 		Clear();
 
+		/*
 		Pixelf pix1 = frame.mat * p1.mat;
 		Pixelf pix2 = frame.mat * p2.mat;
 		Pixelf pix3 = frame.mat * p3.mat;
 
-		/*
-		DrawLine(pix1.x, pix1.y, pix2.x, pix2.y);
-		DrawLine(pix2.x, pix2.y, pix3.x, pix3.y);
-		DrawLine(pix3.x, pix3.y, pix1.x, pix1.y);
-		*/
+		Pixelf TL = { std::min({ pix1.x, pix2.x, pix3.x }), std::min({ pix1.y, pix2.y, pix3.y }) };
+		Pixelf BR = { std::max({ pix1.x, pix2.x, pix3.x }), std::max({ pix1.y, pix2.y, pix3.y }) };
+		Pixelf BL = { TL.x, BR.y };
+		Pixelf TR = { BR.x, TL.y };
 
 		FillTriangle(pix1, pix2, pix3);
+
+		DrawLine(pix1.x, pix1.y, pix2.x, pix2.y, 0, COLOUR::BG_GREEN);
+		DrawLine(pix2.x, pix2.y, pix3.x, pix3.y, 0, COLOUR::BG_GREEN);
+		DrawLine(pix3.x, pix3.y, pix1.x, pix1.y, 0, COLOUR::BG_GREEN);
+
+		DrawLine(TL.x, TL.y, TR.x, TR.y, 0, COLOUR::BG_RED);
+		DrawLine(TR.x, TR.y, BR.x, BR.y, 0, COLOUR::BG_RED);
+		DrawLine(BR.x, BR.y, BL.x, BL.y, 0, COLOUR::BG_RED);
+		DrawLine(BL.x, BL.y, TL.x, TL.y, 0, COLOUR::BG_RED);
+		*/
+
+		Pixelf pix = frame.mat * p1.mat;
+
+		DrawLine(frame.Tx, frame.Ty, pix.x, pix.y, 0, COLOUR::BG_RED);
 
 		theta += aspeed * dt;
 
