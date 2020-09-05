@@ -559,81 +559,75 @@ uint Console::ClipTriangle(const Triangle& in_t, const HVector3Df& n, const HVec
 
 void Console::DrawLine(int x1, int y1, int x2, int y2, short c, short color)
 {
-	// Adapted from OneLoneCoder
-	// Original code : https://github.com/OneLoneCoder/videos/blob/master/olcConsoleGameEngine.h
+	//this->DrawPoint(x1, y1, 0, COLOUR::BG_RED);
+	//this->DrawPoint(x2, y2, 0, COLOUR::BG_RED);
 
-	int x, y, dx, dy, dx1, dy1, px, py, xe, ye, i;
+	int dx = x2 - x1; int adx = std::abs(dx);
+	int dy = y2 - y1; int ady = std::abs(dy);
 
-	dx  = x2 - x1;
-	dy  = y2 - y1;
-	dx1 = abs(dx);
-	dy1 = abs(dy);
-	px  = 2 * dy1 - dx1;
-	py  = 2 * dx1 - dy1;
+	int nx = -dy;
+	int ny = dx;
 
-	if (dy1 <= dx1)
+	// Main direction
+	int mdirx, mdiry;
+
+	switch (sign(adx - ady))
 	{
-		if (dx >= 0)
+	case -1:
+		mdirx = 0;
+		mdiry = sign(dy);
+
+		break;
+	case 0:
+		mdirx = sign(dx);
+		mdiry = sign(dy);
+
+		break;
+	case 1:
+		mdirx = sign(dx);
+		mdiry = 0;
+
+		break;
+	default:
+		break;
+	}
+
+	mdirx *= 2;
+	mdiry *= 2;
+
+	// Secondary direction
+	int sdirx = 2 * sign(dx);
+	int sdiry = 2 * sign(dy);
+
+	int u1 = (adx > ady ? x1 : y1);
+	int u2 = (adx > ady ? x2 : y2);
+	int dir = (adx > ady ? mdirx : mdiry) / 2;
+
+	const int _x1 = 2 * x1 + 1; int _x = _x1;
+	const int _y1 = 2 * y1 + 1; int _y = _y1;
+
+	while (u1 != u2)
+	{
+		this->DrawPoint(_x / 2, _y / 2, c, color);
+
+		int dotpm = std::abs(nx * (_x1 - (_x + mdirx)) + ny * (_y1 - (_y + mdiry)));
+		int dotps = std::abs(nx * (_x1 - (_x + sdirx)) + ny * (_y1 - (_y + sdiry)));
+
+		if (std::min(dotpm, dotps) == dotpm)
 		{
-			x = x1; y = y1; xe = x2;
+			_x += mdirx;
+			_y += mdiry;
 		}
 		else
 		{
-			x = x2; y = y2; xe = x1;
+			_x += sdirx;
+			_y += sdiry;
 		}
 
-		DrawPoint(x, y, c, color);
-
-		for (i = 0; x < xe; i++)
-		{
-			x = x + 1;
-
-			if (px<0)
-				px = px + 2 * dy1;
-			else
-			{
-				if ((dx<0 && dy<0) || (dx>0 && dy>0))
-					y = y + 1;
-				else
-					y = y - 1;
-
-				px = px + 2 * (dy1 - dx1);
-			}
-
-			DrawPoint(x, y, c, color);
-		}
+		u1 += dir;
 	}
-	else
-	{
-		if (dy >= 0)
-		{
-			x = x1; y = y1; ye = y2;
-		}
-		else
-		{
-			x = x2; y = y2; ye = y1;
-		}
 
-		DrawPoint(x, y, c, color);
-
-		for (i = 0; y<ye; i++)
-		{
-			y = y + 1;
-			if (py <= 0)
-				py = py + 2 * dx1;
-			else
-			{
-				if ((dx<0 && dy<0) || (dx>0 && dy>0))
-					x = x + 1;
-				else
-					x = x - 1;
-
-				py = py + 2 * (dx1 - dy1);
-			}
-
-			DrawPoint(x, y, c, color);
-		}
-	}
+	this->DrawPoint(x2, y2, c, color);
 }
 
 void Console::FillRectangle(const Pixel& TL, const Pixel& BR, const std::function<bool(const Pixel&)>& criteria, short c, short color)
