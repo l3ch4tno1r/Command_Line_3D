@@ -123,7 +123,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="External\stb_image\stb_image.cpp" />
     <ClCompile Include="Source\Devices\Console.cpp" />
     <ClCompile Include="Source\Devices\Device.cpp" />
     <ClCompile Include="Source\Devices\GraphicEngine.cpp" />
@@ -135,7 +134,6 @@
     <ClCompile Include="Source\_Main\Tests\Console\ConsoleTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="External\stb_image\stb_image.h" />
     <ClInclude Include="Source\Devices\Console.h" />
     <ClInclude Include="Source\Devices\Device.h" />
     <ClInclude Include="Source\Devices\GraphicEngine.h" />
