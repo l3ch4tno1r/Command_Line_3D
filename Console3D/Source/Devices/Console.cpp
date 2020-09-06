@@ -485,6 +485,13 @@ void Console::DrawPoint(int x, int y, short c, short col)
 	m_ScreenBuffer[x + y * m_Width].Attributes       = col;
 }
 
+void Console::DrawPoint(int x, int y, const MapFunction& mapper)
+{
+	CHAR_INFO c = mapper(x, y);
+
+	this->DrawPoint(x, y, c.Char.UnicodeChar, c.Attributes);
+}
+
 HVector3Df Console::SegmentPlaneIntersection(const HVector3Df& v1, const HVector3Df& v2, const HVector3Df& n, const HVector3Df& p)
 {
 	HVector3Df pv1  = v1 - p;
@@ -739,6 +746,67 @@ void Console::FillTriangle(const Triangle2D& triangle, short c, short color)
 
 		return (s1 == s2) && (s2 == s3);
 	}, c, color);
+}
+
+void Console::FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, const MapFunction& mapper)
+{
+	std::array<Pixel, 3> temp = {
+		Pixel(x1, y1),
+		Pixel(x2, y2),
+		Pixel(x3, y3)
+	};
+
+	std::sort(temp.begin(), temp.end(), [](const Pixel& p1, const Pixel& p2) {
+		return p1.y < p2.y;
+	});
+
+	std::stable_sort(temp.begin(), temp.end(), [](const Pixel& p1, const Pixel& p2) {
+		return p1.x < p2.x;
+	});
+
+	Pixel p0p1 = temp[1] - temp[0];
+	Pixel p0p2 = temp[2] - temp[0];
+	Pixel p1p2 = temp[2] - temp[1];
+
+	Pixel n0_1 = { -p0p1.y, p0p1.x };
+	Pixel n0_2 = { -p0p2.y, p0p2.x };
+	Pixel n1_2 = { -p1p2.y, p1p2.x };
+
+	if (n0_1.y != 0 && n0_2.y != 0)
+	{
+		float r0 = (float)n0_1.x / (float)n0_1.y;
+		float r1 = (float)n0_2.x / (float)n0_2.y;
+
+		for (int i = temp[0].x; i < temp[1].x; ++i)
+		{
+			int j0 = temp[0].y - r0 * (i - temp[0].x);
+			int j1 = temp[0].y - r1 * (i - temp[0].x);
+
+			int J0 = std::min(j0, j1);
+			int J1 = std::max(j0, j1);
+
+			for(int j = J0; j <= J1; ++j)
+				this->DrawPoint(i, j, mapper);
+		}
+	}
+
+	if (n1_2.y != 0)
+	{
+		float r1 = (float)n0_2.x / (float)n0_2.y;
+		float r2 = (float)n1_2.x / (float)n1_2.y;
+
+		for (int i = temp[1].x; i <= temp[2].x; ++i)
+		{
+			int j1 = temp[0].y - r1 * (i - temp[0].x);
+			int j2 = temp[1].y - r2 * (i - temp[1].x);
+
+			int J1 = std::min(j1, j2);
+			int J2 = std::max(j1, j2);
+
+			for (int j = J1; j <= J2; ++j)
+				this->DrawPoint(i, j, mapper);
+		}
+	}
 }
 
 /*

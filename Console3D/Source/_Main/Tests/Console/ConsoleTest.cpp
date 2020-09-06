@@ -46,36 +46,15 @@ void Console::MainThread()
 
 	m_PauseNotified = false;
 
-	const int scale = 13;
+	const int scale = 9;
 
 	Pixel p1 = { scale * 0,  scale * 6 };
 	Pixel p2 = { scale * 7,  scale * 0 };
 	Pixel p3 = { scale * 10, scale * 8 };
 
-	Pixel TL = {
-		std::min({ p1.x, p2.x, p3.x }),
-		std::min({ p1.y, p2.y, p3.y })
-	};
-
-	Pixel BR = {
-		std::max({ p1.x, p2.x, p3.x }) + 1,
-		std::max({ p1.y, p2.y, p3.y }) + 1
-	};
-
-	Clear();
+	this->Clear();
 
 	/*
-	*/
-	{
-		PROFILE_SCOPE("Fill area");
-
-		Triangle2D triangle = { p1, p2, p3 };
-
-		FillTriangle(triangle, '#');
-	}
-
-	Clear();
-
 	{
 		PROFILE_SCOPE("Fill area old");
 
@@ -87,51 +66,24 @@ void Console::MainThread()
 
 		FillTriangle(p1, p2, p3);
 	}
-
-	RENDER_AND_WAIT;
-
-	Clear();
-
-	DrawLine(BR.x, 0, BR.x, BR.y, '|');
-	DrawLine(0, BR.y, BR.x, BR.y, '-');
-	DrawPoint(BR.x, BR.y, '+');
-
-	//RENDER_AND_WAIT;
+	*/
 
 	{
-		PROFILE_SCOPE("Fill area recursive");
+		PROFILE_SCOPE("Fill area");
 
-		FillTriangleRecursive({ p1, p2, p3 }, { TL, BR });
+		this->DrawLine(p1.x, p1.y, p2.x, p2.y, 0, COLOUR::BG_RED);
+		this->DrawLine(p2.x, p2.y, p3.x, p3.y, 0, COLOUR::BG_RED);
+		this->DrawLine(p3.x, p3.y, p1.x, p1.y, 0, COLOUR::BG_RED);
+
+		this->FillTriangle(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y);
 	}
-	/*
-	FillRectangle(TL.x, TL.y, BR.x, BR.y);
-	*/
-
-	DisplayMessage(std::string("Done !"), Slots::_3);
+	
+	this->DisplayMessage(std::string("Done !"), Slots::_3);
 	RENDER_AND_WAIT;
-
-	/*
-	TL = { 0, 0 };
-	BR = { 5, 4 };
-
-	FillTriangleRecursive({ p1, p2, p3 }, { TL, BR });
-	RENDER_AND_WAIT;
-
-	TL = { 5, 4 };
-	BR = { 7, 5 };
-
-	FillTriangleRecursive({ p1, p2, p3 }, { TL, BR });
-	RENDER_AND_WAIT;
-
-	TL = { 0, 0 };
-	BR = { 1, 1 };
-
-	FillTriangleRecursive({ p1, p2, p3 }, { TL, BR });
-	RENDER_AND_WAIT;
-	*/
 }
 #endif
 
+#if true
 void Console::MainThread()
 {
 	float theta  = 0;
@@ -152,7 +104,6 @@ void Console::MainThread()
 	{
 		Clear();
 
-		/*
 		Pixelf pix1 = frame.mat * p1.mat;
 		Pixelf pix2 = frame.mat * p2.mat;
 		Pixelf pix3 = frame.mat * p3.mat;
@@ -162,8 +113,17 @@ void Console::MainThread()
 		Pixelf BL = { TL.x, BR.y };
 		Pixelf TR = { BR.x, TL.y };
 
-		FillTriangle(pix1, pix2, pix3);
+		FillTriangle(pix1.x, pix1.y, pix2.x, pix2.y, pix3.x, pix3.y, [](int i, int j)
+		{
+			CHAR_INFO c;
 
+			c.Char.UnicodeChar = 0;
+			c.Attributes = COLOUR::BG_RED;
+
+			return c;
+		});
+
+		/*
 		DrawLine(pix1.x, pix1.y, pix2.x, pix2.y, 0, COLOUR::BG_GREEN);
 		DrawLine(pix2.x, pix2.y, pix3.x, pix3.y, 0, COLOUR::BG_GREEN);
 		DrawLine(pix3.x, pix3.y, pix1.x, pix1.y, 0, COLOUR::BG_GREEN);
@@ -172,11 +132,11 @@ void Console::MainThread()
 		DrawLine(TR.x, TR.y, BR.x, BR.y, 0, COLOUR::BG_RED);
 		DrawLine(BR.x, BR.y, BL.x, BL.y, 0, COLOUR::BG_RED);
 		DrawLine(BL.x, BL.y, TL.x, TL.y, 0, COLOUR::BG_RED);
-		*/
 
 		Pixelf pix = frame.mat * p1.mat;
 
 		DrawLine(frame.Tx, frame.Ty, pix.x, pix.y, 0, COLOUR::BG_RED);
+		*/
 
 		theta += aspeed * dt;
 
@@ -188,4 +148,5 @@ void Console::MainThread()
 		Render();
 	}
 }
+#endif
 #endif

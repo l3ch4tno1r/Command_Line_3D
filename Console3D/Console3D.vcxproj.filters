@@ -39,7 +39,7 @@
     <ClCompile Include="Source\Devices\GraphicEngine.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\_Main\Main.cpp">
+    <ClCompile Include="Source\_Main\Tests\AppTest.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

@@ -18,7 +18,7 @@
 Project Properties -> General -> Character Set -> Use Unicode.
 #endif
 
-#define TEST_CONSOLE 0
+#define TEST_CONSOLE 1
 
 #if TEST_CONSOLE
 #include <functional>
@@ -182,7 +182,11 @@ private:
 
 	CHAR_INFO GetPixelValue(int x, int y) const;
 
+	using MapFunction = std::function<CHAR_INFO(int x, int y)>;
+
 	void DrawPoint(int x, int y, short c = 0x2588, short col = 0x000F);
+
+	void DrawPoint(int x, int y, const MapFunction& mapper);
 
 	void DrawLine(int x1, int y1, int x2, int y2, short c = 0, short color = COLOUR::BG_WHITE);
 
@@ -191,6 +195,16 @@ private:
 	void FillTriangle(const HVector2Df& v1, const HVector2Df& v2, const HVector2Df& v3, short c = 0, short color = COLOUR::BG_WHITE);
 
 	void FillTriangle(const Triangle2D& triangle, short c = 0, short color = COLOUR::BG_WHITE);
+
+	void FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, const MapFunction& mapper = [](int, int)
+	{
+		CHAR_INFO result;
+
+		result.Char.UnicodeChar = 0;
+		result.Attributes = COLOUR::BG_WHITE;
+
+		return result;
+	});
 
 	/*
 	struct ROI
