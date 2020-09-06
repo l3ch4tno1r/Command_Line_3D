@@ -73,6 +73,8 @@ using Transform2Df = Transform2D<float>;
 using HVector3Df   = HVector3D<float>;
 using HVector2Df   = HVector2D<float>;
 
+using MapFunction = std::function<CHAR_INFO(int x, int y)>;
+
 class Console : public Device
 {
 private:
@@ -154,6 +156,16 @@ private:
 
 	bool Wait();
 
+	void FillTriangleOLC(int x1, int y1, int x2, int y2, int x3, int y3, const MapFunction& mapper = [](int, int)
+	{
+		CHAR_INFO result;
+
+		result.Char.UnicodeChar = 0;
+		result.Attributes = COLOUR::BG_WHITE;
+
+		return result;
+	});
+
 public:
 	void Notify(bool run);
 
@@ -181,8 +193,6 @@ private:
 		                           Triangle&   o_t1,       Triangle&  o_t2); // Output triangles
 
 	CHAR_INFO GetPixelValue(int x, int y) const;
-
-	using MapFunction = std::function<CHAR_INFO(int x, int y)>;
 
 	void DrawPoint(int x, int y, short c = 0x2588, short col = 0x000F);
 
