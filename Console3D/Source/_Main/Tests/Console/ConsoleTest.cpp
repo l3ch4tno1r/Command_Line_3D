@@ -7,6 +7,8 @@
 #include "Source/Instrumentor.h"
 
 #include "Utilities/Angles.h"
+#include "External/stb_image/stb_image.h"
+
 #include "Geometry/Geometry2D/Transform2D.h"
 #include "Geometry/Geometry2D/HVector2D.h"
 
@@ -236,9 +238,62 @@ void Console::MainThread()
 		0.0f, 0.0f, 1.0f
 	};
 
-	Pixelf p1 = {  0.0f,  -30.0f };
-	Pixelf p2 = {  30.0f,  10.0f };
-	Pixelf p3 = { -20.0f,  0.0f };
+	const float scale = 2;
+
+	Pixelf p1 = {  25.0f * scale, -22.0f * scale }; Pixelf t1 = { 1.0f, 0.0f }; // TL corner
+	Pixelf p2 = { -25.0f * scale,  22.0f * scale }; Pixelf t2 = { 0.0f, 1.0f }; // TR corner
+	Pixelf p3 = { -25.0f * scale, -22.0f * scale }; Pixelf t3 = { 0.0f, 0.0f }; // BL corner
+	Pixelf p4 = {  25.0f * scale,  22.0f * scale }; Pixelf t4 = { 1.0f, 1.0f }; // BR corner
+
+	Pixelf vt31 = t1 - t3;
+	Pixelf vt32 = t2 - t3;
+
+	Transform2Df textransform1 = {
+		vt31.x, vt32.x, t3.x,
+		vt31.y, vt32.y, t3.y,
+		  0.0f,   0.0f, 1.0f
+	};
+
+	// stb_image test
+	size_t size = 10;
+	const char* grayscale = " .:-=+*#%@";
+
+	std::string filepath("Ressource/Le_Chat_Noir_Photo_Medium.png");
+
+	unsigned char* localbuffer;
+	int width;
+	int height;
+	int BPP;
+
+	localbuffer = stbi_load(filepath.c_str(), &width, &height, &BPP, STBI_grey);
+
+	if (!localbuffer)
+		return;
+
+	Transform2Df tr;
+
+	auto mapper = [&tr, &textransform1, localbuffer, width, height, grayscale, size](int i, int j)
+	{
+		Pixelf temp = textransform1.mat * tr.mat * Pixelf((float)i, (float)j).mat;
+
+		size_t tx = (width -  1) * std::min(std::max(temp.x, 0.0f), 1.0f);
+		size_t ty = (height - 1) * std::min(std::max(temp.y, 0.0f), 1.0f);
+
+		ASSERT(tx < width);
+		ASSERT(ty < height);
+
+		unsigned char pxl = ((size - 1) * localbuffer[tx + ty * width]) / 255;
+
+		ASSERT(pxl < size);
+
+		CHAR_INFO c;
+
+		c.Char.UnicodeChar = grayscale[pxl];
+		//c.Attributes = (0 == (i + j) % 2 ? COLOUR::BG_GREEN : COLOUR::BG_RED );
+		c.Attributes = COLOUR::FG_WHITE | COLOUR::BG_BLACK;
+
+		return c;
+	};
 
 	while (Continue())
 	{
@@ -248,37 +303,16 @@ void Console::MainThread()
 		Pixelf pix2 = frame.mat * p2.mat;
 		Pixelf pix3 = frame.mat * p3.mat;
 
-		Pixelf TL = { std::min({ pix1.x, pix2.x, pix3.x }), std::min({ pix1.y, pix2.y, pix3.y }) };
-		Pixelf BR = { std::max({ pix1.x, pix2.x, pix3.x }), std::max({ pix1.y, pix2.y, pix3.y }) };
-		Pixelf BL = { TL.x, BR.y };
-		Pixelf TR = { BR.x, TL.y };
+		Pixelf v1 = pix1 - pix3;
+		Pixelf v2 = pix2 - pix3;
 
-		auto mapper = [](int i, int j)
-		{
-			CHAR_INFO c;
-
-			c.Char.UnicodeChar = 0;
-			c.Attributes = (0 == (i + j) % 2 ? COLOUR::BG_GREEN : COLOUR::BG_RED );
-
-			return c;
-		};
+		tr = Transform2Df({
+			v1.x, v2.x, pix3.x,
+			v1.y, v2.y, pix3.y,
+			0.0f, 0.0f, 1.0f
+		}).mat.Invert();
 
 		FillTriangleOLC(pix1.x, pix1.y, pix2.x, pix2.y, pix3.x, pix3.y, mapper);
-
-		/*
-		DrawLine(pix1.x, pix1.y, pix2.x, pix2.y, 0, COLOUR::BG_GREEN);
-		DrawLine(pix2.x, pix2.y, pix3.x, pix3.y, 0, COLOUR::BG_GREEN);
-		DrawLine(pix3.x, pix3.y, pix1.x, pix1.y, 0, COLOUR::BG_GREEN);
-
-		DrawLine(TL.x, TL.y, TR.x, TR.y, 0, COLOUR::BG_RED);
-		DrawLine(TR.x, TR.y, BR.x, BR.y, 0, COLOUR::BG_RED);
-		DrawLine(BR.x, BR.y, BL.x, BL.y, 0, COLOUR::BG_RED);
-		DrawLine(BL.x, BL.y, TL.x, TL.y, 0, COLOUR::BG_RED);
-
-		Pixelf pix = frame.mat * p1.mat;
-
-		DrawLine(frame.Tx, frame.Ty, pix.x, pix.y, 0, COLOUR::BG_RED);
-		*/
 
 		theta += aspeed * dt;
 
@@ -289,6 +323,8 @@ void Console::MainThread()
 
 		Render();
 	}
+
+	stbi_image_free(localbuffer);
 }
 #endif
 #endif
