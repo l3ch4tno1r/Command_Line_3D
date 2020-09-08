@@ -18,7 +18,7 @@
 Project Properties -> General -> Character Set -> Use Unicode.
 #endif
 
-#define TEST_CONSOLE 1
+#define TEST_CONSOLE 0
 
 #if TEST_CONSOLE
 #include <functional>
@@ -156,16 +156,6 @@ private:
 
 	bool Wait();
 
-	void FillTriangleOLC(int x1, int y1, int x2, int y2, int x3, int y3, const MapFunction& mapper = [](int, int)
-	{
-		CHAR_INFO result;
-
-		result.Char.UnicodeChar = 0;
-		result.Attributes = COLOUR::BG_WHITE;
-
-		return result;
-	});
-
 public:
 	void Notify(bool run);
 
@@ -207,6 +197,16 @@ private:
 	void FillTriangle(const Triangle2D& triangle, short c = 0, short color = COLOUR::BG_WHITE);
 
 	void FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, const MapFunction& mapper = [](int, int)
+	{
+		CHAR_INFO result;
+
+		result.Char.UnicodeChar = 0;
+		result.Attributes = COLOUR::BG_WHITE;
+
+		return result;
+	});
+
+	void FillTriangleOLC(int x1, int y1, int x2, int y2, int x3, int y3, const MapFunction& mapper = [](int, int)
 	{
 		CHAR_INFO result;
 
