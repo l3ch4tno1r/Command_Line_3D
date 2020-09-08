@@ -226,6 +226,42 @@ next:
 	}
 }
 
+class Texture
+{
+private:
+	uint8_t* m_LocalBuffer = nullptr;
+	int      m_Width       = 0;
+	int      m_Height      = 0;
+	int      m_BPP         = 0;
+
+public:
+	~Texture()
+	{
+		if (m_LocalBuffer)
+			stbi_image_free(m_LocalBuffer);
+
+		m_LocalBuffer = nullptr;
+	}
+
+	void Load(const std::string& filepath, int deisredChannels)
+	{
+		m_LocalBuffer = stbi_load(filepath.c_str(), &m_Width, &m_Height, &m_BPP, deisredChannels);
+	}
+
+	operator bool() const
+	{
+		return m_LocalBuffer;
+	}
+
+	uint8_t operator()(int i, int j) const
+	{
+		return m_LocalBuffer[i + j * m_Width];
+	}
+
+	int Width() const { return m_Width; }
+	int Height() const { return m_Height; }
+};
+
 void Console::MainThread()
 {
 	float theta  = 0;
@@ -247,6 +283,8 @@ void Console::MainThread()
 
 	Pixelf vt31 = t1 - t3;
 	Pixelf vt32 = t2 - t3;
+	Pixelf vt41 = t1 - t4;
+	Pixelf vt42 = t2 - t4;
 
 	Transform2Df textransform1 = {
 		vt31.x, vt32.x, t3.x,
@@ -254,37 +292,44 @@ void Console::MainThread()
 		  0.0f,   0.0f, 1.0f
 	};
 
+	Transform2Df textransform2 = {
+		vt41.x, vt42.x, t4.x,
+		vt41.y, vt42.y, t4.y,
+		  0.0f,   0.0f, 1.0f
+	};
+
 	// stb_image test
-	size_t size = 10;
+	size_t grayscalesize = 10;
 	const char* grayscale = " .:-=+*#%@";
 
 	std::string filepath("Ressource/Le_Chat_Noir_Photo_Medium.png");
 
-	unsigned char* localbuffer;
-	int width;
-	int height;
-	int BPP;
+	Texture texture;
 
-	localbuffer = stbi_load(filepath.c_str(), &width, &height, &BPP, STBI_grey);
+	texture.Load("Ressource/Le_Chat_Noir_Photo_Medium.png", STBI_grey);
 
-	if (!localbuffer)
+	if (!texture)
 		return;
 
-	Transform2Df tr;
+	Transform2Df tr1;
+	Transform2Df tr2;
 
-	auto mapper = [&tr, &textransform1, localbuffer, width, height, grayscale, size](int i, int j)
+	auto mapper = [grayscale, grayscalesize](int i, int j,
+		                                     const Transform2Df& tr,
+		                                     const Transform2Df& textransform,
+										     const Texture& texture)
 	{
-		Pixelf temp = textransform1.mat * tr.mat * Pixelf((float)i, (float)j).mat;
+		Pixelf temp = textransform.mat * tr.mat * Pixelf((float)i, (float)j).mat;
 
-		size_t tx = (width -  1) * std::min(std::max(temp.x, 0.0f), 1.0f);
-		size_t ty = (height - 1) * std::min(std::max(temp.y, 0.0f), 1.0f);
+		size_t tx = (texture.Width()  - 1) * std::min(std::max(temp.x, 0.0f), 1.0f);
+		size_t ty = (texture.Height() - 1) * std::min(std::max(temp.y, 0.0f), 1.0f);
 
-		ASSERT(tx < width);
-		ASSERT(ty < height);
+		ASSERT(tx < texture.Width());
+		ASSERT(ty < texture.Height());
 
-		unsigned char pxl = ((size - 1) * localbuffer[tx + ty * width]) / 255;
+		unsigned char pxl = ((grayscalesize - 1) * texture(tx, ty)) / 255;
 
-		ASSERT(pxl < size);
+		ASSERT(pxl < grayscalesize);
 
 		CHAR_INFO c;
 
@@ -302,17 +347,34 @@ void Console::MainThread()
 		Pixelf pix1 = frame.mat * p1.mat;
 		Pixelf pix2 = frame.mat * p2.mat;
 		Pixelf pix3 = frame.mat * p3.mat;
+		Pixelf pix4 = frame.mat * p4.mat;
 
-		Pixelf v1 = pix1 - pix3;
-		Pixelf v2 = pix2 - pix3;
+		Pixelf v31 = pix1 - pix3;
+		Pixelf v32 = pix2 - pix3;
+		Pixelf v41 = pix1 - pix4;
+		Pixelf v42 = pix2 - pix4;
 
-		tr = Transform2Df({
-			v1.x, v2.x, pix3.x,
-			v1.y, v2.y, pix3.y,
+		tr1 = Transform2Df({
+			v31.x, v32.x, pix3.x,
+			v31.y, v32.y, pix3.y,
 			0.0f, 0.0f, 1.0f
 		}).mat.Invert();
 
-		FillTriangleOLC(pix1.x, pix1.y, pix2.x, pix2.y, pix3.x, pix3.y, mapper);
+		tr2 = Transform2Df({
+			v41.x, v42.x, pix4.x,
+			v41.y, v42.y, pix4.y,
+			0.0f, 0.0f, 1.0f
+			}).mat.Invert();
+
+		namespace ph = std::placeholders;
+
+		std::function<CHAR_INFO(int, int)> map = std::bind(mapper, ph::_1, ph::_2, std::cref(tr1), std::cref(textransform1), std::cref(texture));
+
+		FillTriangleOLC(pix1.x, pix1.y, pix2.x, pix2.y, pix3.x, pix3.y, map);
+
+		map = std::bind(mapper, ph::_1, ph::_2, std::cref(tr2), std::cref(textransform2), std::cref(texture));
+
+		FillTriangleOLC(pix1.x, pix1.y, pix2.x, pix2.y, pix4.x, pix4.y, map);
 
 		theta += aspeed * dt;
 
@@ -323,8 +385,6 @@ void Console::MainThread()
 
 		Render();
 	}
-
-	stbi_image_free(localbuffer);
 }
 #endif
 #endif
