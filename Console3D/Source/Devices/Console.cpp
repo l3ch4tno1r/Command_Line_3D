@@ -19,8 +19,8 @@
 #include <queue>
 
 #define DRAW_FACES
-#define DRAW_EDGES
 /*
+#define DRAW_EDGES
 */
 
 Console::Console() :
@@ -121,13 +121,12 @@ void Console::MainThread()
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/table_basique.obj", false)
-		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
-		*/
 		OBJReader().ReadFile<Model3D>("Ressource/axisr.obj", true)
+		*/
+		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
 	};
 
 	// Quick fix for teapot
-	/*
 	Transform3Df teapot({
 		1.0f, 0.0f,  0.0f, 0.0f,
 		0.0f, 0.0f, -1.0f, 0.0f,
@@ -140,6 +139,7 @@ void Console::MainThread()
 
 	for (HVector3Df& vertex : models[1].Normals())
 		vertex = teapot * vertex;
+	/*
 	*/
 
 	//const float scalefactor = 1.0f;
@@ -343,7 +343,18 @@ void Console::MainThread()
 
 					//FillTriangle(_pt1, _pt2, _pt3, grayscale[lightidx]);
 					//FillTriangle({ p1, p2, p3 }, grayscale[lightidx]);
-					FillTriangleOLC(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y);
+					FillTriangleOLC(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, [&lightidx](int i, int j)
+					{
+						static const size_t grayscalesize = 10;
+						static const char* grayscale = " .:-=+*#%@";
+
+						CHAR_INFO c;
+
+						c.Char.UnicodeChar = grayscale[lightidx];
+						c.Attributes = COLOUR::BG_BLACK | COLOUR::FG_WHITE;
+
+						return c;
+					});
 					/*
 					FillTriangleOLC(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, [](int i, int j) {
 						CHAR_INFO c;
@@ -353,15 +364,6 @@ void Console::MainThread()
 
 						return c;
 					});
-					*/
-
-					//ROI roi = { {0, 0}, { (int)m_Width, (int)m_Height } };
-					//FillTriangleRecursive({ p1, p2, p3 }, roi, grayscale[lightidx]);
-
-					/*
-					DrawLine(_pt1, _pt2, '.');
-					DrawLine(_pt2, _pt3, '.');
-					DrawLine(_pt3, _pt1, '.');
 					*/
 				}
 			}
