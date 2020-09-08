@@ -12,6 +12,8 @@
 #include "Geometry/Geometry2D/Transform2D.h"
 #include "Geometry/Geometry2D/HVector2D.h"
 
+#include "Graphics/Texture.h"
+
 #include <iostream>
 #include <sstream>
 
@@ -225,42 +227,6 @@ next:
 		if (y > y3) return;
 	}
 }
-
-class Texture
-{
-private:
-	uint8_t* m_LocalBuffer = nullptr;
-	int      m_Width       = 0;
-	int      m_Height      = 0;
-	int      m_BPP         = 0;
-
-public:
-	~Texture()
-	{
-		if (m_LocalBuffer)
-			stbi_image_free(m_LocalBuffer);
-
-		m_LocalBuffer = nullptr;
-	}
-
-	void Load(const std::string& filepath, int deisredChannels)
-	{
-		m_LocalBuffer = stbi_load(filepath.c_str(), &m_Width, &m_Height, &m_BPP, deisredChannels);
-	}
-
-	operator bool() const
-	{
-		return m_LocalBuffer;
-	}
-
-	uint8_t operator()(int i, int j) const
-	{
-		return m_LocalBuffer[i + j * m_Width];
-	}
-
-	int Width() const { return m_Width; }
-	int Height() const { return m_Height; }
-};
 
 void Console::MainThread()
 {
