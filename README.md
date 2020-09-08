@@ -9,9 +9,9 @@ This project is inspired by a youtuber known as OneLoneCoder / javidx9 (https://
 
 You can clone this project using the following command :
 
-'git clone --recursive https://github.com/l3ch4tno1r/Command_Line_3D.git'
+`git clone --recursive https://github.com/l3ch4tno1r/Command_Line_3D.git`
 
-/!\ Warning /!\ : Be sure to do a '--recursive' clone in order to clone all the submodules
+`/!\ Warning /!\` : Be sure to do a `--recursive` clone in order to clone all the submodules
 
 ## Getting started
 
