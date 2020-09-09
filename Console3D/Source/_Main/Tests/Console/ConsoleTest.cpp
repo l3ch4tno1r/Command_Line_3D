@@ -130,6 +130,9 @@ void Console::MainThread()
 	Texture texture;
 
 	texture.Load("Ressource/Le_Chat_Noir_Photo_Medium.png", STBI_grey);
+	/*
+	texture.Load("Ressource/Wooden_Medium.jpg", STBI_grey);
+	*/
 
 	if (!texture)
 		return;

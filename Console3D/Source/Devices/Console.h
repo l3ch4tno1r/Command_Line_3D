@@ -18,7 +18,7 @@
 Project Properties -> General -> Character Set -> Use Unicode.
 #endif
 
-#define TEST_CONSOLE 0
+#define TEST_CONSOLE 1
 
 #if TEST_CONSOLE
 #include <functional>
