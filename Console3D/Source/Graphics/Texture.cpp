@@ -12,6 +12,9 @@ Texture::~Texture()
 
 void Texture::Load(const std::string & filepath, int deisredChannels)
 {
+	if (m_LocalBuffer)
+		stbi_image_free(m_LocalBuffer);
+
 	m_LocalBuffer = stbi_load(filepath.c_str(), &m_Width, &m_Height, &m_BPP, deisredChannels);
 }
 
