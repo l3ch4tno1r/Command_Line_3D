@@ -163,7 +163,6 @@ void Console::MainThread()
 		CHAR_INFO c;
 
 		c.Char.UnicodeChar = grayscale[pxl];
-		//c.Attributes = (0 == (i + j) % 2 ? COLOUR::BG_GREEN : COLOUR::BG_RED );
 		c.Attributes = COLOUR::FG_WHITE | COLOUR::BG_BLACK;
 
 		return c;
@@ -193,7 +192,7 @@ void Console::MainThread()
 			v41.x, v42.x, pix4.x,
 			v41.y, v42.y, pix4.y,
 			0.0f, 0.0f, 1.0f
-			}).mat.Invert();
+		}).mat.Invert();
 
 		namespace ph = std::placeholders;
 
