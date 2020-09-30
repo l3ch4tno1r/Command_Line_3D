@@ -335,7 +335,7 @@ void Console::MainThread()
 
 					int lightidx = (int)std::floor(-9 * (light | _n) / _n.Norm());
 
-					lightidx = std::max(0, lightidx);
+					lightidx = std::max(1, lightidx);
 
 					Pixel p1 = { (int)_pt1.x, (int)_pt1.y };
 					Pixel p2 = { (int)_pt2.x, (int)_pt2.y };
@@ -346,7 +346,7 @@ void Console::MainThread()
 					FillTriangleOLC(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, [&lightidx](int i, int j)
 					{
 						static const size_t grayscalesize = 10;
-						static const char* grayscale = " .:-=+*#%@";
+						static const char* grayscale = " -.:*+=%#@";
 
 						CHAR_INFO c;
 
