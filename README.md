@@ -2,7 +2,9 @@
 
 This is an attempt to create a 3D Graphic Engine from scratch using only the command prompt console. No hardware acceleration, no OpenGL... Just the CPU doing its best.
 
-You can find some demonstrations on this little Youtube channel : [![Youtube](https://img.shields.io/badge/LCNSoftware--red.svg?style=social&logo=youtube)](https://www.youtube.com/playlist?list=PL0NNmrIQvIJHCW-YMVOoleqvXrl2RSmlE)
+You can find some demonstrations on this little Youtube channel :
+
+[![Youtube](https://img.shields.io/badge/LCNSoftware--red.svg?style=social&logo=youtube)](https://www.youtube.com/playlist?list=PL0NNmrIQvIJHCW-YMVOoleqvXrl2RSmlE)
   
 ## Cloning
 
