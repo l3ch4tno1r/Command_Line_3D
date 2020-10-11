@@ -5,3 +5,4 @@ Release
 *.csv
 Console3D/results.json
 MiscellaneousTests.sln
+eigen/

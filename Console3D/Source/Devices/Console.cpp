@@ -199,8 +199,6 @@ void Console::MainThread()
 	HVector3Df light = { -1, -5, -1, false };
 	light.Normalize();
 
-	const char* grayscale = " .:-=+%*#@";
-
 	// For info display
 	std::stringstream sstr;
 

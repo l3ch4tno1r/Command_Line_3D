@@ -45,5 +45,5 @@ void Device::Update(bool run)
 	m_State.Run = run;
 	m_State.Notified = true;
 
-	m_NotifCond.notify_one();
+	m_NotifCond.notify_all();
 }
