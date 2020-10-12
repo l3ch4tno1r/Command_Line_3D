@@ -1,6 +1,6 @@
 # Console3D
 
-This is an attempt to create a 3D Graphic Engine from scratch using only the command prompt console. No hardware acceleration, no OpenGL... Just the CPU doing its best.
+This is a little amateur project of a 3D Graphic Engine from made from scratch using only the command prompt console. No hardware acceleration, no OpenGL... Just the CPU doing its best.
 
 You can find some demonstrations by clicking the image below :
 
