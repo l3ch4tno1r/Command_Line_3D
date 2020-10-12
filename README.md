@@ -5,6 +5,7 @@ This is an attempt to create a 3D Graphic Engine from scratch using only the com
 You can find some demonstrations on this little Youtube channel :
 
 [![Youtube](https://img.shields.io/badge/LCNSoftware--red.svg?style=social&logo=youtube)](https://www.youtube.com/playlist?list=PL0NNmrIQvIJHCW-YMVOoleqvXrl2RSmlE)
+[![SC2 Video](https://img.youtube.com/vi/--b-9HrKK6w/0.jpg)](http://www.youtube.com/watch?v=--b-9HrKK6w)
   
 ## Cloning
 
