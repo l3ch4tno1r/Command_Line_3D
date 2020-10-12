@@ -2,7 +2,7 @@
 
 This is an attempt to create a 3D Graphic Engine from scratch using only the command prompt console. No hardware acceleration, no OpenGL... Just the CPU doing its best.
 
-You can find some demonstrations on this little Youtube channel :
+You can find some demonstrations by clicking the image below :
 
 [![Command Prompt 3D Engine Demo](https://img.youtube.com/vi/P9vdiZ7gYO0/0.jpg)](https://www.youtube.com/playlist?list=PL0NNmrIQvIJHCW-YMVOoleqvXrl2RSmlE)
   
