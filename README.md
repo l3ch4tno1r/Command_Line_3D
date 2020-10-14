@@ -5,6 +5,7 @@ This is a little amateur project of a 3D Graphic Engine made from scratch using 
 You can find some demonstrations on the [LCN Tech Youtube channel](https://www.youtube.com/watch?v=P9vdiZ7gYO0) :
 
 [![Command Prompt 3D Engine Demo](https://img.youtube.com/vi/P9vdiZ7gYO0/0.jpg)](https://www.youtube.com/playlist?list=PL0NNmrIQvIJHCW-YMVOoleqvXrl2RSmlE)
+[![Command Prompt 3D Engine Demo](https://img.youtube.com/vi/6IabY2RJpZY/0.jpg)](https://www.youtube.com/playlist?list=PL0NNmrIQvIJHCW-YMVOoleqvXrl2RSmlE)
   
 ## Cloning
 
