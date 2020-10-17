@@ -7,7 +7,7 @@
 #include <condition_variable>
 #include <array>
 
-#include "Source/Design Patterns/Observer.h"
+#include "Utilities/Source/Design Patterns/Observer.h"
 #include "Device.h"
 
 using namespace std::literals::chrono_literals;

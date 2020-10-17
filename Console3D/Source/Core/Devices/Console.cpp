@@ -1,13 +1,13 @@
 #include "Console.h"
 
-#include "Utilities\Angles.h"
+#include "LCN_Math/Source/Utilities/Angles.h"
 
-#include "Source\ErrorHandling.h"
-#include "Source\TimeMeasurement.h"
-#include "Source\Utils.h"
-#include "Source\Instrumentor.h"
+#include "Utilities/Source/ErrorHandling.h"
+#include "Utilities/Source/TimeMeasurement.h"
+#include "Utilities/Source/Utils.h"
+#include "Utilities/Source/Instrumentor.h"
 
-#include "Graphics\OBJReader.h"
+#include "Graphics/OBJReader.h"
 
 #include <chrono>
 #include <cmath>
