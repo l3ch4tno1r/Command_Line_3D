@@ -1,6 +1,5 @@
-#include "Devices/Console.h"
-
 #if TEST_CONSOLE
+#include "Devices/Console.h"
 
 #include "Source/ErrorHandling.h"
 #include "Source/Utils.h"

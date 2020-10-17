@@ -3,16 +3,16 @@
 #include <iostream>
 #include <thread>
 
-#include "Devices\PaceMaker.h"
-#include "Devices\Console.h"
+#include "Core/Devices/PaceMaker.h"
+#include "Core/Devices/Console.h"
 
 #if TEST_CONSOLE
 #error Deactivate the Test mode in Devices -> Console.h
 #endif // TEST_CONSOLE
 
 
-#include "Utilities\Angles.h"
-#include "Source\Instrumentor.h"
+#include "LCN_Math/Source/Utilities/Angles.h"
+#include "Utilities/Source/Instrumentor.h"
 
 class Temp : public Device
 {
