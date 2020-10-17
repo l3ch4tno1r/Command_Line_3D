@@ -99,7 +99,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Utilities;$(SolutionDir)LCN_Math\Source;$(ProjectDir)Source</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir)Source</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>MAIN;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -123,29 +123,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Devices\Console.cpp" />
-    <ClCompile Include="Source\Devices\Device.cpp" />
-    <ClCompile Include="Source\Devices\GraphicEngine.cpp" />
-    <ClCompile Include="Source\Graphics\Camera.cpp" />
-    <ClCompile Include="Source\Graphics\Model3D.cpp" />
-    <ClCompile Include="Source\Graphics\OBJReader.cpp" />
-    <ClCompile Include="Source\Devices\PaceMaker.cpp" />
-    <ClCompile Include="Source\Graphics\Texture.cpp" />
-    <ClCompile Include="Source\_Main\Main.cpp" />
-    <ClCompile Include="Source\_Main\Tests\Console\ConsoleTest.cpp" />
+    <ClCompile Include="Source\Core\Application.cpp" />
+    <ClCompile Include="Source\Core\Devices\Console.cpp" />
+    <ClCompile Include="Source\Core\Devices\Device.cpp" />
+    <ClCompile Include="Source\Core\Devices\GraphicEngine.cpp" />
+    <ClCompile Include="Source\Rendering\Camera.cpp" />
+    <ClCompile Include="Source\RessourceManagement\Model3D.cpp" />
+    <ClCompile Include="Source\RessourceManagement\OBJReader.cpp" />
+    <ClCompile Include="Source\Core\Devices\PaceMaker.cpp" />
+    <ClCompile Include="Source\RessourceManagement\Texture.cpp" />
+    <ClCompile Include="Source\Core\_Main\Main.cpp" />
+    <ClCompile Include="Source\Core\_Main\Tests\Console\ConsoleTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Devices\Console.h" />
-    <ClInclude Include="Source\Devices\Device.h" />
-    <ClInclude Include="Source\Devices\GraphicEngine.h" />
-    <ClInclude Include="Source\Graphics\Camera.h" />
-    <ClInclude Include="Source\Graphics\GraphicRessourcesManager.h" />
-    <ClInclude Include="Source\Graphics\Model3D.h" />
-    <ClInclude Include="Source\Devices\PaceMaker.h" />
-    <ClInclude Include="Source\Graphics\OBJReader.h" />
-    <ClInclude Include="Source\Graphics\Texture.h" />
+    <ClInclude Include="Source\Core\Application.h" />
+    <ClInclude Include="Source\Core\Devices\Console.h" />
+    <ClInclude Include="Source\Core\Devices\Device.h" />
+    <ClInclude Include="Source\Core\Devices\GraphicEngine.h" />
+    <ClInclude Include="Source\Rendering\Camera.h" />
+    <ClInclude Include="Source\RessourceManagement\GraphicRessourcesManager.h" />
+    <ClInclude Include="Source\RessourceManagement\Model3D.h" />
+    <ClInclude Include="Source\Core\Devices\PaceMaker.h" />
+    <ClInclude Include="Source\RessourceManagement\OBJReader.h" />
+    <ClInclude Include="Source\RessourceManagement\Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LCN_Math\LCNMath.vcxproj">
+      <Project>{06cbb2f2-40d6-41ff-bc48-c0458f630a96}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.vcxproj">
       <Project>{9c344fbf-3053-4c64-a2ee-739e310656c4}</Project>
     </ProjectReference>

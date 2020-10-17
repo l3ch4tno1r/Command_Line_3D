@@ -22,7 +22,7 @@ public:
 	bool PContinue() { return Continue(); }
 };
 
-int main()
+int main(int argc, char** argv)
 {
 	Instrumentor& instrumentor = Instrumentor::Get();
 	Console&      console      = Console::Get();

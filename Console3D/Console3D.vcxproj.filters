@@ -15,63 +15,69 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Devices\Console.cpp">
+    <ClCompile Include="Source\Core\Devices\Console.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Devices\PaceMaker.cpp">
+    <ClCompile Include="Source\Core\Devices\Device.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\OBJReader.cpp">
+    <ClCompile Include="Source\Core\Devices\GraphicEngine.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\Model3D.cpp">
+    <ClCompile Include="Source\Core\Devices\PaceMaker.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\Camera.cpp">
+    <ClCompile Include="Source\Core\_Main\Tests\Console\ConsoleTest.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\_Main\Tests\Console\ConsoleTest.cpp">
+    <ClCompile Include="Source\Core\_Main\Main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Devices\Device.cpp">
+    <ClCompile Include="Source\Rendering\Camera.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Devices\GraphicEngine.cpp">
+    <ClCompile Include="Source\RessourceManagement\Model3D.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Graphics\Texture.cpp">
+    <ClCompile Include="Source\RessourceManagement\OBJReader.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\_Main\Main.cpp">
+    <ClCompile Include="Source\RessourceManagement\Texture.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Application.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Devices\Console.h">
+    <ClInclude Include="Source\Core\Devices\Console.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Devices\PaceMaker.h">
+    <ClInclude Include="Source\Core\Devices\Device.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\OBJReader.h">
+    <ClInclude Include="Source\Core\Devices\GraphicEngine.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\Model3D.h">
+    <ClInclude Include="Source\Core\Devices\PaceMaker.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\GraphicRessourcesManager.h">
+    <ClInclude Include="Source\Rendering\Camera.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\Camera.h">
+    <ClInclude Include="Source\RessourceManagement\GraphicRessourcesManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Devices\Device.h">
+    <ClInclude Include="Source\RessourceManagement\Model3D.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Devices\GraphicEngine.h">
+    <ClInclude Include="Source\RessourceManagement\OBJReader.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Graphics\Texture.h">
+    <ClInclude Include="Source\RessourceManagement\Texture.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Application.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
