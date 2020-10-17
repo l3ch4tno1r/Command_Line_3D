@@ -118,10 +118,10 @@ void Console::MainThread()
 		OBJReader().ReadFile<Model3D>("Ressource/debug.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/octogon_no_normals.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/triangle.obj", false)
-		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
-		OBJReader().ReadFile<Model3D>("Ressource/table_basique.obj", false)
+		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/axisr.obj", true)
+		OBJReader().ReadFile<Model3D>("Ressource/table_basique.obj", false)
 		*/
 		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
 	};
@@ -196,8 +196,19 @@ void Console::MainThread()
 	auto tp2 = std::chrono::system_clock::now();
 
 	// Ligthing
+	float aspeed = 36.0f;			   // 1 tour / 10s
+	float dt     = 16.0f / 1000.0f;	   // Delta de temps
+	float da     = TORAD(aspeed * dt); // Angle
+
 	HVector3Df light = { -1, -5, -1, false };
 	light.Normalize();
+
+	Transform3Df lightorientation({
+		std::cos(da), -std::sin(da), 0.0f, 0.0f,
+		std::sin(da),  std::cos(da), 0.0f, 0.0f,
+		0.0f,          0.0f,         1.0f, 0.0f,
+		0.0f,          0.0f,         0.0f, 1.0f
+	});
 
 	// For info display
 	std::stringstream sstr;
@@ -440,6 +451,8 @@ void Console::MainThread()
 		DisplayMessage(sstr.str(), Slots::_5);
 
 		Render();
+
+		light = lightorientation * light;
 
 		/*
 		a += aspeed * dt;
