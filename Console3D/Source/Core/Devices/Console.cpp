@@ -7,7 +7,7 @@
 #include "Utilities/Source/Utils.h"
 #include "Utilities/Source/Instrumentor.h"
 
-#include "Graphics/OBJReader.h"
+#include "RessourceManagement/OBJReader.h"
 
 #include <chrono>
 #include <cmath>

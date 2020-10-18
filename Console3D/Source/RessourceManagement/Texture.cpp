@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-#include "External/stb_image/stb_image.h"
+#include "Utilities/External/stb_image/stb_image.h"
 
 Texture::~Texture()
 {
