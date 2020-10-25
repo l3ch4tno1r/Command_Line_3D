@@ -30,9 +30,6 @@
     <ClCompile Include="Source\Core\_Main\Tests\Console\ConsoleTest.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\_Main\Main.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Rendering\Camera.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -49,6 +46,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Devices\EventHandler.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\_Main\Main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

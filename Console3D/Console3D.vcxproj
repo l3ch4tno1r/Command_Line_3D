@@ -128,12 +128,12 @@
     <ClCompile Include="Source\Core\Devices\Device.cpp" />
     <ClCompile Include="Source\Core\Devices\EventHandler.cpp" />
     <ClCompile Include="Source\Core\Devices\GraphicEngine.cpp" />
+    <ClCompile Include="Source\Core\_Main\Main.cpp" />
     <ClCompile Include="Source\Rendering\Camera.cpp" />
     <ClCompile Include="Source\RessourceManagement\Model3D.cpp" />
     <ClCompile Include="Source\RessourceManagement\OBJReader.cpp" />
     <ClCompile Include="Source\Core\Devices\PaceMaker.cpp" />
     <ClCompile Include="Source\RessourceManagement\Texture.cpp" />
-    <ClCompile Include="Source\Core\_Main\Main.cpp" />
     <ClCompile Include="Source\Core\_Main\Tests\Console\ConsoleTest.cpp" />
   </ItemGroup>
   <ItemGroup>
