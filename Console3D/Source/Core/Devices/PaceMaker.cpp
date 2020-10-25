@@ -8,7 +8,9 @@ PaceMaker::PaceMaker() :
 PaceMaker::~PaceMaker()
 {
 	m_Run = false;
-	m_RunThread.join();
+
+	if(m_RunThread.joinable())
+		m_RunThread.join();
 }
 
 void PaceMaker::MainThread()
