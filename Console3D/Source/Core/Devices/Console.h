@@ -121,7 +121,7 @@ private:
 public:
 	static Console& Get() noexcept;
 
-	void Start();
+	void Start() override;
 
 	inline Transform3Df& R0ToCam()
 	{
