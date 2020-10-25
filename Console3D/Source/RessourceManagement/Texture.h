@@ -4,13 +4,6 @@
 
 class Texture
 {
-private:
-	unsigned char* m_LocalBuffer = nullptr;
-
-	int m_Width  = 0;
-	int m_Height = 0;
-	int m_BPP    = 0;
-
 public:
 	~Texture();
 
@@ -22,4 +15,11 @@ public:
 
 	int Width()  const;
 	int Height() const;
+
+private:
+	unsigned char* m_LocalBuffer = nullptr;
+
+	int m_Width = 0;
+	int m_Height = 0;
+	int m_BPP = 0;
 };

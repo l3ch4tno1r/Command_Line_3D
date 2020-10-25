@@ -14,6 +14,17 @@ using namespace std::literals::chrono_literals;
 
 class PaceMaker : public Subject<Device>
 {
+public:
+	PaceMaker();
+
+	~PaceMaker();
+
+	void Start(std::chrono::milliseconds interval);
+
+	void Pause(bool _pause);
+
+	void Stop();
+
 private:
 	std::atomic<bool>         m_Run;
 	std::chrono::milliseconds m_Interval;
@@ -28,15 +39,4 @@ private:
 	void MainThread();
 
 	void Continue();
-
-public:
-	PaceMaker();
-
-	~PaceMaker();
-
-	void Start(std::chrono::milliseconds interval);
-
-	void Pause(bool _pause);
-
-	void Stop();
 };
