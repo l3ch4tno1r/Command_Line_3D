@@ -16,7 +16,7 @@ private:
 	~Application() = default;
 
 	void Run();
-	void Wait();
+	void WaitQuit();
 
 	friend int ::main(int argc, char** argv);
 

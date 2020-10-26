@@ -3,6 +3,8 @@
 #include "Devices/PaceMaker.h"
 #include "Devices/EventHandler.h"
 
+#include <iostream>
+
 Application& Application::Get() noexcept
 {
 	static Application instance;
@@ -20,15 +22,31 @@ void Application::Run()
 	
 	m_Run = true;
 
-	eventhandler.AddKeyBoardAction(VK_ESCAPE, [this](const KeyState& state)
+	eventhandler.SetKeyBoardAction(Key::ESC, [this](const KeyState& state)
 	{
 		if (state.KeyPressed)
 			this->Quit();
 	});
 
+	eventhandler.SetKeyBoardAction(Key::A, [](const KeyState& state)
+	{
+		if(state.KeyPressed)
+			std::cout << "Pressed" << std::endl;
+
+		if (state.KeyReleased)
+			std::cout << "Released" << std::endl;
+	});
+
+	for (int i = 0; i < 5; i++)
+		eventhandler.SetMouseAction(i, [i](const KeyState& state, int, int)
+		{
+			if(state.KeyPressed)
+				std::cout << "Mouse button " << i << std::endl;
+		});
+
 	eventhandler.Start();
 
-	this->Wait();
+	this->WaitQuit();
 }
 
 void Application::Quit()
@@ -40,7 +58,7 @@ void Application::Quit()
 	m_RunCond.notify_one();
 }
 
-void Application::Wait()
+void Application::WaitQuit()
 {
 	std::unique_lock<std::mutex> lock(m_RunMut);
 

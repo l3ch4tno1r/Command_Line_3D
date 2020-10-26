@@ -25,9 +25,14 @@ void EventHandler::Start()
 	Device::Start();
 }
 
-void EventHandler::AddKeyBoardAction(size_t keyid, KeyBoardAction&& action)
+void EventHandler::SetKeyBoardAction(size_t keyid, KeyBoardAction&& action)
 {
 	m_KeyActions[keyid] = std::move(action);
+}
+
+void EventHandler::SetMouseAction(size_t buttonid, MouseAction&& action)
+{
+	m_MouseActions[buttonid] = std::move(action);
 }
 
 void EventHandler::MainThread()
