@@ -1,5 +1,15 @@
 #include "EventHandler.h"
 
+#define DEBUG
+
+#ifdef DEBUG
+#include <iostream>
+#define EVENT_DEBUG(X) std::cout << X << std::endl
+#else
+#define EVENT_DEBUG(X)
+#endif // DEBUG
+
+
 EventHandler& EventHandler::Get() noexcept
 {
 	static EventHandler instance;
@@ -70,6 +80,10 @@ void EventHandler::MainThread()
 			}
 			case MOUSE_EVENT:
 			{
+
+				int x = record.Event.MouseEvent.dwMousePosition.X;
+				int y = record.Event.MouseEvent.dwMousePosition.Y;
+
 				switch (record.Event.MouseEvent.dwEventFlags)
 				{
 				case MOUSE_MOVED:
@@ -77,16 +91,15 @@ void EventHandler::MainThread()
 					break;
 				}
 				case 0:
-				{
+				{					
+					//EVENT_DEBUG("Clicks : " << ++mouseclick << ", mouse events : " << mouseevent << ", mouse move : " << mousemove << ", diff : " << (mouseevent - mousemove));
+
 					for (int i = 0; i < 5; ++i)
 					{
 						m_Mouse[i].KeyNewState = (record.Event.MouseEvent.dwButtonState & (1 << i)) > 0;
 						m_Mouse[i].KeyHeld     =  m_Mouse[i].KeyNewState;
 						m_Mouse[i].KeyPressed  = !m_Mouse[i].KeyOldState &&  m_Mouse[i].KeyNewState;
 						m_Mouse[i].KeyReleased =  m_Mouse[i].KeyOldState && !m_Mouse[i].KeyNewState;
-
-						int x = record.Event.MouseEvent.dwMousePosition.X;
-						int y = record.Event.MouseEvent.dwMousePosition.Y;
 
 						if (m_MouseActions[i])
 							m_MouseActions[i](m_Mouse[i], x, y);

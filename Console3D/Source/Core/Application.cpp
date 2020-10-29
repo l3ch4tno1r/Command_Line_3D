@@ -33,16 +33,18 @@ void Application::Run()
 		if(state.KeyPressed)
 			std::cout << "Pressed" << std::endl;
 
-		if (state.KeyReleased)
-			std::cout << "Released" << std::endl;
+		//if (state.KeyReleased)
+		//	std::cout << "Released" << std::endl;
 	});
 
-	for (int i = 0; i < 5; i++)
-		eventhandler.SetMouseAction(i, [i](const KeyState& state, int, int)
-		{
-			if(state.KeyPressed)
-				std::cout << "Mouse button " << i << std::endl;
-		});
+	eventhandler.SetMouseAction(MouseButton::LEFT, [](const KeyState& state, int x, int y)
+	{
+		if(state.KeyPressed)
+			std::cout << "Left button pressed at (" << x << ", " << y << ')' << std::endl;
+
+		//if (state.KeyReleased)
+		//	std::cout << "Left button released at (" << x << ", " << y << ')' << std::endl;
+	});
 
 	eventhandler.Start();
 

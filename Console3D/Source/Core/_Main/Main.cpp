@@ -4,9 +4,5 @@
 
 int main(int argc, char** argv)
 {
-	Application& app = Application::Get();
-
-	app.Run();
-
-	//std::cin.get();
+	Application::Get().Run();
 }
