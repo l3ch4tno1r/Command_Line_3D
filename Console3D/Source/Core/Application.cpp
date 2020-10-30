@@ -2,6 +2,7 @@
 
 #include "Devices/PaceMaker.h"
 #include "Devices/EventHandler.h"
+#include "Devices/Console.h"
 
 #include <iostream>
 
@@ -14,39 +15,28 @@ Application& Application::Get() noexcept
 void Application::Run()
 {
 	EventHandler& eventhandler = EventHandler::Get();
+	Console&      console      = Console::Get();
 
 	PaceMaker timer;
 
 	timer.AddObserver(eventhandler);
+	timer.AddObserver(console);
+
 	timer.Start(16ms);
 	
 	m_Run = true;
 
+	Transform3Df& r0tocam = console.R0ToCam();
+
+	Transform3Df translate;
+
 	eventhandler.SetKeyBoardAction(Key::ESC, [this](const KeyState& state)
 	{
-		if (state.KeyPressed)
-			this->Quit();
-	});
-
-	eventhandler.SetKeyBoardAction(Key::A, [](const KeyState& state)
-	{
-		if(state.KeyPressed)
-			std::cout << "Pressed" << std::endl;
-
-		//if (state.KeyReleased)
-		//	std::cout << "Released" << std::endl;
-	});
-
-	eventhandler.SetMouseAction(MouseButton::LEFT, [](const KeyState& state, int x, int y)
-	{
-		if(state.KeyPressed)
-			std::cout << "Left button pressed at (" << x << ", " << y << ')' << std::endl;
-
-		//if (state.KeyReleased)
-		//	std::cout << "Left button released at (" << x << ", " << y << ')' << std::endl;
+		this->Quit();
 	});
 
 	eventhandler.Start();
+	console.Start();
 
 	this->WaitQuit();
 }
