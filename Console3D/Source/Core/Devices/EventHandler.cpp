@@ -45,6 +45,11 @@ void EventHandler::SetMouseAction(size_t buttonid, MouseAction&& action)
 	m_MouseActions[buttonid] = std::move(action);
 }
 
+void EventHandler::SetMouseMoveAction(MouseMoveAction && action)
+{
+	m_MouseMoveAction = std::move(action);
+}
+
 void EventHandler::MainThread()
 {
 	DWORD        cNumRead;
@@ -88,12 +93,13 @@ void EventHandler::MainThread()
 				{
 				case MOUSE_MOVED:
 				{
+					if(m_MouseMoveAction)
+						m_MouseMoveAction(x, y);
+
 					break;
 				}
 				case 0:
-				{					
-					//EVENT_DEBUG("Clicks : " << ++mouseclick << ", mouse events : " << mouseevent << ", mouse move : " << mousemove << ", diff : " << (mouseevent - mousemove));
-
+				{
 					for (int i = 0; i < 5; ++i)
 					{
 						m_Mouse[i].KeyNewState = (record.Event.MouseEvent.dwButtonState & (1 << i)) > 0;
