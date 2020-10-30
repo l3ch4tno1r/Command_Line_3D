@@ -216,23 +216,7 @@ private:
 		return result;
 	});
 
-	/*
-	struct ROI
-	{
-		Pixel TL;
-		Pixel BR;
-
-		int Width() const;
-		int Height() const;
-
-		Pixel TR() const;
-		Pixel BL() const;
-	};
-
-	void FillTriangleRecursive(const Triangle2D& triangle, const ROI& aabb, char c = '#');
-	*/
-
-	enum Slots
+	enum MessageSlots
 	{
 		_1 = 5,
 		_2 = 4,
@@ -241,7 +225,7 @@ private:
 		_5 = 1,
 	};
 
-	void DisplayMessage(const std::string& msg, Slots slot);
+	void DisplayMessage(const std::string& msg, MessageSlots slot);
 
 	void HeartBeat();
 
