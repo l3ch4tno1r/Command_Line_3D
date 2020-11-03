@@ -143,6 +143,7 @@
     <ClInclude Include="Source\Core\Devices\EventHandler.h" />
     <ClInclude Include="Source\Core\Devices\GraphicEngine.h" />
     <ClInclude Include="Source\Rendering\Camera.h" />
+    <ClInclude Include="Source\Rendering\CameraController.h" />
     <ClInclude Include="Source\RessourceManagement\GraphicRessourcesManager.h" />
     <ClInclude Include="Source\RessourceManagement\Model3D.h" />
     <ClInclude Include="Source\Core\Devices\PaceMaker.h" />
