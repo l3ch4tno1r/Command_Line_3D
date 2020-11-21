@@ -26,10 +26,7 @@
     <ClCompile Include="Source\stdafx.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MatrixUT\SMatrixUT.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MatrixUT\SqrSMatrixUT.cpp">
+    <ClCompile Include="Source\MatrixUT\MatrixUT.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
