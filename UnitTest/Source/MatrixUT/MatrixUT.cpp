@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
-#include <LCN_Math/Source/Matrix/Matrix.h>
-
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+#include <LCN_Math/Source/Matrix/Matrix.h>
 
 namespace MatrixUT
 {
