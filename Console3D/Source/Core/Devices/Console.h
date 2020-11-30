@@ -6,10 +6,8 @@
 #include <string>
 #include <thread>
 
-#include "LCN_Math/Source/Geometry/Geometry3D/Transform3D.h"
-#include "LCN_Math/Source/Geometry/Geometry2D/Transform2D.h"
-#include "LCN_Math/Source/Geometry/Geometry3D/HVector3D.h"
-#include "LCN_Math/Source/Geometry/Geometry2D/HVector2D.h"
+#include "LCN_Math/Source/Geometry/Transform.h"
+#include "LCN_Math/Source/Geometry/Vector.h"
 
 #include "Device.h"
 
@@ -64,15 +62,6 @@ enum COLOUR
 	BG_WHITE        = 0x00F0,
 };
 
-
-using namespace LCNMath::Geometry::Dim2;
-using namespace LCNMath::Geometry::Dim3;
-
-using Transform3Df = Transform3D<float>;
-using Transform2Df = Transform2D<float>;
-using HVector3Df   = HVector3D<float>;
-using HVector2Df   = HVector2D<float>;
-
 using MapFunction = std::function<CHAR_INFO(int x, int y)>;
 
 class Console : public Device
@@ -102,7 +91,8 @@ private:
 
 	void MainThread() override;
 
-	using Pixel = HVector2D<int>;
+	using Pixel = VectorND<int, 2, HomogeneousVector>;
+	//using Pixel = HVector2D<int>;
 
 	struct Triangle2D
 	{
@@ -165,22 +155,22 @@ private:
 	void Clear();
 
 	// TODO : Include this in a collision detection API ?
-	static HVector3Df SegmentPlaneIntersection(const HVector3Df& v1, const HVector3Df& v2, // Segment info
-		                                       const HVector3Df& n,  const HVector3Df& p); // Plane info
+	static Vector3Df SegmentPlaneIntersection(const Vector3Df& v1, const Vector3Df& v2, // Segment info
+		                                      const Vector3Df& n,  const Vector3Df& p); // Plane info
 
 	// TODO : Improve that !!!
-	static uint ClipEdge(const HVector3Df& v1, const HVector3Df& v2, // Edge
-		                 const HVector3Df& n,  const HVector3Df& p,  // Plane parameters
-		                       HVector3Df& o1,       HVector3Df& o2);
+	static size_t ClipEdge(const Vector3Df& v1, const Vector3Df& v2, // Edge
+		                   const Vector3Df& n,  const Vector3Df& p,  // Plane parameters
+		                         Vector3Df& o1,       Vector3Df& o2);
 
 	struct Triangle
 	{
-		HVector3Df vertices[3];
+		Vector3Df vertices[3];
 	};
 
-	static uint ClipTriangle(const Triangle&   in_t,                         // Triangle
-		                     const HVector3Df& n,    const HVector3Df& p,    // Plane parameters
-		                           Triangle&   o_t1,       Triangle&  o_t2); // Output triangles
+	static size_t ClipTriangle(const Triangle&  in_t,                         // Triangle
+		                       const Vector3Df& n,    const Vector3Df& p,     // Plane parameters
+		                             Triangle&  o_t1,       Triangle&  o_t2); // Output triangles
 
 	CHAR_INFO GetPixelValue(int x, int y) const;
 
@@ -190,11 +180,13 @@ private:
 
 	void DrawLine(int x1, int y1, int x2, int y2, short c = 0, short color = COLOUR::BG_WHITE);
 
+	/*
 	void FillRectangle(const Pixel& TL, const Pixel& BR, const std::function<bool(const Pixel&)>& criteria = [](const Pixel&) { return true; }, short c = 0, short color = COLOUR::BG_WHITE);
 
-	void FillTriangle(const HVector2Df& v1, const HVector2Df& v2, const HVector2Df& v3, short c = 0, short color = COLOUR::BG_WHITE);
+	void FillTriangle(const Vector2Df& v1, const Vector2Df& v2, const Vector2Df& v3, short c = 0, short color = COLOUR::BG_WHITE);
 
 	void FillTriangle(const Triangle2D& triangle, short c = 0, short color = COLOUR::BG_WHITE);
+	*/
 
 	void FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, const MapFunction& mapper = [](int, int)
 	{
