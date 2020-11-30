@@ -9,8 +9,6 @@
 #include <sstream>
 #include <cmath>
 
-using HVector3Df = HVector3D<float>;
-
 class OBJReader
 {
 private:
@@ -51,11 +49,13 @@ public:
 			// Fill vertices array
 			if (type == "v")
 			{
-				HVector3Df vec(true);
+				HVector3Df hvec;
 
-				sstr >> vec.x >> vec.y >> vec.z;
+				sstr >> hvec.x() >> hvec.y() >> hvec.z();
 
-				Vertices.push_back(vec);
+				hvec.w() = 1.0f;
+
+				Vertices.push_back(hvec);
 			}
 
 			// Fill faces
@@ -63,11 +63,13 @@ public:
 			{
 				if (type == "vn")
 				{
-					HVector3Df vec(false);
+					HVector3Df hvec;
 
-					sstr >> vec.x >> vec.y >> vec.z;
+					sstr >> hvec.x() >> hvec.y() >> hvec.z();
 
-					Normals.push_back(vec);
+					hvec.w() = 1.0f;
+
+					Normals.push_back(hvec);
 				}
 
 				if (type == "f")
@@ -120,13 +122,15 @@ public:
 					HVector3Df v1 = Vertices[face.v2] - Vertices[face.v1];
 					HVector3Df v2 = Vertices[face.v3] - Vertices[face.v2];
 
-					HVector3Df n  = v1 ^ v2;
+					Vector3Df _n = v1.VectorView() ^ v2.VectorView();
 
-					float norm = std::sqrt(n.x * n.x + n.y * n.y + n.z * n.z);
+					HVector3Df n = _n.Homogeneous(0.0f);
 
-					n.x /= norm;
-					n.y /= norm;
-					n.z /= norm;
+					float norm = std::sqrt(n.x() * n.x() + n.y() * n.y() + n.z() * n.z());
+
+					n.x() /= norm;
+					n.y() /= norm;
+					n.z() /= norm;
 
 					Normals.push_back(n);
 

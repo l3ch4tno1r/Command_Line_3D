@@ -3,16 +3,14 @@
 #include <vector>
 #include <unordered_set>
 
-#include "LCN_Math/Source/Geometry/Geometry3D/HVector3D.h"
-
-using namespace LCNMath::Geometry::Dim3;
+#include "LCN_Math/Source/Geometry/Vector.h"
 
 using uint = unsigned int;
 
 class Model3D
 {
 public:
-	using Vertex3D = HVector3D<float>;
+	using Vertex3D = HVector3Df;
 
 	struct Face
 	{
