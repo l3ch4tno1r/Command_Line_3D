@@ -1,6 +1,6 @@
 #include "Console.h"
 
-#include "Utilities\Angles.h"
+#include <../LCN_Math/Source/Utilities/Angles.h>
 
 #include "Source\ErrorHandling.h"
 #include "Source\TimeMeasurement.h"
@@ -18,10 +18,10 @@
 #include <list>
 #include <queue>
 
-#define DRAW_FACES
 /*
-#define DRAW_EDGES
+#define DRAW_FACES
 */
+#define DRAW_EDGES
 
 Console::Console() :
 	m_Width(0),
@@ -111,7 +111,9 @@ void Console::ConstructConsole(size_t width, size_t height, size_t fontw, size_t
 #if !TEST_CONSOLE
 void Console::MainThread()
 {
-	Model3D models[] = {
+	try
+	{
+		Model3D models[] = {
 		OBJReader().ReadFile<Model3D>("Ressource/null.obj", false),
 		/*
 		OBJReader().ReadFile<Model3D>("Ressource/carpet.obj", false),
@@ -120,348 +122,353 @@ void Console::MainThread()
 		OBJReader().ReadFile<Model3D>("Ressource/triangle.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/octogon.obj", false)
 		OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false)
-		OBJReader().ReadFile<Model3D>("Ressource/axisr.obj", true)
 		OBJReader().ReadFile<Model3D>("Ressource/table_basique.obj", false)
-		*/
 		OBJReader().ReadFile<Model3D>("Ressource/teapot.obj", true)
-	};
+		*/
+		OBJReader().ReadFile<Model3D>("Ressource/axisr.obj", true)
+		};
 
-	// Quick fix for teapot
-	Transform3Df teapot({
-		1.0f, 0.0f,  0.0f, 0.0f,
-		0.0f, 0.0f, -1.0f, 0.0f,
-		0.0f, 1.0f,  0.0f, 0.0f,
-		0.0f, 0.0f,  0.0f, 1.0f
-	});
+		// Quick fix for teapot
+		/*
+		Transform3Df teapot({
+			1.0f, 0.0f,  0.0f, 0.0f,
+			0.0f, 0.0f, -1.0f, 0.0f,
+			0.0f, 1.0f,  0.0f, 0.0f,
+			0.0f, 0.0f,  0.0f, 1.0f
+		});
 
-	for (HVector3Df& vertex : models[1].Vertices())
-		vertex = teapot * vertex;
+		for (HVector3Df& vertex : models[1].Vertices())
+			vertex = teapot * vertex;
 
-	for (HVector3Df& vertex : models[1].Normals())
-		vertex = teapot * vertex;
-	/*
-	*/
+		for (HVector3Df& vertex : models[1].Normals())
+			vertex = teapot * vertex;
+		*/
 
-	//const float scalefactor = 1.0f;
-	const float scalefactor[] = { 1.0f, 1.0f };
+		//const float scalefactor = 1.0f;
+		const float scalefactor[] = { 1.0f, 1.0f };
 
-	// Scaling models
-	for (uint32_t i = 0; i < 2; ++i)
-	{
-		for (HVector3Df& v : models[i].Vertices())
+		// Scaling models
+		for (uint32_t i = 0; i < 2; ++i)
 		{
-			v.x *= scalefactor[i];
-			v.y *= scalefactor[i];
-			v.z *= scalefactor[i];
-		}
-	}
-
-	Transform3Df R0ToObjs[] = {
-		Transform3Df(),
-		Transform3Df()
-	};
-
-	const float tab[3][4] = {
-		m_Focal, 0.0f,    0.0f,  0.0f,
-		0.0f,    m_Focal, 0.0f,  0.0f,
-		0.0f,    0.0f,    1.0f,  0.0f,
-	};
-
-	LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> Projection(tab);
-
-	Transform2Df ImgToCam(m_Width / 2, m_Height / 2, 180.0f);
-
-	// For clipping
-
-	std::pair<HVector3Df, HVector3Df> planes[] = {
-		{ HVector3Df(HVector3Df::Z()),                        HVector3Df(0.0f, 0.0f, 0.5f) },
-		{ HVector3Df( 0,       m_Focal, m_Height / 2, false), HVector3Df(0.0f, 0.0f, 0.0f) },
-		{ HVector3Df( 0,      -m_Focal, m_Height / 2, false), HVector3Df(0.0f, 0.0f, 0.0f) },
-		{ HVector3Df(-m_Focal, 0,       m_Width  / 2, false), HVector3Df(0.0f, 0.0f, 0.0f) },
-		{ HVector3Df( m_Focal, 0,       m_Width  / 2, false), HVector3Df(0.0f, 0.0f, 0.0f) }
-	};
-
-	std::pair<HVector3Df, HVector3Df> planesfromObj[] = {
-		{ HVector3Df(0.0f, 0.0f, 0.0f, false), HVector3Df(0.0f, 0.0f, 0.0f)},
-		{ HVector3Df(0.0f, 0.0f, 0.0f, false), HVector3Df(0.0f, 0.0f, 0.0f)},
-		{ HVector3Df(0.0f, 0.0f, 0.0f, false), HVector3Df(0.0f, 0.0f, 0.0f)},
-		{ HVector3Df(0.0f, 0.0f, 0.0f, false), HVector3Df(0.0f, 0.0f, 0.0f)},
-		{ HVector3Df(0.0f, 0.0f, 0.0f, false), HVector3Df(0.0f, 0.0f, 0.0f)}
-	};
-
-	LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = ImgToCam.mat * Projection;
-
-	// FPS measurement
-	auto tp1 = std::chrono::system_clock::now();
-	auto tp2 = std::chrono::system_clock::now();
-
-	// Ligthing
-	float aspeed = 36.0f;			   // 1 tour / 10s
-	float dt     = 16.0f / 1000.0f;	   // Delta de temps
-	float da     = TORAD(aspeed * dt); // Angle
-
-	HVector3Df light = { -1, -5, -1, false };
-	light.Normalize();
-
-	Transform3Df lightorientation({
-		std::cos(da), -std::sin(da), 0.0f, 0.0f,
-		std::sin(da),  std::cos(da), 0.0f, 0.0f,
-		0.0f,          0.0f,         1.0f, 0.0f,
-		0.0f,          0.0f,         0.0f, 1.0f
-	});
-
-	// For info display
-	std::stringstream sstr;
-
-	// Console device loop
-	while (Continue())
-	{
-		STARTCHRONO;
-
-		tp2 = std::chrono::system_clock::now();
-		std::chrono::duration<float> ellapsedtime = tp2 - tp1;
-		tp1 = tp2;
-
-		Clear();
-
-		Transform3Df CamToR0 = m_R0ToCam.mat.Invert();
-
-		// Loop through models
-		for (uint i = 0; i < 2; i++)
-		{
-			// TODO : Remettre a const
-			Model3D& model = models[i];
-
-			Transform3Df CamToObj = CamToR0 * R0ToObjs[i];
-			Transform3Df ObjToCam = CamToObj.mat.Invert();
-
-			for (uint i = 0; i < 5; i++)
+			for (HVector3Df& v : models[i].Vertices())
 			{
-				planesfromObj[i].first  = ObjToCam * planes[i].first;
-				planesfromObj[i].second = ObjToCam * planes[i].second;
+				v.x *= scalefactor[i];
+				v.y *= scalefactor[i];
+				v.z *= scalefactor[i];
 			}
+		}
+
+		Transform3Df R0ToObjs[] = {
+			Transform3Df(),
+			Transform3Df()
+		};
+
+		const float tab[3][4] = {
+			m_Focal, 0.0f,    0.0f,  0.0f,
+			0.0f,    m_Focal, 0.0f,  0.0f,
+			0.0f,    0.0f,    1.0f,  0.0f,
+		};
+
+		LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> Projection(tab);
+
+		Transform2Df ImgToCam(m_Width / 2, m_Height / 2, 180.0f);
+
+		// For clipping
+
+		std::pair<HVector3Df, HVector3Df> planes[] = {
+			{ HVector3Df(HVector3Df::Z()),                        HVector3Df(0.0f, 0.0f, 0.5f) },
+			{ HVector3Df(0,       m_Focal, m_Height / 2, false), HVector3Df(0.0f, 0.0f, 0.0f) },
+			{ HVector3Df(0,      -m_Focal, m_Height / 2, false), HVector3Df(0.0f, 0.0f, 0.0f) },
+			{ HVector3Df(-m_Focal, 0,       m_Width / 2, false), HVector3Df(0.0f, 0.0f, 0.0f) },
+			{ HVector3Df(m_Focal, 0,       m_Width / 2, false), HVector3Df(0.0f, 0.0f, 0.0f) }
+		};
+
+		std::pair<HVector3Df, HVector3Df> planesfromObj[] = {
+			{ HVector3Df(0.0f, 0.0f, 0.0f, false), HVector3Df(0.0f, 0.0f, 0.0f)},
+			{ HVector3Df(0.0f, 0.0f, 0.0f, false), HVector3Df(0.0f, 0.0f, 0.0f)},
+			{ HVector3Df(0.0f, 0.0f, 0.0f, false), HVector3Df(0.0f, 0.0f, 0.0f)},
+			{ HVector3Df(0.0f, 0.0f, 0.0f, false), HVector3Df(0.0f, 0.0f, 0.0f)},
+			{ HVector3Df(0.0f, 0.0f, 0.0f, false), HVector3Df(0.0f, 0.0f, 0.0f)}
+		};
+
+		LCNMath::Matrix::StaticMatrix::Matrix<float, 3, 4> _Proj = ImgToCam.mat * Projection;
+
+		// FPS measurement
+		auto tp1 = std::chrono::system_clock::now();
+		auto tp2 = std::chrono::system_clock::now();
+
+		// Ligthing
+		float aspeed = 36.0f;			   // 1 tour / 10s
+		float dt = 16.0f / 1000.0f;	   // Delta de temps
+		float da = TORAD(aspeed * dt); // Angle
+
+		HVector3Df light = { -1, -5, -1, false };
+		light.Normalize();
+
+		Transform3Df lightorientation({
+			std::cos(da), -std::sin(da), 0.0f, 0.0f,
+			std::sin(da),  std::cos(da), 0.0f, 0.0f,
+			0.0f,          0.0f,         1.0f, 0.0f,
+			0.0f,          0.0f,         0.0f, 1.0f
+			});
+
+		// For info display
+		std::stringstream sstr;
+
+		// Console device loop
+		while (Continue())
+		{
+			STARTCHRONO;
+
+			tp2 = std::chrono::system_clock::now();
+			std::chrono::duration<float> ellapsedtime = tp2 - tp1;
+			tp1 = tp2;
+
+			Clear();
+
+			Transform3Df CamToR0 = m_R0ToCam.mat.Invert();
+
+			// Loop through models
+			for (uint i = 0; i < 2; i++)
+			{
+				// TODO : Remettre a const
+				Model3D& model = models[i];
+
+				Transform3Df CamToObj = CamToR0 * R0ToObjs[i];
+				Transform3Df ObjToCam = CamToObj.mat.Invert();
+
+				for (uint i = 0; i < 5; i++)
+				{
+					planesfromObj[i].first = ObjToCam * planes[i].first;
+					planesfromObj[i].second = ObjToCam * planes[i].second;
+				}
 
 #ifdef DRAW_FACES
-			/*
-			std::sort(model.Faces().begin(), model.Faces().end(), [&](const Model3D::Face& face1, const Model3D::Face& face2)
-			{
-				const HVector3Df& f1v1 = model.Vertices()[face1.v1];
-				const HVector3Df& f1v2 = model.Vertices()[face1.v2];
-				const HVector3Df& f1v3 = model.Vertices()[face1.v3];
-
-				const HVector3Df& f2v1 = model.Vertices()[face2.v1];
-				const HVector3Df& f2v2 = model.Vertices()[face2.v2];
-				const HVector3Df& f2v3 = model.Vertices()[face2.v3];
-
-				HVector3Df ObjToCamPos = { ObjToCam.Tx, ObjToCam.Ty, ObjToCam.Tz };
-
-				float z1 = ((f1v1 + f1v2 + f1v3) / 3 - ObjToCamPos | planesfromObj[0].first);
-				float z2 = ((f2v1 + f2v2 + f2v3) / 3 - ObjToCamPos | planesfromObj[0].first);
-
-				return z1 > z2;
-			});
-			*/
-
-			for (const Model3D::Face& face : model.Faces())
-			{
-				Triangle triangle = {
-					model.Vertices()[face.v1],
-					model.Vertices()[face.v2],
-					model.Vertices()[face.v3]
-				};
-
-				HVector3Df cam2v1 = triangle.vertices[0] - planesfromObj[1].second;
-				
-				const HVector3Df& nface = model.Normals()[face.vn1];
-				
-				if ((cam2v1 | nface) > 0.0f)
-					continue;
-
-				static Triangle o1 = {
-					HVector3Df(0, 0, 0),
-					HVector3Df(0, 0, 0),
-					HVector3Df(0, 0, 0)
-				};
-
-				static Triangle o2 = {
-					HVector3Df(0, 0, 0),
-					HVector3Df(0, 0, 0),
-					HVector3Df(0, 0, 0)
-				};
-
-				std::list<Triangle> clippedtriangles({ triangle });
-
-				for (const auto& plane : planesfromObj)
+				/*
+				std::sort(model.Faces().begin(), model.Faces().end(), [&](const Model3D::Face& face1, const Model3D::Face& face2)
 				{
-					auto it = clippedtriangles.begin();
+					const HVector3Df& f1v1 = model.Vertices()[face1.v1];
+					const HVector3Df& f1v2 = model.Vertices()[face1.v2];
+					const HVector3Df& f1v3 = model.Vertices()[face1.v3];
 
-					while (it != clippedtriangles.end())
+					const HVector3Df& f2v1 = model.Vertices()[face2.v1];
+					const HVector3Df& f2v2 = model.Vertices()[face2.v2];
+					const HVector3Df& f2v3 = model.Vertices()[face2.v3];
+
+					HVector3Df ObjToCamPos = { ObjToCam.Tx, ObjToCam.Ty, ObjToCam.Tz };
+
+					float z1 = ((f1v1 + f1v2 + f1v3) / 3 - ObjToCamPos | planesfromObj[0].first);
+					float z2 = ((f2v1 + f2v2 + f2v3) / 3 - ObjToCamPos | planesfromObj[0].first);
+
+					return z1 > z2;
+				});
+				*/
+
+				for (const Model3D::Face& face : model.Faces())
+				{
+					Triangle triangle = {
+						model.Vertices()[face.v1],
+						model.Vertices()[face.v2],
+						model.Vertices()[face.v3]
+					};
+
+					HVector3Df cam2v1 = triangle.vertices[0] - planesfromObj[1].second;
+
+					const HVector3Df& nface = model.Normals()[face.vn1];
+
+					if ((cam2v1 | nface) > 0.0f)
+						continue;
+
+					static Triangle o1 = {
+						HVector3Df(0, 0, 0),
+						HVector3Df(0, 0, 0),
+						HVector3Df(0, 0, 0)
+					};
+
+					static Triangle o2 = {
+						HVector3Df(0, 0, 0),
+						HVector3Df(0, 0, 0),
+						HVector3Df(0, 0, 0)
+					};
+
+					std::list<Triangle> clippedtriangles({ triangle });
+
+					for (const auto& plane : planesfromObj)
 					{
-						uint num = ClipTriangle(*it, plane.first, plane.second, o1, o2);
+						auto it = clippedtriangles.begin();
 
-						switch (num)
+						while (it != clippedtriangles.end())
 						{
-						case 0:
-							it = clippedtriangles.erase(it);
+							uint num = ClipTriangle(*it, plane.first, plane.second, o1, o2);
 
-							break;
-						case 1:
-							clippedtriangles.push_front(o1);
+							switch (num)
+							{
+							case 0:
+								it = clippedtriangles.erase(it);
 
-							it = clippedtriangles.erase(it);
+								break;
+							case 1:
+								clippedtriangles.push_front(o1);
 
-							break;
-						case 2:
-							clippedtriangles.push_front(o1);
-							clippedtriangles.push_front(o2);
+								it = clippedtriangles.erase(it);
 
-							it = clippedtriangles.erase(it);
+								break;
+							case 2:
+								clippedtriangles.push_front(o1);
+								clippedtriangles.push_front(o2);
 
-							break;
-						case 3:
-						default:
-							++it;
+								it = clippedtriangles.erase(it);
 
-							break;
+								break;
+							case 3:
+							default:
+								++it;
+
+								break;
+							}
+
+							if (num == 0)
+								break;
 						}
+					}
 
-						if (num == 0)
-							break;
+					for (const auto& t : clippedtriangles)
+					{
+						HVector2Df _pt1 = _Proj * (CamToObj * t.vertices[0]).mat;
+						HVector2Df _pt2 = _Proj * (CamToObj * t.vertices[1]).mat;
+						HVector2Df _pt3 = _Proj * (CamToObj * t.vertices[2]).mat;
+
+						_pt1.Homogenize();
+						_pt2.Homogenize();
+						_pt3.Homogenize();
+
+						HVector3Df _n = R0ToObjs[i] * nface;
+
+						int lightidx = (int)std::floor(-9 * (light | _n) / _n.Norm());
+
+						lightidx = std::max(1, lightidx);
+
+						Pixel p1 = { (int)_pt1.x, (int)_pt1.y };
+						Pixel p2 = { (int)_pt2.x, (int)_pt2.y };
+						Pixel p3 = { (int)_pt3.x, (int)_pt3.y };
+
+						//FillTriangle(_pt1, _pt2, _pt3, grayscale[lightidx]);
+						//FillTriangle({ p1, p2, p3 }, grayscale[lightidx]);
+						FillTriangleOLC(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, [&lightidx](int i, int j)
+							{
+								static const size_t grayscalesize = 10;
+								static const char* grayscale = " -.:*+=%#@";
+
+								CHAR_INFO c;
+
+								c.Char.UnicodeChar = grayscale[lightidx];
+								c.Attributes = COLOUR::BG_BLACK | COLOUR::FG_WHITE;
+
+								return c;
+							});
+						/*
+						FillTriangleOLC(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, [](int i, int j) {
+							CHAR_INFO c;
+
+							c.Char.UnicodeChar = 0;
+							c.Attributes = (0 == (i + j) % 2 ? COLOUR::BG_RED : BG_GREEN);
+
+							return c;
+						});
+						*/
 					}
 				}
-
-				for (const auto& t : clippedtriangles)
-				{
-					HVector2Df _pt1 = _Proj * (CamToObj * t.vertices[0]).mat;
-					HVector2Df _pt2 = _Proj * (CamToObj * t.vertices[1]).mat;
-					HVector2Df _pt3 = _Proj * (CamToObj * t.vertices[2]).mat;
-
-					_pt1.Homogenize();
-					_pt2.Homogenize();
-					_pt3.Homogenize();
-
-					HVector3Df _n = R0ToObjs[i] * nface;
-
-					int lightidx = (int)std::floor(-9 * (light | _n) / _n.Norm());
-
-					lightidx = std::max(1, lightidx);
-
-					Pixel p1 = { (int)_pt1.x, (int)_pt1.y };
-					Pixel p2 = { (int)_pt2.x, (int)_pt2.y };
-					Pixel p3 = { (int)_pt3.x, (int)_pt3.y };
-
-					//FillTriangle(_pt1, _pt2, _pt3, grayscale[lightidx]);
-					//FillTriangle({ p1, p2, p3 }, grayscale[lightidx]);
-					FillTriangleOLC(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, [&lightidx](int i, int j)
-					{
-						static const size_t grayscalesize = 10;
-						static const char* grayscale = " -.:*+=%#@";
-
-						CHAR_INFO c;
-
-						c.Char.UnicodeChar = grayscale[lightidx];
-						c.Attributes = COLOUR::BG_BLACK | COLOUR::FG_WHITE;
-
-						return c;
-					});
-					/*
-					FillTriangleOLC(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, [](int i, int j) {
-						CHAR_INFO c;
-
-						c.Char.UnicodeChar = 0;
-						c.Attributes = (0 == (i + j) % 2 ? COLOUR::BG_RED : BG_GREEN);
-
-						return c;
-					});
-					*/
-				}
-			}
 #endif // DRAW_FACES
 
 #ifdef DRAW_EDGES
-			// Loop through edges
-			for(const Model3D::Edge& edge : model.Edges())
-			{
-				const HVector3Df& nface1  = model.Normals()[edge.n1];
-				const HVector3Df& nface2  = model.Normals()[edge.n2];
+				// Loop through edges
+				for (const Model3D::Edge& edge : model.Edges())
+				{
+					const HVector3Df& nface1 = model.Normals()[edge.n1];
+					const HVector3Df& nface2 = model.Normals()[edge.n2];
 
-				HVector3Df cam2v1 = model.Vertices()[edge.v1] - planesfromObj[1].second; // CamPos to point
+					HVector3Df cam2v1 = model.Vertices()[edge.v1] - planesfromObj[1].second; // CamPos to point
 
-				if ((cam2v1 | nface1) > 0.0f && (cam2v1 | nface2) > 0.0f)
-					continue;
+					if ((cam2v1 | nface1) > 0.0f && (cam2v1 | nface2) > 0.0f)
+						continue;
 
-				HVector3Df v1 = model.Vertices()[edge.v1];
-				HVector3Df v2 = model.Vertices()[edge.v2];
-				static HVector3Df o1(0.0f, 0.0f, 0.0f);
-				static HVector3Df o2(0.0f, 0.0f, 0.0f);
+					HVector3Df v1 = model.Vertices()[edge.v1];
+					HVector3Df v2 = model.Vertices()[edge.v2];
+					static HVector3Df o1(0.0f, 0.0f, 0.0f);
+					static HVector3Df o2(0.0f, 0.0f, 0.0f);
 
-				bool outoffield = false;
+					bool outoffield = false;
 
 #ifdef DRAW_FACES
-				short color = COLOUR::BG_BLACK;
+					short color = COLOUR::BG_BLACK;
 #else
-				short color = COLOUR::BG_WHITE;
+					short color = COLOUR::BG_WHITE;
 #endif
 
-				for (auto& p : planesfromObj)
-				{
-					uint num = ClipEdge(v1, v2, p.first, p.second, o1, o2);
+					for (auto& p : planesfromObj)
+					{
+						uint num = ClipEdge(v1, v2, p.first, p.second, o1, o2);
 
-					if (outoffield = (num <= 0))
-						break;
+						if (outoffield = (num <= 0))
+							break;
 
-					//if (num == 1)
-					//	symbol = '.';
+						//if (num == 1)
+						//	symbol = '.';
 
-					v1 = o1;
-					v2 = o2;
+						v1 = o1;
+						v2 = o2;
+					}
+
+					if (outoffield)
+						continue;
+
+					HVector2Df _pt1 = _Proj * (CamToObj * o1).mat;
+					HVector2Df _pt2 = _Proj * (CamToObj * o2).mat;
+
+					_pt1.Homogenize();
+					_pt2.Homogenize();
+
+					DrawLine(_pt1.x, _pt1.y, _pt2.x, _pt2.y, 0, color);
 				}
-
-				if (outoffield)
-					continue;
-
-				HVector2Df _pt1 = _Proj * (CamToObj * o1).mat;
-				HVector2Df _pt2 = _Proj * (CamToObj * o2).mat;
-
-				_pt1.Homogenize();
-				_pt2.Homogenize();
-
-				DrawLine(_pt1.x, _pt1.y, _pt2.x, _pt2.y, 0, color);
-			}
 #endif // DRAW_EDGES
+			}
+
+			HeartBeat();
+
+			ENDCHRONO;
+
+			sstr.str(std::string());
+			sstr << "Position : (" << m_R0ToCam.Tx << ", " << m_R0ToCam.Ty << ", " << m_R0ToCam.Tz << ")";
+
+			DisplayMessage(sstr.str(), Slots::_1);
+
+			sstr.str(std::string());
+			sstr << "Ellapsed time : " << (float)ellapsed_micros / 1000.0f << " ms";
+
+			DisplayMessage(sstr.str(), Slots::_3);
+
+			sstr.str(std::string());
+			sstr << "FPS : " << 1.0f / ellapsedtime.count();
+
+			DisplayMessage(sstr.str(), Slots::_5);
+
+			Render();
+
+			light = lightorientation * light;
+
+			/*
+			a += aspeed * dt;
+
+			R0ToObjs[1].Rux =  std::cos(TORAD(a));
+			R0ToObjs[1].Ruy =  std::sin(TORAD(a));
+			R0ToObjs[1].Rvx = -std::sin(TORAD(a));
+			R0ToObjs[1].Rvy =  std::cos(TORAD(a));
+			*/
 		}
-
-		HeartBeat();
-
-		ENDCHRONO;
-
-		sstr.str(std::string());
-		sstr << "Position : (" << m_R0ToCam.Tx << ", " << m_R0ToCam.Ty << ", " << m_R0ToCam.Tz << ")";
-
-		DisplayMessage(sstr.str(), Slots::_1);
-
-		sstr.str(std::string());
-		sstr << "Ellapsed time : " << (float)ellapsed_micros / 1000.0f << " ms";
-
-		DisplayMessage(sstr.str(), Slots::_3);
-
-		sstr.str(std::string());
-		sstr << "FPS : " << 1.0f / ellapsedtime.count();
-
-		DisplayMessage(sstr.str(), Slots::_5);
-
-		Render();
-
-		light = lightorientation * light;
-
-		/*
-		a += aspeed * dt;
-
-		R0ToObjs[1].Rux =  std::cos(TORAD(a));
-		R0ToObjs[1].Ruy =  std::sin(TORAD(a));
-		R0ToObjs[1].Rvx = -std::sin(TORAD(a));
-		R0ToObjs[1].Rvy =  std::cos(TORAD(a));
-		*/
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
 	}
 }
 #endif // !TEST_CONSOLE

@@ -3,7 +3,7 @@
 #include <vector>
 #include <unordered_set>
 
-#include "Geometry\Geometry3D\HVector3D.h"
+#include <../LCN_Math/Source/Geometry/Geometry3D/HVector3D.h>
 
 using namespace LCNMath::Geometry::Dim3;
 

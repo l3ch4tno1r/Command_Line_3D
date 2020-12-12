@@ -1,5 +1,3 @@
-#ifdef MAIN
-
 #include <iostream>
 #include <thread>
 
@@ -10,8 +8,8 @@
 #error Deactivate the Test mode in Devices -> Console.h
 #endif // TEST_CONSOLE
 
+#include <../LCN_Math/Source/Utilities/Angles.h>
 
-#include "Utilities\Angles.h"
 #include "Source\Instrumentor.h"
 
 class Temp : public Device
@@ -24,7 +22,7 @@ public:
 
 int main()
 {
-	Instrumentor& instrumentor = Instrumentor::Get();
+	//Instrumentor& instrumentor = Instrumentor::Get();
 	Console&      console      = Console::Get();
 
 	PaceMaker pacemaker;
@@ -43,7 +41,7 @@ int main()
 
 		SetConsoleMode(hStdin, ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT | ENABLE_WINDOW_INPUT);
 
-		instrumentor.BeginSession("Test");
+		//instrumentor.BeginSession("Test");
 
 		Transform3D<float>& r0tocam = console.R0ToCam();
 
@@ -233,5 +231,3 @@ int main()
 
 	return 0;
 }
-
-#endif // MAIN
