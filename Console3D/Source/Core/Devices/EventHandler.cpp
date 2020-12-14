@@ -45,7 +45,7 @@ void EventHandler::SetMouseAction(size_t buttonid, MouseAction&& action)
 	m_MouseActions[buttonid] = std::move(action);
 }
 
-void EventHandler::SetMouseMoveAction(MouseMoveAction && action)
+void EventHandler::SetMouseMoveAction(MouseMoveAction&& action)
 {
 	m_MouseMoveAction = std::move(action);
 }
@@ -98,7 +98,7 @@ void EventHandler::MainThread()
 
 					break;
 				}
-				case 0:
+				case 0: // Button clicked
 				{
 					for (int i = 0; i < 5; ++i)
 					{
