@@ -14,6 +14,7 @@ Application& Application::Get() noexcept
 
 void Application::Run()
 {
+	// Test
 	EventHandler& eventhandler = EventHandler::Get();
 	Console&      console      = Console::Get();
 
