@@ -22,6 +22,7 @@ const char* goforward   = "goforward";
 const char* gobackward  = "gobackward";
 const char* strafeleft  = "strafeleft";
 const char* straferight = "straferight";
+const char* pause       = "pause";
 
 class Temp : public Device
 {
@@ -73,6 +74,7 @@ int main()
 		char k_gobackward;  MAPKEY(k_gobackward,  gobackward);
 		char k_strafeleft;  MAPKEY(k_strafeleft,  strafeleft);
 		char k_straferight; MAPKEY(k_straferight, straferight);
+		char k_pause;       MAPKEY(k_pause,       pause);
 
 		// Startup devices
 		pacemaker.Start(16ms);
@@ -104,7 +106,7 @@ int main()
 			}
 
 			// Pausing the app
-			if (GetAsyncKeyState((unsigned short)'P') & 0x8000)
+			if (GetAsyncKeyState((unsigned short)k_pause) & 0x8000)
 			{
 				bool loop  = true;
 				bool pause = false;
@@ -123,7 +125,8 @@ int main()
 						switch (record.EventType)
 						{
 						case KEY_EVENT:
-							if(record.Event.KeyEvent.wVirtualKeyCode == 'P')
+							if (record.Event.KeyEvent.wVirtualKeyCode == k_pause)
+							{
 								if (!record.Event.KeyEvent.bKeyDown)
 								{
 									pause = !pause;
@@ -139,6 +142,7 @@ int main()
 										Cy = (rect.top + rect.bottom) / 2;
 									}
 								}
+							}
 
 							break;
 						default:

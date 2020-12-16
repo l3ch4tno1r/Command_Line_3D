@@ -2,3 +2,4 @@ goforward   z
 gobackward  s
 strafeleft  q
 straferight d
+pause       m
