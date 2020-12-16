@@ -10,7 +10,18 @@
 
 #include <../LCN_Math/Source/Utilities/Angles.h>
 
+#include <Source/ConfigManager.h>
+
 #include "Source\Instrumentor.h"
+
+#define MAPKEY(k, action) \
+k = LCNUtilities::ConfigManager::AppSettings()[action].Value<char>();\
+k = (k >= 'a' && k <= 'z' ? k -'a' + 'A' : k);
+
+const char* goforward   = "goforward";
+const char* gobackward  = "gobackward";
+const char* strafeleft  = "strafeleft";
+const char* straferight = "straferight";
 
 class Temp : public Device
 {
@@ -53,6 +64,17 @@ int main()
 		float ax = 0.0f;
 		float ay = 0.0f;
 
+		Transform3D<float> Tr = r0tocam;
+		Transform3D<float> RotX;
+		Transform3D<float> RotY;
+
+		// Load mapping
+		char k_goforward;   MAPKEY(k_goforward,   goforward);
+		char k_gobackward;  MAPKEY(k_gobackward,  gobackward);
+		char k_strafeleft;  MAPKEY(k_strafeleft,  strafeleft);
+		char k_straferight; MAPKEY(k_straferight, straferight);
+
+		// Startup devices
 		pacemaker.Start(16ms);
 		console.Start();
 
@@ -68,11 +90,7 @@ int main()
 
 		SetCursorPos(Cx, Cy);
 
-		while(ShowCursor(false) >= 0);
-
-		Transform3D<float> Tr = r0tocam;
-		Transform3D<float> RotX;
-		Transform3D<float> RotY;
+		while (ShowCursor(false) >= 0);
 
 		while (true)
 		{
@@ -132,25 +150,25 @@ int main()
 			}
 
 			// Directionnal movements
-			if (GetAsyncKeyState((unsigned short)'Z') & 0x8000)
+			if (GetAsyncKeyState((unsigned short)k_goforward) & 0x8000)
 			{
 				Tr.Tx += speedboost * camspeed * r0tocam.Rwx * dt;
 				Tr.Ty += speedboost * camspeed * r0tocam.Rwy * dt;
 			}
 
-			if (GetAsyncKeyState((unsigned short)'S') & 0x8000)
+			if (GetAsyncKeyState((unsigned short)k_gobackward) & 0x8000)
 			{
 				Tr.Tx -= speedboost * camspeed * r0tocam.Rwx * dt;
 				Tr.Ty -= speedboost * camspeed * r0tocam.Rwy * dt;
 			}
 
-			if (GetAsyncKeyState((unsigned short)'Q') & 0x8000)
+			if (GetAsyncKeyState((unsigned short)k_strafeleft) & 0x8000)
 			{
 				Tr.Tx += speedboost * camspeed * r0tocam.Rux * dt;
 				Tr.Ty += speedboost * camspeed * r0tocam.Ruy * dt;
 			}
 
-			if (GetAsyncKeyState((unsigned short)'D') & 0x8000)
+			if (GetAsyncKeyState((unsigned short)k_straferight) & 0x8000)
 			{
 				Tr.Tx -= speedboost * camspeed * r0tocam.Rux * dt;
 				Tr.Ty -= speedboost * camspeed * r0tocam.Ruy * dt;
