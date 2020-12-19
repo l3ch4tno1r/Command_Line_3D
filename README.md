@@ -23,7 +23,7 @@ Be sure to set the "Console3D" project as the default project.
 
 ## Controls
     
-Controls (ATTENTION : hard coded)
+Default controls for AZERTY keyboard (it is possible to change this configuration by editing the config.txt file) :
   - Z = go forward
   - Q = strafe left
   - S = go backward
