@@ -1,4 +1,4 @@
-# Console3D ![GitHub release (latest by date)](https://img.shields.io/github/v/release/l3ch4tno1r/Command_Line_3D)
+# Console3D [![GitHub release (latest by date)](https://img.shields.io/github/v/release/l3ch4tno1r/Command_Line_3D)](https://github.com/l3ch4tno1r/Command_Line_3D/releases)
 
 This is a little amateur project of a 3D Graphic Engine made from scratch using only the command prompt console. No hardware acceleration, no OpenGL... Just the CPU doing its best.
 
