@@ -5,7 +5,7 @@
     <img src="https://img.shields.io/github/v/release/l3ch4tno1r/Command_Line_3D" alt="Release">
   </a>
   <a href="https://github.com/l3ch4tno1r/Command_Line_3D/stargazers">
-    <img src="https://github-svg-buttons.herokuapp.com/star.svg?user=l3ch4tno1r&repo=Command_Line_3D&style=flat&background=007ec6" alt="Star">
+    <img src="https://img.shields.io/github/languages/top/l3ch4tno1r/Command_Line_3D" alt="Language">
   </a>
   <a href="https://github.com/l3ch4tno1r/Command_Line_3D/fork">
     <img src="https://github-svg-buttons.herokuapp.com/fork.svg?user=l3ch4tno1r&repo=Command_Line_3D&style=flat&background=007ec6" alt="Fork">
