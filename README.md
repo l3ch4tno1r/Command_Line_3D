@@ -1,14 +1,11 @@
 <p align="center">
-  <h1>Console 3D Graphics Engine</h1>
+  <h1 width="580">Console 3D Graphics Engine</h1>
   <br>
   <a href="https://github.com/l3ch4tno1r/Command_Line_3D/releases">
     <img src="https://img.shields.io/github/v/release/l3ch4tno1r/Command_Line_3D" alt="Release">
   </a>
   <a href="https://github.com/l3ch4tno1r/Command_Line_3D">
     <img src="https://img.shields.io/github/languages/top/l3ch4tno1r/Command_Line_3D" alt="Language">
-  </a>
-  <a href="https://github.com/l3ch4tno1r/Command_Line_3D/fork">
-    <img src="https://github-svg-buttons.herokuapp.com/fork.svg?user=l3ch4tno1r&repo=Command_Line_3D&style=flat&background=007ec6" alt="Fork">
   </a>
 </p>
 
