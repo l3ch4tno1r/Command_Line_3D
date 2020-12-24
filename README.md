@@ -1,5 +1,5 @@
 <p align="center">
-  <h1 width="580">Console 3D Graphics Engine</h1>
+  <h1>Console 3D Graphics Engine</h1>
   <br>
   <a href="https://github.com/l3ch4tno1r/Command_Line_3D/releases">
     <img src="https://img.shields.io/github/v/release/l3ch4tno1r/Command_Line_3D" alt="Release">
@@ -8,8 +8,6 @@
     <img src="https://img.shields.io/github/languages/top/l3ch4tno1r/Command_Line_3D" alt="Language">
   </a>
 </p>
-
-# Console3D [![GitHub release (latest by date)](https://img.shields.io/github/v/release/l3ch4tno1r/Command_Line_3D)](https://github.com/l3ch4tno1r/Command_Line_3D/releases)
 
 This is a little amateur project of a 3D Graphic Engine made from scratch using only the command prompt console. No hardware acceleration, no OpenGL... Just the CPU doing its best.
 
