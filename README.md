@@ -1,9 +1,7 @@
 <p align="center">
-  <h1>Console 3D Graphics Engine</h1>
-</p>
-
-<p align="center">
-  <h1>Console 3D Graphics Engine</h1>
+  <a href="https://github.com/l3ch4tno1r/Command_Line_3D">
+    <h1>Console 3D Graphics Engine</h1>
+  </a>
   <br>
   <a href="https://github.com/l3ch4tno1r/Command_Line_3D/releases">
     <img src="https://img.shields.io/github/v/release/l3ch4tno1r/Command_Line_3D" alt="Release">
