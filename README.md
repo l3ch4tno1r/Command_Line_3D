@@ -4,7 +4,7 @@
   <a href="https://github.com/l3ch4tno1r/Command_Line_3D/releases">
     <img src="https://img.shields.io/github/v/release/l3ch4tno1r/Command_Line_3D" alt="Release">
   </a>
-  <a href="https://github.com/l3ch4tno1r/Command_Line_3D/stargazers">
+  <a href="https://github.com/l3ch4tno1r/Command_Line_3D">
     <img src="https://img.shields.io/github/languages/top/l3ch4tno1r/Command_Line_3D" alt="Language">
   </a>
   <a href="https://github.com/l3ch4tno1r/Command_Line_3D/fork">
