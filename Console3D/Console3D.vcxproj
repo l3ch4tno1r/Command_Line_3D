@@ -78,7 +78,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>MAIN;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DEBUG;MAIN;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir)Source</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -132,13 +132,14 @@
     <ClCompile Include="Source\Core\Devices\Device.cpp" />
     <ClCompile Include="Source\Core\Devices\EventHandler.cpp" />
     <ClCompile Include="Source\Core\Devices\GraphicEngine.cpp" />
-    <ClCompile Include="Source\Core\_Main\Main.cpp" />
+    <ClCompile Include="Source\Core\Main.cpp" />
+    <ClCompile Include="Source\Core\_Tests\AppTest.cpp" />
     <ClCompile Include="Source\Rendering\Camera.cpp" />
     <ClCompile Include="Source\RessourceManagement\Model3D.cpp" />
     <ClCompile Include="Source\RessourceManagement\OBJReader.cpp" />
     <ClCompile Include="Source\Core\Devices\PaceMaker.cpp" />
     <ClCompile Include="Source\RessourceManagement\Texture.cpp" />
-    <ClCompile Include="Source\Core\_Main\Tests\Console\ConsoleTest.cpp" />
+    <ClCompile Include="Source\Core\_Tests\Console\ConsoleTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Application.h" />
@@ -146,6 +147,7 @@
     <ClInclude Include="Source\Core\Devices\Device.h" />
     <ClInclude Include="Source\Core\Devices\EventHandler.h" />
     <ClInclude Include="Source\Core\Devices\GraphicEngine.h" />
+    <ClInclude Include="Source\Core\_Tests\AppTest.h" />
     <ClInclude Include="Source\Rendering\Camera.h" />
     <ClInclude Include="Source\Rendering\CameraController.h" />
     <ClInclude Include="Source\RessourceManagement\GraphicRessourcesManager.h" />
