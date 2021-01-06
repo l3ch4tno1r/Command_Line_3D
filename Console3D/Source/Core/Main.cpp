@@ -1,6 +1,11 @@
 #include <iostream>
 
+#ifndef TEST
 #include "Core/Application.h"
+#else
+
+#endif // TEST
+
 
 int main(int argc, char** argv)
 {
