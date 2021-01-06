@@ -195,7 +195,13 @@ void Console::MainThread()
 
 		namespace ph = std::placeholders;
 
-		std::function<CHAR_INFO(int, int)> map = std::bind(mapper, ph::_1, ph::_2, std::cref(tr1), std::cref(textransform1), std::cref(texture));
+		std::function<CHAR_INFO(int, int)> map = std::bind(
+			mapper,
+			ph::_1,
+			ph::_2,
+			std::cref(tr1),
+			std::cref(textransform1),
+			std::cref(texture));
 
 		FillTriangleOLC(pix1.x, pix1.y, pix2.x, pix2.y, pix3.x, pix3.y, map);
 
