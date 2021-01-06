@@ -1,9 +1,16 @@
 #include <iostream>
 
+#ifdef DEBUG
+#define TEST
+#endif // DEBUG
+
+
 #ifndef TEST
 #include "Core/Application.h"
 #else
+#include "Core/_Tests/AppTest.h"
 
+using Application = AppTest;
 #endif // TEST
 
 
