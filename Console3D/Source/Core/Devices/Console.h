@@ -87,8 +87,6 @@ private:
 	Console(const Console&) = delete;
 	Console& operator=(const Console&) = delete;
 
-	void ConstructConsole(size_t width, size_t height, size_t fontw, size_t fonth);
-
 	void MainThread() override;
 
 	using Pixel = VectorND<int, 2, HomogeneousVector>;
@@ -110,6 +108,8 @@ private:
 
 public:
 	static Console& Get() noexcept;
+
+	void ConstructConsole(size_t width, size_t height, size_t fontw, size_t fonth);
 
 	void Start() override;
 
@@ -151,42 +151,17 @@ public:
 
 #endif // TEST_CONSOLE
 
-private:
+	/////////////////////////
+	//-- Drawing methods --//
+	/////////////////////////
+
 	void Clear();
-
-	// TODO : Include this in a collision detection API ?
-	static Vector3Df SegmentPlaneIntersection(const Vector3Df& v1, const Vector3Df& v2, // Segment info
-		                                      const Vector3Df& n,  const Vector3Df& p); // Plane info
-
-	// TODO : Improve that !!!
-	static size_t ClipEdge(const Vector3Df& v1, const Vector3Df& v2, // Edge
-		                   const Vector3Df& n,  const Vector3Df& p,  // Plane parameters
-		                         Vector3Df& o1,       Vector3Df& o2);
-
-	struct Triangle
-	{
-		Vector3Df vertices[3];
-	};
-
-	static size_t ClipTriangle(const Triangle&  in_t,                         // Triangle
-		                       const Vector3Df& n,    const Vector3Df& p,     // Plane parameters
-		                             Triangle&  o_t1,       Triangle&  o_t2); // Output triangles
-
-	CHAR_INFO GetPixelValue(int x, int y) const;
 
 	void DrawPoint(int x, int y, short c = 0x2588, short col = 0x000F);
 
 	void DrawPoint(int x, int y, const MapFunction& mapper);
 
 	void DrawLine(int x1, int y1, int x2, int y2, short c = 0, short color = COLOUR::BG_WHITE);
-
-	/*
-	void FillRectangle(const Pixel& TL, const Pixel& BR, const std::function<bool(const Pixel&)>& criteria = [](const Pixel&) { return true; }, short c = 0, short color = COLOUR::BG_WHITE);
-
-	void FillTriangle(const Vector2Df& v1, const Vector2Df& v2, const Vector2Df& v3, short c = 0, short color = COLOUR::BG_WHITE);
-
-	void FillTriangle(const Triangle2D& triangle, short c = 0, short color = COLOUR::BG_WHITE);
-	*/
 
 	void FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, const MapFunction& mapper = [](int, int)
 	{
@@ -208,6 +183,30 @@ private:
 		return result;
 	});
 
+	void Render();
+
+private:
+
+	// TODO : Include this in a collision detection API ?
+	static Vector3Df SegmentPlaneIntersection(const Vector3Df& v1, const Vector3Df& v2, // Segment info
+		                                      const Vector3Df& n,  const Vector3Df& p); // Plane info
+
+	// TODO : Improve that !!!
+	static size_t ClipEdge(const Vector3Df& v1, const Vector3Df& v2, // Edge
+		                   const Vector3Df& n,  const Vector3Df& p,  // Plane parameters
+		                         Vector3Df& o1,       Vector3Df& o2);
+
+	struct Triangle
+	{
+		Vector3Df vertices[3];
+	};
+
+	static size_t ClipTriangle(const Triangle&  in_t,                         // Triangle
+		                       const Vector3Df& n,    const Vector3Df& p,     // Plane parameters
+		                             Triangle&  o_t1,       Triangle&  o_t2); // Output triangles
+
+	CHAR_INFO GetPixelValue(int x, int y) const;
+
 	enum MessageSlots
 	{
 		_1 = 5,
@@ -220,6 +219,4 @@ private:
 	void DisplayMessage(const std::string& msg, MessageSlots slot);
 
 	void HeartBeat();
-
-	void Render();
 };
