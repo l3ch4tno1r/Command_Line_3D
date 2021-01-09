@@ -2,6 +2,8 @@
 
 #include "AppTest.h"
 #include "Core/Devices/Console.h"
+#include "RessourceManagement/OBJReader.h"
+#include "LibraryMapping/Math.h"
 
 AppTest& AppTest::Get() noexcept
 {
@@ -22,28 +24,43 @@ void AppTest::Run()
 {
 	Console& console = Console::Get();
 
+	//Model3D model = OBJReader().ReadFile<Model3D>("Ressource/cube.obj", false);
+
 	console.ConstructConsole(150, 100, 8, 8);
 
 	console.Clear();
 
-	int x1 =  50, y1 = 20;
-	int x2 = 120, y2 = 30;
-	int x3 =  75, y3 = 80;
+	Vector2f v1 = {  50, 20 };
+	Vector2f v2 = { 120, 30 };
+	Vector2f v3 = {  75, 80 };
 
 	console.FillTriangleOLC(
-		x1, y1,
-		x2, y2,
-		x3, y3,
+		v1.x(), v1.y(),
+		v2.x(), v2.y(),
+		v3.x(), v3.y(),
 		[](int x, int y)
 		{
 			CHAR_INFO result;
 
 			result.Char.UnicodeChar = 0;
-			result.Attributes = (x + y) % 2 == 0 ? COLOUR::BG_GREEN : COLOUR::BG_RED;
+
+			switch ((x + y) % 3)
+			{
+			case 0:
+				result.Attributes = COLOUR::BG_RED;
+				break;
+			case 1:
+				result.Attributes = COLOUR::BG_GREEN;
+				break;
+			case 2:
+				result.Attributes = COLOUR::BG_BLUE;
+				break;
+			default:
+				break;
+			}
 
 			return result;
-		}
-	);
+		});
 
 	console.Render();
 

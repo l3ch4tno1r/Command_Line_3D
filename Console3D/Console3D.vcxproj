@@ -79,7 +79,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>DEBUG;MAIN;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir)Source</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)eigen;$(SolutionDir);$(ProjectDir)Source</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -148,6 +148,7 @@
     <ClInclude Include="Source\Core\Devices\EventHandler.h" />
     <ClInclude Include="Source\Core\Devices\GraphicEngine.h" />
     <ClInclude Include="Source\Core\_Tests\AppTest.h" />
+    <ClInclude Include="Source\LibraryMapping\Math.h" />
     <ClInclude Include="Source\Rendering\Camera.h" />
     <ClInclude Include="Source\Rendering\CameraController.h" />
     <ClInclude Include="Source\RessourceManagement\GraphicRessourcesManager.h" />

@@ -3,14 +3,14 @@
 #include <vector>
 #include <unordered_set>
 
-#include "LCN_Math/Source/Geometry/Vector.h"
+#include "LibraryMapping/Math.h"
 
 using uint = unsigned int;
 
 class Model3D
 {
 public:
-	using Vertex3D = HVector3Df;
+	using Vertex3D = Vector4f;
 
 	struct Face
 	{

@@ -108,7 +108,8 @@ void Console::ConstructConsole(size_t width, size_t height, size_t fontw, size_t
 	m_ScreenBuffer = new CHAR_INFO[m_Width * m_Height];
 }
 
-#if !TEST_CONSOLE
+//#if !TEST_CONSOLE
+#if false
 void Console::MainThread()
 {
 	Model3D models[] = {
@@ -127,14 +128,14 @@ void Console::MainThread()
 	};
 
 	// Quick fix for teapot
-	Transform3Df teapot({
+	Transform teapot({
 		1.0f, 0.0f,  0.0f, 0.0f,
 		0.0f, 0.0f, -1.0f, 0.0f,
 		0.0f, 1.0f,  0.0f, 0.0f,
 		0.0f, 0.0f,  0.0f, 1.0f
 	});
 
-	for (HVector3Df& vertex : models[1].Vertices())
+	for (Vector4f& vertex : models[1].Vertices())
 		vertex = teapot * vertex;
 
 	for (HVector3Df& vertex : models[1].Normals())
@@ -468,6 +469,9 @@ void Console::MainThread()
 		*/
 	}
 }
+#else
+void Console::MainThread()
+{}
 #endif // !TEST_CONSOLE
 
 Console& Console::Get() noexcept

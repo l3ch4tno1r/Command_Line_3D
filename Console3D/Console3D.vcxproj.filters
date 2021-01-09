@@ -95,5 +95,8 @@
     <ClInclude Include="Source\Core\_Tests\AppTest.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Source\LibraryMapping\Math.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

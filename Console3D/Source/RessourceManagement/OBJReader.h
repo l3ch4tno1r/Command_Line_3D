@@ -49,7 +49,7 @@ public:
 			// Fill vertices array
 			if (type == "v")
 			{
-				HVector3Df hvec;
+				Vector4f hvec;
 
 				sstr >> hvec.x() >> hvec.y() >> hvec.z();
 
@@ -63,7 +63,7 @@ public:
 			{
 				if (type == "vn")
 				{
-					HVector3Df hvec;
+					Vector4f hvec;
 
 					sstr >> hvec.x() >> hvec.y() >> hvec.z();
 
@@ -119,12 +119,10 @@ public:
 
 					// /!\ Assumes that the vertices vector has been filled /!\
 
-					HVector3Df v1 = Vertices[face.v2] - Vertices[face.v1];
-					HVector3Df v2 = Vertices[face.v3] - Vertices[face.v2];
+					Vector4f v1 = Vertices[face.v2] - Vertices[face.v1];
+					Vector4f v2 = Vertices[face.v3] - Vertices[face.v2];
 
-					Vector3Df _n = v1.VectorView() ^ v2.VectorView();
-
-					HVector3Df n = _n.Homogeneous(0.0f);
+					Vector4f n = v1 ^ v2;
 
 					float norm = std::sqrt(n.x() * n.x() + n.y() * n.y() + n.z() * n.z());
 
