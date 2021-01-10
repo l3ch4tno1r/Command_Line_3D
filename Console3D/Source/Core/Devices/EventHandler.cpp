@@ -85,7 +85,6 @@ void EventHandler::MainThread()
 			}
 			case MOUSE_EVENT:
 			{
-
 				int x = record.Event.MouseEvent.dwMousePosition.X;
 				int y = record.Event.MouseEvent.dwMousePosition.Y;
 
