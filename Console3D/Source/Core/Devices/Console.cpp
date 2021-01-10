@@ -668,6 +668,17 @@ void Console::DrawLine(int x1, int y1, int x2, int y2, short c, short color)
 
 	this->DrawPoint(x2, y2, c, color);
 }
+
+void Console::FillRectangle(int TLx, int TLy, int BRx, int BRy, short c, short color)
+{
+	ASSERT(TLx <= BRx);
+	ASSERT(TLy <= BRy);
+
+	for (int i = TLx; i < BRx; i++)
+		for (int j = TLy; j < BRy; j++)
+			this->DrawPoint(i, j, c, color);
+}
+
 /*
 void Console::FillRectangle(const Pixel& TL, const Pixel& BR, const std::function<bool(const Pixel&)>& criteria, short c, short color)
 {

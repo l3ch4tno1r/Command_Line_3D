@@ -163,6 +163,8 @@ public:
 
 	void DrawLine(int x1, int y1, int x2, int y2, short c = 0, short color = COLOUR::BG_WHITE);
 
+	void FillRectangle(int TLx, int TLy, int BRx, int BRy, short c = 0, short color = COLOUR::BG_WHITE);
+
 	void FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, const MapFunction& mapper = [](int, int)
 	{
 		CHAR_INFO result;
