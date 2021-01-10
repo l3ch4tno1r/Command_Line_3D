@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "Source/Core/Application.h"
-#include "Source/Core/Devices/Console.h"
+#include "Source/Core/Console.h"
 
 namespace LCN
 {
