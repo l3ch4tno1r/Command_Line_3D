@@ -26,7 +26,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -131,7 +131,6 @@
     <ClCompile Include="Source\Core\Devices\Device.cpp" />
     <ClCompile Include="Source\Core\Devices\EventHandler.cpp" />
     <ClCompile Include="Source\Core\Devices\GraphicEngine.cpp" />
-    <ClCompile Include="Source\Core\Main.cpp" />
     <ClCompile Include="Source\Rendering\Camera.cpp" />
     <ClCompile Include="Source\RessourceManagement\Model3D.cpp" />
     <ClCompile Include="Source\RessourceManagement\OBJReader.cpp" />

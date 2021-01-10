@@ -42,9 +42,6 @@
     <ClCompile Include="Source\Core\Devices\EventHandler.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\Main.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\_Tests\Console\ConsoleTest.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
