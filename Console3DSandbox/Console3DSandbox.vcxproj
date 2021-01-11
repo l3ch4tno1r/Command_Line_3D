@@ -125,12 +125,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\Misc\Test01 - Signal and Slots.cpp" />
+    <ClCompile Include="Source\TestApps\AppTest01.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Console3D\Console3D.vcxproj">
       <Project>{ddb69403-11e2-4bd3-b989-0b645e00c4eb}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\TestApps\AppTest01.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
