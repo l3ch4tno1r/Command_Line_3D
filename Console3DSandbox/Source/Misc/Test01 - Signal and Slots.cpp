@@ -71,21 +71,21 @@ public:
 	LCN::Signal<void()> SignalEmmit;
 };
 
-class Receiver
+class Receiver : public Counter<Receiver>
 {
 public:
 	Receiver() :
-		SlotDisplay(BIND_SLOT(Receiver::Display))
+		SlotDisplay(INIT_SLOT(Receiver::Display))
 	{}
 
 	virtual void Display() = 0;
-	LCN::Slot<void()> SlotDisplay;
+	LCN::Slot<Receiver, void()> SlotDisplay;
 };
 
 class ReceiverImpl : public Receiver
 {
 public:
-	void Display() override { std::cout << "Hello world !" << std::endl; }
+	void Display() override { std::cout << this->Id() << " Hello world !" << std::endl; }
 };
 
 int main()
@@ -94,9 +94,11 @@ int main()
 		Emmiter      emmiter;
 		ReceiverImpl receiver;
 
+		receiver.SlotDisplay();
+
 		LCN::Bind(emmiter.SignalEmmit, receiver.SlotDisplay);
 
-		emmiter.SignalEmmit();
+		emmiter.SignalEmmit.Emmit();
 	}
 
 	std::cin.get();
