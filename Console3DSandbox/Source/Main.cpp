@@ -1,6 +1,7 @@
 #include <iostream>
 
-#include "TestApps/AppTest01.h"
+//#include "TestApps/AppTest01.h"
+#include "Misc/AppTestEvent.h"
 
 int main(int argc, char** argv)
 {

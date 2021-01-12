@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include <Console3D/Source/Event/SignalSlot.h>
+#include <Utilities/Source/Design Patterns/SignalSlot.h>
 #include <Utilities/Source/InstanceCounter.h>
 
 class Test : public Counter<Test>
@@ -96,11 +96,19 @@ int main()
 		ReceiverImpl receiver2;
 		ReceiverImpl receiver3;
 
-		receiver2.SlotDisplay();
-
 		LCN::Bind(emmiter.SignalEmmit, receiver1.SlotDisplay);
 		LCN::Bind(emmiter.SignalEmmit, receiver2.SlotDisplay);
 		LCN::Bind(emmiter.SignalEmmit, receiver3.SlotDisplay);
+
+		{
+			ReceiverImpl receiver4;
+
+			LCN::Bind(emmiter.SignalEmmit, receiver4.SlotDisplay);
+
+			emmiter.SignalEmmit.Emmit();
+		}
+
+		std::cout << "------------" << std::endl;
 
 		emmiter.SignalEmmit.Emmit();
 	}

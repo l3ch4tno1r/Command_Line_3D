@@ -18,12 +18,18 @@
     <ClCompile Include="Source\TestApps\AppTest01.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Misc\Test01 - Signal and Slots.cpp">
+    <ClCompile Include="Source\Misc\AppTestEvent.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\TestApps\AppTest01.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Misc\AppTestEvent.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

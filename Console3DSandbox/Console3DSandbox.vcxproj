@@ -125,7 +125,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Misc\Test01 - Signal and Slots.cpp" />
+    <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\Misc\AppTestEvent.cpp" />
     <ClCompile Include="Source\TestApps\AppTest01.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -134,6 +135,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Misc\AppTestEvent.h" />
     <ClInclude Include="Source\TestApps\AppTest01.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
