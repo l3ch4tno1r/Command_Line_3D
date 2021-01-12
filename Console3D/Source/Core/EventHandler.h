@@ -3,7 +3,10 @@
 #define NOMINMAX
 #include <Windows.h>
 
-#include "Device.h"
+#include <thread>
+#include <atomic>
+
+#include <Utilities/Source/Design Patterns/SignalSlot.h>
 
 enum Key
 {
@@ -11,6 +14,7 @@ enum Key
 	ESC    = VK_ESCAPE,
 	LSHIFT = VK_LSHIFT,
 	LCTRL  = VK_LCONTROL,
+
 	A      = 0x41,
 	B      = 0x42,
 	C      = 0x43,
@@ -60,12 +64,13 @@ using KeyBoardAction  = std::function<void(const KeyState&)>;
 using MouseAction     = std::function<void(const KeyState&, int, int)>;
 using MouseMoveAction = std::function<void(int, int)>;
 
-class EventHandler : public Device
+class EventHandler
 {
 public:
 	static EventHandler& Get() noexcept;
 
-	void Start() override;
+	void Start();
+	void Stop();
 
 	void SetKeyBoardAction(size_t keyid, KeyBoardAction&& action);
 	void SetMouseAction(size_t buttonid, MouseAction&& action);
@@ -73,11 +78,15 @@ public:
 
 private:
 	EventHandler();
+	~EventHandler();
 
-	void MainThread() override;
+	void MainThread();
 
 private:
 	HANDLE m_HStdIn;
+
+	std::thread      m_MainThread;
+	std::atomic_bool m_Run = false;
 
 	KeyState m_Keys[256], m_Mouse[5];
 

@@ -3,6 +3,8 @@
 #include <mutex>
 #include <condition_variable>
 
+#include <Utilities/Source/Design Patterns/SignalSlot.h>
+
 int main(int argc, char** argv);
 
 namespace LCN
@@ -25,12 +27,14 @@ namespace LCN
 
 			m_RunCond.notify_one();
 		}
+		Slot<Application, void()> SlotQuit;
 
 	protected:
 		inline _Derived& Derived() { return static_cast<_Derived&>(*this); }
 		inline const _Derived& Derived() const { return static_cast<_Derived&>(*this); }
 
-		Application()
+		Application() :
+			SlotQuit(INIT_SLOT(Application::Quit))
 		{
 			if (m_App)
 				throw std::exception("Application is already running.");
@@ -40,9 +44,6 @@ namespace LCN
 	
 		virtual ~Application() = default;
 
-	private:
-		void Run() { this->Derived().Run(); }
-
 		void WaitQuit()
 		{
 			std::unique_lock<std::mutex> lock(m_RunMut);
@@ -51,12 +52,15 @@ namespace LCN
 				m_RunCond.wait(lock);
 		}
 
+	private:
+		void Run() { this->Derived().Run(); }
+
 		friend int ::main(int argc, char** argv);
 
 	private:
 		inline static Application* m_App = nullptr;
 
-		bool                    m_Run;
+		bool                    m_Run = true;
 		std::mutex              m_RunMut;
 		std::condition_variable m_RunCond;
 	};

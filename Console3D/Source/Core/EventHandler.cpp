@@ -24,6 +24,14 @@ EventHandler::EventHandler()
 	std::memset(m_Mouse, 0, 5 * sizeof(KeyState));
 }
 
+EventHandler::~EventHandler()
+{
+	m_Run = false;
+
+	if (m_MainThread.joinable())
+		m_MainThread.join();
+}
+
 void EventHandler::Start()
 {
 	if (m_HStdIn == INVALID_HANDLE_VALUE)
@@ -32,7 +40,14 @@ void EventHandler::Start()
 	if(!SetConsoleMode(m_HStdIn, ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT | ENABLE_WINDOW_INPUT))
 		throw std::exception("Cannot set console mode.");
 
-	Device::Start();
+	m_Run = true;
+
+	m_MainThread = std::thread(&EventHandler::MainThread, this);
+}
+
+void EventHandler::Stop()
+{
+	m_Run = false;
 }
 
 void EventHandler::SetKeyBoardAction(size_t keyid, KeyBoardAction&& action)
@@ -55,7 +70,7 @@ void EventHandler::MainThread()
 	DWORD        cNumRead;
 	INPUT_RECORD irInBuf[128];
 
-	while (this->Continue())
+	while (m_Run)
 	{
 		cNumRead = 0;
 		ReadConsoleInput(m_HStdIn, irInBuf, 128, &cNumRead);

@@ -143,7 +143,6 @@
     <ClInclude Include="Source\Core\Device.h" />
     <ClInclude Include="Source\Core\EventHandler.h" />
     <ClInclude Include="Source\Core\GraphicEngine.h" />
-    <ClInclude Include="Source\Event\SignalSlot.h" />
     <ClInclude Include="Source\LibraryMapping\Math.h" />
     <ClInclude Include="Source\Rendering\Camera.h" />
     <ClInclude Include="Source\Rendering\CameraController.h" />

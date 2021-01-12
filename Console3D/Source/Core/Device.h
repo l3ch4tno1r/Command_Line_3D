@@ -21,8 +21,8 @@ private:
 
 	struct
 	{
-		bool Started : 1;
-		bool Run : 1;
+		bool Started  : 1;
+		bool Run      : 1;
 		bool Notified : 1;
 	} m_State;
 
