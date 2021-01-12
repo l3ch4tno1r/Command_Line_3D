@@ -92,11 +92,15 @@ int main()
 {
 	{
 		Emmiter      emmiter;
-		ReceiverImpl receiver;
+		ReceiverImpl receiver1;
+		ReceiverImpl receiver2;
+		ReceiverImpl receiver3;
 
-		receiver.SlotDisplay();
+		receiver2.SlotDisplay();
 
-		LCN::Bind(emmiter.SignalEmmit, receiver.SlotDisplay);
+		LCN::Bind(emmiter.SignalEmmit, receiver1.SlotDisplay);
+		LCN::Bind(emmiter.SignalEmmit, receiver2.SlotDisplay);
+		LCN::Bind(emmiter.SignalEmmit, receiver3.SlotDisplay);
 
 		emmiter.SignalEmmit.Emmit();
 	}
