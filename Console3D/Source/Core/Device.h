@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Utilities/Source/Design Patterns/Observer.h"
+#include "Utilities/Source/DesignPatterns/Observer.h"
 
 class Device : public Observer<Device>
 {

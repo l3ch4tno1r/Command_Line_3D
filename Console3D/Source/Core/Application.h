@@ -3,7 +3,7 @@
 #include <mutex>
 #include <condition_variable>
 
-#include <Utilities/Source/Design Patterns/SignalSlot.h>
+#include <Utilities/Source/DesignPatterns/SignalSlot.h>
 
 int main(int argc, char** argv);
 

@@ -6,7 +6,7 @@
 #include <thread>
 #include <atomic>
 
-#include <Utilities/Source/Design Patterns/SignalSlot.h>
+#include <Utilities/Source/DesignPatterns/SignalSlot.h>
 
 enum Key
 {
