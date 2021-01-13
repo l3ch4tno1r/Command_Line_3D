@@ -1,7 +1,5 @@
 #include "EventHandler.h"
 
-#define DEBUG
-
 #ifdef DEBUG
 #include <iostream>
 #define EVENT_DEBUG(X) std::cout << X << std::endl
@@ -9,122 +7,124 @@
 #define EVENT_DEBUG(X)
 #endif // DEBUG
 
-
-EventHandler& EventHandler::Get() noexcept
+namespace LCN
 {
-	static EventHandler instance;
-	return instance;
-}
-
-EventHandler::EventHandler()
-{
-	m_HStdIn = GetStdHandle(STD_INPUT_HANDLE);
-
-	std::memset(m_Keys, 0, 256 * sizeof(KeyState));
-	std::memset(m_Mouse, 0, 5 * sizeof(KeyState));
-}
-
-EventHandler::~EventHandler()
-{
-	m_Run = false;
-
-	if (m_MainThread.joinable())
-		m_MainThread.join();
-}
-
-void EventHandler::Start()
-{
-	if (m_HStdIn == INVALID_HANDLE_VALUE)
-		throw std::exception("Handle invalid.");
-
-	if(!SetConsoleMode(m_HStdIn, ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT | ENABLE_WINDOW_INPUT))
-		throw std::exception("Cannot set console mode.");
-
-	m_Run = true;
-
-	m_MainThread = std::thread(&EventHandler::MainThread, this);
-}
-
-void EventHandler::Stop()
-{
-	m_Run = false;
-}
-
-void EventHandler::SetKeyBoardAction(size_t keyid, KeyBoardAction&& action)
-{
-	m_KeyActions[keyid] = std::move(action);
-}
-
-void EventHandler::SetMouseAction(size_t buttonid, MouseAction&& action)
-{
-	m_MouseActions[buttonid] = std::move(action);
-}
-
-void EventHandler::SetMouseMoveAction(MouseMoveAction&& action)
-{
-	m_MouseMoveAction = std::move(action);
-}
-
-void EventHandler::MainThread()
-{
-	DWORD        cNumRead;
-	INPUT_RECORD irInBuf[128];
-
-	while (m_Run)
+	EventHandler& EventHandler::Get() noexcept
 	{
-		cNumRead = 0;
-		ReadConsoleInput(m_HStdIn, irInBuf, 128, &cNumRead);
+		static EventHandler instance;
+		return instance;
+	}
 
-		for (DWORD i = 0; i < cNumRead; i++)
+	EventHandler::EventHandler()
+	{
+		m_HStdIn = GetStdHandle(STD_INPUT_HANDLE);
+
+		std::memset(m_Keys,  0, 256 * sizeof(KeyState));
+		std::memset(m_Mouse, 0,   5 * sizeof(KeyState));
+	}
+
+	EventHandler::~EventHandler()
+	{
+		m_Run = false;
+
+		if (m_MainThread.joinable())
+			m_MainThread.join();
+	}
+
+	void EventHandler::Start()
+	{
+		if (m_HStdIn == INVALID_HANDLE_VALUE)
+			throw std::exception("Handle invalid.");
+
+		if(!SetConsoleMode(m_HStdIn, ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT | ENABLE_WINDOW_INPUT))
+			throw std::exception("Cannot set console mode.");
+
+		m_Run = true;
+
+		m_MainThread = std::thread(&EventHandler::MainThread, this);
+	}
+
+	void EventHandler::Stop()
+	{
+		m_Run = false;
+	}
+
+	void EventHandler::MainThread()
+	{
+		DWORD        cNumRead;
+		INPUT_RECORD irInBuf[128];
+
+		while (m_Run)
 		{
-			const INPUT_RECORD& record = irInBuf[i];
+			cNumRead = 0;
+			ReadConsoleInput(m_HStdIn, irInBuf, 128, &cNumRead);
 
-			switch (record.EventType)
+			for (DWORD i = 0; i < cNumRead; i++)
 			{
-			case KEY_EVENT:
-			{
-				KeyState&       key       = m_Keys[record.Event.KeyEvent.wVirtualKeyCode];
-				KeyBoardAction& keyaction = m_KeyActions[record.Event.KeyEvent.wVirtualKeyCode];
+				const INPUT_RECORD& record = irInBuf[i];
 
-				key.KeyNewState =  record.Event.KeyEvent.bKeyDown;
-				key.KeyHeld     =  key.KeyNewState;
-				key.KeyPressed  = !key.KeyOldState &&  key.KeyNewState;
-				key.KeyReleased =  key.KeyOldState && !key.KeyNewState;
-
-				if(keyaction)
-					keyaction(key);
-
-				key.KeyOldState = key.KeyNewState;
-
-				break;
-			}
-			case MOUSE_EVENT:
-			{
-				int x = record.Event.MouseEvent.dwMousePosition.X;
-				int y = record.Event.MouseEvent.dwMousePosition.Y;
-
-				switch (record.Event.MouseEvent.dwEventFlags)
+				switch (record.EventType)
 				{
-				case MOUSE_MOVED:
+				case KEY_EVENT:
 				{
-					if(m_MouseMoveAction)
-						m_MouseMoveAction(x, y);
+					KeyState& key = m_Keys[record.Event.KeyEvent.wVirtualKeyCode];
+
+					key.KeyNewState =  record.Event.KeyEvent.bKeyDown;
+					key.KeyHeld     =  key.KeyNewState;
+					key.KeyPressed  = !key.KeyOldState &&  key.KeyNewState;
+					key.KeyReleased =  key.KeyOldState && !key.KeyNewState;
+
+					// Key Pressed
+					if (key.KeyPressed)
+					{
+						KeyPressedEvent keypressedevent(record.Event.KeyEvent.wVirtualKeyCode);
+						this->SignalKeyPressed(keypressedevent);
+					}
+
+					// Key Released
+					if (key.KeyReleased)
+					{
+						KeyReleasedEvent keyreleasedevent(record.Event.KeyEvent.wVirtualKeyCode);
+						this->SignalKeyReleased(keyreleasedevent);
+					}
+
+					key.KeyOldState = key.KeyNewState;
 
 					break;
 				}
-				case 0: // Button clicked
+				case MOUSE_EVENT:
 				{
-					for (int i = 0; i < 5; ++i)
+					int x = record.Event.MouseEvent.dwMousePosition.X;
+					int y = record.Event.MouseEvent.dwMousePosition.Y;
+
+					switch (record.Event.MouseEvent.dwEventFlags)
 					{
-						m_Mouse[i].KeyNewState = (record.Event.MouseEvent.dwButtonState & (1 << i)) > 0;
-						m_Mouse[i].KeyHeld     =  m_Mouse[i].KeyNewState;
-						m_Mouse[i].KeyPressed  = !m_Mouse[i].KeyOldState &&  m_Mouse[i].KeyNewState;
-						m_Mouse[i].KeyReleased =  m_Mouse[i].KeyOldState && !m_Mouse[i].KeyNewState;
+					case MOUSE_MOVED:
+					{
+						if(m_MouseMoveAction)
+							m_MouseMoveAction(x, y);
 
-						if (m_MouseActions[i])
-							m_MouseActions[i](m_Mouse[i], x, y);
+						break;
+					}
+					case 0: // Button clicked
+					{
+						for (int i = 0; i < 5; ++i)
+						{
+							m_Mouse[i].KeyNewState = (record.Event.MouseEvent.dwButtonState & (1 << i)) > 0;
+							m_Mouse[i].KeyHeld     =  m_Mouse[i].KeyNewState;
+							m_Mouse[i].KeyPressed  = !m_Mouse[i].KeyOldState &&  m_Mouse[i].KeyNewState;
+							m_Mouse[i].KeyReleased =  m_Mouse[i].KeyOldState && !m_Mouse[i].KeyNewState;
 
-						m_Mouse[i].KeyOldState = m_Mouse[i].KeyNewState;
+							if (m_MouseActions[i])
+								m_MouseActions[i](m_Mouse[i], x, y);
+
+							m_Mouse[i].KeyOldState = m_Mouse[i].KeyNewState;
+						}
+
+						break;
+					}
+					default:
+						break;
 					}
 
 					break;
@@ -132,11 +132,6 @@ void EventHandler::MainThread()
 				default:
 					break;
 				}
-
-				break;
-			}
-			default:
-				break;
 			}
 		}
 	}

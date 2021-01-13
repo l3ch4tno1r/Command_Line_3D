@@ -4,6 +4,7 @@
 #include <condition_variable>
 
 #include <Utilities/Source/DesignPatterns/SignalSlot.h>
+#include <Console3D/Source/Core/EventHandler.h>
 
 int main(int argc, char** argv);
 
@@ -27,19 +28,37 @@ namespace LCN
 
 			m_RunCond.notify_one();
 		}
-		Slot<Application, void()> SlotQuit;
+
+	public: // Signals
+		Signal<void(KeyPressedEvent&)>  SignalKeyPressed;
+		Signal<void(KeyReleasedEvent&)> SignalKeyReleased;
+
+	private: // Slots
+		void KeyPressed(KeyPressedEvent& keypressedevent) { this->SignalKeyPressed(keypressedevent); }
+		void KeyReleased(KeyReleasedEvent& keyreleasedevent) { this->SignalKeyReleased(keyreleasedevent); }
+
+		Slot<Application, void(KeyPressedEvent&)>  SlotOnKeyPressed;
+		Slot<Application, void(KeyReleasedEvent&)> SlotOnKeyReleased;
 
 	protected:
 		inline _Derived& Derived() { return static_cast<_Derived&>(*this); }
 		inline const _Derived& Derived() const { return static_cast<_Derived&>(*this); }
 
 		Application() :
-			SlotQuit(INIT_SLOT(Application::Quit))
+			SlotOnKeyPressed( SLOT_INIT(Application::KeyPressed)),
+			SlotOnKeyReleased(SLOT_INIT(Application::KeyReleased))
 		{
 			if (m_App)
 				throw std::exception("Application is already running.");
 
 			m_App = this;
+
+			EventHandler& eventhandler = EventHandler::Get();
+
+			Bind(eventhandler.SignalKeyPressed,  this->SlotOnKeyPressed);
+			Bind(eventhandler.SignalKeyReleased, this->SlotOnKeyReleased);
+
+			eventhandler.Start();
 		}
 	
 		virtual ~Application() = default;
