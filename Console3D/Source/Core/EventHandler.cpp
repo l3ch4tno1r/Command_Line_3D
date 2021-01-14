@@ -78,14 +78,14 @@ namespace LCN
 					if (key.KeyPressed)
 					{
 						KeyPressedEvent keypressedevent(record.Event.KeyEvent.wVirtualKeyCode);
-						this->SignalKeyPressed(keypressedevent);
+						this->SignalKeyPressed.Emmit(keypressedevent);
 					}
 
 					// Key Released
 					if (key.KeyReleased)
 					{
 						KeyReleasedEvent keyreleasedevent(record.Event.KeyEvent.wVirtualKeyCode);
-						this->SignalKeyReleased(keyreleasedevent);
+						this->SignalKeyReleased.Emmit(keyreleasedevent);
 					}
 
 					key.KeyOldState = key.KeyNewState;

@@ -76,8 +76,11 @@ namespace LCN
 		void Stop();
 
 	public: // Signals
-		Signal<void(KeyPressedEvent&)>  SignalKeyPressed;
-		Signal<void(KeyReleasedEvent&)> SignalKeyReleased;
+		template<class F>
+		using SignalConsoleInput = Signal<EventHandler, F>;
+
+		SignalConsoleInput<void(KeyPressedEvent&)>  SignalKeyPressed;
+		SignalConsoleInput<void(KeyReleasedEvent&)> SignalKeyReleased;
 
 	private:
 		EventHandler();

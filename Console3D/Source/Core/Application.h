@@ -14,6 +14,12 @@ namespace LCN
 	class Application
 	{
 	public:
+		template<class F>
+		using SignalApplication = Signal<Application, F>;
+
+		template<class F>
+		using SlotApplication = Slot<Application, F>;
+
 		static Application& Get() noexcept
 		{
 			static _Derived instance;
@@ -30,15 +36,15 @@ namespace LCN
 		}
 
 	public: // Signals
-		Signal<void(KeyPressedEvent&)>  SignalKeyPressed;
-		Signal<void(KeyReleasedEvent&)> SignalKeyReleased;
+		SignalApplication<void(KeyPressedEvent&)>  SignalKeyPressed;
+		SignalApplication<void(KeyReleasedEvent&)> SignalKeyReleased;
 
 	private: // Slots
-		void KeyPressed(KeyPressedEvent& keypressedevent) { this->SignalKeyPressed(keypressedevent); }
-		void KeyReleased(KeyReleasedEvent& keyreleasedevent) { this->SignalKeyReleased(keyreleasedevent); }
+		void KeyPressed(KeyPressedEvent& keypressedevent) { this->SignalKeyPressed.Emmit(keypressedevent); }
+		void KeyReleased(KeyReleasedEvent& keyreleasedevent) { this->SignalKeyReleased.Emmit(keyreleasedevent); }
 
-		Slot<Application, void(KeyPressedEvent&)>  SlotOnKeyPressed;
-		Slot<Application, void(KeyReleasedEvent&)> SlotOnKeyReleased;
+		SlotApplication<void(KeyPressedEvent&)>  SlotOnKeyPressed;
+		SlotApplication<void(KeyReleasedEvent&)> SlotOnKeyReleased;
 
 	protected:
 		inline _Derived& Derived() { return static_cast<_Derived&>(*this); }
