@@ -8,6 +8,8 @@ namespace LCN
 {
 	class AppTestEvent : public Application<AppTestEvent>
 	{
+	#define APPTESTEVENT_SLOT(Method, ...) SLOT(AppTestEvent, Method, __VA_ARGS__)
+
 	public:
 		template<class F>
 		using SlotAppTestEvent = Slot<AppTestEvent, F>;
@@ -17,19 +19,12 @@ namespace LCN
 		void Run();
 
 	public: // Slots
-		void OnKeyPressed(KeyPressedEvent& keypressedevent);
-		void OnKeyReleased(KeyReleasedEvent& keyreleasedevent);
+		APPTESTEVENT_SLOT(OnKeyPressed,  KeyPressedEvent&);
+		APPTESTEVENT_SLOT(OnKeyReleased, KeyReleasedEvent&);
 
-		void OnMouseMoved(MouseMovedEvent& mousemoveevent);
-		void OnMouseButtonPressed(MouseButtonPressedEvent& mousebuttonpressedevent);
-		void OnMouseButtonReleased(MouseButtonReleasedEvent& mousebuttonreleasedevent);
-
-		SlotAppTestEvent<void(KeyPressedEvent&)>  SlotOnKeyPressed;
-		SlotAppTestEvent<void(KeyReleasedEvent&)> SlotOnKeyReleased;
-
-		SlotAppTestEvent<void(MouseMovedEvent&)>          SlotMouseMove;
-		SlotAppTestEvent<void(MouseButtonPressedEvent&)>  SlotMouseButtonPressed;
-		SlotAppTestEvent<void(MouseButtonReleasedEvent&)> SlotMouseButtonReleased;
+		APPTESTEVENT_SLOT(OnMouseMoved,          MouseMovedEvent&);
+		APPTESTEVENT_SLOT(OnMouseButtonPressed,  MouseButtonPressedEvent&);
+		APPTESTEVENT_SLOT(OnMouseButtonReleased, MouseButtonReleasedEvent&);
 	};
 }
 
