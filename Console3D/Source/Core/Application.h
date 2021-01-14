@@ -59,7 +59,7 @@ namespace LCN
 
 			m_App = this;
 
-			EventHandler& eventhandler = EventHandler::Get();
+			ConsoleInput& eventhandler = ConsoleInput::Get();
 
 			Bind(eventhandler.SignalKeyPressed,  this->SlotOnKeyPressed);
 			Bind(eventhandler.SignalKeyReleased, this->SlotOnKeyReleased);

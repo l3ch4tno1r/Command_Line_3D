@@ -67,24 +67,24 @@ namespace LCN
 	using MouseAction     = std::function<void(const KeyState&, int, int)>;
 	using MouseMoveAction = std::function<void(int, int)>;
 
-	class EventHandler
+	class ConsoleInput
 	{
 	public:
-		static EventHandler& Get() noexcept;
+		static ConsoleInput& Get() noexcept;
 
 		void Start();
 		void Stop();
 
 	public: // Signals
 		template<class F>
-		using SignalConsoleInput = Signal<EventHandler, F>;
+		using SignalConsoleInput = Signal<ConsoleInput, F>;
 
 		SignalConsoleInput<void(KeyPressedEvent&)>  SignalKeyPressed;
 		SignalConsoleInput<void(KeyReleasedEvent&)> SignalKeyReleased;
 
 	private:
-		EventHandler();
-		~EventHandler();
+		ConsoleInput();
+		~ConsoleInput();
 
 		void MainThread();
 

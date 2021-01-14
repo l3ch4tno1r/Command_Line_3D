@@ -9,13 +9,13 @@
 
 namespace LCN
 {
-	EventHandler& EventHandler::Get() noexcept
+	ConsoleInput& ConsoleInput::Get() noexcept
 	{
-		static EventHandler instance;
+		static ConsoleInput instance;
 		return instance;
 	}
 
-	EventHandler::EventHandler()
+	ConsoleInput::ConsoleInput()
 	{
 		m_HStdIn = GetStdHandle(STD_INPUT_HANDLE);
 
@@ -23,7 +23,7 @@ namespace LCN
 		std::memset(m_Mouse, 0,   5 * sizeof(KeyState));
 	}
 
-	EventHandler::~EventHandler()
+	ConsoleInput::~ConsoleInput()
 	{
 		m_Run = false;
 
@@ -31,7 +31,7 @@ namespace LCN
 			m_MainThread.join();
 	}
 
-	void EventHandler::Start()
+	void ConsoleInput::Start()
 	{
 		if (m_HStdIn == INVALID_HANDLE_VALUE)
 			throw std::exception("Handle invalid.");
@@ -41,15 +41,15 @@ namespace LCN
 
 		m_Run = true;
 
-		m_MainThread = std::thread(&EventHandler::MainThread, this);
+		m_MainThread = std::thread(&ConsoleInput::MainThread, this);
 	}
 
-	void EventHandler::Stop()
+	void ConsoleInput::Stop()
 	{
 		m_Run = false;
 	}
 
-	void EventHandler::MainThread()
+	void ConsoleInput::MainThread()
 	{
 		DWORD        cNumRead;
 		INPUT_RECORD irInBuf[128];
