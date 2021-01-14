@@ -1,4 +1,4 @@
-#include "EventHandler.h"
+#include "ConsoleInput.h"
 
 #ifdef DEBUG
 #include <iostream>

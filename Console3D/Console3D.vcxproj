@@ -129,7 +129,7 @@
   <ItemGroup>
     <ClCompile Include="Source\Core\Console.cpp" />
     <ClCompile Include="Source\Core\Device.cpp" />
-    <ClCompile Include="Source\Core\EventHandler.cpp" />
+    <ClCompile Include="Source\Core\ConsoleInput.cpp" />
     <ClCompile Include="Source\Core\GraphicEngine.cpp" />
     <ClCompile Include="Source\Rendering\Camera.cpp" />
     <ClCompile Include="Source\RessourceManagement\Model3D.cpp" />
@@ -141,7 +141,7 @@
     <ClInclude Include="Source\Core\Application.h" />
     <ClInclude Include="Source\Core\Console.h" />
     <ClInclude Include="Source\Core\Device.h" />
-    <ClInclude Include="Source\Core\EventHandler.h" />
+    <ClInclude Include="Source\Core\ConsoleInput.h" />
     <ClInclude Include="Source\Core\GraphicEngine.h" />
     <ClInclude Include="Source\Event\Event.h" />
     <ClInclude Include="Source\Event\KeyBoardEvent.h" />

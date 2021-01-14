@@ -2,8 +2,6 @@
 
 #include "AppTestEvent.h"
 
-#include <Console3D/Source/Core/EventHandler.h>
-
 namespace LCN
 {
 	AppTestEvent::AppTestEvent() :
