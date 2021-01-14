@@ -145,6 +145,7 @@
     <ClInclude Include="Source\Core\GraphicEngine.h" />
     <ClInclude Include="Source\Event\Event.h" />
     <ClInclude Include="Source\Event\KeyBoardEvent.h" />
+    <ClInclude Include="Source\Event\MouseEvent.h" />
     <ClInclude Include="Source\LibraryMapping\Math.h" />
     <ClInclude Include="Source\Rendering\Camera.h" />
     <ClInclude Include="Source\Rendering\CameraController.h" />
