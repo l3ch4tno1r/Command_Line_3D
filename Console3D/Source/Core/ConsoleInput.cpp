@@ -101,8 +101,8 @@ namespace LCN
 					{
 					case MOUSE_MOVED:
 					{
-						if(m_MouseMoveAction)
-							m_MouseMoveAction(x, y);
+						MouseMovedEvent mousemoveevent(x, y);
+						this->SignalMouseMove.Emmit(mousemoveevent);
 
 						break;
 					}
@@ -115,8 +115,19 @@ namespace LCN
 							m_Mouse[i].KeyPressed  = !m_Mouse[i].KeyOldState &&  m_Mouse[i].KeyNewState;
 							m_Mouse[i].KeyReleased =  m_Mouse[i].KeyOldState && !m_Mouse[i].KeyNewState;
 
-							if (m_MouseActions[i])
-								m_MouseActions[i](m_Mouse[i], x, y);
+							// Mouse button pressed signal
+							if (m_Mouse[i].KeyPressed)
+							{
+								MouseButtonPressedEvent mousebuttonpressed(x, y, i);
+								this->SignalMouseButtonPressed.Emmit(mousebuttonpressed);
+							}
+
+							// Mouse button released signal
+							if (m_Mouse[i].KeyReleased)
+							{
+								MouseButtonReleasedEvent mousebuttonreleased(x, y, i);
+								this->SignalMouseButtonReleased.Emmit(mousebuttonreleased);
+							}
 
 							m_Mouse[i].KeyOldState = m_Mouse[i].KeyNewState;
 						}

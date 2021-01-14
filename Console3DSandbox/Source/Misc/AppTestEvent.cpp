@@ -5,15 +5,21 @@
 namespace LCN
 {
 	AppTestEvent::AppTestEvent() :
-		SlotOnKeyPressed( SLOT_INIT(AppTestEvent::OnKeyPressed)),
-		SlotOnKeyReleased(SLOT_INIT(AppTestEvent::OnKeyReleased))
-	{}
+		SLOT_INIT(SlotOnKeyPressed,        AppTestEvent::OnKeyPressed),
+		SLOT_INIT(SlotOnKeyReleased,       AppTestEvent::OnKeyReleased),
+		SLOT_INIT(SlotMouseMove,           AppTestEvent::OnMouseMoved),
+		SLOT_INIT(SlotMouseButtonPressed,  AppTestEvent::OnMouseButtonPressed),
+		SLOT_INIT(SlotMouseButtonReleased, AppTestEvent::OnMouseButtonReleased)
+	{		
+		Connect(this->SignalKeyPressed,          this->SlotOnKeyPressed);
+		Connect(this->SignalKeyReleased,         this->SlotOnKeyReleased);
+		Connect(this->SignalMouseMoved,          this->SlotMouseMove);
+		Connect(this->SignalMouseButtonPressed,  this->SlotMouseButtonPressed);
+		Connect(this->SignalMouseButtonReleased, this->SlotMouseButtonReleased);
+	}
 
 	void AppTestEvent::Run()
 	{
-		Bind(this->SignalKeyPressed,  this->SlotOnKeyPressed);
-		Bind(this->SignalKeyReleased, this->SlotOnKeyReleased);
-
 		this->WaitQuit();
 	}
 
@@ -39,5 +45,17 @@ namespace LCN
 			break;
 		}
 	}
-}
 
+	void AppTestEvent::OnMouseMoved(MouseMovedEvent& mousemoveevent)
+	{}
+
+	void AppTestEvent::OnMouseButtonPressed(MouseButtonPressedEvent& mousebuttonpressedevent)
+	{
+		std::cout << "Mouse #" << mousebuttonpressedevent.ButtonCode() << " : (" << mousebuttonpressedevent.X() << ", " << mousebuttonpressedevent.Y() << ')' << std::endl;
+	}
+
+	void AppTestEvent::OnMouseButtonReleased(MouseButtonReleasedEvent& mousebuttonreleasedevent)
+	{
+		std::cout << "Mouse #" << mousebuttonreleasedevent.ButtonCode() << " : (" << mousebuttonreleasedevent.X() << ", " << mousebuttonreleasedevent.Y() << ')' << std::endl;
+	}
+}

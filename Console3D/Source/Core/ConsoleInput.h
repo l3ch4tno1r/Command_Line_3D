@@ -7,7 +7,9 @@
 #include <atomic>
 
 #include <Utilities/Source/DesignPatterns/SignalSlot.h>
+
 #include <Console3D/Source/Event/KeyBoardEvent.h>
+#include <Console3D/Source/Event/MouseEvent.h>
 
 namespace LCN
 {
@@ -64,8 +66,7 @@ namespace LCN
 		bool KeyNewState : 1;
 	};
 		
-	using MouseAction     = std::function<void(const KeyState&, int, int)>;
-	using MouseMoveAction = std::function<void(int, int)>;
+	using MouseAction = std::function<void(const KeyState&, int, int)>;
 
 	class ConsoleInput
 	{
@@ -82,6 +83,10 @@ namespace LCN
 		SignalConsoleInput<void(KeyPressedEvent&)>  SignalKeyPressed;
 		SignalConsoleInput<void(KeyReleasedEvent&)> SignalKeyReleased;
 
+		SignalConsoleInput<void(MouseMovedEvent&)>          SignalMouseMove;
+		SignalConsoleInput<void(MouseButtonPressedEvent&)>  SignalMouseButtonPressed;
+		SignalConsoleInput<void(MouseButtonReleasedEvent&)> SignalMouseButtonReleased;
+
 	private:
 		ConsoleInput();
 		~ConsoleInput();
@@ -95,8 +100,5 @@ namespace LCN
 		std::atomic_bool m_Run = false;
 
 		KeyState m_Keys[256], m_Mouse[5];
-
-		MouseAction     m_MouseActions[5];
-		MouseMoveAction m_MouseMoveAction;
 	};
 }
