@@ -16,8 +16,6 @@ namespace LCN
 
 		AppTestEvent();
 
-		void Run();
-
 	public: // Slots
 		void OnKeyPressed(KeyPressedEvent&) override;
 		APPTESTEVENT_SLOT(OnKeyReleased, KeyReleasedEvent&);
@@ -26,6 +24,9 @@ namespace LCN
 		APPTESTEVENT_SLOT(OnMouseButtonPressed,  MouseButtonPressedEvent&);
 		APPTESTEVENT_SLOT(OnMouseButtonReleased, MouseButtonReleasedEvent&);
 		APPTESTEVENT_SLOT(OnMouseScrolled,       MouseScrollEvent&);
+
+	private:
+		void Run() override;
 	};
 }
 

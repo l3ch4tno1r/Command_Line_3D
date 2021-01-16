@@ -6,7 +6,11 @@ namespace LCN
 {
 	class RTAppTest : public RTApplication
 	{
+	public:
+		RTAppTest();
 
+	public:
+		SLOT(RTAppTest, OnHeartbeat);
 	};
 }
 

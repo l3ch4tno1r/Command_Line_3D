@@ -27,6 +27,9 @@
     <ClCompile Include="Source\Misc\AppTestBasicPaint.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Misc\RTAppTest.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\TestApps\AppTest01.h">

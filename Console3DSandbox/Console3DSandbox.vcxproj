@@ -128,6 +128,7 @@
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Misc\AppTestEvent.cpp" />
     <ClCompile Include="Source\Misc\AppTestBasicPaint.cpp" />
+    <ClCompile Include="Source\Misc\RTAppTest.cpp" />
     <ClCompile Include="Source\TestApps\AppTest01.cpp" />
   </ItemGroup>
   <ItemGroup>
