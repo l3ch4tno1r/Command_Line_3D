@@ -34,6 +34,9 @@ namespace LCN
 		SignalApplication<void(MouseButtonReleasedEvent&)> SignalMouseButtonReleased;
 		SignalApplication<void(MouseScrollEvent&)>         SignalMouseScrolled;
 
+	public: // Slots
+		VIRTUAL_SLOT(Application, OnKeyPressed, KeyPressedEvent&);
+
 	private: // Slots
 		SLOT(Application, DispatchKeyPressedEvent,  KeyPressedEvent&);
 		SLOT(Application, DispatchKeyReleasedEvent, KeyReleasedEvent&);

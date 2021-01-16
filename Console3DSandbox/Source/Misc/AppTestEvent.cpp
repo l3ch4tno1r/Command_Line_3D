@@ -5,14 +5,12 @@
 namespace LCN
 {
 	AppTestEvent::AppTestEvent() :
-		SLOT_INIT(SlotOnKeyPressed,          AppTestEvent::OnKeyPressed),
 		SLOT_INIT(SlotOnKeyReleased,         AppTestEvent::OnKeyReleased),
 		SLOT_INIT(SlotOnMouseMoved,          AppTestEvent::OnMouseMoved),
 		SLOT_INIT(SlotOnMouseButtonPressed,  AppTestEvent::OnMouseButtonPressed),
 		SLOT_INIT(SlotOnMouseButtonReleased, AppTestEvent::OnMouseButtonReleased),
 		SLOT_INIT(SlotOnMouseScrolled,       AppTestEvent::OnMouseScrolled)
-	{		
-		Connect(this->SignalKeyPressed,          this->SlotOnKeyPressed);
+	{
 		Connect(this->SignalKeyReleased,         this->SlotOnKeyReleased);
 		Connect(this->SignalMouseMoved,          this->SlotOnMouseMoved);
 		Connect(this->SignalMouseButtonPressed,  this->SlotOnMouseButtonPressed);

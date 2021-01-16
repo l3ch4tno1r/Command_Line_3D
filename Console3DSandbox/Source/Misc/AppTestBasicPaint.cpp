@@ -26,12 +26,16 @@ namespace LCN
 
 	void AppTestBasicPaint::OnMouseButtonPressed(MouseButtonPressedEvent& mouseevent)
 	{
-		m_DrawingMode = true;
+		if (mouseevent.ButtonCode() == MouseButton::LEFT)
+		{
+			m_DrawingMode = true;
 
-		m_LastPoint = { mouseevent.X(), mouseevent.Y() };
+			m_LastPoint.x() = mouseevent.X();
+			m_LastPoint.y() = mouseevent.Y();
 
-		Console::Get().DrawPoint(mouseevent.X(), mouseevent.Y());
-		Console::Get().Render();
+			Console::Get().DrawPoint(mouseevent.X(), mouseevent.Y());
+			Console::Get().Render();
+		}
 	}
 
 	void AppTestBasicPaint::OnMouseButtonReleased(MouseButtonReleasedEvent&)
@@ -49,7 +53,8 @@ namespace LCN
 
 			Console::Get().Render();
 
-			m_LastPoint = { mouseevent.X(), mouseevent.Y() };
+			m_LastPoint.x() = mouseevent.X();
+			m_LastPoint.y() = mouseevent.Y();
 		}
 	}
 

@@ -19,7 +19,7 @@ namespace LCN
 		void Run();
 
 	public: // Slots
-		APPTESTEVENT_SLOT(OnKeyPressed,  KeyPressedEvent&);
+		void OnKeyPressed(KeyPressedEvent&) override;
 		APPTESTEVENT_SLOT(OnKeyReleased, KeyReleasedEvent&);
 
 		APPTESTEVENT_SLOT(OnMouseMoved,          MouseMovedEvent&);

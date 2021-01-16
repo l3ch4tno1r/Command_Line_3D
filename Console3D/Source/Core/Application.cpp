@@ -8,7 +8,8 @@ namespace LCN
 		SLOT_INIT(SlotDispatchMouseMoveEvent,           Application::DispatchMouseMoveEvent),
 		SLOT_INIT(SlotDispatchMouseButtonPressedEvent,  Application::DispatchMouseButtonPressedEvent),
 		SLOT_INIT(SlotDispatchMouseButtonReleasedEvent, Application::DispatchMouseButtonReleasedEvent),
-		SLOT_INIT(SlotDispatchMouseScrolledEvent,       Application::DispatchMouseScrolledEvent)
+		SLOT_INIT(SlotDispatchMouseScrolledEvent,       Application::DispatchMouseScrolledEvent),
+		SLOT_INIT(SlotOnKeyPressed, Application::OnKeyPressed)
 	{
 		if (m_App)
 			throw std::exception("Application is already running.");
@@ -24,12 +25,17 @@ namespace LCN
 		Connect(consoleinput.SignalMouseButtonReleased, this->SlotDispatchMouseButtonReleasedEvent);
 		Connect(consoleinput.SignalMouseScroll,         this->SlotDispatchMouseScrolledEvent);
 
+		Connect(consoleinput.SignalKeyPressed, this->SlotOnKeyPressed);
+
 		consoleinput.Start();
 	}
 
 	void Application::Quit()
 	{
 		std::lock_guard<std::mutex> lock(m_RunMut);
+
+		if (!m_Run)
+			return;
 
 		m_Run = false;
 
@@ -50,5 +56,17 @@ namespace LCN
 
 		while (m_Run)
 			m_RunCond.wait(lock);
+	}
+
+	void Application::OnKeyPressed(KeyPressedEvent& keypressedevent)
+	{
+		switch (keypressedevent.KeyCode())
+		{
+		case Key::ESC:
+			this->Quit();
+			break;
+		default:
+			break;
+		}
 	}
 }
