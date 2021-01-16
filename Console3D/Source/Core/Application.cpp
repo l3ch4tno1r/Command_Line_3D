@@ -34,10 +34,10 @@ namespace LCN
 	{
 		std::lock_guard<std::mutex> lock(m_RunMut);
 
-		if (!m_Run)
+		if (!m_IsRunnning)
 			return;
 
-		m_Run = false;
+		m_IsRunnning = false;
 
 		m_RunCond.notify_one();
 	}
@@ -54,7 +54,7 @@ namespace LCN
 	{
 		std::unique_lock<std::mutex> lock(m_RunMut);
 
-		while (m_Run)
+		while (m_IsRunnning)
 			m_RunCond.wait(lock);
 	}
 

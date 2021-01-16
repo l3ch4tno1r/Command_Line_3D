@@ -34,7 +34,7 @@ namespace LCN
 		SignalApplication<void(MouseButtonReleasedEvent&)> SignalMouseButtonReleased;
 		SignalApplication<void(MouseScrollEvent&)>         SignalMouseScrolled;
 
-	public: // Slots
+	private: // Slots
 		VIRTUAL_SLOT(Application, OnKeyPressed, KeyPressedEvent&);
 
 	private: // Slots
@@ -48,10 +48,15 @@ namespace LCN
 
 	protected:
 		Application();
+
+		Application(const Application&) = delete;
+		Application& operator=(const Application&) = delete;
 	
 		virtual ~Application() = default;
 
-		void WaitQuit(); 
+		void WaitQuit();
+
+		inline bool IsRunning() const { return m_IsRunnning; }
 
 	private:
 		virtual void Run() = 0;
@@ -61,7 +66,7 @@ namespace LCN
 	private:
 		inline static Application* m_App = nullptr;
 
-		bool                    m_Run = true;
+		bool                    m_IsRunnning = true;
 		std::mutex              m_RunMut;
 		std::condition_variable m_RunCond;
 	};
