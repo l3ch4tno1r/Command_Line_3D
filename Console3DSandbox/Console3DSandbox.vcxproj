@@ -138,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="Source\Misc\AppTestEvent.h" />
     <ClInclude Include="Source\Misc\AppTestBasicPaint.h" />
+    <ClInclude Include="Source\Misc\RTAppTest.h" />
     <ClInclude Include="Source\TestApps\AppTest01.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
