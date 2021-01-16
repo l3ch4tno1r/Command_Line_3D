@@ -23,9 +23,9 @@ void LCN::AppTest::Run()
 
 	for (int i = 0; i < 10; ++i)
 	{
-		console.FillRectangle(7 * squarewidth, squarewidth * i, 8 * squarewidth, squarewidth * (i + 1), value[i], COLOUR::FG_RED | COLOUR::BG_BLACK);
-		console.FillRectangle(8 * squarewidth, squarewidth * i, 9 * squarewidth, squarewidth * (i + 1), value[i], COLOUR::FG_RED | COLOUR::BG_DARK_GREY);
-		console.FillRectangle(9 * squarewidth, squarewidth * i, 10 * squarewidth, squarewidth * (i + 1), value[i], COLOUR::FG_RED | COLOUR::BG_GREY);
+		console.FillRectangle(7 *  squarewidth, squarewidth * i,  8 * squarewidth, squarewidth * (i + 1), value[i], COLOUR::FG_RED | COLOUR::BG_BLACK);
+		console.FillRectangle(8 *  squarewidth, squarewidth * i,  9 * squarewidth, squarewidth * (i + 1), value[i], COLOUR::FG_RED | COLOUR::BG_DARK_GREY);
+		console.FillRectangle(9 *  squarewidth, squarewidth * i, 10 * squarewidth, squarewidth * (i + 1), value[i], COLOUR::FG_RED | COLOUR::BG_GREY);
 		console.FillRectangle(10 * squarewidth, squarewidth * i, 11 * squarewidth, squarewidth * (i + 1), value[i], COLOUR::FG_RED | COLOUR::BG_WHITE);
 	}
 

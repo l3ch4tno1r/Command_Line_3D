@@ -5,10 +5,10 @@
 
 namespace LCN
 {
-	class AppTest : public Application<AppTest>
+	class AppTest : public Application
 	{
 	private:
-		using Base = Application<AppTest>;
+		using Base = Application;
 		friend class Base;
 
 		void Run();

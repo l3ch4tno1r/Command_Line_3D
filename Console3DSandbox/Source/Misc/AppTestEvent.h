@@ -6,7 +6,7 @@
 
 namespace LCN
 {
-	class AppTestEvent : public Application<AppTestEvent>
+	class AppTestEvent : public Application
 	{
 	#define APPTESTEVENT_SLOT(Method, ...) SLOT(AppTestEvent, Method, __VA_ARGS__)
 
