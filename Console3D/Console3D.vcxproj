@@ -127,10 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Core\Application.cpp" />
     <ClCompile Include="Source\Core\Console.cpp" />
     <ClCompile Include="Source\Core\Device.cpp" />
     <ClCompile Include="Source\Core\ConsoleInput.cpp" />
     <ClCompile Include="Source\Core\GraphicEngine.cpp" />
+    <ClCompile Include="Source\Gui\Widget.cpp" />
     <ClCompile Include="Source\Rendering\Camera.cpp" />
     <ClCompile Include="Source\RessourceManagement\Model3D.cpp" />
     <ClCompile Include="Source\RessourceManagement\OBJReader.cpp" />
@@ -146,6 +148,7 @@
     <ClInclude Include="Source\Event\Event.h" />
     <ClInclude Include="Source\Event\KeyBoardEvent.h" />
     <ClInclude Include="Source\Event\MouseEvent.h" />
+    <ClInclude Include="Source\Gui\Widget.h" />
     <ClInclude Include="Source\LibraryMapping\Math.h" />
     <ClInclude Include="Source\Rendering\Camera.h" />
     <ClInclude Include="Source\Rendering\CameraController.h" />

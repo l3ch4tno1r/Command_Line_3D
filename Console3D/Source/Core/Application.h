@@ -10,27 +10,20 @@ int main(int argc, char** argv);
 
 namespace LCN
 {
-	template<class _Derived>
 	class Application
 	{
 	public:
 		template<class F> using SignalApplication = Signal<Application, F>;
 		template<class F> using SlotApplication   = Slot<Application, F>;
 
+		template<class Derived>
 		static Application& Get() noexcept
 		{
-			static _Derived instance;
+			static Derived instance;
 			return instance;
 		}
 
-		void Quit()
-		{
-			std::lock_guard<std::mutex> lock(m_RunMut);
-
-			m_Run = false;
-
-			m_RunCond.notify_one();
-		}
+		void Quit();
 
 	public: // Signals
 		SignalApplication<void(KeyPressedEvent&)>  SignalKeyPressed;
@@ -41,12 +34,12 @@ namespace LCN
 		SignalApplication<void(MouseButtonReleasedEvent&)> SignalMouseButtonReleased;
 
 	private: // Slots
-		void KeyPressed(KeyPressedEvent& keypressedevent)    { this->SignalKeyPressed.Emmit(keypressedevent); }
-		void KeyReleased(KeyReleasedEvent& keyreleasedevent) { this->SignalKeyReleased.Emmit(keyreleasedevent); }
+		inline void KeyPressed(KeyPressedEvent& keypressedevent)    { this->SignalKeyPressed.Emmit(keypressedevent); }
+		inline void KeyReleased(KeyReleasedEvent& keyreleasedevent) { this->SignalKeyReleased.Emmit(keyreleasedevent); }
 
-		void MouseMove(MouseMovedEvent& mousemoveevnt)                               { this->SignalMouseMoved.Emmit(mousemoveevnt); }
-		void MouseButtonPressed(MouseButtonPressedEvent& mousebuttonpressedevent)    { this->SignalMouseButtonPressed.Emmit(mousebuttonpressedevent); }
-		void MouseButtonReleased(MouseButtonReleasedEvent& mousebuttonreleasedevent) { this->SignalMouseButtonReleased.Emmit(mousebuttonreleasedevent); }
+		inline void MouseMove(MouseMovedEvent& mousemoveevnt)                               { this->SignalMouseMoved.Emmit(mousemoveevnt); }
+		inline void MouseButtonPressed(MouseButtonPressedEvent& mousebuttonpressedevent)    { this->SignalMouseButtonPressed.Emmit(mousebuttonpressedevent); }
+		inline void MouseButtonReleased(MouseButtonReleasedEvent& mousebuttonreleasedevent) { this->SignalMouseButtonReleased.Emmit(mousebuttonreleasedevent); }
 
 		SlotApplication<void(KeyPressedEvent&)>  SlotOnKeyPressed;
 		SlotApplication<void(KeyReleasedEvent&)> SlotOnKeyReleased;
@@ -56,44 +49,14 @@ namespace LCN
 		SlotApplication<void(MouseButtonReleasedEvent&)> SlotOnMouseButtonReleased;
 
 	protected:
-		inline _Derived& Derived() { return static_cast<_Derived&>(*this); }
-		inline const _Derived& Derived() const { return static_cast<_Derived&>(*this); }
-
-		Application() :
-			SLOT_INIT(SlotOnKeyPressed,           Application::KeyPressed),
-			SLOT_INIT(SlotOnKeyReleased,          Application::KeyReleased),
-			SLOT_INIT(SlotOnMouseMoved,           Application::MouseMove),
-			SLOT_INIT(SlotOnMouseButtonPressed,   Application::MouseButtonPressed),
-			SLOT_INIT(SlotOnMouseButtonReleased,  Application::MouseButtonReleased)
-		{
-			if (m_App)
-				throw std::exception("Application is already running.");
-
-			m_App = this;
-
-			ConsoleInput& consoleinput = ConsoleInput::Get();
-
-			Connect(consoleinput.SignalKeyPressed,            this->SlotOnKeyPressed);
-			Connect(consoleinput.SignalKeyReleased,           this->SlotOnKeyReleased);
-			Connect(consoleinput.SignalMouseMove,             this->SlotOnMouseMoved);
-			Connect(consoleinput.SignalMouseButtonPressed,    this->SlotOnMouseButtonPressed);
-			Connect(consoleinput.SignalMouseButtonReleased,   this->SlotOnMouseButtonReleased);
-
-			consoleinput.Start();
-		}
+		Application();
 	
 		virtual ~Application() = default;
 
-		void WaitQuit()
-		{
-			std::unique_lock<std::mutex> lock(m_RunMut);
-
-			while (m_Run)
-				m_RunCond.wait(lock);
-		}
+		void WaitQuit(); 
 
 	private:
-		void Run() { this->Derived().Run(); }
+		virtual void Run() = 0;
 
 		friend int ::main(int argc, char** argv);
 
