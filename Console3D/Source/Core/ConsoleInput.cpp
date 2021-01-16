@@ -2,6 +2,7 @@
 
 #ifdef DEBUG
 #include <iostream>
+#include <bitset>
 #define EVENT_DEBUG(X) std::cout << X << std::endl
 #else
 #define EVENT_DEBUG(X)
@@ -131,6 +132,15 @@ namespace LCN
 
 							m_Mouse[i].KeyOldState = m_Mouse[i].KeyNewState;
 						}
+
+						break;
+					}
+					case MOUSE_WHEELED:
+					{
+						long dir = record.Event.MouseEvent.dwButtonState & dwButtonStateHighWordMask;
+
+						MouseScrollEvent mousescrollevent(x, y, sign(dir));
+						this->SignalMouseScroll.Emmit(mousescrollevent);
 
 						break;
 					}

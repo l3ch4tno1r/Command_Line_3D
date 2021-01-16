@@ -7,6 +7,7 @@
 #include <atomic>
 
 #include <Utilities/Source/DesignPatterns/SignalSlot.h>
+#include <Utilities/Source/Utils.h>
 
 #include <Console3D/Source/Event/KeyBoardEvent.h>
 #include <Console3D/Source/Event/MouseEvent.h>
@@ -84,6 +85,7 @@ namespace LCN
 		SignalConsoleInput<void(KeyReleasedEvent&)> SignalKeyReleased;
 
 		SignalConsoleInput<void(MouseMovedEvent&)>          SignalMouseMove;
+		SignalConsoleInput<void(MouseScrollEvent&)>         SignalMouseScroll;
 		SignalConsoleInput<void(MouseButtonPressedEvent&)>  SignalMouseButtonPressed;
 		SignalConsoleInput<void(MouseButtonReleasedEvent&)> SignalMouseButtonReleased;
 
@@ -100,5 +102,20 @@ namespace LCN
 		std::atomic_bool m_Run = false;
 
 		KeyState m_Keys[256], m_Mouse[5];
+
+		const long dwButtonStateHighWordMask =
+			BIT(31) +
+			BIT(30) +
+			BIT(29) +
+			BIT(28) +
+			BIT(27) +
+			BIT(26) +
+			BIT(25) +
+			BIT(24) +
+			BIT(23) +
+			BIT(22) +
+			BIT(21) +
+			BIT(20) +
+			BIT(19);
 	};
 }

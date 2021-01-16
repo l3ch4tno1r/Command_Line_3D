@@ -7,7 +7,8 @@ namespace LCN
 		SLOT_INIT(SlotOnKeyReleased,          Application::KeyReleased),
 		SLOT_INIT(SlotOnMouseMoved,           Application::MouseMove),
 		SLOT_INIT(SlotOnMouseButtonPressed,   Application::MouseButtonPressed),
-		SLOT_INIT(SlotOnMouseButtonReleased,  Application::MouseButtonReleased)
+		SLOT_INIT(SlotOnMouseButtonReleased,  Application::MouseButtonReleased),
+		SLOT_INIT(SlotOnMouseScrolled,        Application::MouseScrolled)
 	{
 		if (m_App)
 			throw std::exception("Application is already running.");
@@ -21,6 +22,7 @@ namespace LCN
 		Connect(consoleinput.SignalMouseMove,             this->SlotOnMouseMoved);
 		Connect(consoleinput.SignalMouseButtonPressed,    this->SlotOnMouseButtonPressed);
 		Connect(consoleinput.SignalMouseButtonReleased,   this->SlotOnMouseButtonReleased);
+		Connect(consoleinput.SignalMouseScroll,           this->SlotOnMouseScrolled);
 
 		consoleinput.Start();
 	}

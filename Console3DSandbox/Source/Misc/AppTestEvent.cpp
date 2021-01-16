@@ -9,13 +9,15 @@ namespace LCN
 		SLOT_INIT(SlotOnKeyReleased,         AppTestEvent::OnKeyReleased),
 		SLOT_INIT(SlotOnMouseMoved,          AppTestEvent::OnMouseMoved),
 		SLOT_INIT(SlotOnMouseButtonPressed,  AppTestEvent::OnMouseButtonPressed),
-		SLOT_INIT(SlotOnMouseButtonReleased, AppTestEvent::OnMouseButtonReleased)
+		SLOT_INIT(SlotOnMouseButtonReleased, AppTestEvent::OnMouseButtonReleased),
+		SLOT_INIT(SlotOnMouseScrolled,       AppTestEvent::OnMouseScrolled)
 	{		
 		Connect(this->SignalKeyPressed,          this->SlotOnKeyPressed);
 		Connect(this->SignalKeyReleased,         this->SlotOnKeyReleased);
 		Connect(this->SignalMouseMoved,          this->SlotOnMouseMoved);
 		Connect(this->SignalMouseButtonPressed,  this->SlotOnMouseButtonPressed);
 		Connect(this->SignalMouseButtonReleased, this->SlotOnMouseButtonReleased);
+		Connect(this->SignalMouseScrolled,       this->SlotOnMouseScrolled);
 	}
 
 	void AppTestEvent::Run()
@@ -38,12 +40,7 @@ namespace LCN
 
 	void AppTestEvent::OnKeyReleased(KeyReleasedEvent& keyreleasedevent)
 	{
-		switch (keyreleasedevent.KeyCode())
-		{
-		default:
-			std::cout << "Key #" << keyreleasedevent.KeyCode() << " released." << std::endl;
-			break;
-		}
+		std::cout << "Key #" << keyreleasedevent.KeyCode() << " released." << std::endl;
 	}
 
 	void AppTestEvent::OnMouseMoved(MouseMovedEvent& mousemoveevent)
@@ -57,5 +54,20 @@ namespace LCN
 	void AppTestEvent::OnMouseButtonReleased(MouseButtonReleasedEvent& mousebuttonreleasedevent)
 	{
 		std::cout << "Mouse #" << mousebuttonreleasedevent.ButtonCode() << " : (" << mousebuttonreleasedevent.X() << ", " << mousebuttonreleasedevent.Y() << ')' << std::endl;
+	}
+
+	void AppTestEvent::OnMouseScrolled(MouseScrollEvent& mousescrollevent)
+	{
+		switch (mousescrollevent.ScrollDirection())
+		{
+		case -1:
+			std::cout << "Mouse scrolled down." << std::endl;
+			break;
+		case 1:
+			std::cout << "Mouse scrolled up." << std::endl;
+			break;
+		default:
+			break;
+		}
 	}
 }

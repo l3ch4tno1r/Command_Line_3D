@@ -76,4 +76,22 @@ namespace LCN
 			MouseButtonEvent(x, y, code)
 		{}
 	};
+
+	//////////////////////////
+	//-- MouseScrollEvent --//
+	//////////////////////////
+
+	class MouseScrollEvent : public MouseEvent
+	{
+	public:
+		MouseScrollEvent(int x, int y, short scrolldir) :
+			MouseEvent(x, y),
+			m_ScrollDir(scrolldir)
+		{}
+
+		short ScrollDirection() const { return m_ScrollDir; }
+
+	private:
+		short m_ScrollDir;
+	};
 }

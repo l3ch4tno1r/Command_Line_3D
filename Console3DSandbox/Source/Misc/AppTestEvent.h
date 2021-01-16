@@ -25,6 +25,7 @@ namespace LCN
 		APPTESTEVENT_SLOT(OnMouseMoved,          MouseMovedEvent&);
 		APPTESTEVENT_SLOT(OnMouseButtonPressed,  MouseButtonPressedEvent&);
 		APPTESTEVENT_SLOT(OnMouseButtonReleased, MouseButtonReleasedEvent&);
+		APPTESTEVENT_SLOT(OnMouseScrolled,       MouseScrollEvent&);
 	};
 }
 

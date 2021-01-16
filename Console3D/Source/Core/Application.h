@@ -32,6 +32,7 @@ namespace LCN
 		SignalApplication<void(MouseMovedEvent&)>          SignalMouseMoved;
 		SignalApplication<void(MouseButtonPressedEvent&)>  SignalMouseButtonPressed;
 		SignalApplication<void(MouseButtonReleasedEvent&)> SignalMouseButtonReleased;
+		SignalApplication<void(MouseScrollEvent&)>         SignalMouseScrolled;
 
 	private: // Slots
 		inline void KeyPressed(KeyPressedEvent& keypressedevent)    { this->SignalKeyPressed.Emmit(keypressedevent); }
@@ -40,6 +41,7 @@ namespace LCN
 		inline void MouseMove(MouseMovedEvent& mousemoveevnt)                               { this->SignalMouseMoved.Emmit(mousemoveevnt); }
 		inline void MouseButtonPressed(MouseButtonPressedEvent& mousebuttonpressedevent)    { this->SignalMouseButtonPressed.Emmit(mousebuttonpressedevent); }
 		inline void MouseButtonReleased(MouseButtonReleasedEvent& mousebuttonreleasedevent) { this->SignalMouseButtonReleased.Emmit(mousebuttonreleasedevent); }
+		inline void MouseScrolled(MouseScrollEvent& mousescrollevent)                       { this->SignalMouseScrolled.Emmit(mousescrollevent); }
 
 		SlotApplication<void(KeyPressedEvent&)>  SlotOnKeyPressed;
 		SlotApplication<void(KeyReleasedEvent&)> SlotOnKeyReleased;
@@ -47,6 +49,7 @@ namespace LCN
 		SlotApplication<void(MouseMovedEvent&)>          SlotOnMouseMoved;
 		SlotApplication<void(MouseButtonPressedEvent&)>  SlotOnMouseButtonPressed;
 		SlotApplication<void(MouseButtonReleasedEvent&)> SlotOnMouseButtonReleased;
+		SlotApplication<void(MouseScrollEvent&)>         SlotOnMouseScrolled;
 
 	protected:
 		Application();
