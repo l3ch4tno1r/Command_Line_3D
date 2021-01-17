@@ -23,14 +23,14 @@ namespace LCN
 
 	void RTAppTest::OnUpdate(float delta)
 	{
-		std::cout << "Updating with delta = " << delta << std::endl;
+		std::cout << "Updating with delta = " << delta / 1000.0f << std::endl;
 	}
 
 	void RTAppTest::OnRender()
 	{
 		std::cout << "Rendering..." << std::endl;
 
-		std::this_thread::sleep_for(1s);
+		std::this_thread::sleep_for(16ms);
 	}
 
 	void RTAppTest::OnQuit()

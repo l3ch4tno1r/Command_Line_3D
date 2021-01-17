@@ -17,7 +17,7 @@ namespace LCN
 		while (this->IsRunning())
 		{
 			now = std::chrono::high_resolution_clock::now();
-			float delta = (float)std::chrono::duration_cast<std::chrono::milliseconds>(now - last).count() / 1000.0f;
+			float delta = (float)std::chrono::duration_cast<std::chrono::milliseconds>(now - last).count();
 			next = now + m_Interval;
 
 			this->SignalUpdate.Emmit(delta);
