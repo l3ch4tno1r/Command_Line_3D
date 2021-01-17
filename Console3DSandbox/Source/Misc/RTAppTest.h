@@ -10,7 +10,10 @@ namespace LCN
 		RTAppTest();
 
 	public:
-		SLOT(RTAppTest, OnHeartbeat);
+		SLOT(RTAppTest, OnStartup);
+		SLOT(RTAppTest, OnUpdate, float);
+		SLOT(RTAppTest, OnRender);
+		SLOT(RTAppTest, OnQuit);
 	};
 }
 

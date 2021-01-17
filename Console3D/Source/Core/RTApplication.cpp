@@ -9,17 +9,27 @@ namespace LCN
 
 	void RTApplication::Run()
 	{
-		auto next = std::chrono::high_resolution_clock::now();
+		this->SignalStartup.Emmit();
+
+		std::chrono::high_resolution_clock::time_point now, next, last;
+		last = std::chrono::high_resolution_clock::now();
 
 		while (this->IsRunning())
 		{
-			next += m_Interval;
+			now = std::chrono::high_resolution_clock::now();
+			float delta = (float)std::chrono::duration_cast<std::chrono::milliseconds>(now - last).count() / 1000.0f;
+			next = now + m_Interval;
 
-			this->Heartbeat.Emmit();
+			this->SignalUpdate.Emmit(delta);
+			this->SignalRender.Emmit();
 
 			//Continue();
 
 			std::this_thread::sleep_until(next);
+
+			last = now;
 		}
+
+		this->SignalQuit.Emmit();
 	}
 }

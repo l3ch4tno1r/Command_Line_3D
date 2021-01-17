@@ -16,7 +16,10 @@ namespace LCN
 		virtual ~RTApplication() = default;
 
 	public: // Signals
-		RTAppSignal<void()> Heartbeat;
+		RTAppSignal<void()>      SignalRender;
+		RTAppSignal<void()>      SignalStartup;
+		RTAppSignal<void(float)> SignalUpdate;
+		RTAppSignal<void()>      SignalQuit;
 
 	private:
 		void Run() override;
