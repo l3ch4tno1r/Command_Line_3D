@@ -30,7 +30,7 @@ namespace LCN
 	{
 		std::cout << "Rendering..." << std::endl;
 
-		std::this_thread::sleep_for(16ms);
+		//std::this_thread::sleep_for(16ms);
 	}
 
 	void RTAppTest::OnQuit()
