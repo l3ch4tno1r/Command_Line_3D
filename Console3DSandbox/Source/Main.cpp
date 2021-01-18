@@ -3,7 +3,8 @@
 //#include "TestApps/AppTest01.h"
 //#include "Misc/AppTestEvent.h"
 //#include "Misc/AppTestBasicPaint.h"
-#include "Misc/RTAppTest.h"
+//#include "Misc/RTAppTest.h"
+#include "Misc/AppTestDisplayImage.h"
 
 using namespace LCN;
 

@@ -2,24 +2,27 @@
 
 #include <string>
 
-class Texture
+namespace LCN
 {
-public:
-	~Texture();
+	class Texture
+	{
+	public:
+		~Texture();
 
-	void Load(const std::string& filepath, int deisredChannels);
+		void Load(const std::string& filepath, int deisredChannels);
 
-	operator bool() const;
+		operator bool() const;
 
-	uint8_t operator()(int i, int j) const;
+		uint8_t operator()(int i, int j) const;
 
-	int Width()  const;
-	int Height() const;
+		int Width()  const;
+		int Height() const;
 
-private:
-	unsigned char* m_LocalBuffer = nullptr;
+	private:
+		unsigned char* m_LocalBuffer = nullptr;
 
-	int m_Width = 0;
-	int m_Height = 0;
-	int m_BPP = 0;
-};
+		int m_Width  = 0;
+		int m_Height = 0;
+		int m_BPP    = 0;
+	};
+}

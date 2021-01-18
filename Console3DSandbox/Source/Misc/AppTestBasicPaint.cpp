@@ -62,7 +62,7 @@ namespace LCN
 	{
 		switch (keyevent.KeyCode())
 		{
-		case Key::ESC:
+		case Key::Esc:
 			this->Quit();
 			break;
 		case Key::E:

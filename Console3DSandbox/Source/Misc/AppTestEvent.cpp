@@ -27,8 +27,23 @@ namespace LCN
 	{
 		switch (keypressedevent.KeyCode())
 		{
-		case Key::ESC:
+		case Key::Esc:
 			this->Quit();
+			break;
+		case Key::ArrowLeft:
+			std::cout << "Left" << std::endl;
+			break;
+		case Key::ArrowUp:
+			std::cout << "Up" << std::endl;
+			break;
+		case Key::ArrowRight:
+			std::cout << "Right" << std::endl;
+			break;
+		case Key::ArrowDown:
+			std::cout << "Down" << std::endl;
+			break;
+		case Key::SCREENSHOT:
+			std::cout << "Snapshot lolz" << std::endl;
 			break;
 		default:
 			std::cout << "Key #" << keypressedevent.KeyCode() << " pressed." << std::endl;

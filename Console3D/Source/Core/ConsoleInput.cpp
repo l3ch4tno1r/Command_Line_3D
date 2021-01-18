@@ -16,11 +16,16 @@ namespace LCN
 		return instance;
 	}
 
+	bool ConsoleInput::IsKeyPressed(Key key)
+	{
+		return Get().m_KeysState[key].KeyHeld;
+	}
+
 	ConsoleInput::ConsoleInput()
 	{
 		m_HStdIn = GetStdHandle(STD_INPUT_HANDLE);
 
-		std::memset(m_Keys,  0, 256 * sizeof(KeyState));
+		std::memset(m_KeysState,  0, 256 * sizeof(KeyState));
 		std::memset(m_Mouse, 0,   5 * sizeof(KeyState));
 	}
 
@@ -68,7 +73,7 @@ namespace LCN
 				{
 				case KEY_EVENT:
 				{
-					KeyState& key = m_Keys[record.Event.KeyEvent.wVirtualKeyCode];
+					KeyState& key = m_KeysState[record.Event.KeyEvent.wVirtualKeyCode];
 
 					key.KeyNewState =  record.Event.KeyEvent.bKeyDown;
 					key.KeyHeld     =  key.KeyNewState;
