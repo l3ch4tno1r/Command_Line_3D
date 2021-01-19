@@ -134,7 +134,6 @@
     <ClCompile Include="Source\Core\GraphicEngine.cpp" />
     <ClCompile Include="Source\Core\RTApplication.cpp" />
     <ClCompile Include="Source\Gui\Widget.cpp" />
-    <ClCompile Include="Source\Rendering\Camera.cpp" />
     <ClCompile Include="Source\RessourceManagement\Model3D.cpp" />
     <ClCompile Include="Source\RessourceManagement\OBJReader.cpp" />
     <ClCompile Include="Source\Core\PaceMaker.cpp" />
@@ -152,13 +151,16 @@
     <ClInclude Include="Source\Event\MouseEvent.h" />
     <ClInclude Include="Source\Gui\Widget.h" />
     <ClInclude Include="Source\LibraryMapping\Math.h" />
-    <ClInclude Include="Source\Rendering\Camera.h" />
+    <ClInclude Include="Source\Rendering\_Camera.h" />
     <ClInclude Include="Source\Rendering\CameraController.h" />
+    <ClInclude Include="Source\Rendering\Camera2D.h" />
     <ClInclude Include="Source\RessourceManagement\GraphicRessourcesManager.h" />
     <ClInclude Include="Source\RessourceManagement\Model3D.h" />
     <ClInclude Include="Source\Core\PaceMaker.h" />
     <ClInclude Include="Source\RessourceManagement\OBJReader.h" />
     <ClInclude Include="Source\RessourceManagement\Texture.h" />
+    <ClInclude Include="Source\Scene\Entity.h" />
+    <ClInclude Include="Source\Scene\Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LCN_Math\LCNMath.vcxproj">
