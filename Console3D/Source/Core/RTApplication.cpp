@@ -9,7 +9,7 @@ namespace LCN
 
 	void RTApplication::Run()
 	{
-		this->SignalStartup.Emmit();
+		this->SignalStartup.Trigger();
 
 		std::chrono::high_resolution_clock::time_point now, next, last;
 		last = std::chrono::high_resolution_clock::now();
@@ -20,8 +20,8 @@ namespace LCN
 			float delta = (float)std::chrono::duration_cast<std::chrono::milliseconds>(now - last).count();
 			next = now + m_Interval;
 
-			this->SignalUpdate.Emmit(delta);
-			this->SignalRender.Emmit();
+			this->SignalUpdate.Trigger(delta);
+			this->SignalRender.Trigger();
 
 			//Continue();
 
@@ -30,6 +30,6 @@ namespace LCN
 			last = now;
 		}
 
-		this->SignalQuit.Emmit();
+		this->SignalQuit.Trigger();
 	}
 }

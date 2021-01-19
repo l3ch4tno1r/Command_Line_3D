@@ -42,13 +42,13 @@ namespace LCN
 		m_RunCond.notify_one();
 	}
 
-	void Application::DispatchKeyPressedEvent(KeyPressedEvent& keypressedevent)    { this->SignalKeyPressed.Emmit(keypressedevent); }
-	void Application::DispatchKeyReleasedEvent(KeyReleasedEvent& keyreleasedevent) { this->SignalKeyReleased.Emmit(keyreleasedevent); }
+	void Application::DispatchKeyPressedEvent(KeyPressedEvent& keypressedevent)    { this->SignalKeyPressed.Trigger(keypressedevent); }
+	void Application::DispatchKeyReleasedEvent(KeyReleasedEvent& keyreleasedevent) { this->SignalKeyReleased.Trigger(keyreleasedevent); }
 
-	void Application::DispatchMouseMoveEvent(MouseMovedEvent& mousemovedevent)                             { this->SignalMouseMoved.Emmit(mousemovedevent); }
-	void Application::DispatchMouseButtonPressedEvent(MouseButtonPressedEvent& mousebuttonpressedevent)    { this->SignalMouseButtonPressed.Emmit(mousebuttonpressedevent); }
-	void Application::DispatchMouseButtonReleasedEvent(MouseButtonReleasedEvent& mousebuttonreleasedevent) { this->SignalMouseButtonReleased.Emmit(mousebuttonreleasedevent); }
-	void Application::DispatchMouseScrolledEvent(MouseScrollEvent& mousescrollevent)                       { this->SignalMouseScrolled.Emmit(mousescrollevent); }
+	void Application::DispatchMouseMoveEvent(MouseMovedEvent& mousemovedevent)                             { this->SignalMouseMoved.Trigger(mousemovedevent); }
+	void Application::DispatchMouseButtonPressedEvent(MouseButtonPressedEvent& mousebuttonpressedevent)    { this->SignalMouseButtonPressed.Trigger(mousebuttonpressedevent); }
+	void Application::DispatchMouseButtonReleasedEvent(MouseButtonReleasedEvent& mousebuttonreleasedevent) { this->SignalMouseButtonReleased.Trigger(mousebuttonreleasedevent); }
+	void Application::DispatchMouseScrolledEvent(MouseScrollEvent& mousescrollevent)                       { this->SignalMouseScrolled.Trigger(mousescrollevent); }
 
 	void Application::WaitQuit()
 	{

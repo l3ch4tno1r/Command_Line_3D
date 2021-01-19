@@ -111,19 +111,6 @@ namespace LCN
 
 		KeyState m_KeysState[256], m_Mouse[5];
 
-		const long dwButtonStateHighWordMask =
-			BIT(31) +
-			BIT(30) +
-			BIT(29) +
-			BIT(28) +
-			BIT(27) +
-			BIT(26) +
-			BIT(25) +
-			BIT(24) +
-			BIT(23) +
-			BIT(22) +
-			BIT(21) +
-			BIT(20) +
-			BIT(19);
+		const long dwButtonStateHighWordMask = 0b11111111111110000000000000000000;
 	};
 }
