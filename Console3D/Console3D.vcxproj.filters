@@ -51,6 +51,9 @@
     <ClCompile Include="Source\Rendering\Camera2D.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Scene\Scene.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\RessourceManagement\GraphicRessourcesManager.h">
@@ -113,7 +116,7 @@
     <ClInclude Include="Source\Scene\Entity.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Rendering\Camera2DController.h">
+    <ClInclude Include="Source\Controller\Camera2DController.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

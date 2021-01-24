@@ -6,6 +6,7 @@
 #include <string>
 #include <thread>
 
+#include "LCN_Math/Source/Matrix/MatrixBlock.h"
 #include "LCN_Math/Source/Geometry/Transform.h"
 #include "LCN_Math/Source/Geometry/Vector.h"
 
@@ -25,6 +26,8 @@ Project Properties -> General -> Character Set -> Use Unicode.
 
 using namespace std::literals::chrono_literals;
 #endif // TEST_CONSOLE
+
+using namespace LCN;
 
 enum COLOUR
 {

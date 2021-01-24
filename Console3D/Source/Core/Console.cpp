@@ -18,6 +18,8 @@
 #include <list>
 #include <queue>
 
+using namespace LCN;
+
 #define DRAW_FACES
 /*
 #define DRAW_EDGES
@@ -34,18 +36,18 @@ Console::Console() :
 	m_HConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	// Set up Camera transform
-	m_R0ToCam.Ru().x() =   1.0f;
-	m_R0ToCam.Ru().y() =   0.0f;
-	m_R0ToCam.Ru().z() =   0.0f;
-	m_R0ToCam.Rv().x() =   0.0f;
-	m_R0ToCam.Rv().y() =   0.0f;
-	m_R0ToCam.Rv().z() =   1.0f;
-	m_R0ToCam.Rw().x() =   0.0f;
-	m_R0ToCam.Rw().y() =  -1.0f;
-	m_R0ToCam.Rw().z() =   0.0f;
-	m_R0ToCam.Tr().x() =   0.0f;
-	m_R0ToCam.Tr().y() =  10.0f;
-	m_R0ToCam.Tr().z() =   1.8f;
+
+	m_R0ToCam.RotationBlock() = {
+		1.0f, 0.0f,  0.0f,
+		0.0f, 0.0f, -1.0f,
+		0.0f, 1.0f,  0.0f
+	};
+
+	m_R0ToCam.TranslationBlock() = {
+		 0.0f,
+		10.0f,
+		 1.8f
+	};
 }
 
 Console::~Console()

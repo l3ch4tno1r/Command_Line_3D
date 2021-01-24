@@ -1,9 +1,20 @@
 #include "Texture.h"
 
-#include "Utilities/External/stb_image/stb_image.h"
-
 namespace LCN
 {
+	Texture::Texture(Texture&& other) :
+		m_LocalBuffer(other.m_LocalBuffer),
+		m_Width(other.m_Width),
+		m_Height(other.m_Height),
+		m_BPP(other.m_BPP)
+	{
+		other.m_LocalBuffer = nullptr;
+
+		m_Width  = 0;
+		m_Height = 0;
+		m_BPP    = 0;
+	}
+
 	Texture::~Texture()
 	{
 		if (m_LocalBuffer)

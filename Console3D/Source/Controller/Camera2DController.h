@@ -1,13 +1,11 @@
 #pragma once
 
-#include "Camera2D.h"
-
-#include "Eigen/Core"
-#include "Eigen/Geometry"
+#include "../Rendering/Camera2D.h"
+#include "../Scene/Entity.h"
 
 namespace LCN
 {
-	class Camera2DController
+	class Camera2DController : public Entity
 	{
 	public:
 		Camera2DController(Camera2D& camref) :
@@ -16,6 +14,5 @@ namespace LCN
 
 	private:
 		Camera2D& m_Camera;
-		Eigen::Affine2f m_CameraFrame;
 	};
 }

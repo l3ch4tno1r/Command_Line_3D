@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include <Utilities/Source/DesignPatterns/SignalSlot.h>
+#include <LCN_Math/Source/Geometry/Geometry.h>
 
 #include <Console3D/Source/Event/KeyBoardEvent.h>
 #include <Console3D/Source/Event/MouseEvent.h>
@@ -20,5 +20,7 @@ namespace LCN
 	private:
 		uint32_t m_Width;
 		uint32_t m_Height;
+
+		Transform2Df m_PixelToCenter;
 	};
 }

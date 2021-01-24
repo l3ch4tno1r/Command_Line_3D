@@ -139,6 +139,7 @@
     <ClCompile Include="Source\RessourceManagement\OBJReader.cpp" />
     <ClCompile Include="Source\Core\PaceMaker.cpp" />
     <ClCompile Include="Source\RessourceManagement\Texture.cpp" />
+    <ClCompile Include="Source\Scene\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Application.h" />
@@ -153,7 +154,7 @@
     <ClInclude Include="Source\Gui\Widget.h" />
     <ClInclude Include="Source\LibraryMapping\Math.h" />
     <ClInclude Include="Source\Rendering\_Camera.h" />
-    <ClInclude Include="Source\Rendering\Camera2DController.h" />
+    <ClInclude Include="Source\Controller\Camera2DController.h" />
     <ClInclude Include="Source\Rendering\Camera2D.h" />
     <ClInclude Include="Source\RessourceManagement\GraphicRessourcesManager.h" />
     <ClInclude Include="Source\RessourceManagement\Model3D.h" />

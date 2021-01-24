@@ -1,17 +1,16 @@
 #pragma once
 
-#include "Eigen/Core"
-#include "Eigen/Geometry"
+#include <LCN_Math/Source/Geometry/Geometry.h>
 
 namespace LCN
 {
 	class Entity
 	{
 	public:
-		Eigen::Affine2f& Frame() { return m_Frame; }
-		const Eigen::Affine2f& Frame() const { return m_Frame; }
+		LCN::Transform2Df& Frame() { return m_Frame; }
+		const LCN::Transform2Df& Frame() const { return m_Frame; }
 
 	private:
-		Eigen::Affine2f m_Frame;
+		LCN::Transform2Df m_Frame;
 	};
 }

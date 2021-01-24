@@ -2,11 +2,16 @@
 
 #include <string>
 
+#include "Utilities/External/stb_image/stb_image.h"
+
 namespace LCN
 {
 	class Texture
 	{
 	public:
+		Texture() = default;
+		Texture(Texture&& other);
+
 		~Texture();
 
 		void Load(const std::string& filepath, int deisredChannels);
