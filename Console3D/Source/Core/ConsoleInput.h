@@ -72,8 +72,6 @@ namespace LCN
 		bool KeyOldState : 1;
 		bool KeyNewState : 1;
 	};
-		
-	using MouseAction = std::function<void(const KeyState&, int, int)>;
 
 	class ConsoleInput
 	{
@@ -96,6 +94,7 @@ namespace LCN
 		SignalConsoleInput<void(MouseButtonReleasedEvent&)> SignalMouseButtonReleased;
 
 		static bool IsKeyPressed(Key key);
+		static bool IsMouseBtnPressed(MouseButton mousebtn);
 
 	private:
 		ConsoleInput();

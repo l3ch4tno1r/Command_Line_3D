@@ -21,6 +21,11 @@ namespace LCN
 		return Get().m_KeysState[key].KeyHeld;
 	}
 
+	bool ConsoleInput::IsMouseBtnPressed(MouseButton mousebtn)
+	{
+		return Get().m_Mouse[mousebtn].KeyHeld;
+	}
+
 	ConsoleInput::ConsoleInput()
 	{
 		m_HStdIn = GetStdHandle(STD_INPUT_HANDLE);

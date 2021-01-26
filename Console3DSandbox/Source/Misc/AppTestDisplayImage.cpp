@@ -17,7 +17,7 @@ namespace LCN
 	/////////////////////////////
 
 	AppTestDisplayImage::AppTestDisplayImage() :
-		m_Scene(300, 200)
+		m_Camera(300, 200)
 	{}
 
 	void AppTestDisplayImage::Run()
@@ -27,5 +27,10 @@ namespace LCN
 		this->WaitQuit();
 
 		this->SignalQuit.Trigger();
+	}
+
+	void AppTestDisplayImage::Startup()
+	{
+
 	}
 }

@@ -3,6 +3,7 @@
 #include <Console3D/Source/Core/Application.h>
 #include <Console3D/Source/RessourceManagement/Texture.h>
 #include <Console3D/Source/Scene/Scene.h>
+#include <Console3D/Source/Rendering/Camera2D.h>
 
 namespace LCN
 {
@@ -44,7 +45,8 @@ namespace LCN
 		SignalApp<void()> SignalQuit;
 
 	private:
-		Scene m_Scene;
+		Scene    m_Scene;
+		Camera2D m_Camera;
 	};
 }
 

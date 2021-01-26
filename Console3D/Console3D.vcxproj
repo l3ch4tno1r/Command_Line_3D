@@ -139,7 +139,6 @@
     <ClCompile Include="Source\RessourceManagement\OBJReader.cpp" />
     <ClCompile Include="Source\Core\PaceMaker.cpp" />
     <ClCompile Include="Source\RessourceManagement\Texture.cpp" />
-    <ClCompile Include="Source\Scene\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Core\Application.h" />
