@@ -139,8 +139,11 @@
     <ClCompile Include="Source\RessourceManagement\OBJReader.cpp" />
     <ClCompile Include="Source\Core\PaceMaker.cpp" />
     <ClCompile Include="Source\RessourceManagement\Texture.cpp" />
+    <ClCompile Include="Source\Scene\Entity.cpp" />
+    <ClCompile Include="Source\Scene\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="External\entt\include\entt.hpp" />
     <ClInclude Include="Source\Core\Application.h" />
     <ClInclude Include="Source\Core\Console.h" />
     <ClInclude Include="Source\Core\Device.h" />
@@ -159,9 +162,11 @@
     <ClInclude Include="Source\RessourceManagement\Model3D.h" />
     <ClInclude Include="Source\Core\PaceMaker.h" />
     <ClInclude Include="Source\RessourceManagement\OBJReader.h" />
+    <ClInclude Include="Source\RessourceManagement\Sprite2D.h" />
     <ClInclude Include="Source\RessourceManagement\Texture.h" />
     <ClInclude Include="Source\Scene\Entity.h" />
     <ClInclude Include="Source\Scene\Scene.h" />
+    <ClInclude Include="Source\Scene\StdComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LCN_Math\LCNMath.vcxproj">

@@ -1,28 +1,22 @@
 #pragma once
 
-#include <vector>
-#include <memory>
+#include "Console3D/External/entt/include/entt.hpp"
 
-#include "Entity.h"
-
+// Design taken from The Cherno : https://github.com/TheCherno/Hazel/blob/master/Hazel/src/Hazel/Scene/Scene.h
 namespace LCN
 {
+	class Entity;
+
 	class Scene
 	{
 	public:
-		using EntityPtr = std::shared_ptr<Entity>;
+		Entity CreateEntity();
 
-		Scene() = default;
-
-		template<class DerivedEntity, class...Args>
-		DerivedEntity& CreateEntity(Args&& ...args)
-		{
-			m_Entities.emplace_back(
-				std::make_shared<DerivedEntity>(
-					std::forward<Args>(args)...));
-		}
+		void Render(Entity camera);
 
 	private:
-		std::vector<EntityPtr> m_Entities;
+		entt::registry m_Registry;
+
+		friend class Entity;
 	};
 }

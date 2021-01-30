@@ -10,6 +10,7 @@ namespace LCN
 	{
 	public:
 		Texture() = default;
+		Texture(const Texture&) = delete;
 		Texture(Texture&& other);
 
 		~Texture();
@@ -19,6 +20,9 @@ namespace LCN
 		operator bool() const;
 
 		uint8_t operator()(int i, int j) const;
+
+		Texture& operator=(const Texture& other) = delete;
+		Texture& operator=(Texture&& other);
 
 		int Width()  const;
 		int Height() const;

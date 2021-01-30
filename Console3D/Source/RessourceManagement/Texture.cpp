@@ -41,6 +41,22 @@ namespace LCN
 		return m_LocalBuffer[i + j * m_Width];
 	}
 
+	Texture& Texture::operator=(Texture&& other)
+	{
+		if (this == &other)
+			return *this;
+
+		m_LocalBuffer = other.m_LocalBuffer;
+		m_Width       = other.m_Width;
+		m_Height      = other.m_Height;
+		m_BPP         = other.m_BPP;
+
+		other.m_LocalBuffer = nullptr;
+		other.m_Width       = 0;
+		other.m_Height      = 0;
+		other.m_BPP         = 0;
+	}
+
 	int Texture::Width() const { return m_Width; }
 
 	int Texture::Height() const { return m_Height; }

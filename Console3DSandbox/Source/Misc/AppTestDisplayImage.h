@@ -3,26 +3,13 @@
 #include <Console3D/Source/Core/Application.h>
 #include <Console3D/Source/RessourceManagement/Texture.h>
 #include <Console3D/Source/Scene/Scene.h>
+#include <Console3D/Source/Scene/Entity.h>
 #include <Console3D/Source/Rendering/Camera2D.h>
+
+#include <LCN_Math/Source/Geometry/Geometry.h>
 
 namespace LCN
 {
-	/////////////////////
-	//-- ImageEntity --//
-	/////////////////////
-
-	class ImageEntity : public Entity
-	{
-	public:
-		ImageEntity(Texture&& other);
-
-		const Texture& GetTexture() const;
-
-	private:
-		Texture   m_Texture;
-		Vector2Df m_Vertices[4];
-	};
-
 	/////////////////////////////
 	//-- AppTestDisplayImage --//
 	/////////////////////////////
@@ -37,16 +24,17 @@ namespace LCN
 
 		void Run() override;
 
-	private:
-		void Startup();
+	private: // Slots
+		SLOT(AppTestDisplayImage, Startup);
 
 	private: // Signals
 		SignalApp<void()> SignalStartup;
 		SignalApp<void()> SignalQuit;
 
 	private:
-		Scene    m_Scene;
-		Camera2D m_Camera;
+		Scene  m_Scene;
+		Entity m_Camera;
+		Entity m_Image;
 	};
 }
 
