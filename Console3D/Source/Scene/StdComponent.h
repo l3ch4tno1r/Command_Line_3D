@@ -6,6 +6,7 @@
 #include "Console3D/Source/RessourceManagement/Sprite2D.h"
 
 #include "Console3D/Source/Rendering/Camera2D.h"
+#include "Console3D/Source/Controller/Camera2DController.h"
 
 namespace LCN
 {
@@ -22,16 +23,16 @@ namespace LCN
 	struct Camera2DComponent
 	{
 		Camera2D     Camera;
-		Transform2Df CamTransform;
+		Transform2Df PixToCam;
 
 		Camera2DComponent(uint32_t width, uint32_t height) :
 			Camera(width, height),
-			CamTransform({
+			PixToCam({
 				1.0f,  0.0f, (float)width / 2,
 				0.0f, -1.0f, (float)height / 2,
 				0.0f,  0.0f, 1.0,
 			})
-		{}
+		{}		
 	};
 
 	struct Sprite2DComponent

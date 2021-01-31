@@ -2,20 +2,38 @@
 
 #include <Utilities/Source/DesignPatterns/SignalSlot.h>
 
-#include "../Rendering/Camera2D.h"
-#include "../Scene/Entity.h"
+#include "Console3D/Source/Event/MouseEvent.h"
+#include "Console3D/Source/Scene/Entity.h"
 
 namespace LCN
 {
-	class Camera2DController : public Entity
+	class Entity;
+
+	class Camera2DController
 	{
 	public:
-		Camera2DController(const Camera2D& camref) :
-			m_Camera(camref)
-		{}
+		Camera2DController();
 
+		void Bind(Entity camera) { m_CameraEntt = camera; }
+
+	public: // Signals
+		Signal<Camera2DController, void()> SignlaUpdate;
+
+	private: // Slots
+		SLOT(Camera2DController, OnKeyPressed,         KeyPressedEvent&);
+		SLOT(Camera2DController, OnMouseButtonPressed, MouseButtonPressedEvent&);
+		SLOT(Camera2DController, OnMouseMove,          MouseMovedEvent&);
+		SLOT(Camera2DController, OnMouseScroll,        MouseScrollEvent&);
 
 	private:
-		const Camera2D& m_Camera;
+		Entity m_CameraEntt;
+
+		int   m_ScaleIncrement = 0;
+		float m_ScaleFactor    = 1.0f;
+
+		const float m_Ratio = 1.02f;
+
+		Transform2Df m_TranslationStart;
+		Transform2Df m_RotationStart;
 	};
 }

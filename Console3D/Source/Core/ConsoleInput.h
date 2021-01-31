@@ -16,10 +16,10 @@ namespace LCN
 {
 	enum Key
 	{
-		Enter  = VK_RETURN,
-		Esc    = VK_ESCAPE,
-		LShift = VK_LSHIFT,
-		LCtrl  = VK_LCONTROL,
+		Enter = VK_RETURN,
+		Esc   = VK_ESCAPE,
+		Shift = VK_SHIFT,
+		Ctrl  = VK_CONTROL,
 
 		ArrowLeft  = VK_LEFT,
 		ArrowUp    = VK_UP,

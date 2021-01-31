@@ -3,6 +3,7 @@
 #include "AppTestDisplayImage.h"
 
 #include <Console3D/Source/Core/Console.h>
+#include <Console3D/Source/Core/ConsoleInput.h>
 #include <Console3D/Source/Scene/StdComponent.h>
 
 namespace LCN
@@ -12,7 +13,8 @@ namespace LCN
 	/////////////////////////////
 
 	AppTestDisplayImage::AppTestDisplayImage() :
-		SLOT_INIT(SlotStartup, AppTestDisplayImage::Startup)
+		SLOT_INIT(SlotStartup,  AppTestDisplayImage::Startup),
+		SLOT_INIT(SlotOnUpdate, AppTestDisplayImage::OnUpdate)
 	{
 		Connect(this->SignalStartup, this->SlotStartup);
 	}
@@ -59,6 +61,15 @@ namespace LCN
 
 		m_Camera.Add<Camera2DComponent>(console.Width(), console.Height());
 
+		m_Controller.Bind(m_Camera);
+				
+		Connect(m_Controller.SignlaUpdate, this->SlotOnUpdate);
+
+		m_Scene.Render(m_Camera);
+	}
+
+	void AppTestDisplayImage::OnUpdate()
+	{
 		m_Scene.Render(m_Camera);
 	}
 }

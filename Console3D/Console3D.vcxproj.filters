@@ -57,6 +57,9 @@
     <ClCompile Include="Source\Scene\Entity.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Controller\Camera2DController.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\RessourceManagement\GraphicRessourcesManager.h">
