@@ -116,12 +116,14 @@ namespace LCN
                         {
                             static const char* value = " -.:*+=%#@";
 
+                            // Quick fix
+                            // TODO : find better
+                            pixelFromSprite[2] = 1.0f;
+
                             HVector2Df textureCoord = spriteCmp.SpriteToTexture * pixelFromSprite;
 
-                            //size_t tx = (textureCmp.Texture.Width()  - 1) * std::min(std::max(textureCoord.x(), 0.0f), 1.0f);
-                            //size_t ty = (textureCmp.Texture.Height() - 1) * std::min(std::max(textureCoord.y(), 0.0f), 1.0f);
-                            int tx = (textureCmp.Texture.Width()  - 1) * textureCoord.x();
-                            int ty = (textureCmp.Texture.Height() - 1) * textureCoord.y();
+                            int tx = (textureCmp.Texture.Width()  - 1) * std::min(std::max(textureCoord.x(), 0.0f), 1.0f);
+                            int ty = (textureCmp.Texture.Height() - 1) * std::min(std::max(textureCoord.y(), 0.0f), 1.0f);
 
                             uint8_t greyscale = 9 * textureCmp.Texture(tx, ty) / 255;
 
