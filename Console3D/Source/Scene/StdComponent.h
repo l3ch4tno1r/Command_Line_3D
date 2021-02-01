@@ -37,6 +37,7 @@ namespace LCN
 
 	struct Sprite2DComponent
 	{
-		Sprite2D Sprite;
+		Sprite2D     Sprite;
+		Transform2Df SpriteToTexture;
 	};
 }

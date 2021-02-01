@@ -36,11 +36,6 @@ namespace LCN
 		return m_LocalBuffer;
 	}
 
-	uint8_t Texture::operator()(int i, int j) const
-	{
-		return m_LocalBuffer[i + j * m_Width];
-	}
-
 	Texture& Texture::operator=(Texture&& other)
 	{
 		if (this == &other)

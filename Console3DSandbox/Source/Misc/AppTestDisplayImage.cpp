@@ -55,9 +55,15 @@ namespace LCN
 		sprite.Sprite.Faces[0] = { 0, 1, 3 };
 		sprite.Sprite.Faces[1] = { 1, 2, 3 };
 
+		sprite.SpriteToTexture = {
+			1 / (float)texturew, 0.0f,                 0.5f,
+			0.0f,                -1 / (float)textureh, 0.5f,
+			0.0f,                0.0f,                 1.0f
+		};
+
 		Console& console = Console::Get();
 
-		console.ConstructConsole(300, 200, 4, 4);
+		console.ConstructConsole(150, 100, 8, 8);
 
 		m_Camera.Add<Camera2DComponent>(console.Width(), console.Height());
 

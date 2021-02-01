@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\TestApps\AppTest01.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -35,9 +32,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\TestApps\AppTest01.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Misc\AppTestEvent.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>

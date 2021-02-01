@@ -19,7 +19,7 @@ namespace LCN
 
 		operator bool() const;
 
-		uint8_t operator()(int i, int j) const;
+		inline uint8_t operator()(int i, int j) const { return m_LocalBuffer[i + j * m_Width]; }
 
 		Texture& operator=(const Texture& other) = delete;
 		Texture& operator=(Texture&& other);

@@ -67,6 +67,16 @@ enum COLOUR
 
 using MapFunction = std::function<CHAR_INFO(int x, int y)>;
 
+const auto defaultMapper = [](int, int)
+{
+	CHAR_INFO result;
+
+	result.Char.UnicodeChar = 0;
+	result.Attributes = COLOUR::BG_WHITE;
+
+	return result;
+};
+
 class Console : public Device
 {
 private:
@@ -166,27 +176,11 @@ public:
 
 	void DrawLine(int x1, int y1, int x2, int y2, short c = 0, short color = COLOUR::BG_WHITE);
 
-	void FillRectangle(int TLx, int TLy, int BRx, int BRy, short c = 0, short color = COLOUR::BG_WHITE);
+	void FillRectangle(int TLx, int TLy, int BRx, int BRy, const MapFunction& mapper = defaultMapper);
 
-	void FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, const MapFunction& mapper = [](int, int)
-	{
-		CHAR_INFO result;
+	void FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, const MapFunction& mapper = defaultMapper);
 
-		result.Char.UnicodeChar = 0;
-		result.Attributes = COLOUR::BG_WHITE;
-
-		return result;
-	});
-
-	void FillTriangleOLC(int x1, int y1, int x2, int y2, int x3, int y3, const MapFunction& mapper = [](int, int)
-	{
-		CHAR_INFO result;
-
-		result.Char.UnicodeChar = 0;
-		result.Attributes = COLOUR::BG_WHITE;
-
-		return result;
-	});
+	void FillTriangleOLC(int x1, int y1, int x2, int y2, int x3, int y3, const MapFunction& mapper = defaultMapper);
 
 	void Render();
 

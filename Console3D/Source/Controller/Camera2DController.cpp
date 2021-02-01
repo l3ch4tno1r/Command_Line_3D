@@ -42,7 +42,7 @@ namespace LCN
 
 	void Camera2DController::OnMouseScroll(MouseScrollEvent& mouseevent)
 	{
-		m_ScaleIncrement = (int)mouseevent.ScrollDirection();
+		m_ScaleIncrement = -(int)mouseevent.ScrollDirection();
 
 		m_ScaleFactor = std::pow(m_Ratio, m_ScaleIncrement);
 
