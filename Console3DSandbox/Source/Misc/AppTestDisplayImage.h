@@ -36,7 +36,8 @@ namespace LCN
 	private:
 		Scene  m_Scene;
 		Entity m_Camera;
-		Entity m_Image;
+		Entity m_Sprite1;
+		Entity m_Sprite2;
 
 		Camera2DController m_Controller;
 	};

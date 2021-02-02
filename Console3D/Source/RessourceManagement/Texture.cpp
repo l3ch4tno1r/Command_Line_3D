@@ -2,6 +2,13 @@
 
 namespace LCN
 {
+	Texture::Texture() :
+		m_LocalBuffer(nullptr),
+		m_Width(0),
+		m_Height(0),
+		m_BPP(0)
+	{}
+
 	Texture::Texture(Texture&& other) :
 		m_LocalBuffer(other.m_LocalBuffer),
 		m_Width(other.m_Width),
@@ -10,9 +17,9 @@ namespace LCN
 	{
 		other.m_LocalBuffer = nullptr;
 
-		m_Width  = 0;
-		m_Height = 0;
-		m_BPP    = 0;
+		other.m_Width  = 0;
+		other.m_Height = 0;
+		other.m_BPP    = 0;
 	}
 
 	Texture::~Texture()

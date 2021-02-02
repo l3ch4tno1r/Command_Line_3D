@@ -9,7 +9,7 @@ namespace LCN
 	class Texture
 	{
 	public:
-		Texture() = default;
+		Texture();
 		Texture(const Texture&) = delete;
 		Texture(Texture&& other);
 

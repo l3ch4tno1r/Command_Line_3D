@@ -30,36 +30,35 @@ namespace LCN
 
 	void AppTestDisplayImage::Startup()
 	{
-		m_Camera = m_Scene.CreateEntity();
-		m_Image  = m_Scene.CreateEntity();
+		m_Camera  = m_Scene.CreateEntity();
+		m_Sprite1 = m_Scene.CreateEntity();
+		m_Sprite2 = m_Scene.CreateEntity();
 
-		TextureComponent& textureCmp = m_Image.Add<TextureComponent>();
+		// Sprite 1
+		TextureComponent& textureCmp1 = m_Sprite1.Add<TextureComponent>();
 
-		textureCmp.Texture.Load("Ressource/Le_Chat_Noir_Photo_Medium.png", STBI_grey);
+		textureCmp1.Texture.Load("Ressource/Le_Chat_Noir_Photo_Medium.png", STBI_grey);
 
-		size_t texturew = textureCmp.Texture.Width();
-		size_t textureh = textureCmp.Texture.Height();
+		ASSERT(textureCmp1.Texture);
 
-		Sprite2DComponent& sprite = m_Image.Add<Sprite2DComponent>();
+		size_t texturew1 = textureCmp1.Texture.Width();
+		size_t textureh1 = textureCmp1.Texture.Height();
 
-		sprite.Sprite.Vertices[0] = { (float)(-(int)texturew / 2), (float)( (int)textureh / 2), 1.0f };
-		sprite.Sprite.Vertices[1] = { (float)( (int)texturew / 2), (float)( (int)textureh / 2), 1.0f };
-		sprite.Sprite.Vertices[2] = { (float)( (int)texturew / 2), (float)(-(int)textureh / 2), 1.0f };
-		sprite.Sprite.Vertices[3] = { (float)(-(int)texturew / 2), (float)(-(int)textureh / 2), 1.0f };
+		m_Sprite1.Add<Sprite2DComponent>(texturew1, textureh1);
 
-		sprite.Sprite.TectureCoords[0] = { 0, 0 };
-		sprite.Sprite.TectureCoords[1] = { 1, 0 };
-		sprite.Sprite.TectureCoords[2] = { 1, 1 };
-		sprite.Sprite.TectureCoords[3] = { 0, 1 };
+		// Sprite 2
+		TextureComponent& textureCmp2 = m_Sprite2.Add<TextureComponent>();
 
-		sprite.Sprite.Faces[0] = { 0, 1, 3 };
-		sprite.Sprite.Faces[1] = { 1, 2, 3 };
+		textureCmp2.Texture.Load("Ressource/Wooden_Medium.jpg", STBI_grey);
 
-		sprite.SpriteToTexture = {
-			1 / (float)texturew, 0.0f,                 0.5f,
-			0.0f,                -1 / (float)textureh, 0.5f,
-			0.0f,                0.0f,                 1.0f
-		};
+		ASSERT(textureCmp2.Texture);
+
+		size_t texturew2 = textureCmp2.Texture.Width();
+		size_t textureh2 = textureCmp2.Texture.Height();
+
+		m_Sprite2.Add<Sprite2DComponent>(texturew2, textureh2);
+
+		m_Sprite2.Get<Transform2DComponent>().Transform.TranslationBlock() = { 100.0f, 0.0f };
 
 		Console& console = Console::Get();
 
