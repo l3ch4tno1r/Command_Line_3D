@@ -116,10 +116,6 @@ namespace LCN
                         {
                             static const char* value = " -.:*+=%#@";
 
-                            // Quick fix
-                            // TODO : find better
-                            pixelFromSprite[2] = 1.0f;
-
                             HVector2Df textureCoord = spriteCmp.SpriteToTexture * pixelFromSprite;
 
                             int tx = (textureCmp.Texture.Width()  - 1) * std::min(std::max(textureCoord.x(), 0.0f), 1.0f);

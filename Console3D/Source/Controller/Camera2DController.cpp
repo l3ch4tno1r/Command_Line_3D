@@ -51,6 +51,9 @@ namespace LCN
 		Transform2Df temp = m_ScaleFactor * R0ToCam;
 		R0ToCam = temp;
 
+		// TODO : Use a scaling matrix ?
+		R0ToCam(2, 2) = 1.0f;
+
 		this->SignlaUpdate.Trigger();
 	}
 
