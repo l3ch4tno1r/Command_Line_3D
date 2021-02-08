@@ -43,8 +43,8 @@ namespace LCN
 		Sprite2DComponent(size_t width, size_t height)
 		{
 			this->Sprite.Vertices[0] = { (float)(-(int)width / 2), (float)( (int)height / 2), 1.0f };
-			this->Sprite.Vertices[1] = {  (float)((int)width / 2), (float)( (int)height / 2), 1.0f };
-			this->Sprite.Vertices[2] = {  (float)((int)width / 2), (float)(-(int)height / 2), 1.0f };
+			this->Sprite.Vertices[1] = { (float)( (int)width / 2), (float)( (int)height / 2), 1.0f };
+			this->Sprite.Vertices[2] = { (float)( (int)width / 2), (float)(-(int)height / 2), 1.0f };
 			this->Sprite.Vertices[3] = { (float)(-(int)width / 2), (float)(-(int)height / 2), 1.0f };
 
 			this->Sprite.TectureCoords[0] = { 0, 0 };

@@ -6,6 +6,8 @@
 #include <Console3D/Source/Core/ConsoleInput.h>
 #include <Console3D/Source/Scene/StdComponent.h>
 
+#include <LCN_Math/Source/Utilities/Angles.h>
+
 namespace LCN
 {
 	/////////////////////////////
@@ -58,7 +60,13 @@ namespace LCN
 
 		m_Sprite2.Add<Sprite2DComponent>(texturew2, textureh2);
 
-		m_Sprite2.Get<Transform2DComponent>().Transform.TranslationBlock() = { 100.0f, 0.0f };
+		Transform2Df& transform2 = m_Sprite2.Get<Transform2DComponent>().Transform;
+
+		transform2.TranslationBlock() = { 100.0f, 0.0f };
+		transform2.RotationBlock() = {
+			std::cos(TORAD(20.0f)), -std::sin(TORAD(20.0f)),
+			std::sin(TORAD(20.0f)),  std::cos(TORAD(20.0f))
+		};
 
 		Console& console = Console::Get();
 
