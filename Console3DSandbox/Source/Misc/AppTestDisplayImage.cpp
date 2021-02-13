@@ -39,7 +39,7 @@ namespace LCN
 		// Sprite 1
 		TextureComponent& textureCmp1 = m_Sprite1.Add<TextureComponent>();
 
-		textureCmp1.Texture.Load("Ressource/Le_Chat_Noir_Photo_Medium.png", STBI_grey);
+		textureCmp1.Texture.Load("Ressource/Le_Chat_Noir_Photo_Alpha.png");
 
 		ASSERT(textureCmp1.Texture);
 
@@ -51,7 +51,7 @@ namespace LCN
 		// Sprite 2
 		TextureComponent& textureCmp2 = m_Sprite2.Add<TextureComponent>();
 
-		textureCmp2.Texture.Load("Ressource/Wooden_Medium.jpg", STBI_grey);
+		textureCmp2.Texture.Load("Ressource/Wooden_Medium.jpg");
 
 		ASSERT(textureCmp2.Texture);
 
@@ -60,13 +60,13 @@ namespace LCN
 
 		m_Sprite2.Add<Sprite2DComponent>(texturew2, textureh2);
 
-		Transform2Df& transform2 = m_Sprite2.Get<Transform2DComponent>().Transform;
-
-		transform2.TranslationBlock() = { 100.0f, 0.0f };
-		transform2.RotationBlock() = {
-			std::cos(TORAD(20.0f)), -std::sin(TORAD(20.0f)),
-			std::sin(TORAD(20.0f)),  std::cos(TORAD(20.0f))
-		};
+		//Transform2Df& transform2 = m_Sprite2.Get<Transform2DComponent>().Transform;
+		//
+		//transform2.TranslationBlock() = { 100.0f, 0.0f };
+		//transform2.RotationBlock() = {
+		//	std::cos(TORAD(20.0f)), -std::sin(TORAD(20.0f)),
+		//	std::sin(TORAD(20.0f)),  std::cos(TORAD(20.0f))
+		//};
 
 		Console& console = Console::Get();
 

@@ -30,12 +30,12 @@ namespace LCN
 		m_LocalBuffer = nullptr;
 	}
 
-	void Texture::Load(const std::string & filepath, int deisredChannels)
+	void Texture::Load(const std::string& filepath)
 	{
 		if (m_LocalBuffer)
 			stbi_image_free(m_LocalBuffer);
 
-		m_LocalBuffer = stbi_load(filepath.c_str(), &m_Width, &m_Height, &m_BPP, deisredChannels);
+		m_LocalBuffer = (TexelGreyScale*)stbi_load(filepath.c_str(), &m_Width, &m_Height, &m_BPP, (int)ColorChannels::GreyAplpha);
 	}
 
 	Texture::operator bool() const
