@@ -4,6 +4,7 @@
 #include <condition_variable>
 
 #include <Utilities/Source/DesignPatterns/SignalSlot.h>
+
 #include <Console3D/Source/Core/ConsoleInput.h>
 
 int main(int argc, char** argv);

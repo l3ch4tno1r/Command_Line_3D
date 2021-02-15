@@ -16,10 +16,10 @@ namespace LCN
 {
 	enum Key
 	{
-		Enter  = VK_RETURN,
-		Esc    = VK_ESCAPE,
-		LShift = VK_LSHIFT,
-		LCtrl  = VK_LCONTROL,
+		Enter = VK_RETURN,
+		Esc   = VK_ESCAPE,
+		Shift = VK_SHIFT,
+		Ctrl  = VK_CONTROL,
 
 		ArrowLeft  = VK_LEFT,
 		ArrowUp    = VK_UP,
@@ -72,8 +72,6 @@ namespace LCN
 		bool KeyOldState : 1;
 		bool KeyNewState : 1;
 	};
-		
-	using MouseAction = std::function<void(const KeyState&, int, int)>;
 
 	class ConsoleInput
 	{
@@ -96,6 +94,7 @@ namespace LCN
 		SignalConsoleInput<void(MouseButtonReleasedEvent&)> SignalMouseButtonReleased;
 
 		static bool IsKeyPressed(Key key);
+		static bool IsMouseBtnPressed(MouseButton mousebtn);
 
 	private:
 		ConsoleInput();
@@ -111,19 +110,6 @@ namespace LCN
 
 		KeyState m_KeysState[256], m_Mouse[5];
 
-		const long dwButtonStateHighWordMask =
-			BIT(31) +
-			BIT(30) +
-			BIT(29) +
-			BIT(28) +
-			BIT(27) +
-			BIT(26) +
-			BIT(25) +
-			BIT(24) +
-			BIT(23) +
-			BIT(22) +
-			BIT(21) +
-			BIT(20) +
-			BIT(19);
+		const long dwButtonStateHighWordMask = 0b11111111111110000000000000000000;
 	};
 }

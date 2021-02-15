@@ -1,9 +1,27 @@
 #include "Texture.h"
 
-#include "Utilities/External/stb_image/stb_image.h"
-
 namespace LCN
 {
+	Texture::Texture() :
+		m_LocalBuffer(nullptr),
+		m_Width(0),
+		m_Height(0),
+		m_BPP(0)
+	{}
+
+	Texture::Texture(Texture&& other) :
+		m_LocalBuffer(other.m_LocalBuffer),
+		m_Width(other.m_Width),
+		m_Height(other.m_Height),
+		m_BPP(other.m_BPP)
+	{
+		other.m_LocalBuffer = nullptr;
+
+		other.m_Width  = 0;
+		other.m_Height = 0;
+		other.m_BPP    = 0;
+	}
+
 	Texture::~Texture()
 	{
 		if (m_LocalBuffer)
@@ -12,12 +30,12 @@ namespace LCN
 		m_LocalBuffer = nullptr;
 	}
 
-	void Texture::Load(const std::string & filepath, int deisredChannels)
+	void Texture::Load(const std::string& filepath)
 	{
 		if (m_LocalBuffer)
 			stbi_image_free(m_LocalBuffer);
 
-		m_LocalBuffer = stbi_load(filepath.c_str(), &m_Width, &m_Height, &m_BPP, deisredChannels);
+		m_LocalBuffer = (TexelGreyScale*)stbi_load(filepath.c_str(), &m_Width, &m_Height, &m_BPP, (int)ColorChannels::GreyAplpha);
 	}
 
 	Texture::operator bool() const
@@ -25,9 +43,20 @@ namespace LCN
 		return m_LocalBuffer;
 	}
 
-	uint8_t Texture::operator()(int i, int j) const
+	Texture& Texture::operator=(Texture&& other)
 	{
-		return m_LocalBuffer[i + j * m_Width];
+		if (this == &other)
+			return *this;
+
+		m_LocalBuffer = other.m_LocalBuffer;
+		m_Width       = other.m_Width;
+		m_Height      = other.m_Height;
+		m_BPP         = other.m_BPP;
+
+		other.m_LocalBuffer = nullptr;
+		other.m_Width       = 0;
+		other.m_Height      = 0;
+		other.m_BPP         = 0;
 	}
 
 	int Texture::Width() const { return m_Width; }

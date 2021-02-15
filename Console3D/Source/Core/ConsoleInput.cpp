@@ -21,6 +21,11 @@ namespace LCN
 		return Get().m_KeysState[key].KeyHeld;
 	}
 
+	bool ConsoleInput::IsMouseBtnPressed(MouseButton mousebtn)
+	{
+		return Get().m_Mouse[mousebtn].KeyHeld;
+	}
+
 	ConsoleInput::ConsoleInput()
 	{
 		m_HStdIn = GetStdHandle(STD_INPUT_HANDLE);
@@ -84,14 +89,14 @@ namespace LCN
 					if (key.KeyPressed)
 					{
 						KeyPressedEvent keypressedevent(record.Event.KeyEvent.wVirtualKeyCode);
-						this->SignalKeyPressed.Emmit(keypressedevent);
+						this->SignalKeyPressed.Trigger(keypressedevent);
 					}
 
 					// Key Released
 					if (key.KeyReleased)
 					{
 						KeyReleasedEvent keyreleasedevent(record.Event.KeyEvent.wVirtualKeyCode);
-						this->SignalKeyReleased.Emmit(keyreleasedevent);
+						this->SignalKeyReleased.Trigger(keyreleasedevent);
 					}
 
 					key.KeyOldState = key.KeyNewState;
@@ -108,7 +113,7 @@ namespace LCN
 					case MOUSE_MOVED:
 					{
 						MouseMovedEvent mousemoveevent(x, y);
-						this->SignalMouseMove.Emmit(mousemoveevent);
+						this->SignalMouseMove.Trigger(mousemoveevent);
 
 						break;
 					}
@@ -125,14 +130,14 @@ namespace LCN
 							if (m_Mouse[i].KeyPressed)
 							{
 								MouseButtonPressedEvent mousebuttonpressed(x, y, i);
-								this->SignalMouseButtonPressed.Emmit(mousebuttonpressed);
+								this->SignalMouseButtonPressed.Trigger(mousebuttonpressed);
 							}
 
 							// Mouse button released signal
 							if (m_Mouse[i].KeyReleased)
 							{
 								MouseButtonReleasedEvent mousebuttonreleased(x, y, i);
-								this->SignalMouseButtonReleased.Emmit(mousebuttonreleased);
+								this->SignalMouseButtonReleased.Trigger(mousebuttonreleased);
 							}
 
 							m_Mouse[i].KeyOldState = m_Mouse[i].KeyNewState;
@@ -145,7 +150,7 @@ namespace LCN
 						long dir = record.Event.MouseEvent.dwButtonState & dwButtonStateHighWordMask;
 
 						MouseScrollEvent mousescrollevent(x, y, sign(dir));
-						this->SignalMouseScroll.Emmit(mousescrollevent);
+						this->SignalMouseScroll.Trigger(mousescrollevent);
 
 						break;
 					}
