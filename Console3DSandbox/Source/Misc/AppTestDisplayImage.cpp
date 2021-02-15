@@ -21,15 +21,6 @@ namespace LCN
 		Connect(this->SignalStartup, this->SlotStartup);
 	}
 
-	void AppTestDisplayImage::Run()
-	{
-		this->SignalStartup.Trigger();
-
-		this->WaitQuit();
-
-		this->SignalQuit.Trigger();
-	}
-
 	void AppTestDisplayImage::Startup()
 	{
 		m_Camera  = m_Scene.CreateEntity();

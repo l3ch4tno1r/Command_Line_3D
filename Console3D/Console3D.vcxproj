@@ -132,6 +132,7 @@
     <ClCompile Include="Source\Core\Console.cpp" />
     <ClCompile Include="Source\Core\Device.cpp" />
     <ClCompile Include="Source\Core\ConsoleInput.cpp" />
+    <ClCompile Include="Source\Core\EventApplication.cpp" />
     <ClCompile Include="Source\Core\GraphicEngine.cpp" />
     <ClCompile Include="Source\Core\RTApplication.cpp" />
     <ClCompile Include="Source\Gui\Widget.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Source\Core\Console.h" />
     <ClInclude Include="Source\Core\Device.h" />
     <ClInclude Include="Source\Core\ConsoleInput.h" />
+    <ClInclude Include="Source\Core\EventApplication.h" />
     <ClInclude Include="Source\Core\GraphicEngine.h" />
     <ClInclude Include="Source\Core\RTApplication.h" />
     <ClInclude Include="Source\Event\Event.h" />
