@@ -141,9 +141,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Console3D\Console3D.vcxproj">
       <Project>{ddb69403-11e2-4bd3-b989-0b645e00c4eb}</Project>
     </ProjectReference>
@@ -153,6 +150,9 @@
     <ProjectReference Include="..\Utilities\Utilities.vcxproj">
       <Project>{9c344fbf-3053-4c64-a2ee-739e310656c4}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Test02.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
