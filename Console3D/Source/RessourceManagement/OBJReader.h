@@ -2,6 +2,7 @@
 
 #include "Model3D.h"
 #include "Utilities/Source/ErrorHandling.h"
+#include "LCN_Math/Source/Matrix/MatrixBlock.h"
 
 #include <string>
 #include <fstream>
@@ -49,7 +50,7 @@ public:
 			// Fill vertices array
 			if (type == "v")
 			{
-				Vector4f hvec;
+				LCN::HVector3Df hvec;
 
 				sstr >> hvec.x() >> hvec.y() >> hvec.z();
 
@@ -63,7 +64,7 @@ public:
 			{
 				if (type == "vn")
 				{
-					Vector4f hvec;
+					LCN::HVector3Df hvec;
 
 					sstr >> hvec.x() >> hvec.y() >> hvec.z();
 
@@ -119,10 +120,13 @@ public:
 
 					// /!\ Assumes that the vertices vector has been filled /!\
 
-					Vector4f v1 = Vertices[face.v2] - Vertices[face.v1];
-					Vector4f v2 = Vertices[face.v3] - Vertices[face.v2];
+					LCN::HVector3Df v1 = Vertices[face.v2] - Vertices[face.v1];
+					LCN::HVector3Df v2 = Vertices[face.v3] - Vertices[face.v2];
 
-					Vector4f n = v1 ^ v2;
+					LCN::HVector3Df n;
+					
+					n.Vector() = v1.Vector() ^ v2.Vector();
+					n.w() = 0.0f;
 
 					float norm = std::sqrt(n.x() * n.x() + n.y() * n.y() + n.z() * n.z());
 
