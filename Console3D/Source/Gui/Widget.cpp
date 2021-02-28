@@ -1,15 +1,13 @@
+#include <exception>
+
 #include "Widget.h"
+
+#include "Console3D/Source/Core/Application.h"
 
 namespace LCN
 {
-	Widget::Widget(Widget& parent) :
-		m_Parent(&parent)
+	CWidget::CWidget()
 	{
-		parent.m_Children.push_back(this);
-	}
-
-	void Widget::Render()
-	{
-
+		Application::Get();
 	}
 }

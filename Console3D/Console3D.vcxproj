@@ -159,6 +159,7 @@
     <ClInclude Include="Source\Gui\Widget.h" />
     <ClInclude Include="Source\Controller\Camera2DController.h" />
     <ClInclude Include="Source\Rendering\Camera2D.h" />
+    <ClInclude Include="Source\Rendering\Renderer2D.h" />
     <ClInclude Include="Source\RessourceManagement\Model3D.h" />
     <ClInclude Include="Source\Core\PaceMaker.h" />
     <ClInclude Include="Source\RessourceManagement\OBJReader.h" />
