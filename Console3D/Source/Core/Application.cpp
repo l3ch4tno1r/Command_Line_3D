@@ -30,6 +30,12 @@ namespace LCN
 		consoleinput.Start();
 	}
 
+	Application& Application::Get() noexcept
+	{
+		static AppPointer instance = CreateApplication();
+		return *instance;
+	}
+
 	void Application::Quit()
 	{
 		std::lock_guard<std::mutex> lock(m_RunMut);
@@ -56,6 +62,11 @@ namespace LCN
 
 		while (m_IsRunnning)
 			m_RunCond.wait(lock);
+	}
+
+	void Application::RegisterWidget(CWidget& widget)
+	{
+		m_AppWidgets.push_back(&widget);
 	}
 
 	void Application::OnKeyPressed(KeyPressedEvent& keypressedevent)

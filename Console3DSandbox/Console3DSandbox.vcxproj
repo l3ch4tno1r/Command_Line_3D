@@ -129,9 +129,6 @@
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Misc\AppTestDisplayImage.cpp" />
-    <ClCompile Include="Source\Misc\AppTestEvent.cpp" />
-    <ClCompile Include="Source\Misc\AppTestBasicPaint.cpp" />
-    <ClCompile Include="Source\Misc\RTAppTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Console3D\Console3D.vcxproj">
@@ -140,9 +137,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Misc\AppTestDisplayImage.h" />
-    <ClInclude Include="Source\Misc\AppTestEvent.h" />
-    <ClInclude Include="Source\Misc\AppTestBasicPaint.h" />
-    <ClInclude Include="Source\Misc\RTAppTest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

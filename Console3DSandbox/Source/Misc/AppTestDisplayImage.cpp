@@ -77,4 +77,9 @@ namespace LCN
 	{
 		m_Scene.Render2D(m_Camera);
 	}
+
+	Application::AppPointer Application::CreateApplication()
+	{
+		return std::make_unique<AppTestDisplayImage>();
+	}
 }

@@ -73,4 +73,9 @@ namespace LCN
 			break;
 		}
 	}
+
+	Application::AppPointer Application::CreateApplication()
+	{
+		return std::make_unique<AppTestBasicPaint>();
+	}
 }

@@ -33,5 +33,3 @@ namespace LCN
 		Camera2DController m_Controller;
 	};
 }
-
-using LCNApp = LCN::AppTestDisplayImage;
