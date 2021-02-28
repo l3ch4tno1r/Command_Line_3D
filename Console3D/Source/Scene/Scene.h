@@ -12,7 +12,11 @@ namespace LCN
 	public:
 		Entity CreateEntity();
 
-		void Render(Entity camera);
+		void DestroyEntity(Entity entity);
+
+		void Render2D(Entity camera);
+
+		void Render3D(Entity camera);
 
 	private:
 		entt::registry m_Registry;

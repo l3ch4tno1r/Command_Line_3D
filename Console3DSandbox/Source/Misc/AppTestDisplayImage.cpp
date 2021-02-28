@@ -70,11 +70,11 @@ namespace LCN
 				
 		Connect(m_Controller.SignlaUpdate, this->SlotOnUpdate);
 
-		m_Scene.Render(m_Camera);
+		m_Scene.Render2D(m_Camera);
 	}
 
 	void AppTestDisplayImage::OnUpdate()
 	{
-		m_Scene.Render(m_Camera);
+		m_Scene.Render2D(m_Camera);
 	}
 }

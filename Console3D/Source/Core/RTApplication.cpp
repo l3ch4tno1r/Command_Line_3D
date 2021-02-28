@@ -17,10 +17,10 @@ namespace LCN
 		while (this->IsRunning())
 		{
 			now = std::chrono::high_resolution_clock::now();
-			float delta = (float)std::chrono::duration_cast<std::chrono::milliseconds>(now - last).count();
+			float dt = (float)std::chrono::duration_cast<std::chrono::milliseconds>(now - last).count();
 			next = now + m_Interval;
 
-			this->SignalUpdate.Trigger(delta);
+			this->SignalUpdate.Trigger(dt);
 			this->SignalRender.Trigger();
 
 			//Continue();
