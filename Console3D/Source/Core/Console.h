@@ -5,6 +5,7 @@
 
 #include <string>
 #include <thread>
+#include <functional>
 
 #include "LCN_Math/Source/Matrix/MatrixBlock.h"
 #include "LCN_Math/Source/Geometry/Transform.h"

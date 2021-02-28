@@ -74,9 +74,6 @@
     <ClInclude Include="Source\Core\Application.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Source\LibraryMapping\Math.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Core\Console.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
