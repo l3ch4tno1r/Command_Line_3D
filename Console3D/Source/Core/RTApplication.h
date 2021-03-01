@@ -4,7 +4,7 @@
 
 using namespace std::literals::chrono_literals;
 
-namespace LCN
+namespace LCN::Core
 {
 	class RTApplication : public Application
 	{

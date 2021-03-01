@@ -1,6 +1,6 @@
 #include "EventApplication.h"
 
-namespace LCN
+namespace LCN::Core
 {
 	void EventApplication::Run()
 	{

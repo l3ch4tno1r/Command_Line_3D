@@ -13,17 +13,19 @@ namespace LCN
 		SLOT_INIT(SlotOnMouseButtonPressed, Camera2DController::OnMouseButtonPressed),
 		SLOT_INIT(SlotOnMouseScroll,        Camera2DController::OnMouseScroll)
 	{
-		Connect(ConsoleInput::Get().SignalKeyPressed,         SlotOnKeyPressed);
-		Connect(ConsoleInput::Get().SignalMouseMove,          SlotOnMouseMove);
-		Connect(ConsoleInput::Get().SignalMouseButtonPressed, SlotOnMouseButtonPressed);
-		Connect(ConsoleInput::Get().SignalMouseScroll,        SlotOnMouseScroll);
+		auto& consoleInput = Core::ConsoleInput::Get();
+
+		Connect(consoleInput.SignalKeyPressed,         SlotOnKeyPressed);
+		Connect(consoleInput.SignalMouseMove,          SlotOnMouseMove);
+		Connect(consoleInput.SignalMouseButtonPressed, SlotOnMouseButtonPressed);
+		Connect(consoleInput.SignalMouseScroll,        SlotOnMouseScroll);
 	}
 
 	void Camera2DController::OnKeyPressed(KeyPressedEvent& keyevent)
 	{
-		switch (keyevent.KeyCode())
+		switch (static_cast<Core::Key>(keyevent.KeyCode()))
 		{
-		case Key::R:
+		case Core::Key::R:
 			m_TranslationStart = Transform2Df::Identity();
 			m_RotationStart    = Transform2Df::Identity();
 
@@ -76,12 +78,12 @@ namespace LCN
 
 	void Camera2DController::OnMouseMove(MouseMovedEvent& mouseevent)
 	{
-		if (ConsoleInput::IsMouseBtnPressed(MouseButton::LEFT))
+		if (Core::ConsoleInput::IsMouseBtnPressed(Core::MouseButton::LEFT))
 		{
 			Transform2Df& PixToCam = m_CameraEntt.Get<Camera2DComponent>().PixToCam;
 			HVector2Df currentpos = PixToCam.QuickInverse() * HVector2Df({ (float)mouseevent.X(), (float)mouseevent.Y(), 1.0f });
 
-			if (ConsoleInput::IsKeyPressed(Key::Ctrl))
+			if (Core::ConsoleInput::IsKeyPressed(Core::Key::Ctrl))
 			{
 				Vector2Df maindir = currentpos.Vector();
 				maindir = maindir / maindir.Norm();

@@ -8,7 +8,7 @@
 #define EVENT_DEBUG(X)
 #endif // DEBUG
 
-namespace LCN
+namespace LCN::Core
 {
 	ConsoleInput& ConsoleInput::Get() noexcept
 	{
@@ -18,7 +18,7 @@ namespace LCN
 
 	bool ConsoleInput::IsKeyPressed(Key key)
 	{
-		return Get().m_KeysState[key].KeyHeld;
+		return Get().m_KeysState[static_cast<size_t>(key)].KeyHeld;
 	}
 
 	bool ConsoleInput::IsMouseBtnPressed(MouseButton mousebtn)

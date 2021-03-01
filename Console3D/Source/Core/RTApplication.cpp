@@ -2,7 +2,7 @@
 
 #include <thread>
 
-namespace LCN
+namespace LCN::Core
 {
 	RTApplication::RTApplication()
 	{}

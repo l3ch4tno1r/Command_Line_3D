@@ -2,8 +2,11 @@
 
 #include "Device.h"
 
-class GraphicEngine : public Device
+namespace LCN::Core
 {
-private:
-	void MainThread() override;
-};
+	class GraphicEngine : public Device
+	{
+	private:
+		void MainThread() override;
+	};
+}

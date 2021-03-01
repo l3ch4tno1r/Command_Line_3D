@@ -12,9 +12,9 @@
 #include <Console3D/Source/Event/KeyBoardEvent.h>
 #include <Console3D/Source/Event/MouseEvent.h>
 
-namespace LCN
+namespace LCN::Core
 {
-	enum Key
+	enum class Key
 	{
 		Enter = VK_RETURN,
 		Esc   = VK_ESCAPE,

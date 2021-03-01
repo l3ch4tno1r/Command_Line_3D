@@ -59,7 +59,7 @@ namespace LCN
 		//	std::sin(TORAD(20.0f)),  std::cos(TORAD(20.0f))
 		//};
 
-		Console& console = Console::Get();
+		Core::Console& console = Core::Console::Get();
 
 		//console.ConstructConsole(150, 100, 8, 8);
 		console.ConstructConsole(300, 200, 4, 4);
@@ -67,7 +67,7 @@ namespace LCN
 		m_Camera.Add<Camera2DComponent>(console.Width(), console.Height());
 
 		m_Controller.Bind(m_Camera);
-				
+
 		Connect(m_Controller.SignlaUpdate, this->SlotOnUpdate);
 
 		m_Scene.Render2D(m_Camera);
@@ -78,7 +78,7 @@ namespace LCN
 		m_Scene.Render2D(m_Camera);
 	}
 
-	Application::AppPointer Application::CreateApplication()
+	Core::Application::AppPointer Core::Application::CreateApplication()
 	{
 		return std::make_unique<AppTestDisplayImage>();
 	}

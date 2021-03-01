@@ -15,7 +15,7 @@ namespace LCN
 	//-- AppTestDisplayImage --//
 	/////////////////////////////
 
-	class AppTestDisplayImage : public EventApplication
+	class AppTestDisplayImage : public Core::EventApplication
 	{
 	public:
 		AppTestDisplayImage();

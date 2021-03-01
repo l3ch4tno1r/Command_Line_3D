@@ -24,7 +24,7 @@ namespace LCN
 
     void Scene::Render2D(Entity camera)
     {
-        Console& console = Console::Get();
+        Core::Console& console = Core::Console::Get();
 
         const Transform2Df& R0ToCam  = camera.Get<Transform2DComponent>().Transform;
 
@@ -46,7 +46,7 @@ namespace LCN
                 float color0 = 0.0f;
 
                 result.Char.UnicodeChar = 0;
-                result.Attributes = COLOUR::BG_BLACK;
+                result.Attributes = Core::COLOUR::BG_BLACK;
 
                 view.each([&](
                     const Transform2DComponent& R0ToSpriteCmp,
@@ -88,7 +88,7 @@ namespace LCN
                             //result.Char.UnicodeChar = greyscale == 10 ? 0 : value[greyscale];
                             //result.Attributes = greyscale == 10 ? COLOUR::BG_WHITE : COLOUR::FG_WHITE | COLOUR::BG_BLACK;
                             result.Char.UnicodeChar = value[greyscale];
-                            result.Attributes = COLOUR::FG_WHITE | COLOUR::BG_BLACK;
+                            result.Attributes = Core::COLOUR::FG_WHITE | Core::COLOUR::BG_BLACK;
                         }
                     });
 
@@ -99,13 +99,13 @@ namespace LCN
         console.DrawLine(
             console.Width() / 2 - 5, console.Height() / 2,
             console.Width() / 2 + 5, console.Height() / 2,
-            0, COLOUR::BG_RED
+            0, Core::COLOUR::BG_RED
         );
 
         console.DrawLine(
             console.Width() / 2, console.Height() / 2 - 5,
             console.Width() / 2, console.Height() / 2 + 5,
-            0, COLOUR::BG_RED
+            0, Core::COLOUR::BG_RED
         );
 
         console.Render();

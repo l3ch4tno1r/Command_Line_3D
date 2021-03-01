@@ -1,7 +1,10 @@
 #include "GraphicEngine.h"
 
-void GraphicEngine::MainThread()
+namespace LCN::Core
 {
-	while(Continue())
-	{ }
+	void GraphicEngine::MainThread()
+	{
+		while(Continue())
+		{ }
+	}
 }

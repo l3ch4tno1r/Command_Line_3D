@@ -1,6 +1,6 @@
 #include "Application.h"
 
-namespace LCN
+namespace LCN::Core
 {
 	Application::Application() :
 		SLOT_INIT(SlotDispatchKeyPressedEvent,          Application::DispatchKeyPressedEvent),
@@ -71,7 +71,7 @@ namespace LCN
 
 	void Application::OnKeyPressed(KeyPressedEvent& keypressedevent)
 	{
-		switch (keypressedevent.KeyCode())
+		switch (static_cast<Core::Key>(keypressedevent.KeyCode()))
 		{
 		case Key::Esc:
 			this->Quit();

@@ -7,7 +7,7 @@
 #include "Misc/AppTestDisplayImage.h"
 //#include "Misc/AppTestWidget.h"
 
-using namespace LCN;
+using namespace LCN::Core;
 
 int main(int argc, char** argv)
 {

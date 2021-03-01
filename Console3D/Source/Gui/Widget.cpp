@@ -8,6 +8,6 @@ namespace LCN
 {
 	CWidget::CWidget()
 	{
-		Application::Get();
+		Core::Application::Get();
 	}
 }

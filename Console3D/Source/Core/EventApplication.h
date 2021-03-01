@@ -2,7 +2,7 @@
 
 #include "Application.h"
 
-namespace LCN
+namespace LCN::Core
 {
 	class EventApplication : public Application
 	{

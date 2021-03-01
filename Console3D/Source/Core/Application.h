@@ -11,7 +11,7 @@
 
 int main(int argc, char** argv);
 
-namespace LCN
+namespace LCN::Core
 {
 	class CWidget;
 
@@ -48,8 +48,6 @@ namespace LCN
 		SLOT(Application, DispatchMouseButtonReleasedEvent, MouseButtonReleasedEvent&);
 		SLOT(Application, DispatchMouseScrolledEvent,       MouseScrollEvent&);
 
-		friend AppPointer::deleter_type;
-
 	protected:
 		Application();
 
@@ -68,6 +66,7 @@ namespace LCN
 		void RegisterWidget(CWidget& widget);
 
 		friend int ::main(int argc, char** argv);
+		friend AppPointer::deleter_type;
 
 		// To be defined by client
 		static AppPointer CreateApplication();
