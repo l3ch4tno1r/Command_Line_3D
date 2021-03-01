@@ -7,7 +7,7 @@
 #include <Console3D/Source/Event/KeyBoardEvent.h>
 #include <Console3D/Source/Event/MouseEvent.h>
 
-namespace LCN
+namespace LCN::Rendering
 {
 	class Camera2D
 	{

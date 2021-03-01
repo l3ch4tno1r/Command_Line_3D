@@ -22,8 +22,8 @@ namespace LCN
 
 	struct Camera2DComponent
 	{
-		Camera2D     Camera;
-		Transform2Df PixToCam;
+		Rendering::Camera2D Camera;
+		Transform2Df        PixToCam;
 
 		Camera2DComponent(uint32_t width, uint32_t height) :
 			Camera(width, height),
