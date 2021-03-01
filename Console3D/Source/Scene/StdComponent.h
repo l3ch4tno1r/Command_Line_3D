@@ -8,7 +8,7 @@
 #include "Console3D/Source/Rendering/Camera2D.h"
 #include "Console3D/Source/Controller/Camera2DController.h"
 
-namespace LCN
+namespace LCN::Component
 {
 	struct Transform2DComponent
 	{

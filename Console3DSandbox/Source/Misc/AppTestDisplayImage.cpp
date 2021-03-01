@@ -28,7 +28,7 @@ namespace LCN
 		m_Sprite2 = m_Scene.CreateEntity();
 
 		// Sprite 1
-		TextureComponent& textureCmp1 = m_Sprite1.Add<TextureComponent>();
+		Component::TextureComponent& textureCmp1 = m_Sprite1.Add<Component::TextureComponent>();
 
 		textureCmp1.Texture.Load("Ressource/Le_Chat_Noir_Photo_Alpha.png");
 
@@ -37,10 +37,10 @@ namespace LCN
 		size_t texturew1 = textureCmp1.Texture.Width();
 		size_t textureh1 = textureCmp1.Texture.Height();
 
-		m_Sprite1.Add<Sprite2DComponent>(texturew1, textureh1);
+		m_Sprite1.Add<Component::Sprite2DComponent>(texturew1, textureh1);
 
 		// Sprite 2
-		TextureComponent& textureCmp2 = m_Sprite2.Add<TextureComponent>();
+		Component::TextureComponent& textureCmp2 = m_Sprite2.Add<Component::TextureComponent>();
 
 		textureCmp2.Texture.Load("Ressource/Wooden_Medium.jpg");
 
@@ -49,7 +49,7 @@ namespace LCN
 		size_t texturew2 = textureCmp2.Texture.Width();
 		size_t textureh2 = textureCmp2.Texture.Height();
 
-		m_Sprite2.Add<Sprite2DComponent>(texturew2, textureh2);
+		m_Sprite2.Add<Component::Sprite2DComponent>(texturew2, textureh2);
 
 		//Transform2Df& transform2 = m_Sprite2.Get<Transform2DComponent>().Transform;
 		//
@@ -64,7 +64,7 @@ namespace LCN
 		//console.ConstructConsole(150, 100, 8, 8);
 		console.ConstructConsole(300, 200, 4, 4);
 
-		m_Camera.Add<Camera2DComponent>(console.Width(), console.Height());
+		m_Camera.Add<Component::Camera2DComponent>(console.Width(), console.Height());
 
 		m_Controller.Bind(m_Camera);
 
