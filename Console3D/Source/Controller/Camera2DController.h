@@ -5,10 +5,8 @@
 #include "Console3D/Source/Event/MouseEvent.h"
 #include "Console3D/Source/Scene/Entity.h"
 
-namespace LCN
+namespace LCN::Controller
 {
-	class Entity;
-
 	class Camera2DController
 	{
 	public:

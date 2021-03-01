@@ -30,6 +30,6 @@ namespace LCN
 		Entity m_Sprite1;
 		Entity m_Sprite2;
 
-		Camera2DController m_Controller;
+		Controller::Camera2DController m_Controller;
 	};
 }

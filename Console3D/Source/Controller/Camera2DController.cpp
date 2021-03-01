@@ -5,7 +5,7 @@
 
 #include <cmath>
 
-namespace LCN
+namespace LCN::Controller
 {
 	Camera2DController::Camera2DController() :
 		SLOT_INIT(SlotOnKeyPressed,         Camera2DController::OnKeyPressed),
