@@ -10,22 +10,22 @@
 
 namespace LCN::Component
 {
-	struct Transform2DComponent
+	struct Transform2DCmp
 	{
 		Transform2Df Transform;
 	};
 
-	struct TextureComponent
+	struct TextureCmp
 	{
 		Texture Texture;
 	};
 
-	struct Camera2DComponent
+	struct Camera2DCmp
 	{
 		Rendering::Camera2D Camera;
 		Transform2Df        PixToCam;
 
-		Camera2DComponent(uint32_t width, uint32_t height) :
+		Camera2DCmp(uint32_t width, uint32_t height) :
 			Camera(width, height),
 			PixToCam({
 				1.0f,  0.0f, (float)width / 2,
@@ -35,12 +35,12 @@ namespace LCN::Component
 		{}		
 	};
 
-	struct Sprite2DComponent
+	struct Sprite2DCmp
 	{
 		Sprite2D     Sprite;
 		Transform2Df SpriteToTexture;
 
-		Sprite2DComponent(size_t width, size_t height)
+		Sprite2DCmp(size_t width, size_t height)
 		{
 			this->Sprite.Vertices[0] = { (float)(-(int)width / 2), (float)( (int)height / 2), 1.0f };
 			this->Sprite.Vertices[1] = { (float)( (int)width / 2), (float)( (int)height / 2), 1.0f };

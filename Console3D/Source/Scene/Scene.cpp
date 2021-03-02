@@ -12,7 +12,7 @@ namespace LCN
     {
         Entity result = { m_Registry.create(), this };
 
-        result.Add<Component::Transform2DComponent>();
+        result.Add<Component::Transform2DCmp>();
 
         return result;
     }
@@ -26,12 +26,12 @@ namespace LCN
     {
         Core::Console& console = Core::Console::Get();
 
-        const Transform2Df& R0ToCam  = camera.Get<Component::Transform2DComponent>().Transform;
+        const Transform2Df& R0ToCam  = camera.Get<Component::Transform2DCmp>().Transform;
 
-        Transform2Df CamToPix = camera.Get<Component::Camera2DComponent>().PixToCam.QuickInverse();
+        Transform2Df CamToPix = camera.Get<Component::Camera2DCmp>().PixToCam.QuickInverse();
         Transform2Df R0ToPix = R0ToCam * CamToPix;
 
-        auto view = m_Registry.view<Component::Transform2DComponent, Component::Sprite2DComponent, Component::TextureComponent>();
+        auto view = m_Registry.view<Component::Transform2DCmp, Component::Sprite2DCmp, Component::TextureCmp>();
 
         console.FillRectangle(
             0, 0,
@@ -49,9 +49,9 @@ namespace LCN
                 result.Attributes = Core::COLOUR::BG_BLACK;
 
                 view.each([&](
-                    const Component::Transform2DComponent& R0ToSpriteCmp,
-                    const Component::Sprite2DComponent&    spriteCmp,
-                    const Component::TextureComponent&     textureCmp)
+                    const Component::Transform2DCmp& R0ToSpriteCmp,
+                    const Component::Sprite2DCmp&    spriteCmp,
+                    const Component::TextureCmp&     textureCmp)
                     {
                         Transform2Df SpriteToPix = R0ToSpriteCmp.Transform.QuickInverse() * R0ToPix;
 
