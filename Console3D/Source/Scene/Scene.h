@@ -14,9 +14,7 @@ namespace LCN
 
 		void DestroyEntity(Entity entity);
 
-		void Render2D(Entity camera);
-
-		void Render3D(Entity camera);
+		inline entt::registry& Registry() { return m_Registry; }
 
 	private:
 		entt::registry m_Registry;

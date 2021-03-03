@@ -5,6 +5,7 @@
 #include <Console3D/Source/Core/Console.h>
 #include <Console3D/Source/Core/ConsoleInput.h>
 #include <Console3D/Source/Scene/StdComponent.h>
+#include <Console3D/Source/Rendering/Renderer2D.h>
 
 #include <LCN_Math/Source/Utilities/Angles.h>
 
@@ -70,12 +71,12 @@ namespace LCN
 
 		Connect(m_Controller.SignlaUpdate, this->SlotOnUpdate);
 
-		m_Scene.Render2D(m_Camera);
+		Rendering::Renderer2D::RenderParallel(m_Scene, m_Camera);
 	}
 
 	void AppTestDisplayImage::OnUpdate()
 	{
-		m_Scene.Render2D(m_Camera);
+		Rendering::Renderer2D::RenderParallel(m_Scene, m_Camera);
 	}
 
 	Core::Application::AppPointer Core::Application::CreateApplication()
