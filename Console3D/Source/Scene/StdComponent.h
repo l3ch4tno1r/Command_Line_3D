@@ -17,7 +17,7 @@ namespace LCN::Component
 
 	struct TextureCmp
 	{
-		Texture Texture;
+		Ressource::Texture Texture;
 	};
 
 	struct Camera2DCmp
@@ -37,8 +37,8 @@ namespace LCN::Component
 
 	struct Sprite2DCmp
 	{
-		Sprite2D     Sprite;
-		Transform2Df SpriteToTexture;
+		Ressource::Sprite2D Sprite;
+		Transform2Df        SpriteToTexture;
 
 		Sprite2DCmp(size_t width, size_t height)
 		{

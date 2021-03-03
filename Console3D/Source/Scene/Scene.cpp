@@ -71,7 +71,7 @@ namespace LCN
                             int tx = (textureCmp.Texture.Width()  - 1) * std::min(std::max(textureCoord.x(), 0.0f), 1.0f);
                             int ty = (textureCmp.Texture.Height() - 1) * std::min(std::max(textureCoord.y(), 0.0f), 1.0f);
 
-                            TexelGreyScale texel = textureCmp.Texture(tx, ty);
+                            Ressource::TexelGreyScale texel = textureCmp.Texture(tx, ty);
 
                             // Alpha blending
                             float alpha = (float)texel.Alpha / 255;
