@@ -14,7 +14,8 @@ namespace LCN
 
 		void DestroyEntity(Entity entity);
 
-		inline entt::registry& Registry() { return m_Registry; }
+		inline       entt::registry& Registry()       { return m_Registry; }
+		inline const entt::registry& Registry() const { return m_Registry; }
 
 	private:
 		entt::registry m_Registry;

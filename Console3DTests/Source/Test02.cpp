@@ -1,24 +1,21 @@
 #include <iostream>
 
-class Test
-{
-public:
-	Test()
-	{
-		throw std::exception("Test");
-	}
-};
+#include <Console3D/Source/Scene/Scene.h>
+#include <Console3D/Source/Scene/Entity.h>
+#include <Console3D/Source/Scene/StdComponent.h>
 
 int main()
 {
-	try
-	{
-		Test();
-	}
-	catch (const std::exception& e)
-	{
-		std::cerr << "Exception : " << e.what() << std::endl;
-	}
+	LCN::Scene scene;
+
+	auto view = scene.Registry().view<LCN::Component::Transform2DCmp>();
+
+	LCN::Entity entity1 = scene.CreateEntity();
+
+	view.each([](entt::entity entity, const LCN::Component::Transform2DCmp& transformCmp)
+		{
+			std::cout << transformCmp.Transform << std::endl;
+		});
 
 	std::cin.get();
 }
