@@ -62,7 +62,9 @@ namespace LCN
 
 		Core::Console& console = Core::Console::Get();
 
-		//console.ConstructConsole(150, 100, 8, 8);
+		/*
+		console.ConstructConsole(150, 100, 8, 8);
+		*/
 		console.ConstructConsole(300, 200, 4, 4);
 
 		m_Camera.Add<Component::Camera2DCmp>(console.Width(), console.Height());
@@ -71,12 +73,12 @@ namespace LCN
 
 		Connect(m_Controller.SignlaUpdate, this->SlotOnUpdate);
 
-		Rendering::Renderer2D::RenderParallel(m_Scene, m_Camera);
+		Render::Renderer2D::RenderParallel(m_Scene, m_Camera);
 	}
 
 	void AppTestDisplayImage::OnUpdate()
 	{
-		Rendering::Renderer2D::RenderParallel(m_Scene, m_Camera);
+		Render::Renderer2D::RenderParallel(m_Scene, m_Camera);
 	}
 
 	Core::Application::AppPointer Core::Application::CreateApplication()

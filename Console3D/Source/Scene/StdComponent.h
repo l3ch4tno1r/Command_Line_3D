@@ -22,7 +22,7 @@ namespace LCN::Component
 
 	struct Camera2DCmp
 	{
-		Rendering::Camera2D Camera;
+		Render::Camera2D Camera;
 		Transform2Df        PixToCam;
 
 		Camera2DCmp(uint32_t width, uint32_t height) :

@@ -4,7 +4,7 @@
 #include "Console3D/Source/Scene/Entity.h"
 #include "Console3D/Source/Core/Console.h"
 
-namespace LCN::Rendering
+namespace LCN::Render
 {
 	struct ViewPort
 	{

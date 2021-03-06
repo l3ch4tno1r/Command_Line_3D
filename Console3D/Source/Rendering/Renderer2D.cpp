@@ -4,7 +4,7 @@
 
 #include "Console3D/Source/Scene/StdComponent.h"
 
-namespace LCN::Rendering
+namespace LCN::Render
 {
 	void Renderer2D::Render(Scene& scene, Entity cameraEntity, const ViewPort& viewPort)
 	{
