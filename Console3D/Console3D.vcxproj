@@ -151,6 +151,7 @@
     <ClInclude Include="Source\Core\Console.h" />
     <ClInclude Include="Source\Core\Device.h" />
     <ClInclude Include="Source\Core\ConsoleInput.h" />
+    <ClInclude Include="Source\Core\EntryPoint.h" />
     <ClInclude Include="Source\Core\EventApplication.h" />
     <ClInclude Include="Source\Core\GraphicEngine.h" />
     <ClInclude Include="Source\Core\RTApplication.h" />
