@@ -1,5 +1,10 @@
 #pragma once
 
+#include <thread>
+#include <atomic>
+#include <mutex>
+#include <condition_variable>
+
 #include "Console3D/Source/Scene/Scene.h"
 #include "Console3D/Source/Scene/Entity.h"
 #include "Console3D/Source/Core/Console.h"
@@ -15,6 +20,8 @@ namespace LCN::Render
 	class Renderer2D
 	{
 	public:
+		static void Init();
+
 		static void Render(
 			Scene& scene,
 			Entity cameraEntity,
@@ -24,5 +31,18 @@ namespace LCN::Render
 			Scene& scene,
 			Entity cameraEntity,
 			const ViewPort& viewPort = { 0, 0, (int)Core::Console::Get().Width(), (int)Core::Console::Get().Height() });
+
+	private:
+		std::thread      m_ThreadPool[4];
+		std::atomic_bool m_Run = false;
+
+		static Renderer2D& Get() noexcept;
+
+	private:
+		Renderer2D() = default;
+
+		~Renderer2D();
+
+		void RenderThread();
 	};
 }

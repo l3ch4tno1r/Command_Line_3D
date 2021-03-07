@@ -8,7 +8,13 @@
 
 namespace LCN::Render
 {
-	void Renderer2D::Render(Scene& scene, Entity cameraEntity, const ViewPort& viewPort)
+    void Renderer2D::Init()
+    {
+        for(std::thread& thread : Get().m_ThreadPool)
+        { }
+    }
+
+    void Renderer2D::Render(Scene& scene, Entity cameraEntity, const ViewPort& viewPort)
 	{
         PROFILE_FUNC();
 
@@ -126,5 +132,11 @@ namespace LCN::Render
             t.join();
 
         Core::Console::Get().Render();
+    }
+
+    Renderer2D& Renderer2D::Get() noexcept
+    {
+        static Renderer2D renderer;
+        return renderer;
     }
 }
