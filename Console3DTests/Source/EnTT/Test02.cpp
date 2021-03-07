@@ -7,8 +7,9 @@
 int main()
 {
 	LCN::Scene scene;
+	const LCN::Scene& ref = scene;
 
-	auto view = scene.Registry().view<LCN::Component::Transform2DCmp>();
+	auto view = ref.Registry().view<const LCN::Component::Transform2DCmp>();
 
 	LCN::Entity entity1 = scene.CreateEntity();
 

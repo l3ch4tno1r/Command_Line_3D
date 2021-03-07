@@ -4,10 +4,14 @@
 
 #include "Console3D/Source/Scene/StdComponent.h"
 
+#include <Utilities/Source/Instrumentor.h>
+
 namespace LCN::Render
 {
 	void Renderer2D::Render(Scene& scene, Entity cameraEntity, const ViewPort& viewPort)
 	{
+        PROFILE_FUNC();
+
         Core::Console& console = Core::Console::Get();
 
         const Transform2Df& R0ToCam = cameraEntity.Get<Component::Transform2DCmp>().Transform;
@@ -97,6 +101,8 @@ namespace LCN::Render
 
     void Renderer2D::RenderParallel(Scene& scene, Entity cameraEntity, const ViewPort& viewPort)
     {
+        PROFILE_FUNC();
+
         int TLx = viewPort.TLx;
         int TLy = viewPort.TLy;
         int BRx = viewPort.BRx;

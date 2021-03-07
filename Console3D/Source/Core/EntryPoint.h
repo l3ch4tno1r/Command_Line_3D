@@ -1,5 +1,7 @@
 #pragma once
 
+using namespace LCN::Core;
+
 int main(int argc, char** argv)
 {
 	try
