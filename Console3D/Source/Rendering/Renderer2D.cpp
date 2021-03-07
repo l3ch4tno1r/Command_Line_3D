@@ -10,8 +10,8 @@ namespace LCN::Render
 {
     void Renderer2D::Init()
     {
-        for(std::thread& thread : Get().m_ThreadPool)
-        { }
+        for (std::thread& thread : Get().m_ThreadPool)
+            thread = std::thread();
     }
 
     void Renderer2D::Render(Scene& scene, Entity cameraEntity, const ViewPort& viewPort)
@@ -138,5 +138,15 @@ namespace LCN::Render
     {
         static Renderer2D renderer;
         return renderer;
+    }
+
+    Renderer2D::~Renderer2D()
+    {
+
+    }
+
+    void Renderer2D::RenderThread()
+    {
+
     }
 }
