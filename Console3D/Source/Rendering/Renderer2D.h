@@ -22,7 +22,11 @@ namespace LCN::Render
 	public:
 		static void Init();
 
-		static void Render(
+
+
+		static void Render();
+
+		static void RenderSequential(
 			Scene& scene,
 			Entity cameraEntity,
 			const ViewPort& viewPort = {0, 0, (int)Core::Console::Get().Width(), (int)Core::Console::Get().Height() });
@@ -33,8 +37,10 @@ namespace LCN::Render
 			const ViewPort& viewPort = { 0, 0, (int)Core::Console::Get().Width(), (int)Core::Console::Get().Height() });
 
 	private:
-		std::thread      m_ThreadPool[4];
-		std::atomic_bool m_Run = false;
+		std::thread             m_ThreadPool[4];
+		std::atomic_bool        m_Run = false;
+		std::mutex              m_Mutex;
+		std::condition_variable m_Condition;
 
 		static Renderer2D& Get() noexcept;
 

@@ -82,7 +82,7 @@ namespace LCN
 			{
 				PROFILE_SCOPE("Renderer2D::Render");
 
-				Render::Renderer2D::Render(m_Scene, m_Camera);
+				Render::Renderer2D::RenderSequential(m_Scene, m_Camera);
 
 				console.Render();
 			}

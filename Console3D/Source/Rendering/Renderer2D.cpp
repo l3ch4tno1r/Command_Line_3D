@@ -14,7 +14,14 @@ namespace LCN::Render
             thread = std::thread();
     }
 
-    void Renderer2D::Render(Scene& scene, Entity cameraEntity, const ViewPort& viewPort)
+    void Renderer2D::Render()
+    {
+        std::unique_lock<std::mutex> lock(Get().m_Mutex);
+
+        Get().m_Condition.notify_all();
+    }
+
+    void Renderer2D::RenderSequential(Scene& scene, Entity cameraEntity, const ViewPort& viewPort)
 	{
         PROFILE_FUNC();
 
@@ -122,10 +129,10 @@ namespace LCN::Render
         };
 
         std::thread threads[] = {
-            std::thread(Renderer2D::Render, std::ref(scene), cameraEntity, std::cref(subViewPort[0])),
-            std::thread(Renderer2D::Render, std::ref(scene), cameraEntity, std::cref(subViewPort[1])),
-            std::thread(Renderer2D::Render, std::ref(scene), cameraEntity, std::cref(subViewPort[2])),
-            std::thread(Renderer2D::Render, std::ref(scene), cameraEntity, std::cref(subViewPort[3]))
+            std::thread(Renderer2D::RenderSequential, std::ref(scene), cameraEntity, std::cref(subViewPort[0])),
+            std::thread(Renderer2D::RenderSequential, std::ref(scene), cameraEntity, std::cref(subViewPort[1])),
+            std::thread(Renderer2D::RenderSequential, std::ref(scene), cameraEntity, std::cref(subViewPort[2])),
+            std::thread(Renderer2D::RenderSequential, std::ref(scene), cameraEntity, std::cref(subViewPort[3]))
         };
 
         for (auto& t : threads)
