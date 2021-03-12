@@ -4,3 +4,6 @@
 [submodule "Utilities"]
 	path = Utilities
 	url = https://github.com/l3ch4tno1r/Utilities.git
+[submodule "LCN_Collisions"]
+	path = LCN_Collisions
+	url = https://github.com/l3ch4tno1r/LCN_Collisions.git
