@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Console3DSandbox", "Console
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Console3DTests", "Console3DTests\Console3DTests.vcxproj", "{2FBC0A27-5A27-4C30-9F0D-7A39FD6CF0CF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LCNCollisions", "LCN_Collisions\LCNCollisions.vcxproj", "{A2D7B2BF-B2C3-4DEF-9B17-CB0771EF455D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -61,6 +63,14 @@ Global
 		{2FBC0A27-5A27-4C30-9F0D-7A39FD6CF0CF}.Release|x64.Build.0 = Release|x64
 		{2FBC0A27-5A27-4C30-9F0D-7A39FD6CF0CF}.Release|x86.ActiveCfg = Release|Win32
 		{2FBC0A27-5A27-4C30-9F0D-7A39FD6CF0CF}.Release|x86.Build.0 = Release|Win32
+		{A2D7B2BF-B2C3-4DEF-9B17-CB0771EF455D}.Debug|x64.ActiveCfg = Debug|x64
+		{A2D7B2BF-B2C3-4DEF-9B17-CB0771EF455D}.Debug|x64.Build.0 = Debug|x64
+		{A2D7B2BF-B2C3-4DEF-9B17-CB0771EF455D}.Debug|x86.ActiveCfg = Debug|Win32
+		{A2D7B2BF-B2C3-4DEF-9B17-CB0771EF455D}.Debug|x86.Build.0 = Debug|Win32
+		{A2D7B2BF-B2C3-4DEF-9B17-CB0771EF455D}.Release|x64.ActiveCfg = Release|x64
+		{A2D7B2BF-B2C3-4DEF-9B17-CB0771EF455D}.Release|x64.Build.0 = Release|x64
+		{A2D7B2BF-B2C3-4DEF-9B17-CB0771EF455D}.Release|x86.ActiveCfg = Release|Win32
+		{A2D7B2BF-B2C3-4DEF-9B17-CB0771EF455D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
