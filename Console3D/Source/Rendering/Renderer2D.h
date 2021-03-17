@@ -22,9 +22,16 @@ namespace LCN::Render
 	public:
 		static void Init();
 
+		static void Clear();
 
+		static void Submit();
 
 		static void Render();
+
+		static void RenderWireFrame(
+			const Scene& scene,
+			Entity cameraEntity,
+			const ViewPort& viewPort = { 0, 0, (int)Core::Console::Get().Width(), (int)Core::Console::Get().Height() });
 
 		static void RenderSequential(
 			Scene& scene,

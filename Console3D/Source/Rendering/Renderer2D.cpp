@@ -14,11 +14,64 @@ namespace LCN::Render
             thread = std::thread();
     }
 
+    void Renderer2D::Clear()
+    {
+        Core::Console::Get().Clear();
+    }
+
+    void Renderer2D::Submit()
+    {
+        Core::Console::Get().Render();
+    }
+
     void Renderer2D::Render()
     {
         std::unique_lock<std::mutex> lock(Get().m_Mutex);
 
         Get().m_Condition.notify_all();
+    }
+
+    void Renderer2D::RenderWireFrame(const Scene& scene, Entity cameraEntity, const ViewPort& viewPort)
+    {
+        static Core::Console& console = Core::Console::Get();
+
+        const Transform2Df R0ToCam = cameraEntity.Get<Component::Transform2DCmp>().Transform;
+
+        Transform2Df CamToPix = cameraEntity.Get<Component::Camera2DCmp>().PixToCam.QuickInverse();
+        Transform2Df R0ToPix  = R0ToCam * CamToPix;
+
+        auto view = scene.Registry().view<const Component::Transform2DCmp, const Component::Sprite2DCmp>();
+
+        view.each([&](
+            const Component::Transform2DCmp& R0ToSpriteCmp,
+            const Component::Sprite2DCmp&    spriteCmp)
+            {
+                Transform2Df PixToSprite = R0ToPix.QuickInverse() * R0ToSpriteCmp.Transform;
+
+                for (const auto& triangle : spriteCmp.Sprite.Faces)
+                {
+                    HVector2Df vertices[3];
+
+                    // Compute vertices pos relative to cam
+                    for (size_t i = 0; i < 3; ++i)
+                    {
+                        size_t vidx = triangle.v[i];
+
+                        vertices[i] = PixToSprite * spriteCmp.Sprite.Vertices[vidx];
+                    }
+
+                    // Draw
+                    for (size_t i = 0; i < 3; ++i)
+                    {
+                        const HVector2Df& vertex1 = vertices[i];
+                        const HVector2Df& vertex2 = vertices[(i + 1) % 3];
+
+                        console.DrawLine(
+                            (int)vertex1.x(), (int)vertex1.y(),
+                            (int)vertex2.x(), (int)vertex2.y());
+                    }
+                }
+            });
     }
 
     void Renderer2D::RenderSequential(Scene& scene, Entity cameraEntity, const ViewPort& viewPort)
@@ -51,8 +104,8 @@ namespace LCN::Render
 
                 view.each([&](
                     const Component::Transform2DCmp& R0ToSpriteCmp,
-                    const Component::Sprite2DCmp& spriteCmp,
-                    const Component::TextureCmp& textureCmp)
+                    const Component::Sprite2DCmp&    spriteCmp,
+                    const Component::TextureCmp&     textureCmp)
                     {
                         Transform2Df SpriteToPix = R0ToSpriteCmp.Transform.QuickInverse() * R0ToPix;
 

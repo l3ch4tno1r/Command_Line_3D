@@ -7,11 +7,7 @@
 
 namespace LCN::Controller
 {
-	Camera2DController::Camera2DController() :
-		SLOT_INIT(SlotOnKeyPressed,         Camera2DController::OnKeyPressed),
-		SLOT_INIT(SlotOnMouseMove,          Camera2DController::OnMouseMove),
-		SLOT_INIT(SlotOnMouseButtonPressed, Camera2DController::OnMouseButtonPressed),
-		SLOT_INIT(SlotOnMouseScroll,        Camera2DController::OnMouseScroll)
+	Camera2DController::Camera2DController()
 	{
 		auto& consoleInput = Core::ConsoleInput::Get();
 

@@ -13,7 +13,15 @@ int main(int argc, char** argv);
 
 namespace LCN::Core
 {
+	/////////////////////////////
+	//-- Forward declaration --//
+	/////////////////////////////
+
 	class CWidget;
+
+	////////////////////////////////
+	//-- Application base class --//
+	////////////////////////////////
 
 	class Application
 	{
@@ -80,4 +88,14 @@ namespace LCN::Core
 
 		std::vector<CWidget*> m_AppWidgets;
 	};
+
+	////////////////////////
+	//-- Utility macros --//
+	////////////////////////
+
+	#define CREATE_APP(DerivedTypeName)\
+	Core::Application::AppPointer Core::Application::CreateApplication()\
+	{\
+		return std::make_unique<DerivedTypeName>();\
+	}
 }
