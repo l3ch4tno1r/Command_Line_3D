@@ -62,4 +62,9 @@ namespace LCN::Component
 			};
 		}
 	};
+
+	struct FrameCmp
+	{
+		float Scale;
+	};
 }

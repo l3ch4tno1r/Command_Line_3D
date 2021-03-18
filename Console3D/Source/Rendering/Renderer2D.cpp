@@ -38,7 +38,7 @@ namespace LCN::Render
         const Transform2Df R0ToCam = cameraEntity.Get<Component::Transform2DCmp>().Transform;
 
         Transform2Df CamToPix = cameraEntity.Get<Component::Camera2DCmp>().PixToCam.QuickInverse();
-        Transform2Df R0ToPix  = R0ToCam * CamToPix;
+        Transform2Df PixToR0  = ((Transform2Df)(R0ToCam * CamToPix)).QuickInverse();
 
         auto view = scene.Registry().view<const Component::Transform2DCmp, const Component::Sprite2DCmp>();
 
@@ -46,7 +46,7 @@ namespace LCN::Render
             const Component::Transform2DCmp& R0ToSpriteCmp,
             const Component::Sprite2DCmp&    spriteCmp)
             {
-                Transform2Df PixToSprite = R0ToPix.QuickInverse() * R0ToSpriteCmp.Transform;
+                Transform2Df PixToSprite = PixToR0 * R0ToSpriteCmp.Transform;
 
                 for (const auto& triangle : spriteCmp.Sprite.Faces)
                 {
@@ -71,6 +71,31 @@ namespace LCN::Render
                             (int)vertex2.x(), (int)vertex2.y());
                     }
                 }
+            });
+
+        scene.Registry().view<const Component::Transform2DCmp, const Component::FrameCmp>().each([&](
+            const Component::Transform2DCmp& R0ToFrame,
+            const Component::FrameCmp&       frameCmp)
+            {
+                Transform2Df pixToFrame = PixToR0 * R0ToFrame.Transform;
+
+                HVector2Df O = HVector2Df::Zero(); O.w() = 1.0f;
+                HVector2Df X = frameCmp.Scale * HVector2Df::UnitX(); X.w() = 1.0f;
+                HVector2Df Y = frameCmp.Scale * HVector2Df::UnitY(); Y.w() = 1.0f;
+
+                HVector2Df _O = pixToFrame * O;
+                HVector2Df _X = pixToFrame * X;
+                HVector2Df _Y = pixToFrame * Y;
+
+                console.DrawLine(
+                    (int)_O.x(), (int)_O.y(),
+                    (int)_X.x(), (int)_X.y(),
+                    0, Core::COLOUR::BG_RED);
+
+                console.DrawLine(
+                    (int)_O.x(), (int)_O.y(),
+                    (int)_Y.x(), (int)_Y.y(),
+                    0, Core::COLOUR::BG_GREEN);
             });
     }
 

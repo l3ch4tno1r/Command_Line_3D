@@ -27,6 +27,7 @@ namespace LCN
 	private:
 		Entity m_CameraEntt;
 		Entity m_MeshEntt;
+		Entity m_R0Frame;
 		Scene  m_Scene;
 
 		Controller::Camera2DController m_Controller;
@@ -51,6 +52,10 @@ namespace LCN
 		// Create mesh entity
 		m_MeshEntt = m_Scene.CreateEntity();
 		m_MeshEntt.Add<Component::Sprite2DCmp>(100, 100);
+
+		// Create frame representation entity
+		m_R0Frame = m_Scene.CreateEntity();
+		m_R0Frame.Add<Component::FrameCmp>(10.0f);
 
 		Render::Renderer2D::Clear();
 		Render::Renderer2D::RenderWireFrame(m_Scene, m_CameraEntt);

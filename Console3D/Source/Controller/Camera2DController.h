@@ -10,10 +10,10 @@ namespace LCN::Controller
 		Signal<Camera2DController, void()> SignlaUpdate;
 
 	private: // Slots override
-		void OnKeyPressed(        KeyPressedEvent&)         override;
+		void OnKeyPressed(KeyPressedEvent&) override;
 		void OnMouseButtonPressed(MouseButtonPressedEvent&) override;
-		void OnMouseMove(         MouseMovedEvent&)         override;
-		void OnMouseScroll(       MouseScrollEvent&)        override;
+		void OnMouseMove(MouseMovedEvent&) override;
+		void OnMouseScroll(MouseScrollEvent&) override;
 
 	private:
 		int   m_ScaleIncrement = 0;
