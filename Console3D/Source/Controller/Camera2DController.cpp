@@ -7,9 +7,6 @@
 
 namespace LCN::Controller
 {
-	Camera2DController::Camera2DController()
-	{}
-
 	void Camera2DController::OnKeyPressed(KeyPressedEvent& keyevent)
 	{
 		switch (static_cast<Core::Key>(keyevent.KeyCode()))
