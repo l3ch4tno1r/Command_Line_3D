@@ -8,14 +8,7 @@
 namespace LCN::Controller
 {
 	Camera2DController::Camera2DController()
-	{
-		auto& consoleInput = Core::ConsoleInput::Get();
-
-		Connect(consoleInput.SignalKeyPressed,         SlotOnKeyPressed);
-		Connect(consoleInput.SignalMouseMove,          SlotOnMouseMove);
-		Connect(consoleInput.SignalMouseButtonPressed, SlotOnMouseButtonPressed);
-		Connect(consoleInput.SignalMouseScroll,        SlotOnMouseScroll);
-	}
+	{}
 
 	void Camera2DController::OnKeyPressed(KeyPressedEvent& keyevent)
 	{

@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Controller\BaseController.cpp" />
     <ClCompile Include="Source\Controller\Camera2DController.cpp" />
     <ClCompile Include="Source\Core\Application.cpp" />
     <ClCompile Include="Source\Core\Console.cpp" />
@@ -147,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\entt\include\entt.hpp" />
+    <ClInclude Include="Source\Controller\BaseController.h" />
     <ClInclude Include="Source\Core\Application.h" />
     <ClInclude Include="Source\Core\Console.h" />
     <ClInclude Include="Source\Core\Device.h" />
