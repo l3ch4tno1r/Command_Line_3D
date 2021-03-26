@@ -62,10 +62,10 @@ namespace LCN
 
 		Core::Console& console = Core::Console::Get();
 
-		/*
 		console.ConstructConsole(150, 100, 8, 8);
-		*/
+		/*
 		console.ConstructConsole(300, 200, 4, 4);
+		*/
 
 		m_Camera.Add<Component::Camera2DCmp>(console.Width(), console.Height());
 

@@ -2,14 +2,7 @@
 
 namespace LCN::Core
 {
-	Application::Application() :
-		SLOT_INIT(SlotDispatchKeyPressedEvent,          Application::DispatchKeyPressedEvent),
-		SLOT_INIT(SlotDispatchKeyReleasedEvent,         Application::DispatchKeyReleasedEvent),
-		SLOT_INIT(SlotDispatchMouseMoveEvent,           Application::DispatchMouseMoveEvent),
-		SLOT_INIT(SlotDispatchMouseButtonPressedEvent,  Application::DispatchMouseButtonPressedEvent),
-		SLOT_INIT(SlotDispatchMouseButtonReleasedEvent, Application::DispatchMouseButtonReleasedEvent),
-		SLOT_INIT(SlotDispatchMouseScrolledEvent,       Application::DispatchMouseScrolledEvent),
-		SLOT_INIT(SlotOnKeyPressed, Application::OnKeyPressed)
+	Application::Application()
 	{
 		if (m_App)
 			throw std::exception("Application is already running.");
