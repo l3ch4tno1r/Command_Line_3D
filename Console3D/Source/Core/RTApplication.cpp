@@ -1,6 +1,7 @@
 #include "RTApplication.h"
 
 #include <thread>
+#include <windows.h>
 
 namespace LCN::Core
 {
@@ -9,6 +10,8 @@ namespace LCN::Core
 
 	void RTApplication::Run()
 	{
+		timeBeginPeriod(1);
+
 		this->SignalStartup.Trigger();
 
 		std::chrono::high_resolution_clock::time_point now, next, last;
@@ -31,5 +34,7 @@ namespace LCN::Core
 		}
 
 		this->SignalQuit.Trigger();
+
+		timeEndPeriod(1);
 	}
 }

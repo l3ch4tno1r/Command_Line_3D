@@ -15,7 +15,7 @@ namespace LCN::Core
 		RTApplication();
 		virtual ~RTApplication() = default;
 
-	public: // Signals
+	protected: // Signals
 		RTAppSignal<void()>      SignalRender;
 		RTAppSignal<void()>      SignalStartup;
 		RTAppSignal<void(float)> SignalUpdate;
@@ -25,6 +25,6 @@ namespace LCN::Core
 		void Run() override;
 
 	private:
-		std::chrono::milliseconds m_Interval = 16ms;
+		const std::chrono::milliseconds m_Interval = 16ms;
 	};
 }
