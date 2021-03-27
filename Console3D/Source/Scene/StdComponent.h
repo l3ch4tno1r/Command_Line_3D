@@ -67,4 +67,9 @@ namespace LCN::Component
 	{
 		float Scale;
 	};
+
+	struct ParentCmp
+	{
+		Entity Parent;
+	};
 }

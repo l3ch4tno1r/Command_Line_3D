@@ -207,6 +207,7 @@ namespace LCN::Core
 
 		CHAR_INFO GetPixelValue(int x, int y) const;
 
+	public:
 		enum MessageSlots
 		{
 			_1 = 5,
@@ -218,6 +219,7 @@ namespace LCN::Core
 
 		void DisplayMessage(const std::string& msg, MessageSlots slot);
 
+	private:
 		void HeartBeat();
 	};
 }

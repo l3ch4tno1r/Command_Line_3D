@@ -4,7 +4,7 @@
 
 namespace LCN
 {
-	class RTAppTest : public RTApplication
+	class RTAppTest : public Core::RTApplication
 	{
 	public:
 		RTAppTest();

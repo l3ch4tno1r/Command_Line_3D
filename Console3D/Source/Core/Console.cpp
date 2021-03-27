@@ -1015,7 +1015,6 @@ namespace LCN::Core
 	void Console::Render()
 	{
 		// TODO : Parallelize ?
-		PROFILE_FUNC();
 
 		//m_ScreenBuffer[m_Width * m_Height - 1].Char.UnicodeChar = 0;
 		//WriteConsoleOutputCharacter(m_HConsole, m_ScreenBuffer, m_Width * m_Height, { 0,0 }, &m_DwBytesWritten);
