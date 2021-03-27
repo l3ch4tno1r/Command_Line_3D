@@ -1,9 +1,13 @@
 #pragma once
 
+#include <windows.h>
+
 using namespace LCN::Core;
 
 int main(int argc, char** argv)
 {
+	timeBeginPeriod(1);
+
 	try
 	{
 		Application::Get().Run();
@@ -26,4 +30,6 @@ int main(int argc, char** argv)
 
 		return EXIT_FAILURE;
 	}
+
+	timeEndPeriod(1);
 }
