@@ -2,6 +2,8 @@
 
 #include "BaseController.h"
 
+#include <LCN_Math/Source/Geometry/Geometry.h>
+
 namespace LCN::Controller
 {
 	class Camera2DController : public BaseController

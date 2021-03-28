@@ -101,8 +101,6 @@ namespace LCN::Render
 
     void Renderer2D::RenderSequential(Scene& scene, Entity cameraEntity, const ViewPort& viewPort)
 	{
-        PROFILE_FUNC();
-
         Core::Console& console = Core::Console::Get();
 
         const Transform2Df& R0ToCam = cameraEntity.Get<Component::Transform2DCmp>().Transform;

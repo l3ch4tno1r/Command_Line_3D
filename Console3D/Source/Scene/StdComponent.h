@@ -72,4 +72,9 @@ namespace LCN::Component
 	{
 		Entity Parent;
 	};
+
+	struct AnimationCmp
+	{
+		int a;
+	};
 }
