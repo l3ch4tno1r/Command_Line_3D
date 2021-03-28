@@ -24,8 +24,9 @@ namespace LCN
 		Scene m_Scene;
 
 		Entity m_Camera;
-		Entity m_Sprite1;
-		Entity m_Sprite2;
+		Entity m_SpriteToast;
+		Entity m_SpriteLCN;
+		Entity m_SpritePlank;
 
 		Controller::Camera2DController m_Controller;
 	};

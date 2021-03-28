@@ -71,10 +71,18 @@ namespace LCN::Component
 	struct ParentCmp
 	{
 		Entity Parent;
+
+		ParentCmp(Entity parent) : Parent(parent)
+		{}
 	};
 
 	struct AnimationCmp
 	{
 		int a;
+	};
+
+	struct OffsetCmp
+	{
+		Transform2Df Transform;
 	};
 }

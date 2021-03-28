@@ -26,35 +26,54 @@ namespace LCN
 		auto& console = Core::Console::Get();
 
 		console.ConstructConsole(150, 100, 8, 8);
+		//console.ConstructConsole(300, 200, 4, 4);
+
+		// Sprite 0
+		m_SpriteToast = m_Scene.CreateEntity();
+
+		auto& texture0 = m_SpriteToast.Add<Component::TextureCmp>();
+
+		texture0.Texture.Load("Ressource/Textures/Toast01_Small.png");
+
+		ASSERT(texture0.Texture);
+
+		m_SpriteToast.Add<Component::Sprite2DCmp>(
+			2 * texture0.Texture.Width() / 3,
+			2 * texture0.Texture.Height() / 3);
 
 		// Sprite 1
-		m_Sprite1 = m_Scene.CreateEntity();
+		m_SpriteLCN = m_Scene.CreateEntity();
 
-		auto& texture1 = m_Sprite1.Add<Component::TextureCmp>();
+		auto& texture1 = m_SpriteLCN.Add<Component::TextureCmp>();
 
-		texture1.Texture.Load("Ressource/Le_Chat_Noir_Photo_Alpha.png");
+		texture1.Texture.Load("Ressource/Textures/Le_Chat_Noir_Photo_Alpha.png");
 
-		ASSERT(textureCmp1.Texture);
+		ASSERT(texture1.Texture);
 
-		size_t texturew1 = texture1.Texture.Width();
-		size_t textureh1 = texture1.Texture.Height();
+		m_SpriteLCN.Add<Component::Sprite2DCmp>(
+			texture1.Texture.Width(),
+			texture1.Texture.Height());
 
-		m_Sprite1.Add<Component::Sprite2DCmp>(texturew1, textureh1);
-		m_Sprite1.Add<Component::AnimationCmp>();
+		m_SpriteLCN.Add<Component::AnimationCmp>();
+
+		// Attach Sprite 0 to Sprite 1
+		m_SpriteToast.Add<Component::ParentCmp>(m_SpriteLCN);
+		auto& E1ToE0 = m_SpriteToast.Add<Component::OffsetCmp>().Transform;
+
+		E1ToE0.TranslationBlock() = { 20.0f, -40.0f };
 
 		// Sprite 2
-		m_Sprite2 = m_Scene.CreateEntity();
+		m_SpritePlank = m_Scene.CreateEntity();
 
-		auto& texture2 = m_Sprite2.Add<Component::TextureCmp>();
+		auto& texture2 = m_SpritePlank.Add<Component::TextureCmp>();
 
-		texture2.Texture.Load("Ressource/Wooden_Medium.jpg");
+		texture2.Texture.Load("Ressource/Textures/Wooden_Medium.jpg");
 
-		ASSERT(textureCmp1.Texture);
+		ASSERT(texture2.Texture);
 
-		size_t texturew2 = texture2.Texture.Width();
-		size_t textureh2 = texture2.Texture.Height();
-
-		m_Sprite2.Add<Component::Sprite2DCmp>(texturew2, textureh2);
+		m_SpritePlank.Add<Component::Sprite2DCmp>(
+			texture2.Texture.Width(),
+			texture2.Texture.Height());
 
 		// Camera
 		m_Camera = m_Scene.CreateEntity();
@@ -74,11 +93,12 @@ namespace LCN
 		const float dt     = delta / 1000.0f;    // Delta de temps
 		const float da     = TORAD(aspeed * dt); // Angle
 
-		auto view = m_Scene.Registry().view<Component::Transform2DCmp, Component::AnimationCmp>();
+		// Run animation
+		auto groupAnimated = m_Scene.Registry().group<Component::AnimationCmp>(entt::get<Component::Transform2DCmp>);
 
-		view.each([=](
-			Component::Transform2DCmp& transformCmp,
-			Component::AnimationCmp&   animationCmp)
+		groupAnimated.each([=](
+			Component::AnimationCmp&   animationCmp,
+			Component::Transform2DCmp& transformCmp)
 			{
 				static float a = 0.0f;
 				a += da;
@@ -89,6 +109,19 @@ namespace LCN
 				rotation(0, 1) = -std::sin(a);
 				rotation(1, 0) =  std::sin(a);
 				rotation(1, 1) =  std::cos(a);
+			});
+
+		// Update entities with parents
+		auto groupWithParents = m_Scene.Registry().group<Component::ParentCmp, Component::OffsetCmp>(entt::get<Component::Transform2DCmp>);
+
+		groupWithParents.each([](
+			Component::ParentCmp&      parentCmp,
+			Component::OffsetCmp&      offsetCmp,
+			Component::Transform2DCmp& transformCmp)
+			{
+				auto& R0ToParent = parentCmp.Parent.Get<Component::Transform2DCmp>().Transform;
+
+				transformCmp.Transform = R0ToParent * offsetCmp.Transform;
 			});
 	}
 

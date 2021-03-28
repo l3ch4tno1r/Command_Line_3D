@@ -106,9 +106,9 @@ namespace LCN::Render
         const Transform2Df& R0ToCam = cameraEntity.Get<Component::Transform2DCmp>().Transform;
 
         Transform2Df CamToPix = cameraEntity.Get<Component::Camera2DCmp>().PixToCam.QuickInverse();
-        Transform2Df R0ToPix = R0ToCam * CamToPix;
+        Transform2Df R0ToPix  = R0ToCam * CamToPix;
 
-        auto view = scene.Registry().view<Component::Transform2DCmp, Component::Sprite2DCmp, Component::TextureCmp>();
+        auto group = scene.Registry().group<Component::Sprite2DCmp, Component::TextureCmp>(entt::get<Component::Transform2DCmp>);
 
         console.FillRectangle(
             viewPort.TLx, viewPort.TLy,
@@ -125,10 +125,10 @@ namespace LCN::Render
                 result.Char.UnicodeChar = 0;
                 result.Attributes = Core::COLOUR::BG_BLACK;
 
-                view.each([&](
-                    const Component::Transform2DCmp& R0ToSpriteCmp,
+                group.each([&](
                     const Component::Sprite2DCmp&    spriteCmp,
-                    const Component::TextureCmp&     textureCmp)
+                    const Component::TextureCmp&     textureCmp,
+                    const Component::Transform2DCmp& R0ToSpriteCmp)
                     {
                         Transform2Df SpriteToPix = R0ToSpriteCmp.Transform.QuickInverse() * R0ToPix;
 
