@@ -9,6 +9,20 @@
 
 namespace LCN
 {
+	namespace Component
+	{
+		struct AnimationTestCmp
+		{
+			float Angle;
+			float AngularSpeed;
+
+			AnimationTestCmp(float aspeed, float angle = 0.0f) :
+				AngularSpeed(aspeed),
+				Angle(angle)
+			{}
+		};
+	}
+
 	class RTAppTest : public Core::RTApplication
 	{
 	public:

@@ -68,21 +68,17 @@ namespace LCN::Component
 		float Scale;
 	};
 
-	struct ParentCmp
+	struct HierarchyCmp
 	{
-		Entity Parent;
+		Transform2Df Offset;
+		Entity       Parent;
 
-		ParentCmp(Entity parent) : Parent(parent)
+		HierarchyCmp(Entity parent) : Parent(parent)
 		{}
 	};
 
 	struct AnimationCmp
 	{
 		int a;
-	};
-
-	struct OffsetCmp
-	{
-		Transform2Df Transform;
 	};
 }

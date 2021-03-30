@@ -41,6 +41,8 @@ namespace LCN
 			2 * texture0.Texture.Width() / 3,
 			2 * texture0.Texture.Height() / 3);
 
+		m_SpriteToast.Add<Component::AnimationTestCmp>(-36.0f);
+
 		// Sprite 1
 		m_SpriteLCN = m_Scene.CreateEntity();
 
@@ -54,13 +56,12 @@ namespace LCN
 			texture1.Texture.Width(),
 			texture1.Texture.Height());
 
-		m_SpriteLCN.Add<Component::AnimationCmp>();
+		m_SpriteLCN.Add<Component::AnimationTestCmp>(36.0f);
 
 		// Attach Sprite 0 to Sprite 1
-		m_SpriteToast.Add<Component::ParentCmp>(m_SpriteLCN);
-		auto& E1ToE0 = m_SpriteToast.Add<Component::OffsetCmp>().Transform;
+		auto& hierarchy = m_SpriteToast.Add<Component::HierarchyCmp>(m_SpriteLCN);
 
-		E1ToE0.TranslationBlock() = { 20.0f, -40.0f };
+		hierarchy.Offset.TranslationBlock() = { 20.0f, -40.0f };
 
 		// Sprite 2
 		m_SpritePlank = m_Scene.CreateEntity();
@@ -89,39 +90,56 @@ namespace LCN
 	{
 		//PROFILE_FUNC();
 
-		const float aspeed = 36.0f;			     // 1 tour / 10s
+		//const float aspeed = 36.0f;			     // 1 tour / 10s
 		const float dt     = delta / 1000.0f;    // Delta de temps
-		const float da     = TORAD(aspeed * dt); // Angle
+		//const float da     = TORAD(aspeed * dt); // Angle
 
 		// Run animation
-		auto groupAnimated = m_Scene.Registry().group<Component::AnimationCmp>(entt::get<Component::Transform2DCmp>);
+		auto groupAnimated = m_Scene.Registry().view<Component::AnimationTestCmp, Component::Transform2DCmp>(
+			entt::exclude<Component::HierarchyCmp>);
 
-		groupAnimated.each([=](
-			Component::AnimationCmp&   animationCmp,
-			Component::Transform2DCmp& transformCmp)
+		groupAnimated.each([dt](
+			Component::AnimationTestCmp& animationCmp,
+			Component::Transform2DCmp&   transformCmp)
 			{
-				static float a = 0.0f;
-				a += da;
+				float da = TORAD(animationCmp.AngularSpeed * dt);
+				animationCmp.Angle += da;
 		
 				auto rotation = transformCmp.Transform.RotationBlock();
 		
-				rotation(0, 0) =  std::cos(a);
-				rotation(0, 1) = -std::sin(a);
-				rotation(1, 0) =  std::sin(a);
-				rotation(1, 1) =  std::cos(a);
+				rotation(0, 0) =  std::cos(animationCmp.Angle);
+				rotation(0, 1) = -std::sin(animationCmp.Angle);
+				rotation(1, 0) =  std::sin(animationCmp.Angle);
+				rotation(1, 1) =  std::cos(animationCmp.Angle);
+			});
+
+		auto groupAnimatedWithParents = m_Scene.Registry().view<Component::AnimationTestCmp, Component::HierarchyCmp>();
+
+		groupAnimatedWithParents.each([dt](
+			Component::AnimationTestCmp& animationCmp,
+			Component::HierarchyCmp&     hierarchyCmp)
+			{
+				float da = TORAD(animationCmp.AngularSpeed * dt);
+				animationCmp.Angle += da;
+
+				auto rotation = hierarchyCmp.Offset.RotationBlock();
+		
+				rotation(0, 0) =  std::cos(animationCmp.Angle);
+				rotation(0, 1) = -std::sin(animationCmp.Angle);
+				rotation(1, 0) =  std::sin(animationCmp.Angle);
+				rotation(1, 1) =  std::cos(animationCmp.Angle);
 			});
 
 		// Update entities with parents
-		auto groupWithParents = m_Scene.Registry().group<Component::ParentCmp, Component::OffsetCmp>(entt::get<Component::Transform2DCmp>);
+		auto groupWithParents = m_Scene.Registry().view<Component::HierarchyCmp, Component::Transform2DCmp>();
 
 		groupWithParents.each([](
-			Component::ParentCmp&      parentCmp,
-			Component::OffsetCmp&      offsetCmp,
+			Component::HierarchyCmp&   hierarchyCmp,
 			Component::Transform2DCmp& transformCmp)
 			{
-				auto& R0ToParent = parentCmp.Parent.Get<Component::Transform2DCmp>().Transform;
+				auto& R0ToParent = hierarchyCmp.Parent.Get<Component::Transform2DCmp>().Transform;
 
-				transformCmp.Transform = R0ToParent * offsetCmp.Transform;
+				transformCmp.Transform = R0ToParent * hierarchyCmp.Offset;
 			});
 	}
 

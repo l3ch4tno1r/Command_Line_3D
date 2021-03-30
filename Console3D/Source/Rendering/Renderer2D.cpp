@@ -146,7 +146,7 @@ namespace LCN::Render
                         // Find the texel coordinate
                         HVector2Df textureCoord = spriteCmp.SpriteToTexture * pixelFromSprite;
 
-                        int tx = (textureCmp.Texture.Width() - 1) * std::min(std::max(textureCoord.x(), 0.0f), 1.0f);
+                        int tx = (textureCmp.Texture.Width()  - 1) * std::min(std::max(textureCoord.x(), 0.0f), 1.0f);
                         int ty = (textureCmp.Texture.Height() - 1) * std::min(std::max(textureCoord.y(), 0.0f), 1.0f);
 
                         Ressource::TexelGreyScale texel = textureCmp.Texture(tx, ty);
