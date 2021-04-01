@@ -526,7 +526,9 @@ namespace LCN::Core
 		this->DrawPoint(x, y, c.Char.UnicodeChar, c.Attributes);
 	}
 
-	Vector3Df Console::SegmentPlaneIntersection(const Vector3Df& v1, const Vector3Df& v2, const Vector3Df& n, const Vector3Df& p)
+	Vector3Df Console::SegmentPlaneIntersection(
+		const Vector3Df& v1, const Vector3Df& v2, // Segment info
+		const Vector3Df& n,  const Vector3Df& p)  // Plane info
 	{
 		Vector3Df pv1  = v1 - p;
 		Vector3Df v1v2 = v2 - v1;
