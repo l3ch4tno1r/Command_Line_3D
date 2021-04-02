@@ -56,9 +56,9 @@ int main()
 			{ 1, 0, 0, 0 }
 		};
 
-		auto result1 = ComputeCollision(line, plane);
-
-		std::cout << result1.Result() << std::endl;
+		//auto result1 = ComputeCollision(line, plane);
+		//
+		//std::cout << result1.Result() << std::endl;
 	}
 
 	SEPARATOR(4)
@@ -75,9 +75,12 @@ int main()
 			{ 1, 0, 0, 0 }
 		};
 
-		for (auto& line : lines)
+		for (const auto& line : lines)
 		{
-			auto result = ComputeCollision(line, plane);
+			LCN::PlaneVSLineCollision3f result;
+
+			ComputeCollision(line, plane, result);
+			ComputeCollision(plane, line, result);
 
 			if (!result)
 			{
