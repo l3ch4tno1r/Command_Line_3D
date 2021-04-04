@@ -48,7 +48,7 @@
     <ClCompile Include="Source\Core\RTApplication.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Rendering\Camera2D.cpp">
+    <ClCompile Include="Source\Rendering\Camera.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene\Scene.cpp">
@@ -113,7 +113,7 @@
     <ClInclude Include="Source\Core\RTApplication.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Rendering\Camera2D.h">
+    <ClInclude Include="Source\Rendering\Camera.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene\Scene.h">

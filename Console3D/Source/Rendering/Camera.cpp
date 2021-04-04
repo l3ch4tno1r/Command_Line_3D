@@ -1,4 +1,4 @@
-#include "Camera2D.h"
+#include "Camera.h"
 
 namespace LCN::Render
 {

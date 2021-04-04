@@ -5,7 +5,7 @@
 #include "Console3D/Source/RessourceManagement/Texture.h"
 #include "Console3D/Source/RessourceManagement/Sprite2D.h"
 
-#include "Console3D/Source/Rendering/Camera2D.h"
+#include "Console3D/Source/Rendering/Camera.h"
 #include "Console3D/Source/Controller/Camera2DController.h"
 
 namespace LCN::Component
@@ -23,7 +23,7 @@ namespace LCN::Component
 	struct Camera2DCmp
 	{
 		Render::Camera Camera;
-		Transform2Df     PixToCam;
+		Transform2Df   PixToCam;
 
 		Camera2DCmp(uint32_t width, uint32_t height) :
 			Camera(width, height),

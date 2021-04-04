@@ -137,7 +137,7 @@
     <ClCompile Include="Source\Core\GraphicEngine.cpp" />
     <ClCompile Include="Source\Core\RTApplication.cpp" />
     <ClCompile Include="Source\Gui\Widget.cpp" />
-    <ClCompile Include="Source\Rendering\Camera2D.cpp" />
+    <ClCompile Include="Source\Rendering\Camera.cpp" />
     <ClCompile Include="Source\Rendering\Renderer2D.cpp" />
     <ClCompile Include="Source\RessourceManagement\Model3D.cpp" />
     <ClCompile Include="Source\RessourceManagement\OBJReader.cpp" />
@@ -162,7 +162,7 @@
     <ClInclude Include="Source\Event\MouseEvent.h" />
     <ClInclude Include="Source\Gui\Widget.h" />
     <ClInclude Include="Source\Controller\Camera2DController.h" />
-    <ClInclude Include="Source\Rendering\Camera2D.h" />
+    <ClInclude Include="Source\Rendering\Camera.h" />
     <ClInclude Include="Source\Rendering\Renderer2D.h" />
     <ClInclude Include="Source\RessourceManagement\Model3D.h" />
     <ClInclude Include="Source\Core\PaceMaker.h" />
