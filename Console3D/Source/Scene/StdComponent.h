@@ -10,10 +10,20 @@
 
 namespace LCN::Component
 {
-	struct Transform2DCmp
+	enum class Dimension : short
 	{
-		Transform2Df Transform;
+		_2 = 2,
+		_3 = 3
 	};
+
+	template<Dimension Dim>
+	struct TransformNDCmp
+	{
+		Transform<float, static_cast<size_t>(Dim)> Transform;
+	};
+
+	using Transform2DCmp = TransformNDCmp<Dimension::_2>;
+	using Transform3DCmp = TransformNDCmp<Dimension::_3>;
 
 	struct TextureCmp
 	{
@@ -31,8 +41,8 @@ namespace LCN::Component
 				1.0f,  0.0f, (float)width / 2,
 				0.0f, -1.0f, (float)height / 2,
 				0.0f,  0.0f, 1.0,
-			})
-		{}		
+				})
+		{}
 	};
 
 	struct Sprite2DCmp
@@ -42,9 +52,9 @@ namespace LCN::Component
 
 		Sprite2DCmp(size_t width, size_t height)
 		{
-			this->Sprite.Vertices[0] = { (float)(-(int)width / 2), (float)( (int)height / 2), 1.0f };
-			this->Sprite.Vertices[1] = { (float)( (int)width / 2), (float)( (int)height / 2), 1.0f };
-			this->Sprite.Vertices[2] = { (float)( (int)width / 2), (float)(-(int)height / 2), 1.0f };
+			this->Sprite.Vertices[0] = { (float)(-(int)width / 2), (float)((int)height / 2), 1.0f };
+			this->Sprite.Vertices[1] = { (float)((int)width / 2), (float)((int)height / 2), 1.0f };
+			this->Sprite.Vertices[2] = { (float)((int)width / 2), (float)(-(int)height / 2), 1.0f };
 			this->Sprite.Vertices[3] = { (float)(-(int)width / 2), (float)(-(int)height / 2), 1.0f };
 
 			this->Sprite.TectureCoords[0] = { 0, 0 };

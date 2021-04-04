@@ -2,7 +2,7 @@
 
 #include "Console3D/External/entt/include/entt.hpp"
 
-// Design taken from The Cherno : https://github.com/TheCherno/Hazel/blob/master/Hazel/src/Hazel/Scene/Scene.h
+// Design inspired from The Cherno : https://github.com/TheCherno/Hazel/blob/master/Hazel/src/Hazel/Scene/Scene.h
 namespace LCN
 {
 	class Entity;
@@ -10,6 +10,7 @@ namespace LCN
 	class Scene
 	{
 	public:
+		//template<Component::Dimension Dim>
 		Entity CreateEntity();
 
 		void DestroyEntity(Entity entity);
