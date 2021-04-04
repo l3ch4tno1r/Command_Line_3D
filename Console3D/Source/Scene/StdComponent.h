@@ -4,6 +4,7 @@
 
 #include "Console3D/Source/RessourceManagement/Texture.h"
 #include "Console3D/Source/RessourceManagement/Sprite2D.h"
+#include "Console3D/Source/RessourceManagement/Model3D.h"
 
 #include "Console3D/Source/Rendering/Camera.h"
 #include "Console3D/Source/Controller/Camera2DController.h"
@@ -30,11 +31,22 @@ namespace LCN::Component
 		Ressource::Texture Texture;
 	};
 
+	struct InfiniteChessboardCmp
+	{
+		size_t Width;
+		size_t Height;
+
+		InfiniteChessboardCmp(size_t width, size_t height) :
+			Width(width),
+			Height(height)
+		{}
+	};
+
 	struct Camera2DCmp
 	{
 		Render::Camera Camera;
 		Transform2Df   PixToCam;
-
+	
 		Camera2DCmp(uint32_t width, uint32_t height) :
 			Camera(width, height),
 			PixToCam({
@@ -90,5 +102,10 @@ namespace LCN::Component
 	struct AnimationCmp
 	{
 		int a;
+	};
+
+	struct Mesh3DCmp
+	{
+		Ressource::Model3D m_Mesh;
 	};
 }

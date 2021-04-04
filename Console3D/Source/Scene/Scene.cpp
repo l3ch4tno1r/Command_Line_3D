@@ -9,13 +9,20 @@
 
 namespace LCN
 {
-	//template<Component::Dimension Dim>
-	Entity Scene::CreateEntity()
+	Entity Scene::Create2DEntity()
 	{
 		Entity result = { m_Registry.create(), this };
 
-		//result.Add<Component::TransformNDCmp<Dim>>();
 		result.Add<Component::Transform2DCmp>();
+
+		return result;
+	}
+
+	Entity Scene::Create3DEntity()
+	{
+		Entity result = { m_Registry.create(), this };
+
+		result.Add<Component::Transform3DCmp>();
 
 		return result;
 	}
