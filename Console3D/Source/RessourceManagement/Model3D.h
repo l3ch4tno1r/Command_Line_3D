@@ -75,7 +75,7 @@ namespace LCN::Ressource
 		std::unordered_set<Edge, HashEdge> m_Edges;
 
 	public:
-		Model3D();
+		Model3D() = default;
 
 		Model3D(Model3D&& _model);
 
@@ -87,6 +87,6 @@ namespace LCN::Ressource
 		const std::vector<Vertex3D>&              Vertices() const;
 		const std::vector<Vertex3D>&              Normals() const;
 		const std::vector<Face>&                  Faces() const;
-		const std::unordered_set<Edge, HashEdge>& Edges()const;
+		const std::unordered_set<Edge, HashEdge>& Edges() const;
 	};
 }

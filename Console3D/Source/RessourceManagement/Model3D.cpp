@@ -2,9 +2,6 @@
 
 namespace LCN::Ressource
 {
-	Model3D::Model3D()
-	{}
-
 	Model3D::Model3D(Model3D&& _model) :
 		m_Vertices(std::move(_model.m_Vertices)),
 		m_Normals(std::move(_model.m_Normals)),
