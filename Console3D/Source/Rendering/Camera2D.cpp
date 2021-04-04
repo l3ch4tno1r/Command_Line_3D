@@ -2,7 +2,7 @@
 
 namespace LCN::Render
 {
-	Camera2D::Camera2D(uint32_t width, uint32_t height) :
+	Camera::Camera(uint32_t width, uint32_t height) :
 		m_Width(width),
 		m_Height(height),
 		m_PixelToCenter({

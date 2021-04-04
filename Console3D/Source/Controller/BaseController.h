@@ -17,7 +17,7 @@ namespace LCN::Controller
 	protected:
 		Entity m_CameraEntt;
 
-		BaseController();	
+		BaseController();
 
 	private: // Slots
 		ABSTRACT_SLOT(BaseController, OnKeyPressed,         KeyPressedEvent&);

@@ -9,10 +9,10 @@
 
 namespace LCN::Render
 {
-	class Camera2D
+	class Camera
 	{
 	public:
-		Camera2D(uint32_t width, uint32_t height);
+		Camera(uint32_t width, uint32_t height);
 
 		uint32_t Width()  const { return m_Width; }
 		uint32_t Height() const { return m_Height; }
