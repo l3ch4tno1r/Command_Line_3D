@@ -1,6 +1,7 @@
 #include "RTAppTest3D.h"
 
 #include "Console3D/Source/Rendering/ConsoleRenderer.h"
+#include "Console3D/Source/Scene/StdComponent.h"
 
 namespace LCN
 {
@@ -15,13 +16,36 @@ namespace LCN
 	void RTAppTest3D::OnStartup()
 	{
 		Render::ConsolerRenderer::Init(150, 100, 8, 8);
+
+		// Setup camera entity
+		m_Camera = m_Scene.Create3DEntity();
+
+		m_Camera.Add<LCN::Component::Camera2DCmp>(
+			Render::ConsolerRenderer::Width(),
+			Render::ConsolerRenderer::Height());
+
+		auto& camTransform = m_Camera.Get<LCN::Component::Transform3DCmp>();
+
+		camTransform.Transform = {
+			1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 1.8f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		};
+
+		// Setup ifinite chessboard floor entity
+		m_Floor = m_Scene.Create3DEntity();
+
+		m_Floor.Add<Component::InfiniteChessboardCmp>(1, 1);
 	}
 
 	void RTAppTest3D::OnUpdate(float dtms)
 	{}
 
 	void RTAppTest3D::OnRender()
-	{}
+	{
+		Render::ConsolerRenderer::Render3D(m_Scene, m_Camera);
+	}
 
 	void RTAppTest3D::OnQuit()
 	{}

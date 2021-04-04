@@ -22,5 +22,7 @@ namespace LCN
 		Scene m_Scene;
 
 		Entity m_Camera;
+		Entity m_Floor;
+		Entity m_Cube;
 	};
 }

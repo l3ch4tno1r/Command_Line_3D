@@ -130,7 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\Misc\RTAppTest.cpp" />
+    <ClCompile Include="Source\Misc\RTAppTest3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Console3D\Console3D.vcxproj">
@@ -138,7 +138,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Misc\RTAppTest.h" />
+    <ClInclude Include="Source\Misc\RTAppTest3D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
