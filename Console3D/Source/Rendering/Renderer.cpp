@@ -25,7 +25,7 @@ namespace LCN::Render
 		const Transform3Df& R0ToCam = camera.Get<Component::Transform3DCmp>().Transform;
 
 		// Get camera intrinsec parameters
-		const auto& camCmp = camera.Get<Component::Camera2DCmp>();
+		const auto& camCmp = camera.Get<Component::CameraCmp>();
 
 		auto view = scene.Registry().view<const Component::Transform3DCmp, const Component::InfiniteChessboardCmp>();
 

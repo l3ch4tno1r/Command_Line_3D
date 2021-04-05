@@ -42,12 +42,12 @@ namespace LCN::Component
 		{}
 	};
 
-	struct Camera2DCmp
+	struct CameraCmp
 	{
 		Render::Camera Camera;
 		Transform2Df   PixToCam;
 	
-		Camera2DCmp(uint32_t width, uint32_t height) :
+		CameraCmp(uint32_t width, uint32_t height) :
 			Camera(width, height),
 			PixToCam({
 				1.0f,  0.0f, (float)width / 2,

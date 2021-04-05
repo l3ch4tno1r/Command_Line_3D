@@ -20,7 +20,7 @@ namespace LCN
 		// Setup camera entity
 		m_Camera = m_Scene.Create3DEntity();
 
-		m_Camera.Add<LCN::Component::Camera2DCmp>(
+		m_Camera.Add<LCN::Component::CameraCmp>(
 			Render::ConsolerRenderer::Width(),
 			Render::ConsolerRenderer::Height());
 
