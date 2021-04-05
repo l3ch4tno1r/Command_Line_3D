@@ -47,6 +47,10 @@ namespace LCN::Controller
 		m_RotY.Ru()(z, 0) =  std::sin(TORAD(m_Ay * dts));
 		m_RotY.Rw()(x, 0) = -std::sin(TORAD(m_Ay * dts));
 		m_RotY.Rw()(z, 0) =  std::cos(TORAD(m_Ay * dts));
+		
+		using namespace Core;
+
+		Console::Get().Message(Console::MessageSlots::_1) << '(' << m_Ax << ", " << m_Ay << ')';
 
 		R0ToCam = m_Translation * m_RotY * m_RotX;
 	}
@@ -63,11 +67,8 @@ namespace LCN::Controller
 
 		m_Ay += mousePos.x() * m_AngleSpeed;
 		m_Ax += mousePos.y() * m_AngleSpeed;
-
-		using namespace Core;
-
+		
 		//m_Ax = std::clamp(m_Ax, -80.0f, 80.0f);
-		Console::Get().Message(Console::MessageSlots::_1) << '(' << mouseEvent.X() << ", " << mouseEvent.Y() << ')';
 
 		this->Reset();
 	}
