@@ -45,15 +45,14 @@ namespace LCN::Component
 	struct CameraCmp
 	{
 		Render::Camera Camera;
-		Transform2Df   PixToCam;
+
+		float NearClip;
+		float FarClip;
 	
-		CameraCmp(uint32_t width, uint32_t height) :
-			Camera(width, height),
-			PixToCam({
-				1.0f,  0.0f, (float)width / 2,
-				0.0f, -1.0f, (float)height / 2,
-				0.0f,  0.0f, 1.0,
-				})
+		CameraCmp(uint32_t width, uint32_t height, float focal = 1.0f, float nearClip = 0.1f, float farClip = 1000000.0f) :
+			Camera(width, height, focal),
+			NearClip(nearClip),
+			FarClip(farClip)
 		{}
 	};
 

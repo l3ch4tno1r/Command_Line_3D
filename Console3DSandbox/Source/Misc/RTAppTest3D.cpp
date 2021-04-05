@@ -16,21 +16,23 @@ namespace LCN
 	void RTAppTest3D::OnStartup()
 	{
 		Render::ConsolerRenderer::Init(150, 100, 8, 8);
+		//Render::ConsolerRenderer::Init(300, 200, 4, 4);
 
 		// Setup camera entity
 		m_Camera = m_Scene.Create3DEntity();
 
 		m_Camera.Add<LCN::Component::CameraCmp>(
 			Render::ConsolerRenderer::Width(),
-			Render::ConsolerRenderer::Height());
+			Render::ConsolerRenderer::Height(),
+			120.0f);
 
 		auto& camTransform = m_Camera.Get<LCN::Component::Transform3DCmp>();
 
 		camTransform.Transform = {
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 1.8f,
-			0.0f, 0.0f, 0.0f, 1.0f
+			1.0f, 0.0f,  0.0f,  0.0f,
+			0.0f, 0.0f, -1.0f, 10.0f,
+			0.0f, 1.0f,  0.0f,  1.8f,
+			0.0f, 0.0f,  0.0f,  1.0f
 		};
 
 		// Setup ifinite chessboard floor entity

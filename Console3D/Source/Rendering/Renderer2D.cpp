@@ -37,7 +37,7 @@ namespace LCN::Render
 
         const Transform2Df R0ToCam = cameraEntity.Get<Component::Transform2DCmp>().Transform;
 
-        Transform2Df CamToPix = cameraEntity.Get<Component::CameraCmp>().PixToCam.QuickInverse();
+        Transform2Df CamToPix = cameraEntity.Get<Component::CameraCmp>().Camera.PixToCam().QuickInverse();
         Transform2Df PixToR0  = ((Transform2Df)(R0ToCam * CamToPix)).QuickInverse();
 
         auto view = scene.Registry().view<const Component::Transform2DCmp, const Component::Sprite2DCmp>();
@@ -105,7 +105,7 @@ namespace LCN::Render
 
         const Transform2Df& R0ToCam = cameraEntity.Get<Component::Transform2DCmp>().Transform;
 
-        Transform2Df CamToPix = cameraEntity.Get<Component::CameraCmp>().PixToCam.QuickInverse();
+        Transform2Df CamToPix = cameraEntity.Get<Component::CameraCmp>().Camera.PixToCam().QuickInverse();
         Transform2Df R0ToPix  = R0ToCam * CamToPix;
 
         auto group = scene.Registry().group<Component::Sprite2DCmp, Component::TextureCmp>(entt::get<Component::Transform2DCmp>);

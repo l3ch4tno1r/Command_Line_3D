@@ -47,8 +47,8 @@ namespace LCN::Controller
 
 	void Camera2DController::OnMouseButtonPressed(MouseButtonPressedEvent& mouseevent)
 	{
-		Transform2Df& PixToCam = m_CameraEntt.Get<Component::CameraCmp>().PixToCam;
-		HVector2Df pos = PixToCam.QuickInverse()  * HVector2Df({ (float)mouseevent.X(), (float)mouseevent.Y(), 1.0f });
+		const Transform2Df& PixToCam = m_CameraEntt.Get<Component::CameraCmp>().Camera.PixToCam();
+		HVector2Df pos = PixToCam.QuickInverse() * HVector2Df({ (float)mouseevent.X(), (float)mouseevent.Y(), 1.0f });
 
 		m_TranslationStart.TranslationBlock() = pos.Vector();
 
@@ -66,7 +66,7 @@ namespace LCN::Controller
 	{
 		if (Core::ConsoleInput::IsMouseBtnPressed(Core::MouseButton::LEFT))
 		{
-			Transform2Df& PixToCam = m_CameraEntt.Get<Component::CameraCmp>().PixToCam;
+			const Transform2Df& PixToCam = m_CameraEntt.Get<Component::CameraCmp>().Camera.PixToCam();
 			HVector2Df currentpos = PixToCam.QuickInverse() * HVector2Df({ (float)mouseevent.X(), (float)mouseevent.Y(), 1.0f });
 
 			if (Core::ConsoleInput::IsKeyPressed(Core::Key::Ctrl))
