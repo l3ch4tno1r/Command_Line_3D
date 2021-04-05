@@ -9,6 +9,8 @@ namespace LCN::Core
 
 	void RTApplication::Run()
 	{
+		Core::ConsoleInput& consoleInput = Core::ConsoleInput::Get();
+
 		this->SignalStartup.Trigger();
 
 		std::chrono::high_resolution_clock::time_point now, next, last;
@@ -28,6 +30,8 @@ namespace LCN::Core
 			std::this_thread::sleep_until(next);
 
 			last = now;
+
+			consoleInput.Continue();
 		}
 
 		this->SignalQuit.Trigger();

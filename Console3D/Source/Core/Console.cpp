@@ -996,11 +996,25 @@ namespace LCN::Core
 		}
 	}
 
+	Console::ConsoleMessage Console::Message(MessageSlots slot) const
+	{
+		return ConsoleMessage(slot);
+	}
+
 	void Console::DisplayMessage(const std::string& msg, MessageSlots slot)
 	{
 		for (UINT32 i = 0; i < msg.length(); i++)
 			DrawPoint(i + 1, m_Height - 1 - slot, msg[i]);
 	}
+
+	Console::ConsoleMessage::~ConsoleMessage()
+	{
+		Console::Get().DisplayMessage(m_Sstr.str(), m_Slot);
+	}
+
+	Console::ConsoleMessage::ConsoleMessage(MessageSlots slot) :
+		m_Slot(slot)
+	{}
 
 	void Console::HeartBeat()
 	{

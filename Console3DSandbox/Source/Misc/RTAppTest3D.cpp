@@ -35,6 +35,9 @@ namespace LCN
 			0.0f, 0.0f,  0.0f,  1.0f
 		};
 
+		m_Controller.Bind(m_Camera);
+		m_Controller.Init();
+
 		// Setup ifinite chessboard floor entity
 		m_Floor = m_Scene.Create3DEntity();
 
@@ -42,7 +45,9 @@ namespace LCN
 	}
 
 	void RTAppTest3D::OnUpdate(float dtms)
-	{}
+	{
+		m_Controller.UpdateEntity(dtms);
+	}
 
 	void RTAppTest3D::OnRender()
 	{

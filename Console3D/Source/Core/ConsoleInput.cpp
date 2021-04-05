@@ -26,17 +26,56 @@ namespace LCN::Core
 		return Get().m_Mouse[mousebtn].KeyHeld;
 	}
 
+	std::tuple<int, int> ConsoleInput::GetWindowCenter() const
+	{
+		RECT rect;
+
+		GetWindowRect(m_HWnd, &rect);
+
+		int Cx = (rect.left + rect.right) / 2;
+		int Cy = (rect.top + rect.bottom) / 2;
+
+		return { Cx, Cy };
+	}
+
+	void ConsoleInput::SetCursorPosition(int x, int y)
+	{
+		SetCursorPos(x, y);
+	}
+
+	void ConsoleInput::Continue()
+	{
+		std::lock_guard<std::mutex> lock(m_ContinueMut);
+
+		m_Notified = true;
+
+		m_ContinueCond.notify_one();
+	}
+
+	void ConsoleInput::Wait()
+	{
+		std::unique_lock<std::mutex> lock(m_ContinueMut);
+
+		while (!m_Notified)
+			m_ContinueCond.wait(lock);
+
+		m_Notified = false;
+	}
+
 	ConsoleInput::ConsoleInput()
 	{
 		m_HStdIn = GetStdHandle(STD_INPUT_HANDLE);
+		m_HWnd   = GetConsoleWindow();
 
 		std::memset(m_KeysState,  0, 256 * sizeof(KeyState));
-		std::memset(m_Mouse, 0,   5 * sizeof(KeyState));
+		std::memset(m_Mouse,      0,   5 * sizeof(KeyState));
 	}
 
 	ConsoleInput::~ConsoleInput()
 	{
 		m_Run = false;
+
+		this->Continue();
 
 		if (m_MainThread.joinable())
 			m_MainThread.join();
@@ -45,6 +84,9 @@ namespace LCN::Core
 	void ConsoleInput::Start()
 	{
 		if (m_HStdIn == INVALID_HANDLE_VALUE)
+			throw std::exception("Handle invalid.");
+
+		if (m_HWnd == INVALID_HANDLE_VALUE)
 			throw std::exception("Handle invalid.");
 
 		if(!SetConsoleMode(m_HStdIn, ENABLE_EXTENDED_FLAGS | ENABLE_MOUSE_INPUT | ENABLE_WINDOW_INPUT))
@@ -105,14 +147,15 @@ namespace LCN::Core
 				}
 				case MOUSE_EVENT:
 				{
-					int x = record.Event.MouseEvent.dwMousePosition.X;
-					int y = record.Event.MouseEvent.dwMousePosition.Y;
+					POINT pt;
+
+					GetCursorPos(&pt);
 
 					switch (record.Event.MouseEvent.dwEventFlags)
 					{
 					case MOUSE_MOVED:
 					{
-						MouseMovedEvent mousemoveevent(x, y);
+						MouseMovedEvent mousemoveevent(pt.x, pt.y);
 						this->SignalMouseMove.Trigger(mousemoveevent);
 
 						break;
@@ -129,14 +172,14 @@ namespace LCN::Core
 							// Mouse button pressed signal
 							if (m_Mouse[i].KeyPressed)
 							{
-								MouseButtonPressedEvent mousebuttonpressed(x, y, i);
+								MouseButtonPressedEvent mousebuttonpressed(pt.x, pt.y, i);
 								this->SignalMouseButtonPressed.Trigger(mousebuttonpressed);
 							}
 
 							// Mouse button released signal
 							if (m_Mouse[i].KeyReleased)
 							{
-								MouseButtonReleasedEvent mousebuttonreleased(x, y, i);
+								MouseButtonReleasedEvent mousebuttonreleased(pt.x, pt.y, i);
 								this->SignalMouseButtonReleased.Trigger(mousebuttonreleased);
 							}
 
@@ -149,7 +192,7 @@ namespace LCN::Core
 					{
 						long dir = record.Event.MouseEvent.dwButtonState & dwButtonStateHighWordMask;
 
-						MouseScrollEvent mousescrollevent(x, y, sign(dir));
+						MouseScrollEvent mousescrollevent(pt.x, pt.y, sign(dir));
 						this->SignalMouseScroll.Trigger(mousescrollevent);
 
 						break;
@@ -164,6 +207,8 @@ namespace LCN::Core
 					break;
 				}
 			}
+
+			this->Wait();
 		}
 	}
 }

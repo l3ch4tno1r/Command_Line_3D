@@ -4,6 +4,7 @@
 #include <Windows.h>
 
 #include <string>
+#include <sstream>
 #include <thread>
 #include <functional>
 
@@ -217,9 +218,39 @@ namespace LCN::Core
 			_5 = 1,
 		};
 
+		class ConsoleMessage
+		{
+		public:
+			~ConsoleMessage();
+
+			friend Console;
+
+			template<class DataType>
+			ConsoleMessage& operator<<(const DataType& data);
+
+		private:
+			ConsoleMessage() = default;
+			ConsoleMessage(MessageSlots slot);
+
+		private:
+			std::stringstream m_Sstr;
+			MessageSlots      m_Slot;
+		};
+
+		ConsoleMessage Message(MessageSlots slot) const;
+
+	private:
 		void DisplayMessage(const std::string& msg, MessageSlots slot);
 
 	private:
 		void HeartBeat();
 	};
+
+	template<class DataType>
+	inline Console::ConsoleMessage& Console::ConsoleMessage::operator<<(const DataType& data)
+	{
+		m_Sstr << data;
+
+		return *this;
+	}
 }
