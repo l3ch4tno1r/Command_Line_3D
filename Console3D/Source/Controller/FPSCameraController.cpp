@@ -3,7 +3,6 @@
 #include "FPSCameraController.h"
 
 #include "Console3D/Source/Core/ConsoleInput.h"
-#include "Console3D/Source/Core/Console.h"
 #include "Console3D/Source/Scene/StdComponent.h"
 
 #include <LCN_Math/Source/Utilities/Angles.h>
@@ -90,9 +89,6 @@ namespace LCN::Controller
 
 		m_Ay -= mousePos.x() * m_AngleSpeed;
 		m_Ax += mousePos.y() * m_AngleSpeed;
-		
-		//m_Ax = std::clamp(m_Ax, -80.0f, 80.0f);
-		Core::Console::Get().Message(Core::Console::MessageSlots::_1) << m_Ax;
 
 		this->Reset();
 	}

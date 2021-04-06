@@ -7,7 +7,7 @@
 
 #include <LCN_Collisions/Source/Collisions/CollisionAlgorithms.h>
 
-#define DEBUG_APP
+//#define DEBUG_APP
 
 #ifdef DEBUG_APP
 #define OFFSET 7
@@ -84,8 +84,11 @@ namespace LCN::Render
 
 						// TODO : transform
 
-						int i = (int)intersection.x() / chessboardCmp.Width;
-						int j = (int)intersection.y() / chessboardCmp.Height;
+						float x = intersection.x();
+						float y = intersection.y();
+
+						int i = (x > 0 ? x : std::abs(x) + 1) / chessboardCmp.Width;
+						int j = (y > 0 ? y : std::abs(y) + 1) / chessboardCmp.Height;
 
 						pixel.Char.UnicodeChar = std::abs(i + j) % 2 == 0 ? 0 : value[(size_t)lighting];
 						pixel.Attributes = Core::COLOUR::BG_BLACK | Core::COLOUR::FG_WHITE;
