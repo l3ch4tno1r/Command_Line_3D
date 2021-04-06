@@ -11,13 +11,17 @@ namespace LCN::Controller
 	public:
 		void Init();
 		void Reset();
-		void UpdateEntity(float dt);
+		void UpdateEntity(float dtms);
 
 	private: // Slots override
 		void OnKeyPressed(KeyPressedEvent&) override;
 		void OnMouseButtonPressed(MouseButtonPressedEvent&) override;
 		void OnMouseMove(MouseMovedEvent&) override;
 		void OnMouseScroll(MouseScrollEvent&) override;
+
+	private:
+		void UpdateRotation(float dts);
+		void UpdateTranslation(float dts);
 
 	private:
 		Vector2Di m_Center;
@@ -28,5 +32,15 @@ namespace LCN::Controller
 		Transform3Df m_Translation;
 		Transform3Df m_RotX;
 		Transform3Df m_RotY;
+
+		union
+		{
+			struct
+			{
+				bool RotationChanged    : 1;
+				bool TranslationChanged : 1;
+			};
+			char Total = 0;
+		} m_Flags;
 	};
 }

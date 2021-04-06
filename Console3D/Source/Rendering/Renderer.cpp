@@ -7,6 +7,14 @@
 
 #include <LCN_Collisions/Source/Collisions/CollisionAlgorithms.h>
 
+#define DEBUG_APP
+
+#ifdef DEBUG_APP
+#define OFFSET 7
+#else
+#define OFFSET 0
+#endif
+
 namespace LCN::Render
 {
 	void Render::ConsolerRenderer::Init(size_t width, size_t height, size_t fontw, size_t fonth)
@@ -35,7 +43,7 @@ namespace LCN::Render
 
 		console.FillRectangle(
 			0, 0,
-			console.Width(), console.Height(),
+			console.Width(), console.Height() - OFFSET,
 			[&](int i, int j)
 			{
 				HVector2Df pixFromCam    = camToPix * HVector2Df({ (float)i, (float)j }, 1.0f);
