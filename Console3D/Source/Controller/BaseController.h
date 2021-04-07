@@ -21,6 +21,7 @@ namespace LCN::Controller
 
 	private: // Slots
 		ABSTRACT_SLOT(BaseController, OnKeyPressed,         KeyPressedEvent&);
+		ABSTRACT_SLOT(BaseController, OnKeyReleased,        KeyReleasedEvent&);
 		ABSTRACT_SLOT(BaseController, OnMouseButtonPressed, MouseButtonPressedEvent&);
 		ABSTRACT_SLOT(BaseController, OnMouseMove,          MouseMovedEvent&);
 		ABSTRACT_SLOT(BaseController, OnMouseScroll,        MouseScrollEvent&);

@@ -208,7 +208,7 @@ namespace LCN::Core
 				}
 			}
 
-			//this->Wait();
+			this->Wait();
 		}
 	}
 }

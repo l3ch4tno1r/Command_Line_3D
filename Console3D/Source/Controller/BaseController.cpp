@@ -8,9 +8,10 @@ namespace LCN::Controller
 	{
 		auto& consoleInput = Core::ConsoleInput::Get();
 
-		Connect(consoleInput.SignalKeyPressed,         SlotOnKeyPressed);
-		Connect(consoleInput.SignalMouseMove,          SlotOnMouseMove);
-		Connect(consoleInput.SignalMouseButtonPressed, SlotOnMouseButtonPressed);
-		Connect(consoleInput.SignalMouseScroll,        SlotOnMouseScroll);
+		Connect(consoleInput.SignalKeyPressed,         this->SlotOnKeyPressed);
+		Connect(consoleInput.SignalKeyReleased,        this->SlotOnKeyReleased);
+		Connect(consoleInput.SignalMouseMove,          this->SlotOnMouseMove);
+		Connect(consoleInput.SignalMouseButtonPressed, this->SlotOnMouseButtonPressed);
+		Connect(consoleInput.SignalMouseScroll,        this->SlotOnMouseScroll);
 	}
 }
