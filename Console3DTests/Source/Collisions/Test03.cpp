@@ -118,8 +118,8 @@ int main()
 			if (!result)
 				continue;
 
-			for (const auto& vect : result)
-				std::cout << vect << std::endl;
+			for (const auto& intersection : result)
+				std::cout << intersection.Point << std::endl;
 		}
 	}
 
@@ -133,8 +133,8 @@ int main()
 		LCN::ComputeCollision(sphere, line, result);
 
 		if (result)
-			for (const auto& vec : result)
-				std::cout << vec << std::endl;
+			for (const auto& intersection : result)
+				std::cout << intersection.Point << std::endl;
 	}
 
 	SEPARATOR(AABB)

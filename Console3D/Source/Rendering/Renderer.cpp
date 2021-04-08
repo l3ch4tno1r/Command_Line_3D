@@ -4,6 +4,7 @@
 #include "Console3D/Source/Scene/StdComponent.h"
 
 #include <LCN_Math/Source/Geometry/Geometry.h>
+#include <LCN_Math/Source/Utilities/Angles.h>
 
 #include <LCN_Collisions/Source/Collisions/CollisionAlgorithms.h>
 
@@ -39,7 +40,9 @@ namespace LCN::Render
 		const Transform3Df& R0ToCam  = camera.Get<Component::Transform3DCmp>().Transform;
 		const Transform2Df& camToPix = cam.PixToCam().QuickInverse();
 
-		auto view = scene.Registry().view<const Component::Transform3DCmp, const Component::InfiniteChessboardCmp>();
+		// Grab views
+		auto chessboardView = scene.Registry().view<const Component::Transform3DCmp, const Component::InfiniteChessboardCmp>();
+		auto sphereView     = scene.Registry().view<const Component::Transform3DCmp, const Component::SphereCmp, const Component::TextureCmp>();
 
 		console.FillRectangle(
 			0, 0,
@@ -50,14 +53,15 @@ namespace LCN::Render
 				HVector3Df pixDirFromCam = { {pixFromCam.x(), pixFromCam.y(), cam.Focal()}, 0.0f };
 				HVector3Df pixDirFromR0  = R0ToCam * pixDirFromCam;
 
-				Line3Df  line{ R0ToCam.TranslationBlock(), pixDirFromR0.Vector() };
+				Line3Df line{ R0ToCam.TranslationBlock(), pixDirFromR0.Vector() };
 
 				CHAR_INFO pixel;
 
 				pixel.Char.UnicodeChar = 0;
-				pixel.Attributes = Core::COLOUR::BG_BLACK;
+				pixel.Attributes = Core::COLOUR::BG_DARK_GREY;
 
-				view.each([&](
+				// Render infinite chessboard
+				chessboardView.each([&](
 					const Component::Transform3DCmp&        transformCmp,
 					const Component::InfiniteChessboardCmp& chessboardCmp)
 					{
@@ -78,7 +82,7 @@ namespace LCN::Render
 						if (distance < camCmp.NearClip)
 							return;
 
-						float lighting = 9 * std::min(1.0f, 5.0f / distance);
+						float lighting = 9 * std::min(1.0f, 10.0f / distance);
 
 						const HVector3Df& intersection = result.Result();
 
@@ -92,6 +96,48 @@ namespace LCN::Render
 
 						pixel.Char.UnicodeChar = std::abs(i + j) % 2 == 0 ? 0 : value[(size_t)lighting];
 						pixel.Attributes = Core::COLOUR::BG_BLACK | Core::COLOUR::FG_WHITE;
+					});
+
+				// Render textured sphere
+				sphereView.each([&](
+					const Component::Transform3DCmp& transformCmp,
+					const Component::SphereCmp&      sphereCmp,
+					const Component::TextureCmp&     textureCmp)
+					{
+						Vector3Df center = transformCmp.Transform.TranslationBlock();
+
+						Sphere3Df sphere{ center, sphereCmp.Radius };
+
+						SphereVSLine3Df result;
+
+						ComputeCollision(sphere, line, result);
+
+						if (!result)
+							return;
+
+						const auto& firstInter = result[0];
+
+						if (firstInter.Distance < camCmp.NearClip)
+							return;
+
+						HVector3Df pointFromSphere = transformCmp.Transform.QuickInverse() * firstInter.Point;
+
+						if (std::abs(pointFromSphere.x()) < 0.001 && std::abs(pointFromSphere.y()) < 0.001)
+							return;
+
+						float rho   = pointFromSphere.Norm();
+						float theta = std::acos(pointFromSphere.z() / rho);
+						float phi   = std::atan2(pointFromSphere.y(), pointFromSphere.x());
+
+						int tx = textureCmp.Texture.Width() * (1 - (phi + PI) / (2 * PI));
+						int ty = textureCmp.Texture.Height() * theta / PI;
+
+						Ressource::TexelGreyScale texel = textureCmp.Texture(tx, ty);
+
+						uint8_t greyscale = 9 * (uint8_t)texel.GreyScale / 255;
+
+						pixel.Char.UnicodeChar = value[greyscale];
+						pixel.Attributes = Core::COLOUR::FG_WHITE | Core::COLOUR::BG_BLACK;
 					});
 
 				return pixel;

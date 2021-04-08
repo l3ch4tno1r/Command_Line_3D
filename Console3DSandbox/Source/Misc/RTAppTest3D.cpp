@@ -42,6 +42,22 @@ namespace LCN
 		m_Floor = m_Scene.Create3DEntity();
 
 		m_Floor.Add<Component::InfiniteChessboardCmp>(1, 1);
+
+		// Setup globe entity
+		m_Globe = m_Scene.Create3DEntity();
+
+		m_Globe.Add<Component::SphereCmp>(2.0f);
+		auto& textureCmp = m_Globe.Add<Component::TextureCmp>();
+
+		textureCmp.Texture.Load("Ressource/Textures/Mappemonde.png");
+		//textureCmp.Texture.Load("Ressource/Textures/Le_Chat_Noir_Photo_Medium.png");
+
+		if (!textureCmp.Texture)
+			throw std::exception("Pas de texture !");
+
+		auto globeTranslation = m_Globe.Get<Component::Transform3DCmp>().Transform.TranslationBlock();
+
+		globeTranslation = { 0.0f, 0.0f, 2.0f };
 	}
 
 	void RTAppTest3D::OnUpdate(float dtms)

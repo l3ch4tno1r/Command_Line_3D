@@ -31,6 +31,7 @@ namespace LCN::Component
 		Ressource::Texture Texture;
 	};
 
+	// Geometrical primitives
 	struct InfiniteChessboardCmp
 	{
 		size_t Width;
@@ -39,6 +40,15 @@ namespace LCN::Component
 		InfiniteChessboardCmp(size_t width, size_t height) :
 			Width(width),
 			Height(height)
+		{}
+	};
+
+	struct SphereCmp
+	{
+		float Radius;
+
+		SphereCmp(float radius) :
+			Radius(radius)
 		{}
 	};
 
@@ -63,9 +73,9 @@ namespace LCN::Component
 
 		Sprite2DCmp(size_t width, size_t height)
 		{
-			this->Sprite.Vertices[0] = { (float)(-(int)width / 2), (float)((int)height / 2), 1.0f };
-			this->Sprite.Vertices[1] = { (float)((int)width / 2), (float)((int)height / 2), 1.0f };
-			this->Sprite.Vertices[2] = { (float)((int)width / 2), (float)(-(int)height / 2), 1.0f };
+			this->Sprite.Vertices[0] = { (float)(-(int)width / 2), (float)((int)height  / 2), 1.0f };
+			this->Sprite.Vertices[1] = { (float)( (int)width / 2), (float)((int)height  / 2), 1.0f };
+			this->Sprite.Vertices[2] = { (float)( (int)width / 2), (float)(-(int)height / 2), 1.0f };
 			this->Sprite.Vertices[3] = { (float)(-(int)width / 2), (float)(-(int)height / 2), 1.0f };
 
 			this->Sprite.TectureCoords[0] = { 0, 0 };
