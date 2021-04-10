@@ -7,83 +7,86 @@
 
 using uint = unsigned int;
 
-class Model3D
+namespace LCN::Ressource
 {
-public:
-	using Vertex3D = LCN::HVector3Df;
-
-	struct Face
+	class Model3D
 	{
-		union
+	public:
+		using Vertex3D = LCN::HVector3Df;
+
+		struct Face
 		{
-			struct
+			union
 			{
-				uint  v1,  v2,  v3;
-				uint vn1, vn2, vn3;
-			};
+				struct
+				{
+					uint  v1,  v2,  v3;
+					uint vn1, vn2, vn3;
+				};
 
-			struct
+				struct
+				{
+					uint Vertices[3];
+					uint Normals[3];
+				};
+			};	
+		};
+
+		struct Edge
+		{
+			uint v1, v2;
+			mutable uint n1, n2;
+
+			Edge(uint v1, uint v2, uint n1 = 0, uint n2 = 0) :
+				v1(v1 < v2 ? v1 : v2),
+				v2(v1 < v2 ? v2 : v1),
+				n1(n1),
+				n2(n2)
+			{}
+
+			bool operator==(const Edge& other) const
 			{
-				uint Vertices[3];
-				uint Normals[3];
-			};
-		};	
-	};
+				return (v1 == other.v1) && (v2 == other.v2);
+			}
+		};
 
-	struct Edge
-	{
-		uint v1, v2;
-		mutable uint n1, n2;
-
-		Edge(uint v1, uint v2, uint n1 = 0, uint n2 = 0) :
-			v1(v1 < v2 ? v1 : v2),
-			v2(v1 < v2 ? v2 : v1),
-			n1(n1),
-			n2(n2)
-		{}
-
-		bool operator==(const Edge& other) const
+		struct HashEdge
 		{
-			return (v1 == other.v1) && (v2 == other.v2);
-		}
-	};
+			size_t operator()(const Edge& edge) const
+			{
+				static std::hash<unsigned int> hashfct;
 
-	struct HashEdge
-	{
-		size_t operator()(const Edge& edge) const
+				return hashfct(edge.v1) + hashfct(edge.v2);
+			}
+		};
+
+		struct EdgeEqual
 		{
-			static std::hash<unsigned int> hashfct;
+			bool operator()(const Edge& e1, const Edge& e2) const
+			{
+				return (e1.v1 == e2.v1) && (e1.v2 == e2.v2);
+			}
+		};
 
-			return hashfct(edge.v1) + hashfct(edge.v2);
-		}
+	private:
+		std::vector<Vertex3D>              m_Vertices;
+		std::vector<Vertex3D>              m_Normals;
+		std::vector<Face>                  m_Faces;
+		std::unordered_set<Edge, HashEdge> m_Edges;
+
+	public:
+		Model3D() = default;
+
+		Model3D(Model3D&& _model);
+
+		std::vector<Vertex3D>&              Vertices();
+		std::vector<Vertex3D>&              Normals();
+		std::vector<Face>&                  Faces();
+		std::unordered_set<Edge, HashEdge>& Edges();
+
+		const std::vector<Vertex3D>&              Vertices() const;
+		const std::vector<Vertex3D>&              Normals() const;
+		const std::vector<Face>&                  Faces() const;
+		const std::unordered_set<Edge, HashEdge>& Edges() const;
 	};
-
-	struct EdgeEqual
-	{
-		bool operator()(const Edge& e1, const Edge& e2) const
-		{
-			return (e1.v1 == e2.v1) && (e1.v2 == e2.v2);
-		}
-	};
-
-private:
-	std::vector<Vertex3D>              m_Vertices;
-	std::vector<Vertex3D>              m_Normals;
-	std::vector<Face>                  m_Faces;
-	std::unordered_set<Edge, HashEdge> m_Edges;
-
-public:
-	Model3D();
-
-	Model3D(Model3D&& _model);
-
-	std::vector<Vertex3D>&              Vertices();
-	std::vector<Vertex3D>&              Normals();
-	std::vector<Face>&                  Faces();
-	std::unordered_set<Edge, HashEdge>& Edges();
-
-	const std::vector<Vertex3D>&              Vertices() const;
-	const std::vector<Vertex3D>&              Normals() const;
-	const std::vector<Face>&                  Faces() const;
-	const std::unordered_set<Edge, HashEdge>& Edges()const;
-};
+}

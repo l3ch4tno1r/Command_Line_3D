@@ -2,13 +2,15 @@
 
 #include <thread>
 
-namespace LCN
+namespace LCN::Core
 {
 	RTApplication::RTApplication()
 	{}
 
 	void RTApplication::Run()
 	{
+		Core::ConsoleInput& consoleInput = Core::ConsoleInput::Get();
+
 		this->SignalStartup.Trigger();
 
 		std::chrono::high_resolution_clock::time_point now, next, last;
@@ -17,10 +19,10 @@ namespace LCN
 		while (this->IsRunning())
 		{
 			now = std::chrono::high_resolution_clock::now();
-			float delta = (float)std::chrono::duration_cast<std::chrono::milliseconds>(now - last).count();
+			float dt = (float)std::chrono::duration_cast<std::chrono::milliseconds>(now - last).count();
 			next = now + m_Interval;
 
-			this->SignalUpdate.Trigger(delta);
+			this->SignalUpdate.Trigger(dt);
 			this->SignalRender.Trigger();
 
 			//Continue();
@@ -28,6 +30,8 @@ namespace LCN
 			std::this_thread::sleep_until(next);
 
 			last = now;
+
+			consoleInput.Continue();
 		}
 
 		this->SignalQuit.Trigger();

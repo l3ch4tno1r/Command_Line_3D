@@ -10,7 +10,11 @@ namespace LCN
 	{
 	public:
 		Entity() = default;
-		Entity(entt::entity handle, Scene* scene);
+
+		Entity(entt::entity handle, Scene* scene) :
+			m_Handle(handle),
+			m_Scene(scene)
+		{}
 
 		template<class Component, class ...Args>
 		Component& Add(Args&& ...args)

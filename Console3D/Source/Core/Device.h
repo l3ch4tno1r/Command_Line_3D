@@ -2,32 +2,35 @@
 
 #include "Utilities/Source/DesignPatterns/Observer.h"
 
-class Device : public Observer<Device>
+namespace LCN::Core
 {
-public:
-	Device();
-
-	virtual ~Device();
-
-	virtual void Start();
-
-	void Update(bool run);
-
-protected:
-	bool Continue();
-
-private:
-	std::thread m_MainThread;
-
-	struct
+	class Device : public Observer<Device>
 	{
-		bool Started  : 1;
-		bool Run      : 1;
-		bool Notified : 1;
-	} m_State;
+	public:
+		Device();
 
-	std::mutex              m_NotifMut;
-	std::condition_variable m_NotifCond;
+		virtual ~Device();
 
-	virtual void MainThread() = 0;
-};
+		virtual void Start();
+
+		void Update(bool run);
+
+	protected:
+		bool Continue();
+
+	private:
+		std::thread m_MainThread;
+
+		struct
+		{
+			bool Started  : 1;
+			bool Run      : 1;
+			bool Notified : 1;
+		} m_State;
+
+		std::mutex              m_NotifMut;
+		std::condition_variable m_NotifCond;
+
+		virtual void MainThread() = 0;
+	};
+}

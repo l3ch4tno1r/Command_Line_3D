@@ -5,29 +5,17 @@
 
 #include <cmath>
 
-namespace LCN
+namespace LCN::Controller
 {
-	Camera2DController::Camera2DController() :
-		SLOT_INIT(SlotOnKeyPressed,         Camera2DController::OnKeyPressed),
-		SLOT_INIT(SlotOnMouseMove,          Camera2DController::OnMouseMove),
-		SLOT_INIT(SlotOnMouseButtonPressed, Camera2DController::OnMouseButtonPressed),
-		SLOT_INIT(SlotOnMouseScroll,        Camera2DController::OnMouseScroll)
-	{
-		Connect(ConsoleInput::Get().SignalKeyPressed,         SlotOnKeyPressed);
-		Connect(ConsoleInput::Get().SignalMouseMove,          SlotOnMouseMove);
-		Connect(ConsoleInput::Get().SignalMouseButtonPressed, SlotOnMouseButtonPressed);
-		Connect(ConsoleInput::Get().SignalMouseScroll,        SlotOnMouseScroll);
-	}
-
 	void Camera2DController::OnKeyPressed(KeyPressedEvent& keyevent)
 	{
-		switch (keyevent.KeyCode())
+		switch (static_cast<Core::Key>(keyevent.KeyCode()))
 		{
-		case Key::R:
+		case Core::Key::R:
 			m_TranslationStart = Transform2Df::Identity();
 			m_RotationStart    = Transform2Df::Identity();
 
-			m_CameraEntt.Get<Transform2DComponent>().Transform = Transform2Df::Identity();
+			m_CameraEntt.Get<Component::Transform2DCmp>().Transform = Transform2Df::Identity();
 
 			m_ScaleFactor    = 1.0f;
 			m_ScaleIncrement = 0;
@@ -46,7 +34,7 @@ namespace LCN
 
 		m_ScaleFactor = std::pow(m_Ratio, m_ScaleIncrement);
 
-		auto& R0ToCam = m_CameraEntt.Get<Transform2DComponent>().Transform;
+		auto& R0ToCam = m_CameraEntt.Get<Component::Transform2DCmp>().Transform;
 
 		Transform2Df temp = m_ScaleFactor * R0ToCam;
 		R0ToCam = temp;
@@ -59,8 +47,8 @@ namespace LCN
 
 	void Camera2DController::OnMouseButtonPressed(MouseButtonPressedEvent& mouseevent)
 	{
-		Transform2Df& PixToCam = m_CameraEntt.Get<Camera2DComponent>().PixToCam;
-		HVector2Df pos = PixToCam.QuickInverse()  * HVector2Df({ (float)mouseevent.X(), (float)mouseevent.Y(), 1.0f });
+		const Transform2Df& PixToCam = m_CameraEntt.Get<Component::CameraCmp>().Camera.PixToCam();
+		HVector2Df pos = PixToCam.QuickInverse() * HVector2Df({ (float)mouseevent.X(), (float)mouseevent.Y(), 1.0f });
 
 		m_TranslationStart.TranslationBlock() = pos.Vector();
 
@@ -76,12 +64,12 @@ namespace LCN
 
 	void Camera2DController::OnMouseMove(MouseMovedEvent& mouseevent)
 	{
-		if (ConsoleInput::IsMouseBtnPressed(MouseButton::LEFT))
+		if (Core::ConsoleInput::IsMouseBtnPressed(Core::MouseButton::LEFT))
 		{
-			Transform2Df& PixToCam = m_CameraEntt.Get<Camera2DComponent>().PixToCam;
+			const Transform2Df& PixToCam = m_CameraEntt.Get<Component::CameraCmp>().Camera.PixToCam();
 			HVector2Df currentpos = PixToCam.QuickInverse() * HVector2Df({ (float)mouseevent.X(), (float)mouseevent.Y(), 1.0f });
 
-			if (ConsoleInput::IsKeyPressed(Key::Ctrl))
+			if (Core::ConsoleInput::IsKeyPressed(Core::Key::Ctrl))
 			{
 				Vector2Df maindir = currentpos.Vector();
 				maindir = maindir / maindir.Norm();
@@ -95,7 +83,7 @@ namespace LCN
 
 				Transform2Df delta = direction.QuickInverse() * m_RotationStart;
 
-				auto& R0ToCam = m_CameraEntt.Get<Transform2DComponent>().Transform;
+				auto& R0ToCam = m_CameraEntt.Get<Component::Transform2DCmp>().Transform;
 
 				Transform2Df temp = R0ToCam * delta;
 				R0ToCam = temp;
@@ -107,7 +95,7 @@ namespace LCN
 				Transform2Df end;
 				end.TranslationBlock() = currentpos.Vector();
 
-				auto& R0ToCam = m_CameraEntt.Get<Transform2DComponent>().Transform;
+				auto& R0ToCam = m_CameraEntt.Get<Component::Transform2DCmp>().Transform;
 
 				Transform2Df delta = end.QuickInverse() * m_TranslationStart;
 

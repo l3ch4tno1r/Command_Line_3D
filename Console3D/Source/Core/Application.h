@@ -2,6 +2,8 @@
 
 #include <mutex>
 #include <condition_variable>
+#include <vector>
+#include <memory>
 
 #include <Utilities/Source/DesignPatterns/SignalSlot.h>
 
@@ -9,20 +11,27 @@
 
 int main(int argc, char** argv);
 
-namespace LCN
+namespace LCN::Core
 {
+	/////////////////////////////
+	//-- Forward declaration --//
+	/////////////////////////////
+
+	class CWidget;
+
+	////////////////////////////////
+	//-- Application base class --//
+	////////////////////////////////
+
 	class Application
 	{
 	public:
 		template<class F> using SignalApplication = Signal<Application, F>;
 		template<class F> using SlotApplication   = Slot<Application, F>;
 
-		template<class Derived>
-		static Application& Get() noexcept
-		{
-			static Derived instance;
-			return instance;
-		}
+		using AppPointer = std::unique_ptr<Application>;
+
+		static Application& Get() noexcept;
 
 		void Quit();
 
@@ -62,7 +71,13 @@ namespace LCN
 	private:
 		virtual void Run() = 0;
 
+		void RegisterWidget(CWidget& widget);
+
 		friend int ::main(int argc, char** argv);
+		friend AppPointer::deleter_type;
+
+		// To be defined by client
+		static AppPointer CreateApplication();
 
 	private:
 		inline static Application* m_App = nullptr;
@@ -70,5 +85,17 @@ namespace LCN
 		bool                    m_IsRunnning = true;
 		std::mutex              m_RunMut;
 		std::condition_variable m_RunCond;
+
+		std::vector<CWidget*> m_AppWidgets;
 	};
+
+	////////////////////////
+	//-- Utility macros --//
+	////////////////////////
+
+	#define CREATE_APP(DerivedTypeName)\
+	Core::Application::AppPointer Core::Application::CreateApplication()\
+	{\
+		return std::make_unique<DerivedTypeName>();\
+	}
 }

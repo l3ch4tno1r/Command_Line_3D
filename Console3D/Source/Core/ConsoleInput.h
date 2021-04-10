@@ -4,7 +4,10 @@
 #include <Windows.h>
 
 #include <thread>
+#include <mutex>
+#include <condition_variable>
 #include <atomic>
+#include <tuple>
 
 #include <Utilities/Source/DesignPatterns/SignalSlot.h>
 #include <Utilities/Source/Utils.h>
@@ -12,9 +15,9 @@
 #include <Console3D/Source/Event/KeyBoardEvent.h>
 #include <Console3D/Source/Event/MouseEvent.h>
 
-namespace LCN
+namespace LCN::Core
 {
-	enum Key
+	enum class Key
 	{
 		Enter = VK_RETURN,
 		Esc   = VK_ESCAPE,
@@ -96,7 +99,15 @@ namespace LCN
 		static bool IsKeyPressed(Key key);
 		static bool IsMouseBtnPressed(MouseButton mousebtn);
 
+		std::tuple<int, int> GetWindowCenter() const;
+
+		void SetCursorPosition(int x, int y);
+
+		void Continue();
+
 	private:
+		void Wait();
+
 		ConsoleInput();
 		~ConsoleInput();
 
@@ -104,9 +115,14 @@ namespace LCN
 
 	private:
 		HANDLE m_HStdIn;
+		HWND   m_HWnd;
 
-		std::thread      m_MainThread;
-		std::atomic_bool m_Run = false;
+		std::thread             m_MainThread;
+		std::atomic_bool        m_Run = false;
+		std::mutex              m_ContinueMut;
+		std::condition_variable m_ContinueCond;
+
+		bool m_Notified = false;
 
 		KeyState m_KeysState[256], m_Mouse[5];
 

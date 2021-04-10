@@ -4,7 +4,7 @@
 
 using namespace std::literals::chrono_literals;
 
-namespace LCN
+namespace LCN::Core
 {
 	class RTApplication : public Application
 	{
@@ -15,7 +15,7 @@ namespace LCN
 		RTApplication();
 		virtual ~RTApplication() = default;
 
-	public: // Signals
+	protected: // Signals
 		RTAppSignal<void()>      SignalRender;
 		RTAppSignal<void()>      SignalStartup;
 		RTAppSignal<void(float)> SignalUpdate;
@@ -25,6 +25,6 @@ namespace LCN
 		void Run() override;
 
 	private:
-		std::chrono::milliseconds m_Interval = 16ms;
+		const std::chrono::milliseconds m_Interval = 16ms;
 	};
 }

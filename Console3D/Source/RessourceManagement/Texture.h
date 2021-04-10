@@ -4,7 +4,7 @@
 
 #include "Utilities/External/stb_image/stb_image.h"
 
-namespace LCN
+namespace LCN::Ressource
 {
 	enum class ColorChannels
 	{

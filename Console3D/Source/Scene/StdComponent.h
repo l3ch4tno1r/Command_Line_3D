@@ -4,46 +4,77 @@
 
 #include "Console3D/Source/RessourceManagement/Texture.h"
 #include "Console3D/Source/RessourceManagement/Sprite2D.h"
+#include "Console3D/Source/RessourceManagement/Model3D.h"
 
-#include "Console3D/Source/Rendering/Camera2D.h"
+#include "Console3D/Source/Rendering/Camera.h"
 #include "Console3D/Source/Controller/Camera2DController.h"
 
-namespace LCN
+namespace LCN::Component
 {
-	struct Transform2DComponent
+	enum class Dimension : short
 	{
-		Transform2Df Transform;
+		_2 = 2,
+		_3 = 3
 	};
 
-	struct TextureComponent
+	template<Dimension Dim>
+	struct TransformNDCmp
 	{
-		Texture Texture;
+		Transform<float, static_cast<size_t>(Dim)> Transform;
 	};
 
-	struct Camera2DComponent
-	{
-		Camera2D     Camera;
-		Transform2Df PixToCam;
+	using Transform2DCmp = TransformNDCmp<Dimension::_2>;
+	using Transform3DCmp = TransformNDCmp<Dimension::_3>;
 
-		Camera2DComponent(uint32_t width, uint32_t height) :
-			Camera(width, height),
-			PixToCam({
-				1.0f,  0.0f, (float)width / 2,
-				0.0f, -1.0f, (float)height / 2,
-				0.0f,  0.0f, 1.0,
-			})
-		{}		
+	struct TextureCmp
+	{
+		Ressource::Texture Texture;
 	};
 
-	struct Sprite2DComponent
+	// Geometrical primitives
+	struct InfiniteChessboardCmp
 	{
-		Sprite2D     Sprite;
-		Transform2Df SpriteToTexture;
+		size_t Width;
+		size_t Height;
 
-		Sprite2DComponent(size_t width, size_t height)
+		InfiniteChessboardCmp(size_t width, size_t height) :
+			Width(width),
+			Height(height)
+		{}
+	};
+
+	struct SphereCmp
+	{
+		float Radius;
+
+		SphereCmp(float radius) :
+			Radius(radius)
+		{}
+	};
+
+	struct CameraCmp
+	{
+		Render::Camera Camera;
+
+		float NearClip;
+		float FarClip;
+	
+		CameraCmp(uint32_t width, uint32_t height, float focal = 1.0f, float nearClip = 0.1f, float farClip = 1000000.0f) :
+			Camera(width, height, focal),
+			NearClip(nearClip),
+			FarClip(farClip)
+		{}
+	};
+
+	struct Sprite2DCmp
+	{
+		Ressource::Sprite2D Sprite;
+		Transform2Df        SpriteToTexture;
+
+		Sprite2DCmp(size_t width, size_t height)
 		{
-			this->Sprite.Vertices[0] = { (float)(-(int)width / 2), (float)( (int)height / 2), 1.0f };
-			this->Sprite.Vertices[1] = { (float)( (int)width / 2), (float)( (int)height / 2), 1.0f };
+			this->Sprite.Vertices[0] = { (float)(-(int)width / 2), (float)((int)height  / 2), 1.0f };
+			this->Sprite.Vertices[1] = { (float)( (int)width / 2), (float)((int)height  / 2), 1.0f };
 			this->Sprite.Vertices[2] = { (float)( (int)width / 2), (float)(-(int)height / 2), 1.0f };
 			this->Sprite.Vertices[3] = { (float)(-(int)width / 2), (float)(-(int)height / 2), 1.0f };
 
@@ -61,5 +92,29 @@ namespace LCN
 				0.0f,                 0.0f,                 1.0f
 			};
 		}
+	};
+
+	struct FrameCmp
+	{
+		float Scale;
+	};
+
+	struct HierarchyCmp
+	{
+		Transform2Df Offset;
+		Entity       Parent;
+
+		HierarchyCmp(Entity parent) : Parent(parent)
+		{}
+	};
+
+	struct AnimationCmp
+	{
+		int a;
+	};
+
+	struct Mesh3DCmp
+	{
+		Ressource::Model3D m_Mesh;
 	};
 }

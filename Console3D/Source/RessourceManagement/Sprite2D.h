@@ -2,7 +2,7 @@
 
 #include <LCN_Math/Source/Geometry/Geometry.h>
 
-namespace LCN
+namespace LCN::Ressource
 {
 	struct Sprite2D
 	{

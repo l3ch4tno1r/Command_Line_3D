@@ -127,28 +127,36 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Controller\BaseController.cpp" />
     <ClCompile Include="Source\Controller\Camera2DController.cpp" />
+    <ClCompile Include="Source\Controller\FPSCameraController.cpp" />
     <ClCompile Include="Source\Core\Application.cpp" />
     <ClCompile Include="Source\Core\Console.cpp" />
     <ClCompile Include="Source\Core\Device.cpp" />
     <ClCompile Include="Source\Core\ConsoleInput.cpp" />
+    <ClCompile Include="Source\Core\EventApplication.cpp" />
     <ClCompile Include="Source\Core\GraphicEngine.cpp" />
     <ClCompile Include="Source\Core\RTApplication.cpp" />
     <ClCompile Include="Source\Gui\Widget.cpp" />
-    <ClCompile Include="Source\Rendering\Camera2D.cpp" />
+    <ClCompile Include="Source\Rendering\Camera.cpp" />
+    <ClCompile Include="Source\Rendering\Renderer.cpp" />
+    <ClCompile Include="Source\Rendering\Renderer2D.cpp" />
     <ClCompile Include="Source\RessourceManagement\Model3D.cpp" />
     <ClCompile Include="Source\RessourceManagement\OBJReader.cpp" />
     <ClCompile Include="Source\Core\PaceMaker.cpp" />
     <ClCompile Include="Source\RessourceManagement\Texture.cpp" />
-    <ClCompile Include="Source\Scene\Entity.cpp" />
     <ClCompile Include="Source\Scene\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="External\entt\include\entt.hpp" />
+    <ClInclude Include="Source\Controller\BaseController.h" />
+    <ClInclude Include="Source\Controller\FPSCameraController.h" />
     <ClInclude Include="Source\Core\Application.h" />
     <ClInclude Include="Source\Core\Console.h" />
     <ClInclude Include="Source\Core\Device.h" />
     <ClInclude Include="Source\Core\ConsoleInput.h" />
+    <ClInclude Include="Source\Core\EntryPoint.h" />
+    <ClInclude Include="Source\Core\EventApplication.h" />
     <ClInclude Include="Source\Core\GraphicEngine.h" />
     <ClInclude Include="Source\Core\RTApplication.h" />
     <ClInclude Include="Source\Event\Event.h" />
@@ -156,7 +164,10 @@
     <ClInclude Include="Source\Event\MouseEvent.h" />
     <ClInclude Include="Source\Gui\Widget.h" />
     <ClInclude Include="Source\Controller\Camera2DController.h" />
-    <ClInclude Include="Source\Rendering\Camera2D.h" />
+    <ClInclude Include="Source\Rendering\Camera.h" />
+    <ClInclude Include="Source\Rendering\ConsoleRenderer.h" />
+    <ClInclude Include="Source\Rendering\Renderer.h" />
+    <ClInclude Include="Source\Rendering\Renderer2D.h" />
     <ClInclude Include="Source\RessourceManagement\Model3D.h" />
     <ClInclude Include="Source\Core\PaceMaker.h" />
     <ClInclude Include="Source\RessourceManagement\OBJReader.h" />

@@ -12,31 +12,34 @@
 
 using namespace std::literals::chrono_literals;
 
-class PaceMaker : public Subject<Device>
+namespace LCN::Core
 {
-public:
-	PaceMaker();
+	class PaceMaker : public Subject<Device>
+	{
+	public:
+		PaceMaker();
 
-	~PaceMaker();
+		~PaceMaker();
 
-	void Start(std::chrono::milliseconds interval);
+		void Start(std::chrono::milliseconds interval);
 
-	void Pause(bool _pause);
+		void Pause(bool _pause);
 
-	void Stop();
+		void Stop();
 
-private:
-	std::atomic<bool>         m_Run;
-	std::chrono::milliseconds m_Interval;
-	std::thread               m_RunThread;
+	private:
+		std::atomic<bool>         m_Run;
+		std::chrono::milliseconds m_Interval;
+		std::thread               m_RunThread;
 
-	std::atomic<bool>       m_Pause;
-	std::condition_variable m_PauseCondition;
+		std::atomic<bool>       m_Pause;
+		std::condition_variable m_PauseCondition;
 
-	PaceMaker(const PaceMaker&) = delete;
-	PaceMaker& operator=(const PaceMaker&) = delete;
+		PaceMaker(const PaceMaker&) = delete;
+		PaceMaker& operator=(const PaceMaker&) = delete;
 
-	void MainThread();
+		void MainThread();
 
-	void Continue();
-};
+		void Continue();
+	};
+}

@@ -81,6 +81,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -109,6 +110,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -128,10 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\Misc\AppTestDisplayImage.cpp" />
-    <ClCompile Include="Source\Misc\AppTestEvent.cpp" />
-    <ClCompile Include="Source\Misc\AppTestBasicPaint.cpp" />
-    <ClCompile Include="Source\Misc\RTAppTest.cpp" />
+    <ClCompile Include="Source\Misc\RTAppTest3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Console3D\Console3D.vcxproj">
@@ -139,10 +138,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Misc\AppTestDisplayImage.h" />
-    <ClInclude Include="Source\Misc\AppTestEvent.h" />
-    <ClInclude Include="Source\Misc\AppTestBasicPaint.h" />
-    <ClInclude Include="Source\Misc\RTAppTest.h" />
+    <ClInclude Include="Source\Misc\RTAppTest3D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

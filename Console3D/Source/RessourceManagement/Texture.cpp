@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-namespace LCN
+namespace LCN::Ressource
 {
 	Texture::Texture() :
 		m_LocalBuffer(nullptr),

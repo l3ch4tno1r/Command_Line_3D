@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Console3D/Source/Core/Application.h>
+#include <Console3D/Source/Core/EventApplication.h>
 #include <Console3D/Source/RessourceManagement/Texture.h>
 #include <Console3D/Source/Scene/Scene.h>
 #include <Console3D/Source/Scene/Entity.h>
@@ -15,23 +15,14 @@ namespace LCN
 	//-- AppTestDisplayImage --//
 	/////////////////////////////
 
-	class AppTestDisplayImage : public Application
+	class AppTestDisplayImage : public Core::EventApplication
 	{
 	public:
 		AppTestDisplayImage();
 
-		template<class F>
-		using SignalApp = Signal<AppTestDisplayImage, F>;
-
-		void Run() override;
-
 	private: // Slots
 		SLOT(AppTestDisplayImage, Startup);
 		SLOT(AppTestDisplayImage, OnUpdate);
-
-	private: // Signals
-		SignalApp<void()> SignalStartup;
-		SignalApp<void()> SignalQuit;
 
 	private:
 		Scene  m_Scene;
@@ -39,8 +30,6 @@ namespace LCN
 		Entity m_Sprite1;
 		Entity m_Sprite2;
 
-		Camera2DController m_Controller;
+		Controller::Camera2DController m_Controller;
 	};
 }
-
-using LCNApp = LCN::AppTestDisplayImage;

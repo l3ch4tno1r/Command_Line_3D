@@ -1,33 +1,23 @@
 #pragma once
 
-#include <Utilities/Source/DesignPatterns/SignalSlot.h>
+#include "BaseController.h"
 
-#include "Console3D/Source/Event/MouseEvent.h"
-#include "Console3D/Source/Scene/Entity.h"
+#include <LCN_Math/Source/Geometry/Geometry.h>
 
-namespace LCN
+namespace LCN::Controller
 {
-	class Entity;
-
-	class Camera2DController
+	class Camera2DController : public BaseController
 	{
-	public:
-		Camera2DController();
-
-		void Bind(Entity camera) { m_CameraEntt = camera; }
-
 	public: // Signals
 		Signal<Camera2DController, void()> SignlaUpdate;
 
-	private: // Slots
-		SLOT(Camera2DController, OnKeyPressed,         KeyPressedEvent&);
-		SLOT(Camera2DController, OnMouseButtonPressed, MouseButtonPressedEvent&);
-		SLOT(Camera2DController, OnMouseMove,          MouseMovedEvent&);
-		SLOT(Camera2DController, OnMouseScroll,        MouseScrollEvent&);
+	private: // Slots override
+		void OnKeyPressed(KeyPressedEvent&) override;
+		void OnMouseButtonPressed(MouseButtonPressedEvent&) override;
+		void OnMouseMove(MouseMovedEvent&) override;
+		void OnMouseScroll(MouseScrollEvent&) override;
 
 	private:
-		Entity m_CameraEntt;
-
 		int   m_ScaleIncrement = 0;
 		float m_ScaleFactor    = 1.0f;
 

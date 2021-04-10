@@ -1,19 +1,17 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 namespace LCN
 {
-	class Widget
+	class CWidget
 	{
 	public:
-		Widget() = default;
-		Widget(Widget& parent);
-
-		virtual void Render();
+		CWidget();
 
 	private:
-		Widget* m_Parent = nullptr;
-		std::vector<Widget*> m_Children;
+		CWidget* m_Parent = nullptr;
+		std::vector<CWidget*> m_Children;
 	};
 }
