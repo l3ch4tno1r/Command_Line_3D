@@ -17,6 +17,16 @@ namespace LCN::Controller
 		void Reset();
 		void UpdateEntity(float dtms);
 
+		inline Core::Key GetGoForwardKey()   const { return m_KeyboardActions[c_GoForward]; }
+		inline Core::Key GetGoBackwardKey()  const { return m_KeyboardActions[c_GoBackward]; }
+		inline Core::Key GetStrafeLeftKey()  const { return m_KeyboardActions[c_StrafeLeft]; }
+		inline Core::Key GetStrafeRightKey() const { return m_KeyboardActions[c_StrafeRight]; }
+
+		inline void SetGoForwardKey(Core::Key key)   { m_KeyboardActions[c_GoForward]   = key; }
+		inline void SetGoBackwardKey(Core::Key key)  { m_KeyboardActions[c_GoBackward]  = key; }
+		inline void SetStrafeLeftKey(Core::Key key)  { m_KeyboardActions[c_StrafeLeft]  = key; }
+		inline void SetStrafeRightKey(Core::Key key) { m_KeyboardActions[c_StrafeRight] = key; }
+
 	private: // Slots override
 		void OnKeyPressed(KeyPressedEvent&) override;
 		void OnKeyReleased(KeyReleasedEvent&) override;
