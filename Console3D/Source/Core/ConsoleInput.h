@@ -8,6 +8,7 @@
 #include <condition_variable>
 #include <atomic>
 #include <tuple>
+#include <type_traits>
 
 #include <Utilities/Source/DesignPatterns/SignalSlot.h>
 #include <Utilities/Source/Utils.h>
@@ -58,6 +59,24 @@ namespace LCN::Core
 
 		SCREENSHOT = VK_SNAPSHOT
 	};
+
+	inline Key FromIntegral(char c)
+	{
+		c = c <= 'z' && 'a' <= c ? c - 'a' + 'A' : c;
+
+		return static_cast<Key>(c);
+	}
+
+	inline std::istream& operator>>(std::istream& stream, Key& out)
+	{
+		char c;
+
+		stream >> c;
+
+		out = FromIntegral(c);
+
+		return stream;
+	}
 
 	enum MouseButton
 	{

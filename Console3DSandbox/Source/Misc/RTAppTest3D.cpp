@@ -3,6 +3,8 @@
 #include "Console3D/Source/Rendering/ConsoleRenderer.h"
 #include "Console3D/Source/Scene/StdComponent.h"
 
+#include "Utilities/Source/ConfigManager.h"
+
 namespace LCN
 {
 	RTAppTest3D::RTAppTest3D()
@@ -37,6 +39,13 @@ namespace LCN
 
 		m_Controller.Bind(m_Camera);
 		m_Controller.Init();
+
+		auto& appSettings = LCN::Utilities::ConfigManager::Get();
+
+		m_Controller.SetGoForwardKey(appSettings["goforward"].Value<Core::Key>());
+		m_Controller.SetGoBackwardKey(appSettings["gobackward"].Value<Core::Key>());
+		m_Controller.SetStrafeLeftKey(appSettings["strafeleft"].Value<Core::Key>());
+		m_Controller.SetStrafeRightKey(appSettings["straferight"].Value<Core::Key>());
 
 		// Setup ifinite chessboard floor entity
 		m_Floor = m_Scene.Create3DEntity();
