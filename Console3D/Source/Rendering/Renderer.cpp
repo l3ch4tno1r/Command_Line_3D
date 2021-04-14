@@ -91,8 +91,8 @@ namespace LCN::Render
 						float x = intersection.x();
 						float y = intersection.y();
 
-						int i = (x > 0 ? x : std::abs(x) + 1) / chessboardCmp.Width;
-						int j = (y > 0 ? y : std::abs(y) + 1) / chessboardCmp.Height;
+						int i = std::floor(x / chessboardCmp.Width);
+						int j = std::floor(y / chessboardCmp.Height);
 
 						pixel.Char.UnicodeChar = std::abs(i + j) % 2 == 0 ? 0 : value[(size_t)lighting];
 						pixel.Attributes = Core::COLOUR::BG_BLACK | Core::COLOUR::FG_WHITE;
