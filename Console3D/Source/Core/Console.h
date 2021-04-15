@@ -87,6 +87,7 @@ namespace LCN::Core
 	private:
 		UINT32 m_Width;
 		UINT32 m_Height;
+		UINT32 m_Size;
 
 		CHAR_INFO* m_ScreenBuffer;
 		HANDLE     m_HConsole;
@@ -177,6 +178,8 @@ namespace LCN::Core
 		void DrawPoint(int x, int y, const MapFunction& mapper);
 
 		void DrawLine(int x1, int y1, int x2, int y2, short c = 0, short color = COLOUR::BG_WHITE);
+
+		void FillScreen(const MapFunction& mapper = defaultMapper);
 
 		void FillRectangle(int TLx, int TLy, int BRx, int BRy, const MapFunction& mapper = defaultMapper);
 

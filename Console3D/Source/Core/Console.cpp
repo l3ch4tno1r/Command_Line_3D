@@ -28,6 +28,7 @@ namespace LCN::Core
 	Console::Console() :
 		m_Width(0),
 		m_Height(0),
+		m_Size(0),
 		m_ScreenBuffer(nullptr),
 		m_HConsole(nullptr),
 		m_Focal(120.0f)
@@ -62,6 +63,7 @@ namespace LCN::Core
 
 		m_Width  = width;
 		m_Height = height;
+		m_Size   = width * height;
 
 		m_RectWindow = { 0, 0, 1, 1 };
 
@@ -673,13 +675,31 @@ namespace LCN::Core
 		this->DrawPoint(x2, y2, c, color);
 	}
 
+	void Console::FillScreen(const MapFunction& mapper)
+	{
+		size_t I = 0;
+
+		CHAR_INFO* ptr = m_ScreenBuffer;
+		CHAR_INFO* end = m_ScreenBuffer + m_Size;
+
+		while (ptr != end)
+		{
+			size_t i = I % m_Width;
+			size_t j = I / m_Width;
+
+			*ptr++ = mapper(i, j);
+
+			++I;
+		}
+	}
+
 	void Console::FillRectangle(int TLx, int TLy, int BRx, int BRy, const MapFunction& mapper)
 	{
 		ASSERT(TLx <= BRx);
 		ASSERT(TLy <= BRy);
 
-		for (int i = TLx; i < BRx; i++)
-			for (int j = TLy; j < BRy; j++)
+		for (int j = TLy; j < BRy; j++)
+			for (int i = TLx; i < BRx; i++)
 				this->DrawPoint(i, j, mapper);
 	}
 
