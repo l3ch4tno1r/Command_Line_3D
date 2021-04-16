@@ -153,5 +153,38 @@ int main()
 		LOG(result.Result().Height());
 	}
 
+	SEPARATOR(Hyperplane 2D)
+	{
+		LCN::Hyperplane2Df planeD{ {0, 0}, {0, 1} };
+		LCN::Line2Df       line2D{ { 0, 1 }, { 1, 1 } };
+
+		std::cout << LCN::DetectCollision(planeD, line2D) << std::endl;
+
+		LCN::HyperplaneVSLine2Df result2D;
+
+		LCN::ComputeCollision(planeD, line2D, result2D);
+
+		std::cout << result2D.Result() << std::endl;
+	}
+
+	SEPARATOR(Hyperplane 3D)
+	{
+		LCN::Hyperplane3Df plane3D{ {0, 0, 0}, {0, 0, 1} };
+		LCN::Line3Df       line3D{ { 0, 0, 1 }, { 1, 1, 1 } };
+
+		std::cout << LCN::DetectCollision(plane3D, line3D) << std::endl;
+
+		LCN::HyperplaneVSLine3Df result3D;
+
+		LCN::ComputeCollision(plane3D, line3D, result3D);
+
+		std::cout << result3D.Result() << std::endl;
+	}
+
+	SEPARATOR(AABB vs Line)
+	{
+		//LCN::AABB<float, 3> aabb;
+	}
+
 	std::cin.get();
 }
