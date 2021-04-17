@@ -139,7 +139,7 @@
     <ClCompile Include="Source\Core\RTApplication.cpp" />
     <ClCompile Include="Source\Gui\Widget.cpp" />
     <ClCompile Include="Source\Rendering\Camera.cpp" />
-    <ClCompile Include="Source\Rendering\Renderer.cpp" />
+    <ClCompile Include="Source\Rendering\ConsoleRenderer.cpp" />
     <ClCompile Include="Source\Rendering\Renderer2D.cpp" />
     <ClCompile Include="Source\RessourceManagement\Model3D.cpp" />
     <ClCompile Include="Source\RessourceManagement\OBJReader.cpp" />

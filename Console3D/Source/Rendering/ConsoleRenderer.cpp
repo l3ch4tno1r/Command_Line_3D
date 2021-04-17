@@ -64,10 +64,10 @@ namespace LCN::Render
 			{
 				Vector3Df origin = transformCmp.Transform.TranslationBlock();
 				Vector3Df normal = transformCmp.Transform.RotationBlock().Columns()[2];
+				
+				Hyperplane3Df plane{ origin, normal };
 					
-				Plane3Df plane{ origin, normal };
-					
-				PlaneVSLine3Df result;
+				HyperplaneVSLine3Df result;
 					
 				ComputeCollision(plane, line, result);
 					
