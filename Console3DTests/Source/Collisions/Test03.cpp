@@ -182,8 +182,8 @@ int main()
 
 	SEPARATOR(AABB 3D)
 	{
-		LCN::AABB3Df aabb1{ { 0, 0, 0 }, { 1, 4, 6 } };
-		LCN::AABB3Df aabb2{ { 2, 4, 1 }, { 4, 6, 5 } };
+		LCN::AABB3Df aabb1{ { 0, 0, 0 }, { 5, 4, 6 } };
+		LCN::AABB3Df aabb2{ { 2, 3, 1 }, { 4, 6, 5 } };
 
 		std::cout << aabb1.Length() << std::endl; // Expect 1
 		std::cout << aabb1.Width()  << std::endl; // Expect 4
@@ -195,15 +195,20 @@ int main()
 		std::cout << aabb2.Width()  << std::endl; // Expect 2
 		std::cout << aabb2.Height() << std::endl; // Expect 4
 
-		//LCN::AABBVSAABB<float, 2> result;
+		LCN::AABBVSAABB3Df result;
 
 		// Expectation : { { 2, 3 }, 2, 1 }
-		//LCN::ComputeCollision(aabb1, aabb2, result);
+		LCN::ComputeCollision(aabb1, aabb2, result);
 
-		//std::cout << result.Result().TopLeft() << std::endl;
-		//
-		//LOG(result.Result().Width());
-		//LOG(result.Result().Height());
+		if (result)
+		{
+			std::cout << result.Result().Min() << std::endl;
+			std::cout << result.Result().Max() << std::endl;
+		}
+		else
+		{
+			std::cout << "No collision" << std::endl;
+		}
 	}
 
 	SEPARATOR(Hyperplane 2D)
@@ -234,9 +239,14 @@ int main()
 		std::cout << result3D.Result() << std::endl;
 	}
 
-	SEPARATOR(AABB vs Line)
+	SEPARATOR(AABB vs Line 2D)
 	{
-		//LCN::AABB<float, 3> aabb;
+		LCN::AABB2Df aabb{ { 4, 2 }, { 10,  6 } };
+		LCN::Line2Df line{ {-1, 7 }, {  2, -1 } };
+
+		LCN::AABBVSLine2Df result;
+
+		LCN::ComputeCollision(aabb, line, result);
 	}
 
 	std::cin.get();
