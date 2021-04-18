@@ -268,6 +268,9 @@ int main()
 		LCN::ComputeCollision(aabb, line3, result);
 
 		std::cout << result << std::endl;
+
+		for (const auto& n : LCN::AABBNormals3Df::Normals())
+			std::cout << n.x() << ", " << n.y() << ", " << std::endl;
 	}
 
 	std::cin.get();
