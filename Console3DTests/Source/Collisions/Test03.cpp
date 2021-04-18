@@ -242,11 +242,32 @@ int main()
 	SEPARATOR(AABB vs Line 2D)
 	{
 		LCN::AABB2Df aabb{ { 4, 2 }, { 10,  6 } };
-		LCN::Line2Df line{ {-1, 7 }, {  2, -1 } };
+
+		LCN::Line2Df line1{ {-1, 7 }, {  2, -1 } };
+		LCN::Line2Df line2{ {0, 4 }, {  1, 0 } };
+		LCN::Line2Df line3{ {14, 5 }, { -3, -1 } };
+		LCN::Line2Df line4{ {11, 0 }, { 0, 1 } };
 
 		LCN::AABBVSLine2Df result;
 
-		LCN::ComputeCollision(aabb, line, result);
+		LCN::ComputeCollision(aabb, line1, result);
+
+		for (const auto& inter : result)
+			std::cout << inter.Point << std::endl;
+
+		LCN::ComputeCollision(aabb, line2, result);
+
+		for (const auto& inter : result)
+			std::cout << inter.Point << std::endl;
+
+		LCN::ComputeCollision(aabb, line3, result);
+
+		for (const auto& inter : result)
+			std::cout << inter.Point << std::endl;
+
+		LCN::ComputeCollision(aabb, line3, result);
+
+		std::cout << result << std::endl;
 	}
 
 	std::cin.get();
