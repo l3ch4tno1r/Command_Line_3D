@@ -243,34 +243,32 @@ int main()
 	{
 		LCN::AABB2Df aabb{ { 4, 2 }, { 10,  6 } };
 
-		LCN::Line2Df line1{ {-1, 7 }, {  2, -1 } };
-		LCN::Line2Df line2{ {0, 4 }, {  1, 0 } };
-		LCN::Line2Df line3{ {14, 5 }, { -3, -1 } };
-		LCN::Line2Df line4{ {11, 0 }, { 0, 1 } };
+		LCN::Line2Df lines[] = {
+			{ { -1,  7 }, {  2, -1 } }, // Collision
+			{ {  0,  4 }, {  1,  0 } }, // Collision
+			{ { 14,  5 }, { -3, -1 } }, // Collision
+			{ { 11,  0 }, {  0,  1 } }, // No Collision
+			{ {  5, -1 }, {  1,  4 } }  // Collision
+		};
 
 		LCN::AABBVSLine2Df result;
 
-		LCN::ComputeCollision(aabb, line1, result);
+		for (const auto& line : lines)
+		{
+			std::cout << "----------" << std::endl;
 
-		for (const auto& inter : result)
-			std::cout << inter.Point << std::endl;
+			LCN::ComputeCollision(aabb, line, result);
 
-		LCN::ComputeCollision(aabb, line2, result);
+			if (!result)
+			{
+				std::cout << "No collision" << std::endl;
 
-		for (const auto& inter : result)
-			std::cout << inter.Point << std::endl;
+				continue;
+			}
 
-		LCN::ComputeCollision(aabb, line3, result);
-
-		for (const auto& inter : result)
-			std::cout << inter.Point << std::endl;
-
-		LCN::ComputeCollision(aabb, line3, result);
-
-		std::cout << result << std::endl;
-
-		for (const auto& n : LCN::AABBNormals3Df::Normals())
-			std::cout << n.x() << ", " << n.y() << ", " << std::endl;
+			for (const auto& inter : result)
+				std::cout << "Face #" << inter.FaceId << " :\n" << inter.Point << std::endl;
+		}
 	}
 
 	std::cin.get();
