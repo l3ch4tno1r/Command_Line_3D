@@ -67,6 +67,26 @@ namespace LCN
 		auto globeTranslation = m_Globe.Get<Component::Transform3DCmp>().Transform.TranslationBlock();
 
 		globeTranslation = { 0.0f, 0.0f, 2.0f };
+
+		// Setup cube entity
+		m_Cube = m_Scene.Create3DEntity();
+
+		m_Cube.Add<Component::CubeCmp>(1.0f);
+		auto& diceTexture = m_Cube.Add<Component::TextureCmp>().Texture;
+
+		diceTexture.Load("Ressource/Textures/Dice_Texture.png");
+
+		if (!diceTexture)
+			throw std::exception("Pas de texture !");
+
+		auto& diceTransfrom = m_Cube.Get<Component::Transform3DCmp>().Transform;
+
+		diceTransfrom = {
+			1.0f, 0.0f, 0.0f, 4.0f,
+			0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 1.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		};
 	}
 
 	void RTAppTest3D::OnUpdate(float dtms)

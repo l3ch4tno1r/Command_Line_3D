@@ -26,6 +26,7 @@ namespace LCN
 		Entity m_Camera;
 		Entity m_Floor;
 		Entity m_Globe;
+		Entity m_Cube;
 
 		Controller::FPSCameraController m_Controller;
 	};
