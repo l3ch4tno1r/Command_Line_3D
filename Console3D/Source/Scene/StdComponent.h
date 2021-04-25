@@ -52,6 +52,15 @@ namespace LCN::Component
 		{}
 	};
 
+	struct CubeCmp
+	{
+		float EdgeLength;
+
+		CubeCmp(float edgeLength) :
+			EdgeLength(edgeLength)
+		{}
+	};
+
 	struct CameraCmp
 	{
 		Render::Camera Camera;

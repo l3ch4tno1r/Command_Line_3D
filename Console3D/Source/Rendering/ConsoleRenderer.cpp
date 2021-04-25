@@ -43,6 +43,7 @@ namespace LCN::Render
 		// Grab views
 		auto chessboardView     = scene.Registry().view<const Component::Transform3DCmp, const Component::InfiniteChessboardCmp>();
 		auto texturedSphereView = scene.Registry().view<const Component::Transform3DCmp, const Component::SphereCmp, const Component::TextureCmp>();
+		auto texturedCubeView   = scene.Registry().view<const Component::Transform3DCmp, const Component::CubeCmp, const Component::TextureCmp>();
 
 		console.FillScreen([&](int i, int j)
 		{
@@ -50,7 +51,7 @@ namespace LCN::Render
 			HVector3Df pixDirFromCam = { {pixFromCam.x(), pixFromCam.y(), cam.Focal()}, 0.0f };
 			HVector3Df pixDirFromR0  = R0ToCam * pixDirFromCam;
 
-			Line3Df line{ R0ToCam.TranslationBlock(), pixDirFromR0.Vector() };
+			Line3Df lineFromR0{ R0ToCam.TranslationBlock(), pixDirFromR0.Vector() };
 
 			CHAR_INFO pixel;
 
@@ -69,7 +70,7 @@ namespace LCN::Render
 					
 				HyperplaneVSLine3Df result;
 					
-				ComputeCollision(plane, line, result);
+				ComputeCollision(plane, lineFromR0, result);
 					
 				if (!result)
 					return;
@@ -107,7 +108,7 @@ namespace LCN::Render
 
 				SphereVSLine3Df result;
 
-				ComputeCollision(sphere, line, result);
+				ComputeCollision(sphere, lineFromR0, result);
 
 				if (!result)
 					return;
@@ -135,6 +136,34 @@ namespace LCN::Render
 
 				pixel.Char.UnicodeChar = value[greyscale];
 				pixel.Attributes = Core::COLOUR::FG_WHITE | Core::COLOUR::BG_BLACK;
+			});
+
+			// Render textured cube
+			texturedCubeView.each([&](
+				const Component::Transform3DCmp& transformCmp,
+				const Component::CubeCmp&        cubeCmp,
+				const Component::TextureCmp&     textureCmp)
+			{
+				Transform3Df cubeToR0 = transformCmp.Transform.QuickInverse();
+
+				HVector3Df originFromCube    = cubeToR0 * lineFromR0.Origin();
+				HVector3Df directionFromCube = cubeToR0 * lineFromR0.Direction();
+
+				Line3Df lineFromCube{ originFromCube.Vector(), directionFromCube.Vector() };
+
+				AABB3Df aabb{ { 0, 0, 0 }, { cubeCmp.EdgeLength, cubeCmp.EdgeLength, cubeCmp.EdgeLength } };
+
+				AABBVSLine3Df result;
+
+				ComputeCollision(aabb, lineFromCube, result);
+
+				if (!result)
+					return;
+
+				if (result[0].Distance < camCmp.NearClip)
+					return;
+
+				pixel.Attributes = Core::COLOUR::BG_BLUE;
 			});
 
 			return pixel;
