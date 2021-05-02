@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Collisions\Test03.cpp">
+    <ClCompile Include="Source\Benchmark\Test02 - Collision detection performance tests.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
