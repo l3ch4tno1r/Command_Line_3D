@@ -8,6 +8,8 @@
 
 #include <LCN_Collisions/Source/Collisions/CollisionAlgorithms.h>
 
+#include <Utilities/Source/Instrumentor.h>
+
 //#define DEBUG_APP
 
 #ifdef DEBUG_APP
@@ -47,16 +49,16 @@ namespace LCN::Render
 
 		console.FillScreen([&](int i, int j)
 		{
+			CHAR_INFO pixel;
+
+			pixel.Char.UnicodeChar = 0;
+			pixel.Attributes = Core::COLOUR::BG_DARK_GREY;
+
 			HVector2Df pixFromCam    = camToPix * HVector2Df({ (float)i, (float)j }, 1.0f);
 			HVector3Df pixDirFromCam = { {pixFromCam.x(), pixFromCam.y(), cam.Focal()}, 0.0f };
 			HVector3Df pixDirFromR0  = R0ToCam * pixDirFromCam;
 
 			Line3Df lineFromR0{ R0ToCam.TranslationBlock(), pixDirFromR0.Vector() };
-
-			CHAR_INFO pixel;
-
-			pixel.Char.UnicodeChar = 0;
-			pixel.Attributes = Core::COLOUR::BG_DARK_GREY;
 
 			// Render infinite chessboard
 			chessboardView.each([&](

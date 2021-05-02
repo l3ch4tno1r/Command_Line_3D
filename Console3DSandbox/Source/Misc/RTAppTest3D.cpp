@@ -5,6 +5,8 @@
 
 #include "Utilities/Source/ConfigManager.h"
 
+#include "Utilities/Source/Instrumentor.h"
+
 namespace LCN
 {
 	RTAppTest3D::RTAppTest3D()
@@ -87,6 +89,8 @@ namespace LCN
 			0.0f, 0.0f, 1.0f, 1.0f,
 			0.0f, 0.0f, 0.0f, 1.0f
 		};
+
+		//Instrumentor::Get().BeginSession("RTAppTest3");
 	}
 
 	void RTAppTest3D::OnUpdate(float dtms)
@@ -96,11 +100,15 @@ namespace LCN
 
 	void RTAppTest3D::OnRender()
 	{
+		//PROFILE_FUNC();
+
 		Render::ConsolerRenderer::Render3D(m_Scene, m_Camera);
 	}
 
 	void RTAppTest3D::OnQuit()
-	{}
+	{
+		//Instrumentor::Get().EndSession();
+	}
 
 	CREATE_APP(RTAppTest3D)
 }
