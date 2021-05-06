@@ -47,28 +47,29 @@ int main()
 {
 	LCN::AABB2Df aabb{ { 4, 2 }, { 10,  6 } };
 	LCN::Line2Df lines[] = {
-		{ { -1,  7 }, {  2, -1 } }, // Collision
-		{ {  0,  4 }, {  1,  0 } }, // Collision
-		{ { 14,  5 }, { -3, -1 } }, // Collision
+		{ { -1,  7 }, {  2, -1 } }, // Collision with face 0, 1
+		{ {  0,  4 }, {  1,  0 } }, // Collision with face 0, 3
+		{ { 14,  5 }, { -3, -1 } }, // Collision with face 3, 1
 		{ { 11,  0 }, {  0,  1 } }, // No Collision
-		{ {  5, -1 }, {  1,  4 } }  // Collision
+		{ {  5, -1 }, {  1,  4 } }  // Collision with face 1, 2
 	};
 	
 	for (const auto& line : lines)
 	{
-		LCN::AABBVSLine2Df result1;
-
-		LCN::ComputeCollision(aabb, line, result1);
-
-		std::cout << result1 << ", " << result1[0].Distance << ", " << result1[1].Distance << std::endl;
-
-		LCN::AABBVSLine2Df result2;
-
-		LCN::ComputeCollision2(aabb, line, result2);
-
-		std::cout << result2 << ", " << result2[0].Distance << ", " << result2[1].Distance << std::endl;
-
 		std::cout << "----------------------" << std::endl;
+
+		LCN::AABBVSLine2Df result;
+
+		LCN::ComputeCollision(aabb, line, result);
+
+		if (!result)
+		{
+			std::cout << "No collision" << std::endl;
+			continue;
+		}
+
+		std::cout << "Faces hit : " << result[0].FaceId   << ", " << result[1].FaceId   << std::endl;
+		std::cout << "Results   : " << result[0].Distance << ", " << result[1].Distance << std::endl;
 	}
 
 	std::cin.get();

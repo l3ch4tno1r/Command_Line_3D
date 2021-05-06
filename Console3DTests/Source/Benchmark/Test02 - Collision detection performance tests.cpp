@@ -107,8 +107,8 @@ int main()
 
 	SEPARATOR(AABB vs line 2D)
 	{
-		LCN::AABB2Df aabb{ { 4, 2 }, { 10,  6 } };
-		LCN::Line2Df line{ { -1,  7 }, {  2, -1 } };
+		LCN::AABB2Df aabb{ {  4, 2 }, { 10,  6 } };
+		LCN::Line2Df line{ { -1, 7 }, {  2, -1 } };
 
 		LCN::AABBVSLine2Df result;
 
@@ -120,6 +120,7 @@ int main()
 		DisplaySessionDuration(session);
 	}
 
+	/*
 	SEPARATOR(AABB vs line 2D #2)
 	{
 
@@ -135,6 +136,7 @@ int main()
 
 		DisplaySessionDuration(session);
 	}
+	*/
 
 	SEPARATOR(Hyperplane vs line 3D)
 	{
