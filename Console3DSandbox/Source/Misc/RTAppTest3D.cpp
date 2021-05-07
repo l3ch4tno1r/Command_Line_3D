@@ -73,10 +73,11 @@ namespace LCN
 		// Setup cube entity
 		m_Cube = m_Scene.Create3DEntity();
 
-		m_Cube.Add<Component::CubeCmp>(1.0f);
+		m_Cube.Add<Component::CubeCmp>(2.0f);
 		auto& diceTexture = m_Cube.Add<Component::TextureCmp>().Texture;
 
 		diceTexture.Load("Ressource/Textures/Dice_Texture.png");
+		//diceTexture.Load("Ressource/Textures/Le_Chat_Noir_Dice_Texture.png");
 
 		if (!diceTexture)
 			throw std::exception("Pas de texture !");

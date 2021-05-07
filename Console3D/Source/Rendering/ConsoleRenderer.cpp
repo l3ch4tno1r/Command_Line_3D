@@ -162,10 +162,28 @@ namespace LCN::Render
 				if (!result)
 					return;
 
-				if (result[0].Distance < camCmp.NearClip)
+				const auto& closest = result[0];
+
+				if (closest.Distance < camCmp.NearClip)
 					return;
 
-				pixel.Attributes = Core::COLOUR::BG_BLUE;
+				size_t dimIdx = closest.FaceId < 3 ? closest.FaceId : 6 - closest.FaceId - 1;
+
+				size_t dimX = (dimIdx + 1) % 3;
+				size_t dimY = (dimIdx + 2) % 3;
+
+				float X = closest.Point[dimX] / (aabb.Max()[dimX] - aabb.Min()[dimX]);
+				float Y = closest.Point[dimY] / (aabb.Max()[dimY] - aabb.Min()[dimY]);
+
+				int tx = (textureCmp.Texture.Width()  / 2) * (X + closest.FaceId % 2);
+				int ty = (textureCmp.Texture.Height() / 3) * (Y + closest.FaceId / 2);
+
+				Ressource::TexelGreyScale texel = textureCmp.Texture(tx, ty);
+
+				uint8_t greyscale = 9 * (uint8_t)texel.GreyScale / 255;
+
+				pixel.Char.UnicodeChar = value[greyscale];
+				pixel.Attributes = Core::COLOUR::FG_WHITE | Core::COLOUR::BG_BLACK;
 			});
 
 			return pixel;
