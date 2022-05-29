@@ -20,6 +20,7 @@ namespace LCN
 	void RTAppTest3D::OnStartup()
 	{
 		Render::ConsolerRenderer::Init(150, 100, 8, 8);
+		//Render::ConsolerRenderer::Init(200, 133, 6, 6);
 		//Render::ConsolerRenderer::Init(300, 200, 4, 4);
 
 		// Setup camera entity

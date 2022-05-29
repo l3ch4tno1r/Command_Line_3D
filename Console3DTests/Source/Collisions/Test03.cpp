@@ -5,6 +5,18 @@
 #define LOG(X) std::cout << #X << " = " << X << std::endl;
 #define SEPARATOR(X) std::cout << "------------ " << #X << " ------------" << std::endl;
 
+template<typename Type1, typename Type2>
+struct ResultType
+{
+	using Type = typename ResultType<Type2, Type1>::Type;
+};
+
+template<>
+struct ResultType<LCN::Hyperplane2Df, LCN::Line2Df>
+{
+	using Type = LCN::HyperplaneVSLine2Df;
+};
+
 int main()
 {
 	SEPARATOR(1)
@@ -137,6 +149,20 @@ int main()
 				std::cout << intersection.Point << std::endl;
 	}
 
+	SEPARATOR(Sphere V2)
+	{
+		LCN::Sphere3Df sphere{ { 1, 2, 2 }, 3 };
+		LCN::Line3Df   line{ { 0, 0, 0 }, { 1, 1, 1 } };
+
+		auto result = LCN::ComputeCollision(sphere, line);
+
+		if (result)
+		{
+			for (const auto& intersection : *result)
+				std::cout << intersection.Point << std::endl;
+		}
+	}
+
 	SEPARATOR(AABB 2D)
 	{
 		LCN::AABB2Df aabb1{ { 0,  0 }, { 4, 3 } };
@@ -178,6 +204,45 @@ int main()
 		{
 			std::cout << "No collision" << std::endl;
 		}
+	}
+
+	SEPARATOR(AABB 2D V2)
+	{
+		LCN::AABB2Df aabb1{ { 0,  0 }, { 4, 3 } };
+		LCN::AABB2Df aabb2{ { 2,  2 }, { 6, 4 } };
+		LCN::AABB2Df aabb3{ { 5, -2 }, { 9, 1 } };
+
+		//std::cout << aabb1.Length() << std::endl; // Expect static_assert failure
+		std::cout << aabb1.Width() << std::endl; // Expect 4
+		std::cout << aabb1.Height() << std::endl; // Expect 3
+
+		std::cout << LCN::DetectCollision(aabb1, aabb2) << std::endl; // Expect true
+		std::cout << LCN::DetectCollision(aabb1, aabb3) << std::endl; // Expect false
+		std::cout << LCN::DetectCollision(aabb2, aabb3) << std::endl; // Expect false
+
+		// Expectation : { { 2, 2 }, { 4, 3} }
+		auto result = LCN::ComputeCollision(aabb1, aabb2);
+
+		if (result)
+		{
+			std::cout
+				<< result->Result().Min() << '\n'
+				<< result->Result().Max() << '\n';
+		}
+		else
+			std::cout << "No collision" << std::endl;
+
+		// Expectation : no collision
+		result = LCN::ComputeCollision(aabb1, aabb3);
+
+		if (result)
+		{
+			std::cout
+				<< result->Result().Min() << '\n'
+				<< result->Result().Max() << '\n';
+		}
+		else
+			std::cout << "No collision" << std::endl;
 	}
 
 	SEPARATOR(AABB 3D)
@@ -223,6 +288,19 @@ int main()
 		LCN::ComputeCollision(planeD, line2D, result2D);
 
 		std::cout << result2D.Result() << std::endl;
+	}
+
+	SEPARATOR(Hyperplane 2D V2)
+	{
+		LCN::Hyperplane2Df plane2D{ {0, 0}, {0, 1} };
+		LCN::Line2Df       line2D{ { 0, 1 }, { 1, 1 } };
+
+		std::cout << LCN::DetectCollision(plane2D, line2D) << std::endl;
+
+		auto result2D1 = LCN::ComputeCollision(line2D, plane2D);
+
+		if(result2D1)
+			std::cout << result2D1->Result() << std::endl;
 	}
 
 	SEPARATOR(Hyperplane 3D)
