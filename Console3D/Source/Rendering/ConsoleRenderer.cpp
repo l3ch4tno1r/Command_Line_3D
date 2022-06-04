@@ -70,21 +70,19 @@ namespace LCN::Render
 				
 				Hyperplane3Df plane{ origin, normal };
 					
-				HyperplaneVSLine3Df result;
-					
-				ComputeCollision(plane, lineFromR0, result);
+				auto result = ComputeCollision(plane, lineFromR0);
 					
 				if (!result)
 					return;
 
-				const float distance = result.Coordinate();
+				const float distance = result->Coordinate();
 
 				if (distance < camCmp.NearClip)
 					return;
 
 				float lighting = 9 * std::min(1.0f, 10.0f / distance);
 
-				const HVector3Df& intersection = result.Result();
+				const HVector3Df& intersection = result->Result();
 
 				// TODO : transform
 
@@ -108,14 +106,12 @@ namespace LCN::Render
 
 				Sphere3Df sphere{ center, sphereCmp.Radius };
 
-				SphereVSLine3Df result;
-
-				ComputeCollision(sphere, lineFromR0, result);
+				auto result = ComputeCollision(sphere, lineFromR0);
 
 				if (!result)
 					return;
 
-				const auto& firstInter = result[0];
+				const auto& firstInter = (*result)[0];
 
 				if (firstInter.Distance < camCmp.NearClip)
 					return;
@@ -155,14 +151,12 @@ namespace LCN::Render
 
 				AABB3Df aabb{ { 0, 0, 0 }, { cubeCmp.EdgeLength, cubeCmp.EdgeLength, cubeCmp.EdgeLength } };
 
-				AABBVSLine3Df result;
-
-				ComputeCollision(aabb, lineFromCube, result);
+				auto result = ComputeCollision(aabb, lineFromCube);
 
 				if (!result)
 					return;
 
-				const auto& closest = result[0];
+				const auto& closest = (*result)[0];
 
 				if (closest.Distance < camCmp.NearClip)
 					return;
