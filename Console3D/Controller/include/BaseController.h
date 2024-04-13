@@ -1,11 +1,11 @@
 #pragma once
 
-#include <Utilities/Source/DesignPatterns/SignalSlot.h>
+#include "DesignPatterns/SignalSlot.h"
 
-#include "Console3D/Source/Event/MouseEvent.h"
-#include "Console3D/Source/Event/KeyBoardEvent.h"
+#include "MouseEvent.h"
+#include "KeyBoardEvent.h"
 
-#include "Console3D/Source/Scene/Entity.h"
+#include "Entity.h"
 
 namespace LCN::Controller
 {

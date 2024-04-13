@@ -1,10 +1,10 @@
 #include "ConsoleRenderer.h"
 
-#include "Console3D/Source/Core/Console.h"
-#include "Console3D/Source/Scene/StdComponent.h"
+#include "Console.h"
+#include "StdComponent.h"
 
-#include <LCN_Math/Source/Geometry/Geometry.h>
-#include <LCN_Math/Source/Utilities/Angles.h>
+#include "Geometry/Geometry.h"
+#include "MathUtils/Angles.h"
 
 #include <LCN_Collisions/Source/Collisions/CollisionAlgorithms.h>
 

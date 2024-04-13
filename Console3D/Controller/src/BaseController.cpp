@@ -1,6 +1,6 @@
 #include "BaseController.h"
 
-#include "Console3D/Source/Core/ConsoleInput.h"
+#include "ConsoleInput.h"
 
 namespace LCN::Controller
 {

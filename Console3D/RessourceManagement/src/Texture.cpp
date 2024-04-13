@@ -57,6 +57,8 @@ namespace LCN::Ressource
 		other.m_Width       = 0;
 		other.m_Height      = 0;
 		other.m_BPP         = 0;
+
+		return *this;
 	}
 
 	int Texture::Width() const { return m_Width; }

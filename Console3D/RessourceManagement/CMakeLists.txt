@@ -1,10 +1,16 @@
 set(THIS RessourceManagement)
 
 add_library(${THIS}
-    src/Model3D.cpp)
+    src/Model3D.cpp
+    src/OBJReader.cpp
+    src/Texture.cpp)
 
 target_link_libraries(${THIS} PRIVATE
-    LCNMathLib)
+    LCNMathLib
+    UtilitiesLib)
+
+target_link_libraries(${THIS} PUBLIC
+    stb_image)
 
 target_include_directories(
     ${THIS}

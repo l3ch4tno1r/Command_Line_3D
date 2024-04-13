@@ -2,10 +2,10 @@
 
 #include <cstdint>
 
-#include <LCN_Math/Source/Geometry/Geometry.h>
+#include "Geometry/Geometry.h"
 
-#include <Console3D/Source/Event/KeyBoardEvent.h>
-#include <Console3D/Source/Event/MouseEvent.h>
+#include "KeyBoardEvent.h"
+#include "MouseEvent.h"
 
 namespace LCN::Render
 {

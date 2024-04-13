@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Console3D/Source/Scene/Scene.h"
-#include "Console3D/Source/Scene/Entity.h"
+#include "Scene.h"
+#include "Entity.h"
 
 namespace LCN::Render
 {

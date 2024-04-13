@@ -10,11 +10,11 @@ add_library(${THIS} STATIC
     src/PaceMaker.cpp
     src/RTApplication.cpp)
 
-target_link_libraries(${THIS} PRIVATE
-    UtilitiesLib
-    LCNMathLib
-    Event
-    RessourceManagement)
+target_link_libraries(${THIS}
+    PUBLIC  UtilitiesLib
+    PRIVATE LCNMathLib
+    PRIVATE Event
+    PRIVATE RessourceManagement)
 
 target_include_directories(
     ${THIS}

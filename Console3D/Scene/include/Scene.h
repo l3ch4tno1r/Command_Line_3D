@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Console3D/External/entt/include/entt.hpp"
+#include "entt.hpp"
 //#include "StdComponent.h"
 
 // Design inspired from The Cherno : https://github.com/TheCherno/Hazel/blob/master/Hazel/src/Hazel/Scene/Scene.h

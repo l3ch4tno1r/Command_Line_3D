@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.26.4)
 project(Console3DLibs)
 
+add_subdirectory(Controller)
 add_subdirectory(Core)
 add_subdirectory(Event)
 add_subdirectory(RessourceManagement)
+add_subdirectory(Scene)
+add_subdirectory(External)
+add_subdirectory(Rendering)

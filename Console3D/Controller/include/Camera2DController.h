@@ -2,7 +2,7 @@
 
 #include "BaseController.h"
 
-#include <LCN_Math/Source/Geometry/Geometry.h>
+#include "Geometry/Geometry.h"
 
 namespace LCN::Controller
 {

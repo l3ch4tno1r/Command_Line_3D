@@ -5,7 +5,7 @@
 
 #include "StdComponent.h"
 
-#include "Console3D/Source/Core/Console.h"
+#include "Console.h"
 
 namespace LCN
 {
