@@ -10,11 +10,11 @@
 #include <tuple>
 #include <type_traits>
 
-#include <Utilities/Source/DesignPatterns/SignalSlot.h>
-#include <Utilities/Source/Utils.h>
+#include "DesignPatterns/SignalSlot.h"
+#include "Utilities/Utils.h"
 
-#include <Console3D/Source/Event/KeyBoardEvent.h>
-#include <Console3D/Source/Event/MouseEvent.h>
+#include "KeyBoardEvent.h"
+#include "MouseEvent.h"
 
 namespace LCN::Core
 {

@@ -5,9 +5,9 @@
 #include <vector>
 #include <memory>
 
-#include <Utilities/Source/DesignPatterns/SignalSlot.h>
+#include "DesignPatterns/SignalSlot.h"
 
-#include <Console3D/Source/Core/ConsoleInput.h>
+#include "ConsoleInput.h"
 
 int main(int argc, char** argv);
 
