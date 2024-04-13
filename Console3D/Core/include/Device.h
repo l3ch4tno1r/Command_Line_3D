@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Utilities/Source/DesignPatterns/Observer.h"
+#include "DesignPatterns/Observer.h"
 
 namespace LCN::Core
 {
