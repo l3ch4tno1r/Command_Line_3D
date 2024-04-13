@@ -8,9 +8,9 @@
 #include <thread>
 #include <functional>
 
-#include "LCN_Math/Source/Matrix/MatrixBlock.h"
-#include "LCN_Math/Source/Geometry/Transform.h"
-#include "LCN_Math/Source/Geometry/Vector.h"
+#include "Matrix/MatrixBlock.h"
+#include "Geometry/Transform.h"
+#include "Geometry/Vector.h"
 
 #include "Device.h"
 

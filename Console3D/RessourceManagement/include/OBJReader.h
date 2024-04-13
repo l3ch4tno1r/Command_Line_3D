@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Model3D.h"
-#include "Utilities/Source/ErrorHandling.h"
-#include "LCN_Math/Source/Matrix/MatrixBlock.h"
+#include "Utilities/ErrorHandling.h"
+#include "Matrix/MatrixBlock.h"
 
 #include <string>
 #include <fstream>

@@ -12,7 +12,9 @@ add_library(${THIS} STATIC
 
 target_link_libraries(${THIS} PRIVATE
     UtilitiesLib
-    Event)
+    LCNMathLib
+    Event
+    RessourceManagement)
 
 target_include_directories(
     ${THIS}

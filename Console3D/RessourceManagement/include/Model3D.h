@@ -3,7 +3,7 @@
 #include <vector>
 #include <unordered_set>
 
-#include <LCN_Math/Source/Geometry/Vector.h>
+#include "Geometry/Vector.h"
 
 using uint = unsigned int;
 

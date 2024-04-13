@@ -3,3 +3,4 @@ project(Console3DLibs)
 
 add_subdirectory(Core)
 add_subdirectory(Event)
+add_subdirectory(RessourceManagement)
