@@ -1,11 +1,11 @@
 #include "RTAppTest3D.h"
 
-#include "Console3D/Source/Rendering/ConsoleRenderer.h"
-#include "Console3D/Source/Scene/StdComponent.h"
+#include "ConsoleRenderer.h"
+#include "StdComponent.h"
 
-#include "Utilities/Source/ConfigManager.h"
+#include "Utilities/ConfigManager.h"
 
-#include "Utilities/Source/Instrumentor.h"
+#include "Utilities/Instrumentor.h"
 
 namespace LCN
 {

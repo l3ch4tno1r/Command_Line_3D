@@ -4,12 +4,12 @@ add_library(${THIS}
     src/Scene.cpp)
 
 target_link_libraries(${THIS}
-    PUBLIC  entt
-    PRIVATE Core
-    PRIVATE LCNMathLib
-    PRIVATE RessourceManagement
-    PRIVATE Rendering
-    PRIVATE Controller)
+    PUBLIC entt
+    PUBLIC Core
+    PUBLIC LCNMathLib
+    PUBLIC RessourceManagement
+    PUBLIC Rendering
+    PUBLIC Controller)
 
 target_include_directories(
     ${THIS}

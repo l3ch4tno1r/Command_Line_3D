@@ -1,13 +1,15 @@
 set(THIS Controller)
 
 add_library(${THIS} STATIC
-    src/BaseController.cpp)
+    src/BaseController.cpp
+    src/Camera2DController.cpp
+    src/FPSCameraController.cpp)
 
 target_link_libraries(${THIS}
-    PUBLIC  UtilitiesLib
-    PRIVATE Event
-    PRIVATE Scene
-    PRIVATE Core)
+    PUBLIC UtilitiesLib
+    PUBLIC Event
+    PUBLIC Scene
+    PUBLIC Core)
 
 target_include_directories(
     ${THIS}

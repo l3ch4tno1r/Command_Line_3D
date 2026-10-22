@@ -2,9 +2,9 @@
 
 #include "FPSCameraController.h"
 
-#include "Console3D/Source/Scene/StdComponent.h"
+#include "StdComponent.h"
 
-#include <LCN_Math/Source/Utilities/Angles.h>
+#include "MathUtils/Angles.h"
 
 namespace LCN::Controller
 {

@@ -2,9 +2,9 @@
 
 #include "BaseController.h"
 
-#include "Console3D/Source/Core/ConsoleInput.h"
+#include "ConsoleInput.h"
 
-#include <LCN_Math/Source/Geometry/Geometry.h>
+#include "Geometry/Geometry.h"
 
 namespace LCN::Controller
 {

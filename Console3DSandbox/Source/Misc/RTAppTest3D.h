@@ -1,11 +1,11 @@
 #pragma once
 
-#include <Console3D/Source/Core/RTApplication.h>
+#include "RTApplication.h"
 
-#include <Console3D/Source/Scene/Scene.h>
-#include <Console3D/Source/Scene/Entity.h>
+#include "Scene.h"
+#include "Entity.h"
 
-#include <Console3D/Source/Controller/FPSCameraController.h>
+#include "FPSCameraController.h"
 
 namespace LCN
 {

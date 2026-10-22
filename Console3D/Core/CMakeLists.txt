@@ -11,10 +11,14 @@ add_library(${THIS} STATIC
     src/RTApplication.cpp)
 
 target_link_libraries(${THIS}
-    PUBLIC  UtilitiesLib
-    PRIVATE LCNMathLib
-    PRIVATE Event
-    PRIVATE RessourceManagement)
+    PUBLIC UtilitiesLib
+    PUBLIC LCNMathLib
+    PUBLIC Event
+    PUBLIC RessourceManagement)
+
+if(WIN32)
+    target_link_libraries(${THIS} PRIVATE winmm)
+endif()
 
 target_include_directories(
     ${THIS}

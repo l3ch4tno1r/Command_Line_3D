@@ -6,9 +6,9 @@
 #include "Geometry/Geometry.h"
 #include "MathUtils/Angles.h"
 
-#include <LCN_Collisions/Source/Collisions/CollisionAlgorithms.h>
+#include "Collisions/CollisionAlgorithms.h"
 
-#include <Utilities/Source/Instrumentor.h>
+#include <Utilities/Instrumentor.h>
 
 //#define DEBUG_APP
 

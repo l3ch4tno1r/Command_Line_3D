@@ -1,5 +1,5 @@
 #include <iostream>
 
-#include "Console3D/Source/Core/Application.h"
+#include "Application.h"
 
-#include "Console3D/Source/Core/EntryPoint.h"
+#include "EntryPoint.h"

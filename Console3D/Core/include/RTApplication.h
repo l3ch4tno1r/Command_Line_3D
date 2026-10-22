@@ -1,5 +1,7 @@
 #pragma once
 
+#include <chrono>
+
 #include "Application.h"
 
 using namespace std::literals::chrono_literals;

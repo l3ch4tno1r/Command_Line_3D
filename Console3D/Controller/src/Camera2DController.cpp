@@ -1,5 +1,5 @@
-#include "Console3D/Source/Core/ConsoleInput.h"
-#include "Console3D/Source/Scene/StdComponent.h"
+#include "ConsoleInput.h"
+#include "StdComponent.h"
 
 #include "Camera2DController.h"
 
