@@ -2,9 +2,9 @@
 
 #include "Renderer2D.h"
 
-#include "Console3D/Source/Scene/StdComponent.h"
+#include "StdComponent.h"
 
-#include <Utilities/Source/Instrumentor.h>
+#include "Utilities/Instrumentor.h"
 
 namespace LCN::Render
 {

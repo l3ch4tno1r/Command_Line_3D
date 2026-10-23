@@ -28,6 +28,9 @@ namespace LCN::Controller
 		}
 	}
 
+    void Camera2DController::OnKeyReleased(KeyReleasedEvent&)
+    {}
+
 	void Camera2DController::OnMouseScroll(MouseScrollEvent& mouseevent)
 	{
 		m_ScaleIncrement = -(int)mouseevent.ScrollDirection();

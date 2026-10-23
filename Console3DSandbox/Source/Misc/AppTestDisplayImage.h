@@ -1,13 +1,13 @@
 #pragma once
 
-#include <Console3D/Source/Core/EventApplication.h>
-#include <Console3D/Source/RessourceManagement/Texture.h>
-#include <Console3D/Source/Scene/Scene.h>
-#include <Console3D/Source/Scene/Entity.h>
-#include <Console3D/Source/Rendering/Camera2D.h>
-#include <Console3D/Source/Controller/Camera2DController.h>
+#include "EventApplication.h"
+#include "Texture.h"
+#include "Scene.h"
+#include "Entity.h"
+#include "Camera.h"
+#include "Camera2DController.h"
 
-#include <LCN_Math/Source/Geometry/Geometry.h>
+#include "Geometry/Geometry.h"
 
 namespace LCN
 {

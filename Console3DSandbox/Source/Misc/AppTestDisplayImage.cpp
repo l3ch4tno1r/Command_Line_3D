@@ -2,12 +2,12 @@
 
 #include "AppTestDisplayImage.h"
 
-#include <Console3D/Source/Core/Console.h>
-#include <Console3D/Source/Core/ConsoleInput.h>
-#include <Console3D/Source/Scene/StdComponent.h>
-#include <Console3D/Source/Rendering/Renderer2D.h>
+#include "Console.h"
+#include "ConsoleInput.h"
+#include "StdComponent.h"
+#include "Renderer2D.h"
 
-#include <LCN_Math/Source/Utilities/Angles.h>
+#include "MathUtils/Angles.h"
 
 namespace LCN
 {
@@ -24,9 +24,9 @@ namespace LCN
 
 	void AppTestDisplayImage::Startup()
 	{
-		m_Camera  = m_Scene.CreateEntity();
-		m_Sprite1 = m_Scene.CreateEntity();
-		m_Sprite2 = m_Scene.CreateEntity();
+		m_Camera  = m_Scene.Create2DEntity();
+		m_Sprite1 = m_Scene.Create2DEntity();
+		m_Sprite2 = m_Scene.Create2DEntity();
 
 		// Sprite 1
 		Component::TextureCmp& textureCmp1 = m_Sprite1.Add<Component::TextureCmp>();
@@ -67,7 +67,7 @@ namespace LCN
 		console.ConstructConsole(300, 200, 4, 4);
 		*/
 
-		m_Camera.Add<Component::Camera2DCmp>(console.Width(), console.Height());
+		m_Camera.Add<Component::CameraCmp>(console.Width(), console.Height());
 
 		m_Controller.Bind(m_Camera);
 

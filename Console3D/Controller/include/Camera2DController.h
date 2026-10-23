@@ -13,6 +13,7 @@ namespace LCN::Controller
 
 	private: // Slots override
 		void OnKeyPressed(KeyPressedEvent&) override;
+		void OnKeyReleased(KeyReleasedEvent&) override;
 		void OnMouseButtonPressed(MouseButtonPressedEvent&) override;
 		void OnMouseMove(MouseMovedEvent&) override;
 		void OnMouseScroll(MouseScrollEvent&) override;
